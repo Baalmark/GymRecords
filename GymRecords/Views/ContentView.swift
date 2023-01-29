@@ -25,11 +25,14 @@ struct ContentView: View {
                 VStack{
                     
                     VStack(alignment: .center){
-                        Spacer(minLength: 50)
+                        Spacer(minLength: 90)
                         GymCalendarView(interval: DateInterval(start: .distantPast, end: .distantFuture), eventStore: eventStore)
-                            .frame(width: width, height:  height <= maxHeight ? height : maxHeight,alignment: .top)
+                            .frame(width: width, height:  height <= maxHeight ? height : maxHeight  ,alignment: .top)
+                            .border(.black)
                             .clipShape(Rectangle())
                             .shadow(color: .black,radius: 1)
+                            
+                            
                         Spacer(minLength: 5)
                         //Little button for unwrapping the Calendar View
                         VStack{
@@ -65,7 +68,7 @@ struct ContentView: View {
                                     }
                                     
                                 })
-                        Spacer(minLength: 50)
+                        Spacer(minLength: 15)
                         // Background Image
                         Image("back")
                         
