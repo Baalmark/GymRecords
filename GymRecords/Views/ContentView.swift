@@ -13,12 +13,17 @@ struct ContentView: View {
     @State private var height:CGFloat = 325
     @State private var delta:CGFloat = 0
     @State private var viewState = CGSize.zero
+    @State private var appearSheet = false
+    
+    
     private var maxHeight:CGFloat = 500
     private var minHeight:CGFloat = 325
     private var systemColor = Color(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1))
     private var systemShadowColor = Color(UIColor(red: 0.65, green: 0.65, blue: 0.65, alpha: 1))
-    var viewModel = GymViewModel()
+    private var viewModel = GymViewModel()
+    
     @EnvironmentObject var eventStore: EventStore
+    
     var body: some View {
         ZStack {
             NavigationStack{
@@ -28,7 +33,7 @@ struct ContentView: View {
                         Spacer(minLength: 90)
                         GymCalendarView(interval: DateInterval(start: .distantPast, end: .distantFuture), eventStore: eventStore)
                             .frame(width: width, height:  height <= maxHeight ? height : maxHeight  ,alignment: .top)
-                            .border(.black)
+                            
                             .clipShape(Rectangle())
                             .shadow(color: .black,radius: 1)
                             
@@ -73,9 +78,11 @@ struct ContentView: View {
                         Image("back")
                         
                         Button("Add Programm") {
-                            
+                            appearSheet.toggle()
                         }
-                        
+                        .sheet(isPresented:$appearSheet) {
+                            AddProgrammView()
+                        }
                         .buttonStyle(GrowingButton())
                         .frame(width:400,height: 50)
                         .tint(.white)
