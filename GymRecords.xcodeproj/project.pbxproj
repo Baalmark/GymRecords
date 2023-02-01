@@ -18,6 +18,8 @@
 		008C51F5297AFDFC0046EF5B /* ProgrammEventStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008C51F4297AFDFC0046EF5B /* ProgrammEventStore.swift */; };
 		008C51F9297AFF450046EF5B /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008C51F8297AFF450046EF5B /* Event.swift */; };
 		3A9E9A4229852F8200DAA547 /* AddProgrammView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A4129852F8200DAA547 /* AddProgrammView.swift */; };
+		3A9E9A4429897C7B00DAA547 /* ViewExerciseList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A4329897C7B00DAA547 /* ViewExerciseList.swift */; };
+		3A9E9A4629897E0100DAA547 /* ViewProgrammsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A4529897E0100DAA547 /* ViewProgrammsList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		008C51F8297AFF450046EF5B /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		3A9E9A4029845EDC00DAA547 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3A9E9A4129852F8200DAA547 /* AddProgrammView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProgrammView.swift; sourceTree = "<group>"; };
+		3A9E9A4329897C7B00DAA547 /* ViewExerciseList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExerciseList.swift; sourceTree = "<group>"; };
+		3A9E9A4529897E0100DAA547 /* ViewProgrammsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewProgrammsList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +105,8 @@
 				008C51F2297AFA620046EF5B /* GymCalendarView.swift */,
 				008C51DC2972F8F50046EF5B /* ContentView.swift */,
 				3A9E9A4129852F8200DAA547 /* AddProgrammView.swift */,
+				3A9E9A4329897C7B00DAA547 /* ViewExerciseList.swift */,
+				3A9E9A4529897E0100DAA547 /* ViewProgrammsList.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -192,6 +198,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A9E9A4629897E0100DAA547 /* ViewProgrammsList.swift in Sources */,
+				3A9E9A4429897C7B00DAA547 /* ViewExerciseList.swift in Sources */,
 				008C51F9297AFF450046EF5B /* Event.swift in Sources */,
 				008C51E92972FB500046EF5B /* GymModel.swift in Sources */,
 				008C51F0297305660046EF5B /* GymDynamic.swift in Sources */,

@@ -11,13 +11,13 @@ struct AddProgrammView: View {
     @Environment(\.dismiss) var dismiss
     @State private var searchWord = ""
     @State private var mainNavigationSelector:Bool = false
-    private var paddingSafeArea = 20
+    
     @State private var viewModel = GymViewModel()
-    //Variables for design
-    private var viewCornerRadiusSimple:CGFloat = 10
-    private var systemColor = Color(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1))
-    private var screenWidth = UIScreen.main.bounds.width
     @State private var didTap:Bool = false
+ 
+    
+    @State private var exercisePos = 0
+    @State private var programmPos = GymViewModel().screenWidth
     
     var body: some View {
         VStack {
@@ -37,8 +37,8 @@ struct AddProgrammView: View {
                 
             }
             .background(Rectangle()
-                .cornerRadius(viewCornerRadiusSimple)
-                .foregroundColor(systemColor))
+                .cornerRadius(viewModel.viewCornerRadiusSimple)
+                .foregroundColor(viewModel.systemColorLightGray))
             .padding([.top,.bottom], 2)
             .padding([.leading,.trailing], 10)
             
@@ -46,8 +46,10 @@ struct AddProgrammView: View {
                 Button("Exercises") {
                     //If exercises button hasn't tapped yet
                     if didTap == true {
-                        didTap.toggle()
                         
+                        withAnimation(.spring()){
+                            didTap.toggle()
+                        }
                         
                         
                     }
@@ -70,8 +72,9 @@ struct AddProgrammView: View {
                     
                     //If programms button hasn't tapped yet
                     if didTap == false {
-                        
-                        didTap.toggle()
+                        withAnimation(.spring()){
+                            didTap.toggle()
+                        }
                     }
                     
                     
@@ -91,26 +94,20 @@ struct AddProgrammView: View {
             }
             
             .padding(10)
-            
-            List {
-                ForEach(viewModel.exerciseList, id:\.id) {elem in
-                    HStack{
-                        Image(name:)
-                        Text(elem.rawValue)
-                            .frame(width: 50,height: 50)
-                            .foregroundColor(.white)
-                            .background(.black)
-                        
-                    }
-                }
+// List of types Execises, Tappable, it has behavior like Navitation Link
+            if !didTap {
+                ViewExerciseList()
+                    .transition(.move(edge: .leading))
+            } else {
+                ViewProgrammsList()
+                    .transition(.move(edge: .trailing))
             }
             
-            .background(.gray)
-            
         }
-        
-        .position(x: screenWidth / 2,y:400)
+        .background(.white)
+        .position(x: viewModel.screenWidth / 2,y:400)
     }
+    
 }
 
 

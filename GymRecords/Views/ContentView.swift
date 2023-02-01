@@ -75,7 +75,7 @@ struct ContentView: View {
                                 })
                         Spacer(minLength: 15)
                         // Background Image
-                        Image("back")
+                        Image("backgroundMain")
                         
                         Button("Add Programm") {
                             appearSheet.toggle()

@@ -18,14 +18,13 @@ struct GymModel {
     //MARK: Programm Struct
     struct Programm {
         
+        var id = UUID()
         var programmTitle: String
         var countOfExcercises: Int
         var description: String
         var colorDesign: String
         var exercises:[Exercise]?
         
-        
-    
 //MARK: PROGRAMM Functions
         
         
@@ -104,7 +103,7 @@ extension GymModel.Programm {
 
 extension GymModel {
 
-    static var programms = Programm(programmTitle: "Test", countOfExcercises: 1, description: "TestDescription", colorDesign: "Black", exercises: Programm.exercises)
+    static var programms = [Programm(programmTitle: "Test", countOfExcercises: 1, description: "TestDescription", colorDesign: "red", exercises: Programm.exercises)]
 }
 
 extension GymModel.TypeOfExercise{
