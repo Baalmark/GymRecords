@@ -11,7 +11,7 @@ class GymViewModel: ObservableObject {
     var programmList:[GymModel.Programm] = GymModel.programms
     var imagesArray:[UIImage] = []
     var stringExerciseList:[String] = []
-    
+    var arrayExercises:[GymModel.Exercise] = GymModel.arrayOfAllCreatedExercises
     
     //Design Vars
     var viewCornerRadiusSimple:CGFloat = 10
@@ -22,7 +22,7 @@ class GymViewModel: ObservableObject {
     var paddingSafeArea = 20
     
     init() {
-        self.gymModel = GymModel(programmTitle: GymModel.Programm(programmTitle: "Test", countOfExcercises: 0, description: "", colorDesign: "White"))
+        self.gymModel = GymModel(programmTitle: GymModel.Programm(programmTitle: "Test", countOfExcercises: 0, description: "", colorDesign: "White"), arrayOfAllCreatedExercises: [])
     }
     
     

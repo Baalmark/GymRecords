@@ -14,6 +14,7 @@ struct GymModel {
     var programmTitle: Programm
     var programms:[Programm]?
     var typesExercises:[TypeOfExercise] = TypeOfExercise.allExercises
+    var arrayOfAllCreatedExercises:[Exercise]?
     
     //MARK: Programm Struct
     struct Programm {
@@ -36,12 +37,13 @@ struct GymModel {
         }
     }
     //MARK: Exercise Struct
-    struct Exercise {
+    struct Exercise:Hashable {
         
         var type: TypeOfExercise
         var name: String
         var doubleWeight:Bool
         var selfWeight:Bool
+        
         
     }
     //MARK: type of execrice Enumeration
@@ -86,11 +88,14 @@ struct GymModel {
     
     
 //MARK: MAIN Functions
-    mutating private func createNewProgramm(title name:String,exercises exs:[Exercise],color cDesign:String,description desc:String) {
+    mutating func createNewProgramm(title name:String,exercises exs:[Exercise],color cDesign:String,description desc:String) {
         programms?.append(Programm(programmTitle: name, countOfExcercises: exs.count, description: desc, colorDesign: cDesign))
         
     }
-    
+    mutating func AddNewExercise(type:TypeOfExercise,title:String,doubleW db:Bool,selfW sw:Bool) {
+        arrayOfAllCreatedExercises?.append(Exercise(type: type, name: title, doubleWeight: db, selfWeight: sw))
+        
+    }
 
     
 }
@@ -110,4 +115,8 @@ extension GymModel.TypeOfExercise{
     
     
     static let allExercises:[GymModel.TypeOfExercise] = [.arms,.stretching,.legs,.back,.chest,.body,.shoulders,.cardio]
+}
+
+extension GymModel {
+    static var arrayOfAllCreatedExercises = [Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true),Exercise(type: .cardio, name: "Cycling", doubleWeight: false, selfWeight: true),Exercise(type: .cardio, name: "Elips", doubleWeight: false, selfWeight: true),Exercise(type: .cardio, name: "Berpi", doubleWeight: false, selfWeight: true),Exercise(type: .cardio, name: "WorkOut", doubleWeight: false, selfWeight: true)]
 }
