@@ -6,13 +6,14 @@ import SwiftUI
 class GymViewModel: ObservableObject {
     
     @Published private(set) var gymModel: GymModel
+    @Published var selectedExercise:[GymModel.SelectedExercises] = []
     
     var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises
     var programmList:[GymModel.Programm] = GymModel.programms
     var imagesArray:[UIImage] = []
     var stringExerciseList:[String] = []
     var arrayExercises:[GymModel.Exercise] = GymModel.arrayOfAllCreatedExercises
-    
+ 
     //Design Vars
     var viewCornerRadiusSimple:CGFloat = 10
     var systemColorLightGray = Color(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1))
@@ -23,6 +24,7 @@ class GymViewModel: ObservableObject {
     
     init() {
         self.gymModel = GymModel(programmTitle: GymModel.Programm(programmTitle: "Test", countOfExcercises: 0, description: "", colorDesign: "White"), arrayOfAllCreatedExercises: [])
+        self.selectedExercise = []
     }
     
     
@@ -38,10 +40,26 @@ class GymViewModel: ObservableObject {
     }
     
     
-    func someTest() {
+    func appendToArrayOfSelectedExercises(name:String,type t:GymModel.TypeOfExercise) {
+        let newElement = GymModel.SelectedExercises(title: name, type: t)
+        gymModel.addSelectedExerciseIntoArray(exercise: newElement)
+        selectedExercise = gymModel.selectedExercises
         
-        print("Testing")
         
+    }
+    
+    func clearArrayOfSelectedExercises() {
+        selectedExercise.removeAll()
+    }
+    
+//Finder of Exercise by title
+    func findExerciseByTitle(title:String) -> GymModel.Exercise? {
+        for arrayExercise in arrayExercises {
+            if arrayExercise.name == title {
+                return arrayExercise
+            }
+        }
+        return nil
     }
 }
 

@@ -12,6 +12,7 @@ struct ViewExerciseList: View {
     private var viewModel = GymViewModel()
     @State var isTapped = false
     @State var selectedMovie: GymModel.TypeOfExercise? = nil
+    @State var showOverlay = false
     var body: some View {
         NavigationView{
             VStack {
@@ -63,6 +64,8 @@ struct ViewExerciseList: View {
                         }
                         .padding([.leading,.trailing],30)
                         .onTapGesture {
+//Turn off all of animation
+                            UIView.setAnimationsEnabled(false)
                             self.selectedMovie = elem
                             var transaction = Transaction()
                             transaction.disablesAnimations = true

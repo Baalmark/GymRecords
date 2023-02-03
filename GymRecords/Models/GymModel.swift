@@ -15,6 +15,7 @@ struct GymModel {
     var programms:[Programm]?
     var typesExercises:[TypeOfExercise] = TypeOfExercise.allExercises
     var arrayOfAllCreatedExercises:[Exercise]?
+    var selectedExercises:[SelectedExercises] = []
     
     //MARK: Programm Struct
     struct Programm {
@@ -26,14 +27,12 @@ struct GymModel {
         var colorDesign: String
         var exercises:[Exercise]?
         
-//MARK: PROGRAMM Functions
+        //MARK: PROGRAMM Functions
         
         
         //Create new Exercise
         mutating func createNewExercise(type t: GymModel.TypeOfExercise,title name: String,doubleWeight dB:Bool,selfWeight sW:Bool ) {
             exercises?.append(GymModel.Exercise(type: t, name: name, doubleWeight: dB, selfWeight: sW))
-            
-            
         }
     }
     //MARK: Exercise Struct
@@ -75,6 +74,15 @@ struct GymModel {
         
         
     }
+    //MARK: Selected Exercises
+    
+    struct SelectedExercises {
+        
+        var title:String
+        var type:GymModel.TypeOfExercise
+        
+    }
+    
     
     //MARK: Data of Profile
     struct ProfileData {
@@ -95,6 +103,10 @@ struct GymModel {
     mutating func AddNewExercise(type:TypeOfExercise,title:String,doubleW db:Bool,selfW sw:Bool) {
         arrayOfAllCreatedExercises?.append(Exercise(type: type, name: title, doubleWeight: db, selfWeight: sw))
         
+    }
+    
+    mutating func addSelectedExerciseIntoArray(exercise ex:SelectedExercises) {
+        selectedExercises.append(ex)
     }
 
     
@@ -118,5 +130,9 @@ extension GymModel.TypeOfExercise{
 }
 
 extension GymModel {
-    static var arrayOfAllCreatedExercises = [Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true),Exercise(type: .cardio, name: "Cycling", doubleWeight: false, selfWeight: true),Exercise(type: .cardio, name: "Elips", doubleWeight: false, selfWeight: true),Exercise(type: .cardio, name: "Berpi", doubleWeight: false, selfWeight: true),Exercise(type: .cardio, name: "WorkOut", doubleWeight: false, selfWeight: true)]
+    static var arrayOfAllCreatedExercises = [Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true),
+                                             Exercise(type: .cardio, name: "Cycling", doubleWeight: false, selfWeight: true),
+                                             Exercise(type: .cardio, name: "Elips", doubleWeight: false, selfWeight: true),
+                                             Exercise(type: .cardio, name: "Berpi", doubleWeight: false, selfWeight: true),
+                                             Exercise(type: .cardio, name: "WorkOut", doubleWeight: false, selfWeight: true)]
 }

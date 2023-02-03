@@ -10,6 +10,7 @@ import SwiftUI
 struct ViewListSpecificExercises: View {
     
     var viewModel = GymViewModel()
+    @Environment(\.dismiss) var dismiss
     var typeOfExercise:GymModel.TypeOfExercise
     @Binding var isPresented: Bool
     
@@ -45,6 +46,7 @@ struct ViewListSpecificExercises: View {
                 if elem.type == self.typeOfExercise {
                     
                     HStack {
+                        
                         ExerciseToggle(exerciseTitle: elem.name)
                     }
                     .padding([.leading,.trailing],30)
@@ -55,7 +57,8 @@ struct ViewListSpecificExercises: View {
             Spacer()
             
             Button{
-               
+                
+                dismiss()
             } label: {
                 Image(systemName: "arrow.left")
             }
@@ -68,6 +71,11 @@ struct ViewListSpecificExercises: View {
             .padding([.leading,.bottom],40)
             
             }
+//Turn on all of animation
+        .onDisappear {
+                    UIView.setAnimationsEnabled(true)    // << here !!
+                }
+        .interactiveDismissDisabled()
         }
     }
 
@@ -78,7 +86,11 @@ struct ViewListSpecificExercises: View {
 
 //Toggle for every Exercise
 struct ExerciseToggle: View {
+    
+    var viewModel = GymViewModel()
     var exerciseTitle: String
+    
+    @State var arrayOfToggles:[GymModel.Exercise] = []
     @State var exerciseToggle = false
         
         var body: some View {
@@ -86,6 +98,14 @@ struct ExerciseToggle: View {
                 Toggle(exerciseTitle, isOn: $exerciseToggle)
                     .font(.custom("Helvetica",size: 22))
                     .fontWeight(.bold)
+                    .onChange(of: exerciseToggle) { elem in
+                        
+                        if let temp = viewModel.findExerciseByTitle(title:exerciseTitle) {
+                            viewModel.appendToArrayOfSelectedExercises(name: temp.name, type: temp.type)
+                            
+                        }
+                        
+                    }
                     
             }
             .toggleStyle(CheckboxStyle())
@@ -110,7 +130,7 @@ struct CheckboxStyle: ToggleStyle {
                 .font(.custom("Helvetica", size: 22))
                 
         }
-        .onTapGesture { configuration.isOn.toggle() }
+        .onTapGesture { configuration.isOn.toggle()}
 
     }
 }
