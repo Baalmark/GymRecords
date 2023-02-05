@@ -12,7 +12,7 @@ struct AddProgrammView: View {
     @State private var searchWord = ""
     @State private var mainNavigationSelector:Bool = false
     
-    @State private var viewModel = GymViewModel()
+    @EnvironmentObject var viewModel:GymViewModel
     @State private var didTap:Bool = false
  
     
@@ -97,10 +97,11 @@ struct AddProgrammView: View {
 // List of types Execises, Tappable, it has behavior like Navitation Link
             if !didTap {
                 ViewExerciseList()
-                    .transition(.move(edge: .leading))
+                .transition(.move(edge: .leading))
+                    
             } else {
                 ViewProgrammsList()
-                    .transition(.move(edge: .trailing))
+                .transition(.move(edge: .trailing))
             }
             
         }
@@ -121,6 +122,6 @@ struct AddProgrammView: View {
 
 struct AddProgrammView_Previews: PreviewProvider {
     static var previews: some View {
-        AddProgrammView()
+        AddProgrammView().environmentObject(GymViewModel())
     }
 }

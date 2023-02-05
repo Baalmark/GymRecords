@@ -11,7 +11,7 @@ struct GymCalendarView: UIViewRepresentable {
     
     
     
-    
+    @EnvironmentObject var modelView:GymViewModel
     let interval:DateInterval
     @ObservedObject var eventStore: EventStore
     func makeUIView(context: Context) -> UICalendarView {

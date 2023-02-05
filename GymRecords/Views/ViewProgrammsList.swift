@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ViewProgrammsList: View {
-    private var viewModel = GymViewModel()
+    @EnvironmentObject var viewModel:GymViewModel
     var body: some View {
         VStack{
 // Add Programm Button
@@ -75,6 +75,6 @@ struct ViewProgrammsList: View {
 
 struct ViewProgrammsList_Previews: PreviewProvider {
     static var previews: some View {
-        ViewProgrammsList()
+        ViewProgrammsList().environmentObject(GymViewModel())
     }
 }

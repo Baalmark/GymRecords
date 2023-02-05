@@ -10,13 +10,19 @@ import Foundation
 //MARK: GymModel Struct
 struct GymModel {
     
+    
     //    var Date: Date
     var programmTitle: Programm
     var programms:[Programm]?
     var typesExercises:[TypeOfExercise] = TypeOfExercise.allExercises
-    var arrayOfAllCreatedExercises:[Exercise]?
-    var selectedExercises:[SelectedExercises] = []
+    var arrayOfExercises:[Exercise] = arrayOfAllCreatedExercises
+    var selectedExercises:[SelectedExercises]
     
+    init(programmTitle: Programm, programms: [Programm]? = nil, selectedExercises: [SelectedExercises]) {
+        self.programmTitle = programmTitle
+        self.programms = programms
+        self.selectedExercises = selectedExercises
+    }
     //MARK: Programm Struct
     struct Programm {
         
@@ -32,19 +38,20 @@ struct GymModel {
         
         //Create new Exercise
         mutating func createNewExercise(type t: GymModel.TypeOfExercise,title name: String,doubleWeight dB:Bool,selfWeight sW:Bool ) {
-            exercises?.append(GymModel.Exercise(type: t, name: name, doubleWeight: dB, selfWeight: sW))
+            exercises?.append(Exercise(type: t, name: name, doubleWeight: dB, selfWeight: sW,isSelected: false))
         }
     }
-    //MARK: Exercise Struct
-    struct Exercise:Hashable {
-        
-        var type: TypeOfExercise
-        var name: String
-        var doubleWeight:Bool
-        var selfWeight:Bool
-        
-        
-    }
+//    //MARK: Exercise Struct
+//    struct Exercise:Hashable {
+//
+//        var type: TypeOfExercise
+//        var name: String
+//        var doubleWeight:Bool
+//        var selfWeight:Bool
+//        var isSelected:Bool
+//
+//
+//    }
     //MARK: type of execrice Enumeration
     enum TypeOfExercise:String,CaseIterable,Identifiable {
         var id: String { return self.rawValue }
@@ -76,8 +83,8 @@ struct GymModel {
     }
     //MARK: Selected Exercises
     
-    struct SelectedExercises {
-        
+    struct SelectedExercises:Hashable,Identifiable,Equatable {
+        var id = UUID()
         var title:String
         var type:GymModel.TypeOfExercise
         
@@ -101,20 +108,61 @@ struct GymModel {
         
     }
     mutating func AddNewExercise(type:TypeOfExercise,title:String,doubleW db:Bool,selfW sw:Bool) {
-        arrayOfAllCreatedExercises?.append(Exercise(type: type, name: title, doubleWeight: db, selfWeight: sw))
+        arrayOfExercises.append(Exercise(type: type, name: title, doubleWeight: db, selfWeight: sw,isSelected: false))
         
     }
     
-    mutating func addSelectedExerciseIntoArray(exercise ex:SelectedExercises) {
-        selectedExercises.append(ex)
+    mutating func selectingExercise(exercise ex:Exercise,toggle:Bool) -> [Exercise] {
+        
+        
+        for (index,elements) in arrayOfExercises.enumerated() {
+            if elements.name == ex.name {
+                print("imhere")
+                arrayOfExercises[index] = ex
+            }
+        }
+        return arrayOfExercises
+    }
+    
+    
+    mutating func clearSelectedExercisesArray() {
+        selectedExercises.removeAll()
     }
 
     
 }
 
+
+class Exercise:Equatable,Identifiable {
+    
+    
+    static func == (lhs: Exercise, rhs: Exercise) -> Bool {
+        if lhs.name == rhs.name {
+            return true
+        }
+        return false
+    }
+    
+    
+    var type: GymModel.TypeOfExercise
+    var name: String
+    var doubleWeight:Bool
+    var selfWeight:Bool
+    var isSelected:Bool
+    
+    init(type: GymModel.TypeOfExercise, name: String, doubleWeight: Bool, selfWeight: Bool, isSelected: Bool) {
+        self.type = type
+        self.name = name
+        self.doubleWeight = doubleWeight
+        self.selfWeight = selfWeight
+        self.isSelected = isSelected
+    }
+    
+}
+
 //MARK: Extensions
 extension GymModel.Programm {
-    static var exercises = [GymModel.Exercise(type: GymModel.TypeOfExercise.back, name: "Back",doubleWeight: false,selfWeight: false)]
+    static var exercises = [Exercise(type: GymModel.TypeOfExercise.back, name: "Back",doubleWeight: false,selfWeight: false,isSelected: false)]
 }
 
 
@@ -126,13 +174,13 @@ extension GymModel {
 extension GymModel.TypeOfExercise{
     
     
-    static let allExercises:[GymModel.TypeOfExercise] = [.arms,.stretching,.legs,.back,.chest,.body,.shoulders,.cardio]
+    static var allExercises:[GymModel.TypeOfExercise] = [.arms,.stretching,.legs,.back,.chest,.body,.shoulders,.cardio]
 }
 
 extension GymModel {
-    static var arrayOfAllCreatedExercises = [Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true),
-                                             Exercise(type: .cardio, name: "Cycling", doubleWeight: false, selfWeight: true),
-                                             Exercise(type: .cardio, name: "Elips", doubleWeight: false, selfWeight: true),
-                                             Exercise(type: .cardio, name: "Berpi", doubleWeight: false, selfWeight: true),
-                                             Exercise(type: .cardio, name: "WorkOut", doubleWeight: false, selfWeight: true)]
+    static var arrayOfAllCreatedExercises = [Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true,isSelected: false),
+                                             Exercise(type: .cardio, name: "Cycling", doubleWeight: false, selfWeight: true,isSelected: false),
+                                             Exercise(type: .cardio, name: "Elips", doubleWeight: false, selfWeight: true,isSelected: false),
+                                             Exercise(type: .cardio, name: "Berpi", doubleWeight: false, selfWeight: true,isSelected: false),
+                                             Exercise(type: .cardio, name: "WorkOut", doubleWeight: false, selfWeight: true,isSelected: false)]
 }

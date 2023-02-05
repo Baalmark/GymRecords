@@ -6,14 +6,15 @@ import SwiftUI
 class GymViewModel: ObservableObject {
     
     @Published private(set) var gymModel: GymModel
-    @Published var selectedExercise:[GymModel.SelectedExercises] = []
+    @Published var selectedExArray:[Exercise]
+    
     
     var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises
     var programmList:[GymModel.Programm] = GymModel.programms
     var imagesArray:[UIImage] = []
     var stringExerciseList:[String] = []
-    var arrayExercises:[GymModel.Exercise] = GymModel.arrayOfAllCreatedExercises
- 
+    var arrayExercises:[Exercise] = GymModel.arrayOfAllCreatedExercises
+    var selectedEx:[GymModel.SelectedExercises] = []
     //Design Vars
     var viewCornerRadiusSimple:CGFloat = 10
     var systemColorLightGray = Color(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1))
@@ -23,8 +24,8 @@ class GymViewModel: ObservableObject {
     var paddingSafeArea = 20
     
     init() {
-        self.gymModel = GymModel(programmTitle: GymModel.Programm(programmTitle: "Test", countOfExcercises: 0, description: "", colorDesign: "White"), arrayOfAllCreatedExercises: [])
-        self.selectedExercise = []
+        self.gymModel = GymModel(programmTitle: GymModel.Programm(programmTitle: "Test", countOfExcercises: 0, description: "", colorDesign: "White"),selectedExercises: selectedEx)
+        self.selectedExArray = []
     }
     
     
@@ -40,23 +41,41 @@ class GymViewModel: ObservableObject {
     }
     
     
-    func appendToArrayOfSelectedExercises(name:String,type t:GymModel.TypeOfExercise) {
-        let newElement = GymModel.SelectedExercises(title: name, type: t)
-        gymModel.addSelectedExerciseIntoArray(exercise: newElement)
-        selectedExercise = gymModel.selectedExercises
+    func selectingExercise(exercise:Exercise,isSelected:Bool) {
         
+        selectedExArray = selectedExArray.filter({$0.name != exercise.name})
+        let newItem = Exercise(type: exercise.type, name: exercise.name, doubleWeight: exercise.doubleWeight, selfWeight: exercise.selfWeight, isSelected: isSelected)
+        selectedExArray.append(newItem)
+        
+        
+        
+        for i in selectedExArray {
+            print(i.name,i.isSelected)
+        }
+        print("")
+        
+    }
+    func unselectingExercise(exercise:Exercise,isSelected:Bool) {
+        selectedExArray = selectedExArray.filter({$0.name != exercise.name})
+        
+        for i in selectedExArray {
+            print(i.name,i.isSelected)
+        }
+        print("")
         
     }
     
     func clearArrayOfSelectedExercises() {
-        selectedExercise.removeAll()
+        gymModel.clearSelectedExercisesArray()
+        
+        selectedEx = gymModel.selectedExercises
     }
     
 //Finder of Exercise by title
-    func findExerciseByTitle(title:String) -> GymModel.Exercise? {
-        for arrayExercise in arrayExercises {
-            if arrayExercise.name == title {
-                return arrayExercise
+    func findExerciseByTitle(title:String) -> Exercise? {
+        for element in arrayExercises {
+            if element.name == title {
+                return element
             }
         }
         return nil

@@ -20,7 +20,7 @@ struct ContentView: View {
     private var minHeight:CGFloat = 325
     private var systemColor = Color(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1))
     private var systemShadowColor = Color(UIColor(red: 0.65, green: 0.65, blue: 0.65, alpha: 1))
-    private var viewModel = GymViewModel()
+    @StateObject private var viewModel = GymViewModel()
     
     @EnvironmentObject var eventStore: EventStore
     
@@ -33,7 +33,7 @@ struct ContentView: View {
                         Spacer(minLength: 90)
                         GymCalendarView(interval: DateInterval(start: .distantPast, end: .distantFuture), eventStore: eventStore)
                             .frame(width: width, height:  height <= maxHeight ? height : maxHeight  ,alignment: .top)
-                            
+                            .environmentObject(viewModel)
                             .clipShape(Rectangle())
                             .shadow(color: .black,radius: 1)
                             
@@ -121,7 +121,7 @@ struct ContentView: View {
                 }
                 
             }
-                
+            .environmentObject(viewModel)
         }
         
     }

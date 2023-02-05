@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct ViewListSpecificExercises: View {
-    
-    var viewModel = GymViewModel()
+    @EnvironmentObject var viewModel:GymViewModel
     @Environment(\.dismiss) var dismiss
+    
     var typeOfExercise:GymModel.TypeOfExercise
     @Binding var isPresented: Bool
-    
+    @State var isTappedToggle = false
     
     var body: some View {
         VStack(alignment:.leading){
@@ -41,14 +41,16 @@ struct ViewListSpecificExercises: View {
                 .frame(width: viewModel.screenWidth - 20, height: 60)
                 .cornerRadius(10))
             .padding(10)
-            
-            ForEach(viewModel.arrayExercises,id:\.self) { elem in
-                if elem.type == self.typeOfExercise {
-                    
+            VStack{
+                ForEach(viewModel.arrayExercises.indices,id:\.self) { id in
+                    //                if id.type == self.typeOfExercise {
                     HStack {
-                        
-                        ExerciseToggle(exerciseTitle: elem.name)
+                        if viewModel.arrayExercises[id].type == typeOfExercise {
+                            //                        ExerciseToggle(exerciseTitle: viewModel.arrayExercises[id].name, exerciseIsOn: viewModel.arrayExercises[id].isSelected)
+                            ExerciseToggle(exercise:viewModel.arrayExercises[id], toggle: false)
+                        }
                     }
+                    
                     .padding([.leading,.trailing],30)
                     .padding(.top,30)
                     
@@ -57,7 +59,7 @@ struct ViewListSpecificExercises: View {
             Spacer()
             
             Button{
-                
+                viewModel.clearArrayOfSelectedExercises()
                 dismiss()
             } label: {
                 Image(systemName: "arrow.left")
@@ -87,23 +89,23 @@ struct ViewListSpecificExercises: View {
 //Toggle for every Exercise
 struct ExerciseToggle: View {
     
-    var viewModel = GymViewModel()
-    var exerciseTitle: String
-    
-    @State var arrayOfToggles:[GymModel.Exercise] = []
-    @State var exerciseToggle = false
-        
+    @EnvironmentObject var viewModel:GymViewModel
+    var exercise:Exercise
+    @State var toggle:Bool
         var body: some View {
             VStack(spacing: 0) {
-                Toggle(exerciseTitle, isOn: $exerciseToggle)
+                Toggle(exercise.name, isOn: $toggle)
                     .font(.custom("Helvetica",size: 22))
                     .fontWeight(.bold)
-                    .onChange(of: exerciseToggle) { elem in
-                        
-                        if let temp = viewModel.findExerciseByTitle(title:exerciseTitle) {
-                            viewModel.appendToArrayOfSelectedExercises(name: temp.name, type: temp.type)
-                            
+                    .onChange(of: toggle) { elem in
+                        if elem == true {
+                            print("Im goin to true")
+                            viewModel.selectingExercise(exercise: exercise, isSelected: toggle)
+                        } else {
+                            print("Im to false")
+                            viewModel.unselectingExercise(exercise: exercise, isSelected: toggle)
                         }
+                        
                         
                     }
                     
@@ -123,10 +125,10 @@ struct CheckboxStyle: ToggleStyle {
         return HStack {
             configuration.label
             Spacer()
-            Image(systemName: configuration.isOn ? "checkmark" : "")
+            Image(systemName: configuration.isOn ? "checkmark" : "square.fill")
                 .resizable()
                 .frame(width: 18, height: 18)
-                .foregroundColor(configuration.isOn ? .black : .gray)
+                .foregroundColor(configuration.isOn ? .black : .white)
                 .font(.custom("Helvetica", size: 22))
                 
         }
@@ -148,6 +150,6 @@ struct CheckboxStyle: ToggleStyle {
 
 struct ViewListSpecificExercises_Previews: PreviewProvider {
     static var previews: some View {
-        ViewListSpecificExercises(typeOfExercise: .cardio,isPresented: .constant(true))
+        ViewListSpecificExercises(typeOfExercise: .cardio,isPresented: .constant(true)).environmentObject(GymViewModel())
     }
 }

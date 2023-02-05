@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ViewExerciseList: View {
     
-    private var viewModel = GymViewModel()
+    @EnvironmentObject var viewModel:GymViewModel
     @State var isTapped = false
     @State var selectedMovie: GymModel.TypeOfExercise? = nil
     @State var showOverlay = false
@@ -63,6 +63,9 @@ struct ViewExerciseList: View {
                             
                         }
                         .padding([.leading,.trailing],30)
+                        .background(RoundedRectangle(cornerRadius: 10)
+                            .foregroundColor(.white)
+                        )
                         .onTapGesture {
 //Turn off all of animation
                             UIView.setAnimationsEnabled(false)
@@ -76,6 +79,7 @@ struct ViewExerciseList: View {
                         .sheet(item: self.$selectedMovie) { selected in
                             
                             ViewListSpecificExercises(typeOfExercise: selected,isPresented: $isTapped)
+                                
                             
                         }
                     }
@@ -99,6 +103,6 @@ struct ViewExerciseList: View {
 
 struct ViewExerciseList_Previews: PreviewProvider {
     static var previews: some View {
-        ViewExerciseList()
+        ViewExerciseList().environmentObject(GymViewModel())
     }
 }
