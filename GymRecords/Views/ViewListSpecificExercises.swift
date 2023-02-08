@@ -17,7 +17,6 @@ struct ViewListSpecificExercises: View {
     @Binding var isPresented: Bool
     @State var isTappedToggle = false
     @Binding var selectedExerciseArray:[Int]
-    
     var body: some View {
         VStack(alignment:.leading){
 //Title and Button Create Exercise
@@ -67,7 +66,17 @@ struct ViewListSpecificExercises: View {
 
 //Button back to ExerciseViewList
             Button{
+                
                 selectedExerciseArray = viewModel.selectedCounterLabel
+                
+                if viewModel.selectedExArray.isEmpty {
+                    print("Im 0")
+                    viewModel.isSelectedSomeExercise = false
+                } else {
+                    print("TOTOTOTOTOTO")
+                    viewModel.isSelectedSomeExercise = true
+                }
+                
                 dismiss()
             } label: {
                 HStack {
@@ -186,6 +195,7 @@ struct ViewListSpecificExercises_Previews: PreviewProvider {
         ViewListSpecificExercises(backButtonLabel: .constant(""), toggleArray: .constant([Exercise(type: .chest, name: "Push ups",
                                                                                         doubleWeight: false, selfWeight: true,
                                                                                                    isSelected: true)]),typeOfExercise: .chest,
-                                  isPresented: .constant(true), selectedExerciseArray: .constant([])).environmentObject(GymViewModel())
+                                  isPresented: .constant(true), selectedExerciseArray: .constant([]))
+                                    .environmentObject(GymViewModel())
     }
 }

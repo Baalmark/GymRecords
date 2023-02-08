@@ -24,6 +24,8 @@ class GymViewModel: ObservableObject {
         }
         return array
     }
+    @Published var isSelectedSomeExercise:Bool = false
+
     
     
     

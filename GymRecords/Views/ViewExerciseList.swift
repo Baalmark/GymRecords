@@ -12,13 +12,12 @@ struct ViewExerciseList: View {
     @EnvironmentObject var viewModel:GymViewModel
     
     @State var isTapped = false
-    @State var selectedMovie: GymModel.TypeOfExercise? = nil
+    @State var selectedExer: GymModel.TypeOfExercise? = nil
     @State var showOverlay = false
-    @State var toggleArray:[Exercise]
+    @Binding var toggleArray:[Exercise]
     @State var backButtonLabel:String = ""
     @State var selectedExerciseArrayTitle:[Int] = []
-    
-    
+    @Binding var shouldHideButton:Bool
     var body: some View {
         NavigationView{
             VStack {
@@ -88,17 +87,20 @@ struct ViewExerciseList: View {
                         )
                         .onTapGesture {
 //Turn off all of animation
+                            
                             UIView.setAnimationsEnabled(false)
-                            self.selectedMovie = elem
+                            self.selectedExer = elem
                             var transaction = Transaction()
                             transaction.disablesAnimations = true
                             withTransaction(transaction) {
                                 isTapped = true
                             }
                         }
-                        .sheet(item: self.$selectedMovie) { selected in
+                        .sheet(item: self.$selectedExer) { selected in
                             
-                            ViewListSpecificExercises(backButtonLabel: $backButtonLabel, toggleArray: $toggleArray, typeOfExercise: selected,isPresented: $isTapped,selectedExerciseArray:$selectedExerciseArrayTitle)
+                            ViewListSpecificExercises(backButtonLabel: $backButtonLabel, toggleArray: $toggleArray,
+                                                      typeOfExercise: selected,isPresented: $isTapped,
+                                                      selectedExerciseArray:$selectedExerciseArrayTitle).environmentObject(viewModel)
                                 
                             
                         }
@@ -107,9 +109,7 @@ struct ViewExerciseList: View {
                 
                 Spacer()
                 
-                Button("Hello") {
-                    
-                }
+                
             }
         }
     }
@@ -128,6 +128,6 @@ struct ViewExerciseList: View {
 
 struct ViewExerciseList_Previews: PreviewProvider {
     static var previews: some View {
-        ViewExerciseList(toggleArray: []).environmentObject(GymViewModel())
+        ViewExerciseList(toggleArray: .constant([]), shouldHideButton: .constant(true)).environmentObject(GymViewModel())
     }
 }

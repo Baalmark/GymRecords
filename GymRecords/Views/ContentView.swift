@@ -84,7 +84,6 @@ struct ContentView: View {
                             AddProgrammView()
                         }
                         .buttonStyle(GrowingButton())
-                        .frame(width:400,height: 50)
                         .tint(.white)
                         .font(.title2)
                         .fontWeight(.semibold)
@@ -130,16 +129,16 @@ struct ContentView: View {
 
 
 
-
+//Style of bottom Button
 struct GrowingButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
-            .frame(width: 325,height: 50)
+            .frame(width: 335,height: 45)
             .background(.black)
             .foregroundColor(.white)
             .clipShape(Rectangle())
-            .cornerRadius(20)
+            .cornerRadius(15)
             .shadow(color: .gray, radius: 3)
             .scaleEffect(configuration.isPressed ? 1.5 : 1)
             .animation(.easeOut(duration: 0.33), value: configuration.isPressed)
