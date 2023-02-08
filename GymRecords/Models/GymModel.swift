@@ -121,6 +121,26 @@ struct GymModel {
         }
         return arrayOfExercises
     }
+    func findNumberOfSelectedExerciseByType(type:TypeOfExercise,array:Array<Exercise>) -> Int {
+        var result = 0
+        
+        for element in array {
+            if element.type == type, element.isSelected == true {
+                result += 1
+            }
+        }
+        return result
+    }
+    func findNumberOfExerciseOneType(type:TypeOfExercise,array:Array<Exercise>) -> Int {
+        var result = 0
+        
+        for element in array {
+            if element.type == type{
+                result += 1
+            }
+        }
+        return result
+    }
     
 
     
@@ -176,5 +196,10 @@ extension GymModel {
                                              Exercise(type: .cardio, name: "Cycling", doubleWeight: false, selfWeight: true,isSelected: false),
                                              Exercise(type: .cardio, name: "Elips", doubleWeight: false, selfWeight: true,isSelected: false),
                                              Exercise(type: .cardio, name: "Berpi", doubleWeight: false, selfWeight: true,isSelected: false),
-                                             Exercise(type: .cardio, name: "WorkOut", doubleWeight: false, selfWeight: true,isSelected: false)]
+                                             Exercise(type: .cardio, name: "WorkOut", doubleWeight: false, selfWeight: true,isSelected: false),
+                                             Exercise(type: .arms, name: "Dumbbell Concentration Curl", doubleWeight: false, selfWeight: false,isSelected: false),
+                                             Exercise(type: .arms, name: "Dumbbell Hammers Curl", doubleWeight: true, selfWeight: false,isSelected: false),
+                                             Exercise(type: .arms, name: "Biceps Curl", doubleWeight: true, selfWeight: false,isSelected: false),
+                                             Exercise(type: .chest, name: "Dumbbell bench press", doubleWeight: true, selfWeight: false,isSelected: false),
+                                             Exercise(type: .chest, name: "Push ups", doubleWeight: false, selfWeight: true,isSelected: false)]
 }

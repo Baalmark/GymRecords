@@ -10,12 +10,13 @@ import SwiftUI
 struct ViewListSpecificExercises: View {
     @EnvironmentObject var viewModel:GymViewModel
     @Environment(\.dismiss) var dismiss
-    @State var backButtonLabel = ""
+    @Binding var backButtonLabel:String
     @State var toggleArrayCounter = 0
     @Binding var toggleArray:[Exercise]
     var typeOfExercise:GymModel.TypeOfExercise
     @Binding var isPresented: Bool
     @State var isTappedToggle = false
+    @Binding var selectedExerciseArray:[Int]
     
     var body: some View {
         VStack(alignment:.leading){
@@ -44,25 +45,29 @@ struct ViewListSpecificExercises: View {
                 .cornerRadius(10))
             .padding(10)
             VStack{
+                
                 ForEach(viewModel.arrayExercises.indices,id:\.self) { id in
-                    HStack {
-                        if viewModel.arrayExercises[id].type == typeOfExercise {
+                    if viewModel.arrayExercises[id].type == typeOfExercise {
+                        HStack {
                             ExerciseToggle(exercise:viewModel.arrayExercises[id],
                                            toggle: viewModel.arrayExercises[id].isSelected,
                                            toggleArray: $toggleArray,
                                            toggleArrayCounter: $toggleArrayCounter)
                         }
+                        .padding([.leading,.trailing],30)
+                        .padding(.top,30)
                     }
                     
-                    .padding([.leading,.trailing],30)
-                    .padding(.top,30)
+                    
                     
                 }
+                
             }
             Spacer()
-            
+
+//Button back to ExerciseViewList
             Button{
-                
+                selectedExerciseArray = viewModel.selectedCounterLabel
                 dismiss()
             } label: {
                 HStack {
@@ -116,12 +121,15 @@ struct ExerciseToggle: View {
                     .font(.custom("Helvetica",size: 22))
                     .fontWeight(.bold)
                     .onChange(of: toggle) { elem in
+                        
                         if elem == true {
                             
                             print("Im goin to true")
                             viewModel.selectingExercise(exercise: exercise, isSelected: toggle)
                             toggleArrayCounter = viewModel.selectedExArray.count
                             toggleArray = viewModel.selectedExArray
+                            
+                            
                         } else {
                             
                             print("Im to false")
@@ -175,6 +183,9 @@ struct CheckboxStyle: ToggleStyle {
 
 struct ViewListSpecificExercises_Previews: PreviewProvider {
     static var previews: some View {
-        ViewListSpecificExercises(toggleArray: .constant([Exercise(type: .cardio, name: "Running", doubleWeight: true, selfWeight: true, isSelected: true)]),typeOfExercise: .cardio,isPresented: .constant(true)).environmentObject(GymViewModel())
+        ViewListSpecificExercises(backButtonLabel: .constant(""), toggleArray: .constant([Exercise(type: .chest, name: "Push ups",
+                                                                                        doubleWeight: false, selfWeight: true,
+                                                                                                   isSelected: true)]),typeOfExercise: .chest,
+                                  isPresented: .constant(true), selectedExerciseArray: .constant([])).environmentObject(GymViewModel())
     }
 }

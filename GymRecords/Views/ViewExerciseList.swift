@@ -10,10 +10,15 @@ import SwiftUI
 struct ViewExerciseList: View {
     
     @EnvironmentObject var viewModel:GymViewModel
+    
     @State var isTapped = false
     @State var selectedMovie: GymModel.TypeOfExercise? = nil
     @State var showOverlay = false
     @State var toggleArray:[Exercise]
+    @State var backButtonLabel:String = ""
+    @State var selectedExerciseArrayTitle:[Int] = []
+    
+    
     var body: some View {
         NavigationView{
             VStack {
@@ -42,7 +47,7 @@ struct ViewExerciseList: View {
                 
                 VStack() {
                     
-                    ForEach(viewModel.exerciseList, id:\.self) {elem in
+                    ForEach(Array(viewModel.exerciseList.enumerated()), id:\.offset) {index,elem in
                         HStack{
                             
                             Image(elem.rawValue)
@@ -55,11 +60,23 @@ struct ViewExerciseList: View {
                             
                             
                             Spacer()
+// Display count of exercise and selected exercise if they are there
                             HStack {
-                                Text("0") //Model doesn't complete yet
-                                
-                                Image(systemName: "greaterthan")
-                                    .font(.footnote)
+                                if selectedExerciseArrayTitle.isEmpty { // If selected exercise dont exist
+                                    Text("\(viewModel.findNumberOfExerciseOneType(type: elem, array: viewModel.arrayExercises))")
+                                        .font(.custom("Helvetica", size: 18))
+                                } else {
+                                    if selectedExerciseArrayTitle[index] == 0 { // If selected exercises dont exist in some category
+                                        Text("\(viewModel.findNumberOfExerciseOneType(type: elem, array: viewModel.arrayExercises))")
+                                            .font(.custom("Helvetica", size: 18))
+                                    } else { // Display selected exercises
+                                        Text("Selected: \(selectedExerciseArrayTitle[index])")
+                                            .font(.custom("Helvetica", size: 18))
+                                    }
+                                }
+                                    Image(systemName: "greaterthan")
+                                        .font(.footnote)
+                        
                             }
                             .foregroundColor(viewModel.systemColorGray)
                             .fontWeight(.bold)
@@ -81,13 +98,18 @@ struct ViewExerciseList: View {
                         }
                         .sheet(item: self.$selectedMovie) { selected in
                             
-                            ViewListSpecificExercises(toggleArray: $toggleArray, typeOfExercise: selected,isPresented: $isTapped)
+                            ViewListSpecificExercises(backButtonLabel: $backButtonLabel, toggleArray: $toggleArray, typeOfExercise: selected,isPresented: $isTapped,selectedExerciseArray:$selectedExerciseArrayTitle)
                                 
                             
                         }
                     }
                 }
+                
                 Spacer()
+                
+                Button("Hello") {
+                    
+                }
             }
         }
     }
