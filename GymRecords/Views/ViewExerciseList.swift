@@ -13,6 +13,7 @@ struct ViewExerciseList: View {
     @State var isTapped = false
     @State var selectedMovie: GymModel.TypeOfExercise? = nil
     @State var showOverlay = false
+    @State var toggleArray:[Exercise]
     var body: some View {
         NavigationView{
             VStack {
@@ -56,7 +57,9 @@ struct ViewExerciseList: View {
                             Spacer()
                             HStack {
                                 Text("0") //Model doesn't complete yet
+                                
                                 Image(systemName: "greaterthan")
+                                    .font(.footnote)
                             }
                             .foregroundColor(viewModel.systemColorGray)
                             .fontWeight(.bold)
@@ -78,7 +81,7 @@ struct ViewExerciseList: View {
                         }
                         .sheet(item: self.$selectedMovie) { selected in
                             
-                            ViewListSpecificExercises(typeOfExercise: selected,isPresented: $isTapped)
+                            ViewListSpecificExercises(toggleArray: $toggleArray, typeOfExercise: selected,isPresented: $isTapped)
                                 
                             
                         }
@@ -103,6 +106,6 @@ struct ViewExerciseList: View {
 
 struct ViewExerciseList_Previews: PreviewProvider {
     static var previews: some View {
-        ViewExerciseList().environmentObject(GymViewModel())
+        ViewExerciseList(toggleArray: []).environmentObject(GymViewModel())
     }
 }

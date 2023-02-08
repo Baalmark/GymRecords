@@ -6,7 +6,7 @@ import SwiftUI
 class GymViewModel: ObservableObject {
     
     @Published private(set) var gymModel: GymModel
-    @Published var selectedExArray:[Exercise]
+    var selectedExArray:[Exercise]
     
     
     var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises
@@ -14,17 +14,20 @@ class GymViewModel: ObservableObject {
     var imagesArray:[UIImage] = []
     var stringExerciseList:[String] = []
     var arrayExercises:[Exercise] = GymModel.arrayOfAllCreatedExercises
-    var selectedEx:[GymModel.SelectedExercises] = []
     //Design Vars
     var viewCornerRadiusSimple:CGFloat = 10
+    //Colors
+    
     var systemColorLightGray = Color(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1))
     var systemColorGray = Color(UIColor(red: 0.65, green: 0.65, blue: 0.65, alpha: 1))
+    var systemColorMidGray = Color(UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1))
+    
     var circleColor = Color(UIColor(white: 1, alpha: 0.1))
     var screenWidth = UIScreen.main.bounds.width
     var paddingSafeArea = 20
     
     init() {
-        self.gymModel = GymModel(programmTitle: GymModel.Programm(programmTitle: "Test", countOfExcercises: 0, description: "", colorDesign: "White"),selectedExercises: selectedEx)
+        self.gymModel = GymModel(programmTitle: GymModel.Programm(programmTitle: "Test", countOfExcercises: 0, description: "", colorDesign: "White"))
         self.selectedExArray = []
     }
     
@@ -66,9 +69,7 @@ class GymViewModel: ObservableObject {
     }
     
     func clearArrayOfSelectedExercises() {
-        gymModel.clearSelectedExercisesArray()
-        
-        selectedEx = gymModel.selectedExercises
+        selectedExArray.removeAll()
     }
     
 //Finder of Exercise by title

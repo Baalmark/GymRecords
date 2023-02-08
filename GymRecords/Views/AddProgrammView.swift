@@ -96,7 +96,7 @@ struct AddProgrammView: View {
             .padding(10)
 // List of types Execises, Tappable, it has behavior like Navitation Link
             if !didTap {
-                ViewExerciseList()
+                ViewExerciseList(toggleArray: viewModel.selectedExArray)
                 .transition(.move(edge: .leading))
                     
             } else {

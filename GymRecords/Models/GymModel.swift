@@ -16,12 +16,10 @@ struct GymModel {
     var programms:[Programm]?
     var typesExercises:[TypeOfExercise] = TypeOfExercise.allExercises
     var arrayOfExercises:[Exercise] = arrayOfAllCreatedExercises
-    var selectedExercises:[SelectedExercises]
     
-    init(programmTitle: Programm, programms: [Programm]? = nil, selectedExercises: [SelectedExercises]) {
+    init(programmTitle: Programm, programms: [Programm]? = nil) {
         self.programmTitle = programmTitle
         self.programms = programms
-        self.selectedExercises = selectedExercises
     }
     //MARK: Programm Struct
     struct Programm {
@@ -124,10 +122,6 @@ struct GymModel {
         return arrayOfExercises
     }
     
-    
-    mutating func clearSelectedExercisesArray() {
-        selectedExercises.removeAll()
-    }
 
     
 }
