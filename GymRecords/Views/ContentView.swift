@@ -14,7 +14,7 @@ struct ContentView: View {
     @State private var delta:CGFloat = 0
     @State private var viewState = CGSize.zero
     @State private var appearSheet = false
-    
+    @State var isDataBaseSheetActive = false
     
     private var maxHeight:CGFloat = 500
     private var minHeight:CGFloat = 325
@@ -79,6 +79,7 @@ struct ContentView: View {
                         
                         Button("Add Programm") {
                             appearSheet.toggle()
+                            viewModel.changeExercisesDB = false
                         }
                         .sheet(isPresented:$appearSheet) {
                             AddProgrammView()
@@ -111,11 +112,18 @@ struct ContentView: View {
                     }
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {}) {
+                        Button{
+                            viewModel.changeExercisesDB = true
+                            isDataBaseSheetActive.toggle()
+                        } label: {
                             Image("weight_addProgramm")
                                 .resizable()
                                 .frame(width: 35,height: 35)
-                        }}
+                        }
+                        .sheet(isPresented: $isDataBaseSheetActive) {
+                            DataBaseView()
+                        }
+                    }
                     
                 }
                 

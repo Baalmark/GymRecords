@@ -17,9 +17,13 @@ struct GymModel {
     var typesExercises:[TypeOfExercise] = TypeOfExercise.allExercises
     var arrayOfExercises:[Exercise] = arrayOfAllCreatedExercises
     
+    var arrayOfPlannedTrainings:[TrainingInfo]
+    
+    
     init(programmTitle: Programm, programms: [Programm]? = nil) {
         self.programmTitle = programmTitle
         self.programms = programms
+        self.arrayOfPlannedTrainings = []
     }
     //MARK: Programm Struct
     struct Programm {
@@ -85,6 +89,15 @@ struct GymModel {
         var id = UUID()
         var title:String
         var type:GymModel.TypeOfExercise
+        
+    }
+    
+    //MARK: Training
+    
+    struct TrainingInfo {
+        var name:String
+        var arrayOfExercises:[Exercise]
+        var Date:Date
         
     }
     

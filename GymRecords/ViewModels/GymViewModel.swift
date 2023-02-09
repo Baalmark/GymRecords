@@ -6,14 +6,19 @@ import SwiftUI
 class GymViewModel: ObservableObject {
     
     @Published private(set) var gymModel: GymModel
+    @Published var isSelectedSomeExercise:Bool = false
+    @Published var changeExercisesDB:Bool = false
     var selectedExArray:[Exercise]
-    
+    var trainingPlannedArray:[GymModel.TrainingInfo]
+    var databaseInfoTitle:[(String,Int)]
     
     var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises
     var programmList:[GymModel.Programm] = GymModel.programms
     var imagesArray:[UIImage] = []
     var stringExerciseList:[String] = []
     var arrayExercises:[Exercise] = GymModel.arrayOfAllCreatedExercises
+    
+    //Computed Property
     var selectedCounterLabel:[Int] {
         var array:[Int] = []
         for element in exerciseList {
@@ -24,7 +29,7 @@ class GymViewModel: ObservableObject {
         }
         return array
     }
-    @Published var isSelectedSomeExercise:Bool = false
+    
 
     
     
@@ -36,14 +41,19 @@ class GymViewModel: ObservableObject {
     var systemColorLightGray = Color(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1))
     var systemColorGray = Color(UIColor(red: 0.75, green: 0.75, blue: 0.75, alpha: 0.5))
     var systemColorMidGray = Color(UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1))
-    
+    var systemDarkGray = Color(#colorLiteral(red: 0.1395590305, green: 0.1554448605, blue: 0.2346594632, alpha: 1))
+    var systemRed = Color(#colorLiteral(red: 1, green: 0, blue: 0, alpha: 1))
     var circleColor = Color(UIColor(white: 1, alpha: 0.1))
+    
+    
     var screenWidth = UIScreen.main.bounds.width
     var paddingSafeArea = 20
     
     init() {
         self.gymModel = GymModel(programmTitle: GymModel.Programm(programmTitle: "Test", countOfExcercises: 0, description: "", colorDesign: "White"))
         self.selectedExArray = []
+        self.trainingPlannedArray = [GymModel.TrainingInfo(name: "FirstTrain", arrayOfExercises: arrayExercises, Date: .distantPast)]
+        self.databaseInfoTitle = [("WorkOut",trainingPlannedArray.count),("Programms",programmList.count),("Exercises",arrayExercises.count)]
     }
     
     
@@ -117,6 +127,17 @@ class GymViewModel: ObservableObject {
             }
         }
         return nil
+    }
+    
+//Remove some exercise by user's choice
+    func removeSomeExercise(exercise:Exercise) {
+        for (i,element) in arrayExercises.enumerated() {
+            if element == exercise {
+                arrayExercises.remove(at: i)
+            }
+        }
+        //Reload info for DataBaseTitle Exercise Counter
+        databaseInfoTitle = [("WorkOut",trainingPlannedArray.count),("Programms",programmList.count),("Exercises",arrayExercises.count)]
     }
 }
 

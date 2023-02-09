@@ -17,6 +17,9 @@ struct ViewListSpecificExercises: View {
     @Binding var isPresented: Bool
     @State var isTappedToggle = false
     @Binding var selectedExerciseArray:[Int]
+    
+    @State var isChangeSheet = false
+    @State var exercise:Exercise = Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true, isSelected: false)
     var body: some View {
         VStack(alignment:.leading){
 //Title and Button Create Exercise
@@ -47,20 +50,40 @@ struct ViewListSpecificExercises: View {
                 
                 ForEach(viewModel.arrayExercises.indices,id:\.self) { id in
                     if viewModel.arrayExercises[id].type == typeOfExercise {
-                        HStack {
-                            ExerciseToggle(exercise:viewModel.arrayExercises[id],
-                                           toggle: viewModel.arrayExercises[id].isSelected,
-                                           toggleArray: $toggleArray,
-                                           toggleArrayCounter: $toggleArrayCounter)
+                        if viewModel.changeExercisesDB == false{
+                            HStack {
+                                ExerciseToggle(exercise:viewModel.arrayExercises[id],
+                                               toggle: viewModel.arrayExercises[id].isSelected,
+                                               toggleArray: $toggleArray,
+                                               toggleArrayCounter: $toggleArrayCounter)
+                            }
+                            .padding([.leading,.trailing],30)
+                            .padding(.top,30)
+                        } else {
+                            HStack {
+                                Text(viewModel.arrayExercises[id].name)
+                                    .font(.custom("Helvetica", size: 22))
+                                    .fontWeight(.bold)
+                                Spacer()
+                            }
+                            .padding(.bottom,20)
+                            .padding([.leading,.trailing],30)
+                            .padding(.top,20)
+                            .onTapGesture{
+                                exercise = viewModel.arrayExercises[id]
+                                UIView.setAnimationsEnabled(true)    // << here !!
+                                isChangeSheet.toggle()
+                            }
                         }
-                        .padding([.leading,.trailing],30)
-                        .padding(.top,30)
                     }
                     
                     
                     
                 }
                 
+            }
+            .fullScreenCover(isPresented:$isChangeSheet) {
+                ChangeExerciseNameOrDeleteView(exercise: $exercise)
             }
             Spacer()
 
@@ -194,8 +217,10 @@ struct ViewListSpecificExercises_Previews: PreviewProvider {
     static var previews: some View {
         ViewListSpecificExercises(backButtonLabel: .constant(""), toggleArray: .constant([Exercise(type: .chest, name: "Push ups",
                                                                                         doubleWeight: false, selfWeight: true,
-                                                                                                   isSelected: true)]),typeOfExercise: .chest,
-                                  isPresented: .constant(true), selectedExerciseArray: .constant([]))
+                                                                                                   isSelected: true)]),typeOfExercise: .cardio,
+                                  isPresented: .constant(true), selectedExerciseArray: .constant([]), exercise: Exercise(type: .chest, name: "Push ups",
+                                                                                                                          doubleWeight: false, selfWeight: true,
+                                                                                                                                     isSelected: true))
                                     .environmentObject(GymViewModel())
     }
 }
