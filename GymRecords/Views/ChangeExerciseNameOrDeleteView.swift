@@ -12,15 +12,20 @@ struct ChangeExerciseNameOrDeleteView: View {
     @EnvironmentObject var viewModel:GymViewModel
     @Binding var exercise:Exercise
     
+    
+    @State var isShowAlertDoubleWeight = false
+    @State var isShowAlertBodyWeight = false
+    
     var body: some View {
         VStack {
             //Close button
             Button {
                 dismiss()
             } label: {
-                Image(systemName: "x.circle.fill")
+                Image(systemName: "xmark.circle.fill")
                     .symbolRenderingMode(.hierarchical)
                     .foregroundColor(.white)
+                    .fixedSize()
                     .font(.title2)
             }
             .offset(x:viewModel.screenWidth / 2,y:0)
@@ -40,54 +45,59 @@ struct ChangeExerciseNameOrDeleteView: View {
                     Text("Double Weight")
                         
                     Button() {
-                        
+                        isShowAlertDoubleWeight.toggle()
                     } label: {
                         Image(systemName: "info.circle.fill")
                             .symbolRenderingMode(.hierarchical)
                             .foregroundColor(.white)
                     }.offset(x:20,y:0)
+                        .alert(isPresented: $isShowAlertDoubleWeight) {
+                            Alert(title:Text("Double Weight"),message:Text(GymModel.doubleWeightAlertText),dismissButton: .cancel(Text("OK")))
+                        }
                     Toggle("", isOn: $exercise.doubleWeight)
                 }
-                .foregroundColor(viewModel.systemColorMidGray)
-                Divider().overlay(viewModel.systemColorGray)
+                .foregroundColor(Color("MidGrayColor"))
+                Divider().overlay(Color("GrayColor"))
                 HStack {
-                    Text("Self Weight")
+                    Text("Body Weight")
                         
                     Button() {
-                        
+                        isShowAlertBodyWeight.toggle()
                     } label: {
                         Image(systemName: "info.circle.fill")
                             .symbolRenderingMode(.hierarchical)
                             .foregroundColor(.white)
                     }.offset(x:20,y:0)
+                        .alert(isPresented: $isShowAlertBodyWeight) {
+                            Alert(title:Text("Body Weight"),message:Text(GymModel.bodyWeightAlertText),dismissButton: .cancel(Text("OK")))
+                        }
                     Toggle("", isOn: $exercise.selfWeight)
                 }
-                .foregroundColor(viewModel.systemColorMidGray)
-                Divider().overlay(viewModel.systemColorGray)
+                .foregroundColor(Color("MidGrayColor"))
+                Divider().overlay(Color("GrayColor"))
                 
                 Button{
                     viewModel.removeSomeExercise(exercise: exercise)
                     dismiss()
                 } label: {
                     Text("Remove exercise")
-                        .foregroundColor(viewModel.systemRed)
+                        .foregroundColor(Color("RedColorScarlet"))
                 }
                 .offset(x:-90,y:10)
                 .padding()
                 Spacer()
                 Button("Save") {
+                    viewModel.toggleBodyAndDoubleWeight(exercise: exercise, bodyWeight: exercise.selfWeight, doubleWeight: exercise.doubleWeight)
                     dismiss()
                 }
-                .foregroundColor(viewModel.systemDarkGray)
-                .background(RoundedRectangle(cornerRadius: 10)
-                    .foregroundColor(.white)
-                    .frame(width: viewModel.screenWidth - 40,height: 45)
-                )
+                .buttonStyle(GrowingButton(isDarkMode: true))
+                .foregroundColor(Color("DarkGrayColor"))
+                
             }
             .font(.title2)
             .fontWeight(.bold)
             .padding(20)
-        }.background(viewModel.systemDarkGray)
+        }.background(Color("backgroundColor"))
     }
 }
 

@@ -20,7 +20,7 @@ struct DataBaseView: View {
                     Button{
                     } label: {
                         Image(systemName: "gearshape.fill")
-                            .foregroundColor(viewModel.systemColorMidGray)
+                            .foregroundColor(Color("MidGrayColor"))
                             .font(.custom("Helvetica", size: 16))
                     }
                 }

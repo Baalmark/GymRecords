@@ -92,7 +92,7 @@ struct ExercisesAndProgramsListView: View {
                 .transition(.move(edge: .leading))
                 Button("Ready") {
                     
-                }.buttonStyle(GrowingButton())
+                }.buttonStyle(GrowingButton(isDarkMode: false))
                     .tint(.white)
                     .font(.title2)
                     .fontWeight(.semibold)

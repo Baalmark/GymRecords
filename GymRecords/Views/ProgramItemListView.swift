@@ -24,9 +24,11 @@ struct ProgramItemListView: View {
                 .fontWeight(.bold)
                 .background(Circle()
                     .frame(width: 50,height: 50)
-                    .foregroundColor(viewModel.circleColor)
+                    .foregroundStyle(Color[programm.colorDesign].gradient)
+                    .overlay(Circle().opacity(0.1))
                     
                 )
+            
                 .padding(.trailing,30)
             
         }
@@ -34,10 +36,7 @@ struct ProgramItemListView: View {
         .background(RoundedRectangle(cornerRadius: 10)
             .frame(width: viewModel.screenWidth - 20,height: 60)
                     
-            .foregroundStyle(LinearGradient(colors: [.orange, Color[programm.colorDesign]],
-                                           startPoint: .top,
-                                           endPoint: .center))
-            
+            .foregroundStyle(Color[programm.colorDesign].gradient)
         )
         .padding(10)    }
 }

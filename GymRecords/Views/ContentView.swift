@@ -84,7 +84,7 @@ struct ContentView: View {
                         .sheet(isPresented:$appearSheet) {
                             AddProgramView()
                         }
-                        .buttonStyle(GrowingButton())
+                        .buttonStyle(GrowingButton(isDarkMode: false))
                         .tint(.white)
                         .font(.title2)
                         .fontWeight(.semibold)
@@ -139,12 +139,14 @@ struct ContentView: View {
 
 //Style of bottom Button
 struct GrowingButton: ButtonStyle {
+    
+    var isDarkMode:Bool
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
             .frame(width: 335,height: 45)
-            .background(.black)
-            .foregroundColor(.white)
+            .background(!isDarkMode ? .black : .white)
+            .foregroundColor(!isDarkMode ? .white : .black)
             .clipShape(Rectangle())
             .cornerRadius(15)
             .shadow(color: .gray, radius: 3)

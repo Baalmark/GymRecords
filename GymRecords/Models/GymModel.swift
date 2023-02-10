@@ -29,7 +29,7 @@ struct GymModel {
     struct Program {
         
         var id = UUID()
-        var programmTitle: String
+        var programTitle: String
         var countOfExcercises: Int
         var description: String
         var colorDesign: String
@@ -115,7 +115,7 @@ struct GymModel {
     
 //MARK: MAIN Functions
     mutating func createNewProgram(title name:String,exercises exs:[Exercise],color cDesign:String,description desc:String) {
-        programs?.append(Program(programmTitle: name, countOfExcercises: exs.count, description: desc, colorDesign: cDesign))
+        programs?.append(Program(programTitle: name, countOfExcercises: exs.count, description: desc, colorDesign: cDesign))
         
     }
     mutating func AddNewExercise(type:TypeOfExercise,title:String,doubleW db:Bool,selfW sw:Bool) {
@@ -155,8 +155,33 @@ struct GymModel {
         return result
     }
     
-
+    //Toggle Double Weight marker
+    func modelToggleBodyAndDoubleWeight(exercise:Exercise,bodyWeight:Bool,doubleWeight:Bool) -> Exercise {
+        exercise.doubleWeight = doubleWeight
+        exercise.selfWeight = bodyWeight
+        return exercise
+    }
     
+    // Replace exercise in array of Exercise
+    func replaceExerciseInArray(exercise:Exercise,array:[Exercise]) -> [Exercise] {
+        var newArray = array
+        for (i,elem) in array.enumerated() {
+            if elem.name == exercise.name {
+                newArray[i] = exercise
+            }
+        }
+        return newArray
+    }
+    //Remove some exercise from arrayOfExercise
+    func removeSomeExerciseFromArray(exercise:Exercise,array:[Exercise]) -> [Exercise] {
+        var newArray = array
+        for (i,element) in newArray.enumerated() {
+            if element == exercise {
+                newArray.remove(at: i)
+            }
+        }
+        return newArray
+    }
 }
 
 
@@ -195,7 +220,7 @@ extension GymModel.Program {
 
 extension GymModel {
 
-    static var programs = [Program(programmTitle: "Test", countOfExcercises: 1, description: "TestDescription", colorDesign: "red", exercises: Program.exercises)]
+    static var programs = [Program(programTitle: "Test", countOfExcercises: 1, description: "TestDescription", colorDesign: "red", exercises: Program.exercises)]
 }
 
 extension GymModel.TypeOfExercise{
@@ -215,4 +240,8 @@ extension GymModel {
                                              Exercise(type: .arms, name: "Biceps Curl", doubleWeight: true, selfWeight: false,isSelected: false),
                                              Exercise(type: .chest, name: "Dumbbell bench press", doubleWeight: true, selfWeight: false,isSelected: false),
                                              Exercise(type: .chest, name: "Push ups", doubleWeight: false, selfWeight: true,isSelected: false)]
+    
+    static var doubleWeightAlertText = "For exercises with two projectiles (for example, with two dumbbells) specify the weight of only one projectile, then the tonnage statistics will be doubled and calculated correctly"
+    
+    static var bodyWeightAlertText = "For exercises with own weight (e.g. push-ups) instead of tonnage statistics will be displayed repetition statistics. If necessary, you can record the weight of the additional weight or leave the field empty"
 }

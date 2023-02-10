@@ -31,7 +31,7 @@ struct AddProgramView: View {
             }
             .background(Rectangle()
                 .cornerRadius(viewModel.viewCornerRadiusSimple)
-                .foregroundColor(viewModel.systemColorLightGray))
+                .foregroundColor(Color("LightGrayColor")))
             .padding([.top,.bottom], 2)
             .padding([.leading,.trailing], 10)
             

@@ -42,7 +42,7 @@ struct ViewListSpecificExercises: View {
             }
             .padding(20)
             .background(Rectangle()
-                .foregroundColor(viewModel.systemColorLightGray)
+                .foregroundColor(Color("LightGrayColor"))
                 .frame(width: viewModel.screenWidth - 20, height: 60)
                 .cornerRadius(10))
             .padding(10)
@@ -116,7 +116,7 @@ struct ViewListSpecificExercises: View {
             .foregroundColor(.white)
             
             .background(Capsule(style: .continuous))
-            .foregroundColor(viewModel.systemColorMidGray)
+            .foregroundColor(Color("MidGrayColor"))
                 .padding(.bottom,40)
                 .padding(.leading,30)
                 

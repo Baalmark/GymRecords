@@ -37,7 +37,7 @@ struct ViewExerciseList: View {
                 }
                 .padding(20)
                 .background(Rectangle()
-                    .foregroundColor(viewModel.systemColorLightGray)
+                    .foregroundColor(Color("LightGrayColor"))
                     .frame(width: viewModel.screenWidth - 20, height: 60)
                     .cornerRadius(10))
                 .padding(10)
@@ -77,7 +77,7 @@ struct ViewExerciseList: View {
                                         .font(.footnote)
                         
                             }
-                            .foregroundColor(viewModel.systemColorGray)
+                            .foregroundColor(Color("GrayColor"))
                             .fontWeight(.bold)
                             
                         }

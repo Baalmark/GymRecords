@@ -24,7 +24,7 @@ struct DataBaseInfoTitle: View {
                 .fontWeight(.bold)
                 .background(RoundedRectangle(cornerRadius: 15)
                     .frame(width: viewModel.screenWidth / 3.3,height: 50)
-                    .foregroundColor(viewModel.systemColorLightGray))
+                    .foregroundColor(Color("MidGrayColor")))
                 .padding([.leading,.trailing],25)
                 
                 

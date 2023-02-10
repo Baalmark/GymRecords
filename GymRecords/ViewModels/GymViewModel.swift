@@ -36,21 +36,11 @@ class GymViewModel: ObservableObject {
     
     //Design Vars
     var viewCornerRadiusSimple:CGFloat = 10
-    //Colors
-    
-    var systemColorLightGray = Color(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1))
-    var systemColorGray = Color(UIColor(red: 0.75, green: 0.75, blue: 0.75, alpha: 0.5))
-    var systemColorMidGray = Color(UIColor(red: 0.85, green: 0.85, blue: 0.85, alpha: 1))
-    var systemDarkGray = Color(#colorLiteral(red: 0.1395590305, green: 0.1554448605, blue: 0.2346594632, alpha: 1))
-    var systemRed = Color(#colorLiteral(red: 1, green: 0, blue: 0, alpha: 1))
-    var circleColor = Color(UIColor(white: 1, alpha: 0.1))
-    
-    
     var screenWidth = UIScreen.main.bounds.width
     var paddingSafeArea = 20
     
     init() {
-        self.gymModel = GymModel(programmTitle: GymModel.Program(programmTitle: "Test", countOfExcercises: 0, description: "", colorDesign: "White"))
+        self.gymModel = GymModel(programTitle: GymModel.Program(programTitle: "Test", countOfExcercises: 0, description: "", colorDesign: "White"))
         self.selectedExArray = []
         self.trainingPlannedArray = [GymModel.TrainingInfo(name: "FirstTrain", arrayOfExercises: arrayExercises, Date: .distantPast)]
         self.databaseInfoTitle = [("WorkOut",trainingPlannedArray.count),("Programs",programList.count),("Exercises",arrayExercises.count)]
@@ -60,15 +50,14 @@ class GymViewModel: ObservableObject {
     public func appendImagesToArray(image img:UIImage) {
         imagesArray.append(img)
     }
-    
+//List of exercise types
     func getListOfExercises(){
-        
         for element in exerciseList {
             stringExerciseList.append(element.rawValue)
         }
     }
     
-    
+//Exercise selection
     func selectingExercise(exercise:Exercise,isSelected:Bool) {
         
         selectedExArray = selectedExArray.filter({$0.name != exercise.name})
@@ -84,9 +73,9 @@ class GymViewModel: ObservableObject {
         for i in selectedExArray {
             print(i.name,i.isSelected)
         }
-        print("")
         
     }
+//Exercise unselection
     func unselectingExercise(exercise:Exercise,isSelected:Bool) {
         let newItem = Exercise(type: exercise.type, name: exercise.name, doubleWeight: exercise.doubleWeight, selfWeight: exercise.selfWeight, isSelected: isSelected)
 
@@ -102,14 +91,11 @@ class GymViewModel: ObservableObject {
         for i in selectedExArray {
             print(i.name,i.isSelected)
         }
-        print("")
+        
         
     }
     
-    func clearArrayOfSelectedExercises() {
-        selectedExArray.removeAll()
-    }
-
+//Find a number of exercise same type.
     func findNumberOfExerciseOneType(type:GymModel.TypeOfExercise,array:Array<Exercise>) -> Int {
         return gymModel.findNumberOfExerciseOneType(type: type, array: array)
     }
@@ -119,25 +105,21 @@ class GymViewModel: ObservableObject {
         return gymModel.findNumberOfSelectedExerciseByType(type: type, array: array)
     }
     
-//Finder of Exercise by title
-    func findExerciseByTitle(title:String) -> Exercise? {
-        for element in arrayExercises {
-            if element.name == title {
-                return element
-            }
-        }
-        return nil
-    }
     
 //Remove some exercise by user's choice
     func removeSomeExercise(exercise:Exercise) {
-        for (i,element) in arrayExercises.enumerated() {
-            if element == exercise {
-                arrayExercises.remove(at: i)
-            }
-        }
+        let newArray = gymModel.removeSomeExerciseFromArray(exercise: exercise, array: arrayExercises)
+        
+        arrayExercises = newArray
         //Reload info for DataBaseTitle Exercise Counter
         databaseInfoTitle = [("WorkOut",trainingPlannedArray.count),("Programms",programList.count),("Exercises",arrayExercises.count)]
+    }
+    
+//Change settings of exerise by toggle.
+    func toggleBodyAndDoubleWeight(exercise:Exercise,bodyWeight:Bool,doubleWeight:Bool) {
+       let newExercise = gymModel.modelToggleBodyAndDoubleWeight(exercise:exercise,bodyWeight:bodyWeight,doubleWeight:doubleWeight)
+        let newArray = gymModel.replaceExerciseInArray(exercise: newExercise, array: arrayExercises)
+        arrayExercises = newArray
     }
 }
 

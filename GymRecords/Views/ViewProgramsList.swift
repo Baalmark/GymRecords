@@ -28,7 +28,7 @@ struct ViewProgramsList: View {
             .padding([.top,.bottom,.trailing],30)
             .padding(.leading,20)
             .background(Rectangle()
-                .foregroundColor(viewModel.systemColorLightGray)
+                .foregroundColor(Color("LightGrayColor"))
                 .frame(width: viewModel.screenWidth - 20, height: 60)
                 .cornerRadius(10))
             .padding([.leading,.trailing],10)
