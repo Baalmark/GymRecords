@@ -19,7 +19,8 @@ struct ChangeExerciseNameOrDeleteView: View {
                 dismiss()
             } label: {
                 Image(systemName: "x.circle.fill")
-                    .foregroundColor(viewModel.systemColorGray)
+                    .symbolRenderingMode(.hierarchical)
+                    .foregroundColor(.white)
                     .font(.title2)
             }
             .offset(x:viewModel.screenWidth / 2,y:0)
@@ -42,8 +43,9 @@ struct ChangeExerciseNameOrDeleteView: View {
                         
                     } label: {
                         Image(systemName: "info.circle.fill")
-                            .foregroundColor(viewModel.systemColorGray)
-                    }.offset(x:10,y:0)
+                            .symbolRenderingMode(.hierarchical)
+                            .foregroundColor(.white)
+                    }.offset(x:20,y:0)
                     Toggle("", isOn: $exercise.doubleWeight)
                 }
                 .foregroundColor(viewModel.systemColorMidGray)
@@ -55,8 +57,9 @@ struct ChangeExerciseNameOrDeleteView: View {
                         
                     } label: {
                         Image(systemName: "info.circle.fill")
-                            .foregroundColor(viewModel.systemColorGray)
-                    }.offset(x:10,y:0)
+                            .symbolRenderingMode(.hierarchical)
+                            .foregroundColor(.white)
+                    }.offset(x:20,y:0)
                     Toggle("", isOn: $exercise.selfWeight)
                 }
                 .foregroundColor(viewModel.systemColorMidGray)

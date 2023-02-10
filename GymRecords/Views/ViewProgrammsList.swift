@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ViewProgrammsList: View {
     @EnvironmentObject var viewModel:GymViewModel
+    @State var isSheetActivated = false
     var body: some View {
         VStack{
 // Add Programm Button
@@ -35,29 +36,13 @@ struct ViewProgrammsList: View {
 // List of created custom Programms
             
             VStack {
-                ForEach(viewModel.programmList,id:\.id) { elem in
-                    HStack {
-                        Text("\(elem.description)")
-                            .padding(.leading,20)
-                            .font(.custom("Helvetica", size: 20))
-                            .fontWeight(.bold)
-                            .padding(.leading,10)
-                        Spacer()
-                        Text("\(elem.countOfExcercises)")
-                            .background(Circle()
-                                .frame(width: 50,height: 50)
-                                .foregroundColor(viewModel.circleColor)
-                                
-                            )
-                            .padding(.trailing,30)
-                        
+                ForEach(viewModel.programmList.indices,id:\.self) { elem in
+                    ProgrammItemListView(programm: $viewModel.programmList[elem])
+                    .onTapGesture {
+                        isSheetActivated.toggle()
                     }
-                    .background(Rectangle()
-                        .frame(width: viewModel.screenWidth - 20,height: 60)
-                        .foregroundColor(Color[elem.colorDesign])
-                        .cornerRadius(10)
-                    )
-                    .padding(10)
+                }.sheet(isPresented: $isSheetActivated) {
+                    EditOrRemoveTheProgramm()
                 }
             }
             Spacer()
