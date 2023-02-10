@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ViewProgrammsList: View {
+struct ViewProgramsList: View {
     @EnvironmentObject var viewModel:GymViewModel
     @State var isSheetActivated = false
     var body: some View {
@@ -36,13 +36,13 @@ struct ViewProgrammsList: View {
 // List of created custom Programms
             
             VStack {
-                ForEach(viewModel.programmList.indices,id:\.self) { elem in
-                    ProgrammItemListView(programm: $viewModel.programmList[elem])
+                ForEach(viewModel.programList.indices,id:\.self) { elem in
+                    ProgramItemListView(programm: $viewModel.programList[elem])
                     .onTapGesture {
                         isSheetActivated.toggle()
                     }
                 }.sheet(isPresented: $isSheetActivated) {
-                    EditOrRemoveTheProgramm()
+                    EditOrRemoveTheProgram()
                 }
             }
             Spacer()
@@ -60,6 +60,6 @@ struct ViewProgrammsList: View {
 
 struct ViewProgrammsList_Previews: PreviewProvider {
     static var previews: some View {
-        ViewProgrammsList().environmentObject(GymViewModel())
+        ViewProgramsList().environmentObject(GymViewModel())
     }
 }

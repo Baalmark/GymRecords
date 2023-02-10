@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AddProgrammView: View {
+struct AddProgramView: View {
     @Environment(\.dismiss) var dismiss
     @State private var searchWord = ""
     @EnvironmentObject var viewModel:GymViewModel
@@ -36,7 +36,7 @@ struct AddProgrammView: View {
             .padding([.leading,.trailing], 10)
             
 //View of Programms and Exercise with selection
-            ExercisesAndProgrammsListView().environmentObject(viewModel)
+            ExercisesAndProgramsListView().environmentObject(viewModel)
             
         }
         .background(.white)
@@ -56,6 +56,6 @@ struct AddProgrammView: View {
 
 struct AddProgrammView_Previews: PreviewProvider {
     static var previews: some View {
-        AddProgrammView().environmentObject(GymViewModel())
+        AddProgramView().environmentObject(GymViewModel())
     }
 }

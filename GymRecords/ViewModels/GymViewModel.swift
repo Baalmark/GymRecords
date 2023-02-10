@@ -13,7 +13,7 @@ class GymViewModel: ObservableObject {
     var databaseInfoTitle:[(String,Int)]
     
     var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises
-    var programmList:[GymModel.Programm] = GymModel.programms
+    var programList:[GymModel.Program] = GymModel.programs
     var imagesArray:[UIImage] = []
     var stringExerciseList:[String] = []
     var arrayExercises:[Exercise] = GymModel.arrayOfAllCreatedExercises
@@ -50,10 +50,10 @@ class GymViewModel: ObservableObject {
     var paddingSafeArea = 20
     
     init() {
-        self.gymModel = GymModel(programmTitle: GymModel.Programm(programmTitle: "Test", countOfExcercises: 0, description: "", colorDesign: "White"))
+        self.gymModel = GymModel(programmTitle: GymModel.Program(programmTitle: "Test", countOfExcercises: 0, description: "", colorDesign: "White"))
         self.selectedExArray = []
         self.trainingPlannedArray = [GymModel.TrainingInfo(name: "FirstTrain", arrayOfExercises: arrayExercises, Date: .distantPast)]
-        self.databaseInfoTitle = [("WorkOut",trainingPlannedArray.count),("Programms",programmList.count),("Exercises",arrayExercises.count)]
+        self.databaseInfoTitle = [("WorkOut",trainingPlannedArray.count),("Programs",programList.count),("Exercises",arrayExercises.count)]
     }
     
     
@@ -137,7 +137,7 @@ class GymViewModel: ObservableObject {
             }
         }
         //Reload info for DataBaseTitle Exercise Counter
-        databaseInfoTitle = [("WorkOut",trainingPlannedArray.count),("Programms",programmList.count),("Exercises",arrayExercises.count)]
+        databaseInfoTitle = [("WorkOut",trainingPlannedArray.count),("Programms",programList.count),("Exercises",arrayExercises.count)]
     }
 }
 

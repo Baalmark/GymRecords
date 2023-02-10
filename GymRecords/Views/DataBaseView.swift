@@ -31,7 +31,7 @@ struct DataBaseView: View {
                 DataBaseInfoTitle().environmentObject(viewModel)
                 .padding(5)
             }
-            ExercisesAndProgrammsListView().environmentObject(viewModel)
+            ExercisesAndProgramsListView().environmentObject(viewModel)
         }
     }
 }

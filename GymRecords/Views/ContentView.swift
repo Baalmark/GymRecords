@@ -82,7 +82,7 @@ struct ContentView: View {
                             viewModel.changeExercisesDB = false
                         }
                         .sheet(isPresented:$appearSheet) {
-                            AddProgrammView()
+                            AddProgramView()
                         }
                         .buttonStyle(GrowingButton())
                         .tint(.white)

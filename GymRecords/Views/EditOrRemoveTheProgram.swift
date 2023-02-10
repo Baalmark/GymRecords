@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct EditOrRemoveTheProgramm: View {
+struct EditOrRemoveTheProgram: View {
     var body: some View {
         VStack(alignment:.leading){
             Text("Programm")
@@ -25,6 +25,6 @@ struct EditOrRemoveTheProgramm: View {
 
 struct EditOrRemoveTheProgramm_Previews: PreviewProvider {
     static var previews: some View {
-        EditOrRemoveTheProgramm()
+        EditOrRemoveTheProgram()
     }
 }

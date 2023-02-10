@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct ProgrammItemListView: View {
+struct ProgramItemListView: View {
     @EnvironmentObject var viewModel:GymViewModel
-    @Binding var programm:GymModel.Programm
+    @Binding var programm:GymModel.Program
     
     var body: some View {
         HStack {
@@ -44,6 +44,6 @@ struct ProgrammItemListView: View {
 
 struct ProgrammItemListView_Previews: PreviewProvider {
     static var previews: some View {
-        ProgrammItemListView(programm: .constant(GymModel.programms[0])).environmentObject(GymViewModel())
+        ProgramItemListView(programm: .constant(GymModel.programs[0])).environmentObject(GymViewModel())
     }
 }

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ExercisesAndProgrammsListView: View {
+struct ExercisesAndProgramsListView: View {
     
     @Environment(\.dismiss) var dismiss
     @State private var mainNavigationSelector:Bool = false
@@ -100,7 +100,7 @@ struct ExercisesAndProgrammsListView: View {
                     .opacity(viewModel.isSelectedSomeExercise ? 1 : 0)
                 
             } else {
-                ViewProgrammsList()
+                ViewProgramsList()
                     .transition(.move(edge: .trailing))
             }
         }
@@ -112,6 +112,6 @@ struct ExercisesAndProgrammsListView: View {
 
 struct ExercisesAndProgrammsListView_Previews: PreviewProvider {
     static var previews: some View {
-        ExercisesAndProgrammsListView().environmentObject(GymViewModel())
+        ExercisesAndProgramsListView().environmentObject(GymViewModel())
     }
 }
