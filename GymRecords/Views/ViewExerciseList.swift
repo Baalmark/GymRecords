@@ -22,19 +22,20 @@ struct ViewExerciseList: View {
         NavigationView{
             VStack {
                 // Exercise Button
-                HStack {
+                Button {
+                    
+                } label: {
                     Text("Create Exercise")
                         .font(.custom("Helvetica", size: 22))
                         .fontWeight(.bold)
                     Spacer()
-                    Button("+") {
-                        //
-                    }
-                    .foregroundColor(.black)
-                    .font(.custom("Helvetica", size: 26))
-                    .fontWeight(.bold)
-                    .padding(.trailing,10)
+                    Text("+")
+                        .fontWeight(.regular)
                 }
+                .foregroundColor(.black)
+                .font(.custom("Helvetica", size: 26))
+                .fontWeight(.bold)
+                .padding(.trailing,10)
                 .padding(20)
                 .background(Rectangle()
                     .foregroundColor(Color("LightGrayColor"))
@@ -85,16 +86,9 @@ struct ViewExerciseList: View {
                         .background(RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(.white)
                         )
-                        .onTapGesture {
-//Turn off all of animation
-                            
-                            UIView.setAnimationsEnabled(false)
+                        .onTapGesture {                            
                             self.selectedExer = elem
-                            var transaction = Transaction()
-                            transaction.disablesAnimations = true
-                            withTransaction(transaction) {
-                                isTapped = true
-                            }
+                            isTapped = true
                         }
                         .sheet(item: self.$selectedExer) { selected in
                             

@@ -17,6 +17,7 @@
 		008C51F3297AFA620046EF5B /* GymCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008C51F2297AFA620046EF5B /* GymCalendarView.swift */; };
 		008C51F5297AFDFC0046EF5B /* ProgrammEventStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008C51F4297AFDFC0046EF5B /* ProgrammEventStore.swift */; };
 		008C51F9297AFF450046EF5B /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008C51F8297AFF450046EF5B /* Event.swift */; };
+		3A1B831F2996EC10006F959E /* CreateNewExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B831E2996EC10006F959E /* CreateNewExercise.swift */; };
 		3A9E9A4229852F8200DAA547 /* AddProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A4129852F8200DAA547 /* AddProgramView.swift */; };
 		3A9E9A4429897C7B00DAA547 /* ViewExerciseList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A4329897C7B00DAA547 /* ViewExerciseList.swift */; };
 		3A9E9A4629897E0100DAA547 /* ViewProgramsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A4529897E0100DAA547 /* ViewProgramsList.swift */; };
@@ -41,6 +42,7 @@
 		008C51F2297AFA620046EF5B /* GymCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymCalendarView.swift; sourceTree = "<group>"; };
 		008C51F4297AFDFC0046EF5B /* ProgrammEventStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgrammEventStore.swift; sourceTree = "<group>"; };
 		008C51F8297AFF450046EF5B /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		3A1B831E2996EC10006F959E /* CreateNewExercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewExercise.swift; sourceTree = "<group>"; };
 		3A9E9A4029845EDC00DAA547 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3A9E9A4129852F8200DAA547 /* AddProgramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProgramView.swift; sourceTree = "<group>"; };
 		3A9E9A4329897C7B00DAA547 /* ViewExerciseList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExerciseList.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				3A9E9A5529964BD500DAA547 /* EditOrRemoveTheProgram.swift */,
 				3A9E9A47298A770600DAA547 /* ViewListSpecificExercises.swift */,
 				3A9E9A532995340300DAA547 /* ChangeExerciseNameOrDeleteView.swift */,
+				3A1B831E2996EC10006F959E /* CreateNewExercise.swift */,
 				008C51F2297AFA620046EF5B /* GymCalendarView.swift */,
 				3A9E9A5129952C9C00DAA547 /* DataBaseInfoTitle.swift */,
 			);
@@ -227,6 +230,7 @@
 				008C51F0297305660046EF5B /* GymDynamic.swift in Sources */,
 				3A9E9A5829964F3000DAA547 /* ProgramItemListView.swift in Sources */,
 				3A9E9A5029951BF700DAA547 /* ExercisesAndProgramsListView.swift in Sources */,
+				3A1B831F2996EC10006F959E /* CreateNewExercise.swift in Sources */,
 				3A9E9A4E29951AF400DAA547 /* DataBaseView.swift in Sources */,
 				008C51F3297AFA620046EF5B /* GymCalendarView.swift in Sources */,
 				3A9E9A4229852F8200DAA547 /* AddProgramView.swift in Sources */,

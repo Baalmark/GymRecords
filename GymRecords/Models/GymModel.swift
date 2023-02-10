@@ -182,6 +182,16 @@ struct GymModel {
         }
         return newArray
     }
+    //Create new Exercise to arrayOfExercise by User
+        func createNewExercise(exercise:Exercise,array:[Exercise]) -> [Exercise] {
+            var newArray = array
+            newArray.append(exercise)
+            return newArray
+        }
+    //Reload data to DataBase info title
+    func reloadDataBaseInfo(trainArray: [GymModel.TrainingInfo],progArray:[Program],arrayExercises:[Exercise]) -> [(String, Int)] {
+        return [("WorkOut",trainArray.count),("Programms",progArray.count),("Exercises",arrayExercises.count)]
+    }
 }
 
 

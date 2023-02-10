@@ -112,7 +112,9 @@ class GymViewModel: ObservableObject {
         
         arrayExercises = newArray
         //Reload info for DataBaseTitle Exercise Counter
-        databaseInfoTitle = [("WorkOut",trainingPlannedArray.count),("Programms",programList.count),("Exercises",arrayExercises.count)]
+        
+        //Reload DB Info
+        databaseInfoTitle = gymModel.reloadDataBaseInfo(trainArray: trainingPlannedArray, progArray: programList, arrayExercises: arrayExercises)
     }
     
 //Change settings of exerise by toggle.
@@ -120,6 +122,14 @@ class GymViewModel: ObservableObject {
        let newExercise = gymModel.modelToggleBodyAndDoubleWeight(exercise:exercise,bodyWeight:bodyWeight,doubleWeight:doubleWeight)
         let newArray = gymModel.replaceExerciseInArray(exercise: newExercise, array: arrayExercises)
         arrayExercises = newArray
+    }
+//Create new Exercise
+    func createNewExercise(exercise:Exercise) {
+        let newArray = gymModel.createNewExercise(exercise: exercise, array: arrayExercises)
+        arrayExercises = newArray
+        
+        //Reload DB Info
+        databaseInfoTitle = gymModel.reloadDataBaseInfo(trainArray: trainingPlannedArray, progArray: programList, arrayExercises: arrayExercises)
     }
 }
 

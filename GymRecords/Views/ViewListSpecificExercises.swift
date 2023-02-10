@@ -13,110 +13,119 @@ struct ViewListSpecificExercises: View {
     @Binding var backButtonLabel:String
     @State var toggleArrayCounter = 0
     @Binding var toggleArray:[Exercise]
-    var typeOfExercise:GymModel.TypeOfExercise
+    @State var typeOfExercise:GymModel.TypeOfExercise
     @Binding var isPresented: Bool
     @State var isTappedToggle = false
     @Binding var selectedExerciseArray:[Int]
-    
+    @State var showCreateExercise = false
     @State var isChangeSheet = false
     @State var exercise:Exercise = Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true, isSelected: false)
     var body: some View {
-        VStack(alignment:.leading){
-//Title and Button Create Exercise
-            Text("\(typeOfExercise.rawValue.capitalized)")
-                .padding([.leading,.top],30)
-                .font(.custom("Helvetica", size: 24))
-                .fontWeight(.bold)
-            HStack{
-                Text("Create Exercise")
-                    .font(.custom("Helvetica", size: 22))
+        ZStack {
+            VStack(alignment:.leading){
+                //Title and Button Create Exercise
+                Text("\(typeOfExercise.rawValue.capitalized)")
+                    .padding([.leading,.top],30)
+                    .font(.custom("Helvetica", size: 24))
                     .fontWeight(.bold)
-                Spacer()
-                Button("+") {
-                    //
+                HStack{
+                    // Exercise Button
+                    Button {
+                        showCreateExercise.toggle()
+                    } label: {
+                        Text("Create Exercise")
+                            .font(.custom("Helvetica", size: 22))
+                            .fontWeight(.bold)
+                        Spacer()
+                        Text("+")
+                            .fontWeight(.regular)
+                    }
+                    .foregroundColor(.black)
+                    .font(.custom("Helvetica", size: 26))
+                    .fontWeight(.bold)
+                    .padding(.trailing,10)
+                    .background(RoundedRectangle(cornerRadius: 10)
+                        .foregroundColor(Color("LightGrayColor"))
+                        .frame(width: viewModel.screenWidth - 20, height: 60))
+                    
                 }
-                .foregroundColor(.black)
-                .font(.custom("Helvetica", size: 26))
-                .fontWeight(.bold)
-                .padding(.trailing,10)
-            }
-            .padding(20)
-            .background(Rectangle()
-                .foregroundColor(Color("LightGrayColor"))
-                .frame(width: viewModel.screenWidth - 20, height: 60)
-                .cornerRadius(10))
-            .padding(10)
-            VStack{
-                
-                ForEach(viewModel.arrayExercises.indices,id:\.self) { id in
-                    if viewModel.arrayExercises[id].type == typeOfExercise {
-                        if viewModel.changeExercisesDB == false{
-                            HStack {
-                                ExerciseToggle(exercise:viewModel.arrayExercises[id],
-                                               toggle: viewModel.arrayExercises[id].isSelected,
-                                               toggleArray: $toggleArray,
-                                               toggleArrayCounter: $toggleArrayCounter)
-                            }
-                            .padding([.leading,.trailing],30)
-                            .padding(.top,30)
-                        } else {
-                            HStack {
-                                Text(viewModel.arrayExercises[id].name)
-                                    .font(.custom("Helvetica", size: 22))
-                                    .fontWeight(.bold)
-                                Spacer()
-                            }
-                            .padding(.bottom,20)
-                            .padding([.leading,.trailing],30)
-                            .padding(.top,20)
-                            .onTapGesture{
-                                exercise = viewModel.arrayExercises[id]
-                                UIView.setAnimationsEnabled(true)    // << here !!
-                                isChangeSheet.toggle()
+                .padding(20)
+                .background(Rectangle()
+                    .foregroundColor(Color("LightGrayColor"))
+                    .frame(width: viewModel.screenWidth - 20, height: 60)
+                    .cornerRadius(10))
+                .padding(10)
+                VStack{
+                    
+                    ForEach(viewModel.arrayExercises.indices,id:\.self) { id in
+                        if viewModel.arrayExercises[id].type == typeOfExercise {
+                            if viewModel.changeExercisesDB == false{
+                                HStack {
+                                    ExerciseToggle(exercise:viewModel.arrayExercises[id],
+                                                   toggle: viewModel.arrayExercises[id].isSelected,
+                                                   toggleArray: $toggleArray,
+                                                   toggleArrayCounter: $toggleArrayCounter)
+                                }
+                                .padding([.leading,.trailing],30)
+                                .padding(.top,30)
+                            } else {
+                                HStack {
+                                    Text(viewModel.arrayExercises[id].name)
+                                        .font(.custom("Helvetica", size: 22))
+                                        .fontWeight(.bold)
+                                    Spacer()
+                                }
+                                .padding(.bottom,20)
+                                .padding([.leading,.trailing],30)
+                                .padding(.top,20)
+                                .onTapGesture{
+                                    exercise = viewModel.arrayExercises[id]
+                                    UIView.setAnimationsEnabled(true)    // << here !!
+                                    isChangeSheet.toggle()
+                                }
                             }
                         }
+                        
+                        
+                        
                     }
                     
+                }
+                .fullScreenCover(isPresented:$isChangeSheet) {
+                    ChangeExerciseNameOrDeleteView(exercise: $exercise)
+                }
+                Spacer()
+                
+                //Button back to ExerciseViewList
+                Button{
                     
+                    selectedExerciseArray = viewModel.selectedCounterLabel
                     
+                    if viewModel.selectedExArray.isEmpty {
+                        print("Im 0")
+                        viewModel.isSelectedSomeExercise = false
+                    } else {
+                        print("TOTOTOTOTOTO")
+                        viewModel.isSelectedSomeExercise = true
+                    }
+                    
+                    dismiss()
+                } label: {
+                    HStack {
+                        Image(systemName: "arrow.left")
+                        Text(self.backButtonLabel)
+                            .foregroundColor(.white)
+                            .font(.custom("Helvetica", size: 20))
+                            .fontWeight(.bold)
+                    }
+                    .foregroundColor(.white)
+                    .padding(10)
                 }
-                
-            }
-            .fullScreenCover(isPresented:$isChangeSheet) {
-                ChangeExerciseNameOrDeleteView(exercise: $exercise)
-            }
-            Spacer()
-
-//Button back to ExerciseViewList
-            Button{
-                
-                selectedExerciseArray = viewModel.selectedCounterLabel
-                
-                if viewModel.selectedExArray.isEmpty {
-                    print("Im 0")
-                    viewModel.isSelectedSomeExercise = false
-                } else {
-                    print("TOTOTOTOTOTO")
-                    viewModel.isSelectedSomeExercise = true
-                }
-                
-                dismiss()
-            } label: {
-                HStack {
-                    Image(systemName: "arrow.left")
-                    Text(self.backButtonLabel)
-                        .foregroundColor(.white)
-                        .font(.custom("Helvetica", size: 20))
-                        .fontWeight(.bold)
-                }
+                .font(.custom("Helvetica", size: 26))
                 .foregroundColor(.white)
-                .padding(10)
-            }
-            .font(.custom("Helvetica", size: 26))
-            .foregroundColor(.white)
-            
-            .background(Capsule(style: .continuous))
-            .foregroundColor(Color("MidGrayColor"))
+                
+                .background(Capsule(style: .continuous))
+                .foregroundColor(Color("MidGrayColor"))
                 .padding(.bottom,40)
                 .padding(.leading,30)
                 
@@ -124,15 +133,22 @@ struct ViewListSpecificExercises: View {
                     withAnimation(.easeInOut(duration: 0.2)) {
                         self.backButtonLabel = "\(self.toggleArrayCounter == 0 ? "" : "Selected: \(elem)  ")"
                     }}
-            
+                
+                
             }
-//Turn on all of animation
-        .onDisappear {
-                    UIView.setAnimationsEnabled(true)    // << here !!
+            
+            .interactiveDismissDisabled()
+            if showCreateExercise {
+                withAnimation(.easeIn) {
+                    CreateNewExercise(typeOfExercise: $typeOfExercise, showView: $showCreateExercise)
+                        .transition(.move(edge: .bottom))
                 }
-        .interactiveDismissDisabled()
+            }
         }
     }
+        
+}
+
 
 
 

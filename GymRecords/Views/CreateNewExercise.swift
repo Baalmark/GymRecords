@@ -1,18 +1,22 @@
 //
-//  ChangeExerciseNameOrDeleteView.swift
+//  CreateNewExercise.swift
 //  GymRecords
 //
-//  Created by Pavel Goldman on 09.02.2023.
+//  Created by Pavel Goldman on 10.02.2023.
 //
 
 import SwiftUI
 
-struct ChangeExerciseNameOrDeleteView: View {
-    @Environment(\.dismiss) var dismiss
+struct CreateNewExercise: View {
+    
+    
     @EnvironmentObject var viewModel:GymViewModel
-    @Binding var exercise:Exercise
-    
-    
+    @Environment(\.dismiss) var dismiss
+    @Binding var typeOfExercise:GymModel.TypeOfExercise
+    @Binding var showView:Bool
+    @State var name = ""
+    @State var bodyWeight:Bool = false
+    @State var doubleWeight:Bool = false
     @State var isShowAlertDoubleWeight = false
     @State var isShowAlertBodyWeight = false
     
@@ -35,15 +39,15 @@ struct ChangeExerciseNameOrDeleteView: View {
             VStack {
                 Divider().overlay(.white)
                 
-                TextField("Title for exercise:", text: $exercise.name)
+                TextField("Title for exercise:", text: $name)
                     .padding([.top,.bottom],5)
                     .foregroundColor(.white)
-                    
+                
                 Divider().overlay(.white)
                     .padding(.bottom,25)
                 HStack {
                     Text("Double Weight")
-                        
+                    
                     Button() {
                         isShowAlertDoubleWeight.toggle()
                     } label: {
@@ -54,13 +58,13 @@ struct ChangeExerciseNameOrDeleteView: View {
                         .alert(isPresented: $isShowAlertDoubleWeight) {
                             Alert(title:Text("Double Weight"),message:Text(GymModel.doubleWeightAlertText),dismissButton: .cancel(Text("OK")))
                         }
-                    Toggle("", isOn: $exercise.doubleWeight)
+                    Toggle("", isOn: $doubleWeight)
                 }
                 .foregroundColor(Color("MidGrayColor"))
                 Divider().overlay(Color("GrayColor"))
                 HStack {
                     Text("Body Weight")
-                        
+                    
                     Button() {
                         isShowAlertBodyWeight.toggle()
                     } label: {
@@ -71,28 +75,39 @@ struct ChangeExerciseNameOrDeleteView: View {
                         .alert(isPresented: $isShowAlertBodyWeight) {
                             Alert(title:Text("Body Weight"),message:Text(GymModel.bodyWeightAlertText),dismissButton: .cancel(Text("OK")))
                         }
-                    Toggle("", isOn: $exercise.selfWeight)
+                    Toggle("", isOn: $bodyWeight)
                 }
                 .foregroundColor(Color("MidGrayColor"))
                 Divider().overlay(Color("GrayColor"))
                 
-                Button{
-                    viewModel.removeSomeExercise(exercise: exercise)
-                    dismiss()
-                } label: {
-                    Text("Remove exercise")
-                        .foregroundColor(Color("RedColorScarlet"))
-                }
-                .offset(x:-90,y:10)
-                .padding()
                 Spacer()
-                Button("Save") {
-                    viewModel.toggleBodyAndDoubleWeight(exercise: exercise, bodyWeight: exercise.selfWeight, doubleWeight: exercise.doubleWeight)
-                    dismiss()
+                HStack {
+                    Button() {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "arrow.left")
+                            .foregroundColor(.white)
+                            .font(.custom("Helvetica", size: 20))
+                            .fontWeight(.bold)
+                            .padding()
+                            .background(Circle())
+                            .foregroundColor(Color("MidGrayColor").opacity(0.1))
+                        
+                    }
+                    Spacer()
+                    if name != "" {
+                        Button("Create exercise") {
+                            if name != "" {
+                                let newElement = Exercise(type: typeOfExercise, name: name, doubleWeight: doubleWeight, selfWeight: bodyWeight, isSelected: false)
+                                viewModel.createNewExercise(exercise: newElement)
+                            }
+                            dismiss()
+                        }
+                        .buttonStyle(GrowingButton(isDarkMode: true,width: 335 - 50,height: 45))
+                        .foregroundColor(Color("DarkGrayColor"))
+                    }
                 }
-                .buttonStyle(GrowingButton(isDarkMode: true,width: 335,height: 45))
-                .foregroundColor(Color("DarkGrayColor"))
-                
+                .padding([.leading,.trailing],name != "" ? 20 : 2)
             }
             .font(.title2)
             .fontWeight(.bold)
@@ -101,8 +116,8 @@ struct ChangeExerciseNameOrDeleteView: View {
     }
 }
 
-struct ChangeExerciseNameOrDeleteView_Previews: PreviewProvider {
+struct CreateNewExercise_Previews: PreviewProvider {
     static var previews: some View {
-        ChangeExerciseNameOrDeleteView(exercise: .constant(Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true, isSelected: false))).environmentObject(GymViewModel())
+        CreateNewExercise(typeOfExercise: .constant(.arms), showView: .constant(true)).environmentObject(GymViewModel())
     }
 }
