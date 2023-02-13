@@ -132,7 +132,7 @@ struct CreateNewProgrammView: View {
                 self.hideKeyboard()
             }
         .fullScreenCover(isPresented: $isShowExercises) {
-            ViewExerciseList(withCategory: false, toggleArray: $viewModel.selectedExArray, shouldHideButton: $viewModel.isSelectedSomeExercise).environmentObject(viewModel)
+            ViewExerciseList(withCategory: false, toggleArray: $viewModel.selectedExArray, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: true).environmentObject(viewModel)
                 }
     }
     

@@ -17,7 +17,7 @@ struct ButtonCreateExercise: View {
             Button {
                 showCreateExercise.toggle()
             } label: {
-                Text("Create Exercise")
+                Text("Create exercise")
                     .font(.custom("Helvetica", size: 22))
                     .fontWeight(.bold)
                 Spacer()

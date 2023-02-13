@@ -9,7 +9,7 @@ class GymViewModel: ObservableObject {
     @Published var isSelectedSomeExercise:Bool = false
     @Published var changeExercisesDB:Bool = false
     @Published var isDarkMode:Bool = false
-    var selectedExArray:[Exercise]
+    @Published var selectedExArray:[Exercise] = []
     var trainingPlannedArray:[GymModel.TrainingInfo]
     @Published var databaseInfoTitle:[(String,Int)]
     var colors = GymModel.colors
@@ -94,6 +94,15 @@ class GymViewModel: ObservableObject {
         }
         
         
+    }
+    func clearSelectedExArray() {
+        self.selectedExArray = []
+        
+        for (i,element) in arrayExercises.enumerated() {
+            if element.isSelected == true {
+                arrayExercises[i].isSelected = false
+            }
+        }
     }
     
 //Find a number of exercise same type.
@@ -192,3 +201,4 @@ extension View {
         }
     }
 }
+

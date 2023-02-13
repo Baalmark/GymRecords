@@ -17,6 +17,7 @@ struct ExercisesAndProgramsListView: View {
     @State private var exercisePos = 0
     @State private var programmPos = GymViewModel().screenWidth
     @State var shouldHideButton:Bool = true
+    @State var createExericseWithCategory = false
     
     var body: some View {
         VStack{
@@ -27,6 +28,7 @@ struct ExercisesAndProgramsListView: View {
                         
                         withAnimation(.spring()){
                             didTap.toggle()
+                            viewModel.clearSelectedExArray()
                         }
                         
                         
@@ -46,12 +48,13 @@ struct ExercisesAndProgramsListView: View {
                     .cornerRadius(10)
                 )
                 
-                Button("Programms") {
+                Button("Programs") {
                     
                     //If programms button hasn't tapped yet
                     if didTap == false {
                         withAnimation(.spring()){
                             didTap.toggle()
+                            viewModel.clearSelectedExArray()
                         }
                     }
                     
@@ -75,7 +78,8 @@ struct ExercisesAndProgramsListView: View {
             // List of types Execises, Tappable, it has behavior like Navitation Link
             if !didTap {
                 ScrollView {
-                    ViewExerciseList(withCategory: true, toggleArray: $viewModel.selectedExArray, shouldHideButton: $viewModel.isSelectedSomeExercise).environmentObject(viewModel)
+                    ButtonCreateExercise(showCreateExercise: $createExericseWithCategory)
+                    ViewExerciseList(withCategory: true, toggleArray: $viewModel.selectedExArray, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: false).environmentObject(viewModel)
                         .overlay(
                             GeometryReader { geo in
                                 Color.clear.onAppear {
@@ -103,6 +107,9 @@ struct ExercisesAndProgramsListView: View {
                 ViewProgramsList()
                     .transition(.move(edge: .trailing))
             }
+        }
+        .fullScreenCover(isPresented: $createExericseWithCategory) {
+            ViewExerciseList(withCategory: false, toggleArray: $viewModel.selectedExArray, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: false).environmentObject(viewModel)
         }
         
         

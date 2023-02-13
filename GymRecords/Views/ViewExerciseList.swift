@@ -19,29 +19,48 @@ struct ViewExerciseList: View {
     @State var backButtonLabel:String = ""
     @State var selectedExerciseArrayTitle:[Int] = []
     @Binding var shouldHideButton:Bool
-    @State var isShowCreateExercise = false
+    @State var programmingExercise:Bool
     var body: some View {
         NavigationView{
             VStack {
-                // Exercise Button
-                if withCategory {
-                    ButtonCreateExercise(showCreateExercise: $isShowCreateExercise)
+                
+                if withCategory{
+                    //
                 } else {
-                    //Close button
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            
-                            .foregroundColor(Color("LightGrayColor"))
-                            .tint(.white)
-                            .fixedSize()
-                            .font(.title2)
-                    }
-                    .offset(x:viewModel.screenWidth / 2,y:0)
-                    .padding(.trailing,70)
-                    .padding(.bottom,50)
                     
+                    //Close button
+                    HStack {
+                        Text("New exercise")
+                            .foregroundColor(.white)
+                            .font(.title2)
+                            .padding(.leading,30)
+                            .fontWeight(.bold)
+                        Spacer()
+                        Button {
+                            dismiss()
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                            
+                                .foregroundColor(Color("LightGrayColor"))
+                                .tint(.white)
+                                .fixedSize()
+                                .font(.title2)
+                        }
+                        
+                        .padding(.trailing,20)
+                        
+                        
+                    }
+                    .padding(.bottom,50)
+                    if !programmingExercise,!withCategory {
+                        Text("Select a category")
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
+                            .padding(20)
+                            .padding(.bottom,20)
+                            
+                    }
                 }
                 //List of exercises
                 
@@ -57,10 +76,10 @@ struct ViewExerciseList: View {
                                 .foregroundColor(withCategory ? .black : .white)
                                 .font(.custom("Helvetica", size: 20))
                                 .fontWeight(.bold)
-                                
+                            
                             
                             Spacer()
-// Display count of exercise and selected exercise if they are there
+                            // Display count of exercise and selected exercise if they are there
                             HStack {
                                 if selectedExerciseArrayTitle.isEmpty { // If selected exercise dont exist
                                     Text("\(viewModel.findNumberOfExerciseOneType(type: elem, array: viewModel.arrayExercises))")
@@ -74,11 +93,11 @@ struct ViewExerciseList: View {
                                             .font(.custom("Helvetica", size: 18))
                                     }
                                 }
-                                    Image(systemName: "greaterthan")
-                                        .font(.footnote)
-                                        
+                                Image(systemName: "greaterthan")
+                                    .font(.footnote)
                                 
-                        
+                                
+                                
                             }
                             .foregroundColor(withCategory ? Color("MidGrayColor") : .white)
                             .fontWeight(.bold)
@@ -89,7 +108,7 @@ struct ViewExerciseList: View {
                         .background(RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(withCategory ? .white : Color("backgroundDarkColor"))
                         )
-                        .onTapGesture {                            
+                        .onTapGesture {
                             self.selectedExer = elem
                             isTapped = true
                         }
@@ -98,20 +117,35 @@ struct ViewExerciseList: View {
                                 
                                 ViewListSpecificExercises(backButtonLabel: $backButtonLabel, toggleArray: $toggleArray,
                                                           typeOfExercise: selected,isPresented: $isTapped,
-                                                          selectedExerciseArray:$selectedExerciseArrayTitle).environmentObject(viewModel)
+                                                          selectedExerciseArray:$selectedExerciseArrayTitle, exerciseProgramming: false).environmentObject(viewModel)
                             } else {
-                                CreateNewExercise(typeOfExercise: selected, showView: $isTapped).environmentObject(viewModel)
+                                if programmingExercise == false {
+                                    CreateNewExercise(typeOfExercise: selected, showView: $isTapped, isNoCategoryCreating: true).environmentObject(viewModel)
+                                } else {
+                                    ViewListSpecificExercises(backButtonLabel: $backButtonLabel, toggleArray: $toggleArray,
+                                                              typeOfExercise: selected,isPresented: $isTapped,
+                                                              selectedExerciseArray:$selectedExerciseArrayTitle, exerciseProgramming: true).environmentObject(viewModel)
+                                }
                             }
-                                
+                            
                             
                         }
-                       
+                        
                     }
                 }
                 
                 Spacer()
-                
-                
+                if !withCategory, programmingExercise {
+                    
+                    Button("Ready :\(viewModel.selectedExArray.count)") {
+                        
+                    }.buttonStyle(GrowingButton(isDarkMode: true,width: 335,height: 45))
+                        .tint(.white)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .offset(x:0,y:-20)
+                        .opacity(viewModel.selectedExArray.isEmpty ? 0 : 1)
+                }
             }
             .background(withCategory ? .white : Color("backgroundDarkColor"))
         }
@@ -132,9 +166,10 @@ struct ViewExerciseList: View {
 struct ViewExerciseList_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ViewExerciseList(withCategory: true, toggleArray: .constant([]), shouldHideButton: .constant(true)).environmentObject(GymViewModel())
+            ViewExerciseList(withCategory: true, toggleArray: .constant([]), shouldHideButton: .constant(true), programmingExercise: false).environmentObject(GymViewModel())
             
-            ViewExerciseList(withCategory: false, toggleArray: .constant([]), shouldHideButton: .constant(true)).environmentObject(GymViewModel())
+            ViewExerciseList(withCategory: false, toggleArray: .constant([]), shouldHideButton: .constant(true), programmingExercise: true).environmentObject(GymViewModel())
+            ViewExerciseList(withCategory: false, toggleArray: .constant([]), shouldHideButton: .constant(true), programmingExercise: false).environmentObject(GymViewModel())
             
         }
     }

@@ -19,41 +19,47 @@ struct CreateNewExercise: View {
     @State var doubleWeight:Bool = false
     @State var isShowAlertDoubleWeight = false
     @State var isShowAlertBodyWeight = false
-    
+    @State var isNoCategoryCreating:Bool
     var body: some View {
-        VStack {
+        VStack(alignment:.leading) {
             //Close button
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "xmark.circle.fill")
-                    
-                    .foregroundColor(Color("LightGrayColor"))
-                    .tint(.white)
-                    .fixedSize()
-                    .font(.title2)
+            HStack {
+                Text("\(typeOfExercise.rawValue.capitalized)")
+                    .foregroundColor(isNoCategoryCreating ? .white : .black)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding(20)
+                Spacer()
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .symbolRenderingMode(.hierarchical)
+                        .foregroundColor(isNoCategoryCreating ? Color("GrayColor") : Color("LightGrayColor"))
+                        .tint(isNoCategoryCreating ? .white : .black)
+                        .fixedSize()
+                        .font(.title2)
+                }
+                .padding(.trailing,20)
             }
-            .offset(x:viewModel.screenWidth / 2,y:0)
-            .padding(.trailing,70)
-            
             //TextField of exercise title
             VStack {
-                Divider().overlay(viewModel.isDarkMode ? .white : .gray)
+                Divider().overlay(isNoCategoryCreating ? .white : .gray)
                 
                 TextField("", text: $name)
                     
                     .placeholder(when: name.isEmpty) {
                         Text("Title for exercise")
-                            .foregroundColor(viewModel.isDarkMode ? .gray : Color("GrayColor"))
+                            .foregroundColor(isNoCategoryCreating ? .gray : Color("GrayColor"))
                     }
                     .padding(10)
-                    .foregroundColor(viewModel.isDarkMode ? .white : .black)
+                    .foregroundColor(isNoCategoryCreating ? .white : .black)
                     .background(Rectangle()
                         .cornerRadius(viewModel.viewCornerRadiusSimple)
-                        .foregroundColor(viewModel.isDarkMode ? Color("backgroundColor") : Color("LightGrayColor")))
+                        .foregroundColor(isNoCategoryCreating ? Color("DarkbackgroundViewColor") : Color("LightGrayColor")))
                     .padding([.top,.bottom], 2)
                 
-                Divider().overlay(viewModel.isDarkMode ? .white : .gray)
+                Divider().overlay(isNoCategoryCreating ? .white : .gray)
                     .padding(.bottom,25)
                 HStack {
                     Text("Double Weight")
@@ -70,7 +76,7 @@ struct CreateNewExercise: View {
                         }
                     Toggle("", isOn: $doubleWeight)
                 }
-                .foregroundColor(viewModel.isDarkMode ? Color("MidGrayColor") : Color(.black))
+                .foregroundColor(isNoCategoryCreating ? Color("MidGrayColor") : Color(.black))
                 Divider().overlay(Color("GrayColor"))
                 HStack {
                     Text("Body Weight")
@@ -87,7 +93,7 @@ struct CreateNewExercise: View {
                         }
                     Toggle("", isOn: $bodyWeight)
                 }
-                .foregroundColor(viewModel.isDarkMode ? Color("MidGrayColor") : Color(.black))
+                .foregroundColor(isNoCategoryCreating ? Color("MidGrayColor") : Color(.black))
                 Divider().overlay(Color("GrayColor"))
                 
                 Spacer()
@@ -96,12 +102,14 @@ struct CreateNewExercise: View {
                         dismiss()
                     } label: {
                         Image(systemName: "arrow.left")
-                            .foregroundColor(.white)
+                            .symbolRenderingMode(.hierarchical)
+                            .foregroundColor(isNoCategoryCreating ? Color("GrayColor") : Color("LightGrayColor"))
+                            .tint(isNoCategoryCreating ? .white : .black)
                             .font(.custom("Helvetica", size: 14))
                             .fontWeight(.bold)
                             .padding(10)
                             .background(Circle())
-                            .foregroundColor(Color("MidGrayColor").opacity(viewModel.isDarkMode ? 0.1 : 0.5))
+                            .foregroundColor(Color("MidGrayColor").opacity(isNoCategoryCreating ? 0.1 : 0.5))
                         
                     }
                     Spacer()
@@ -123,7 +131,7 @@ struct CreateNewExercise: View {
             .fontWeight(.bold)
             .padding(20)
             
-        }.background(Color("backgroundColor"))
+        }.background(isNoCategoryCreating ? Color("backgroundDarkColor") : .white)
         .onTapGesture {
                 self.hideKeyboard()
             }
@@ -132,6 +140,6 @@ struct CreateNewExercise: View {
 
 struct CreateNewExercise_Previews: PreviewProvider {
     static var previews: some View {
-        CreateNewExercise(typeOfExercise: .arms, showView: .constant(true)).environmentObject(GymViewModel())
+        CreateNewExercise(typeOfExercise: .arms, showView: .constant(true), isNoCategoryCreating: true).environmentObject(GymViewModel())
     }
 }
