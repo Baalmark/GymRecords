@@ -10,29 +10,35 @@ import SwiftUI
 struct ViewProgramsList: View {
     @EnvironmentObject var viewModel:GymViewModel
     @State var isSheetActivated = false
+    @State var createNewProgrammSheet = false
     var body: some View {
         VStack{
 // Add Programm Button
-            HStack {
-                Text("Create Programm")
-                    .font(.custom("Helvetica", size: 22))
-                    .fontWeight(.bold)
-                Spacer()
-                Button("+") {
-                    //
+            VStack{
+                Button {
+                    createNewProgrammSheet.toggle()
+                } label: {
+                    Text("Create program")
+                        .font(.custom("Helvetica", size: 22))
+                        .fontWeight(.bold)
+                    Spacer()
+                    Text("+")
+                        .fontWeight(.regular)
                 }
                 .foregroundColor(.black)
                 .font(.custom("Helvetica", size: 26))
                 .fontWeight(.bold)
+                .padding(.trailing,10)
+                .padding(20)
+                .background(Rectangle()
+                    .foregroundColor(Color("LightGrayColor"))
+                    .frame(width: viewModel.screenWidth - 20, height: 60)
+                    .cornerRadius(10))
+                .padding(10)
             }
-            .padding([.top,.bottom,.trailing],30)
-            .padding(.leading,20)
-            .background(Rectangle()
-                .foregroundColor(Color("LightGrayColor"))
-                .frame(width: viewModel.screenWidth - 20, height: 60)
-                .cornerRadius(10))
-            .padding([.leading,.trailing],10)
-            
+            .fullScreenCover(isPresented: $createNewProgrammSheet) {
+                CreateNewProgrammView()
+            }
 // List of created custom Programms
             
             VStack {

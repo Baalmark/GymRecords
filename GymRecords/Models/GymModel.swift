@@ -14,9 +14,9 @@ struct GymModel {
     //    var Date: Date
     var programTitle: Program
     var programs:[Program]?
+    var createdPrograms:[Program]
     var typesExercises:[TypeOfExercise] = TypeOfExercise.allExercises
     var arrayOfExercises:[Exercise] = arrayOfAllCreatedExercises
-    
     var arrayOfPlannedTrainings:[TrainingInfo]
     
     
@@ -24,23 +24,23 @@ struct GymModel {
         self.programTitle = programTitle
         self.programs = programs
         self.arrayOfPlannedTrainings = []
+        self.createdPrograms = []
     }
     //MARK: Program Struct
     struct Program {
         
         var id = UUID()
         var programTitle: String
-        var countOfExcercises: Int
         var description: String
         var colorDesign: String
-        var exercises:[Exercise]?
+        var exercises:[Exercise]
         
         //MARK: PROGRAM Functions
         
         
         //Create new Exercise
         mutating func createNewExercise(type t: GymModel.TypeOfExercise,title name: String,doubleWeight dB:Bool,selfWeight sW:Bool ) {
-            exercises?.append(Exercise(type: t, name: name, doubleWeight: dB, selfWeight: sW,isSelected: false))
+            exercises.append(Exercise(type: t, name: name, doubleWeight: dB, selfWeight: sW,isSelected: false))
         }
     }
 //    //MARK: Exercise Struct
@@ -115,7 +115,7 @@ struct GymModel {
     
 //MARK: MAIN Functions
     mutating func createNewProgram(title name:String,exercises exs:[Exercise],color cDesign:String,description desc:String) {
-        programs?.append(Program(programTitle: name, countOfExcercises: exs.count, description: desc, colorDesign: cDesign))
+        createdPrograms.append(Program(programTitle: name, description: desc, colorDesign: cDesign, exercises: exs))
         
     }
     mutating func AddNewExercise(type:TypeOfExercise,title:String,doubleW db:Bool,selfW sw:Bool) {
@@ -229,8 +229,8 @@ extension GymModel.Program {
 
 
 extension GymModel {
-
-    static var programs = [Program(programTitle: "Test", countOfExcercises: 1, description: "TestDescription", colorDesign: "red", exercises: Program.exercises)]
+    static var colors = ["green","red","cyan","purple","yellow","gray","blue","orange","pink","indigo","teal"]
+    static var programs = [Program(programTitle: "Test", description: "TestDescription", colorDesign: "red", exercises: Program.exercises)]
 }
 
 extension GymModel.TypeOfExercise{

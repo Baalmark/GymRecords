@@ -8,10 +8,11 @@ class GymViewModel: ObservableObject {
     @Published private(set) var gymModel: GymModel
     @Published var isSelectedSomeExercise:Bool = false
     @Published var changeExercisesDB:Bool = false
+    @Published var isDarkMode:Bool = false
     var selectedExArray:[Exercise]
     var trainingPlannedArray:[GymModel.TrainingInfo]
-    var databaseInfoTitle:[(String,Int)]
-    
+    @Published var databaseInfoTitle:[(String,Int)]
+    var colors = GymModel.colors
     var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises
     var programList:[GymModel.Program] = GymModel.programs
     var imagesArray:[UIImage] = []
@@ -40,7 +41,7 @@ class GymViewModel: ObservableObject {
     var paddingSafeArea = 20
     
     init() {
-        self.gymModel = GymModel(programTitle: GymModel.Program(programTitle: "Test", countOfExcercises: 0, description: "", colorDesign: "White"))
+        self.gymModel = GymModel(programTitle: GymModel.Program(programTitle: "Test", description: "", colorDesign: "White", exercises: GymModel.programs[0].exercises))
         self.selectedExArray = []
         self.trainingPlannedArray = [GymModel.TrainingInfo(name: "FirstTrain", arrayOfExercises: arrayExercises, Date: .distantPast)]
         self.databaseInfoTitle = [("WorkOut",trainingPlannedArray.count),("Programs",programList.count),("Exercises",arrayExercises.count)]
@@ -135,6 +136,8 @@ class GymViewModel: ObservableObject {
 
 //MARK: Extensions
 
+
+//Subscripts color by string Color["Name"]
 extension Color {
     static subscript(name: String) -> Color {
         switch name {
@@ -156,8 +159,36 @@ extension Color {
             return Color.orange
         case "blue":
             return Color.blue
+        case "cyan":
+            return Color.cyan
+        case "pink":
+            return Color.pink
+        case "indigo":
+            return Color.indigo
+        case "teal":
+            return Color.teal
+            
         default:
             return Color.accentColor
+        }
+    }
+}
+// Hide keyboard by touches outside
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+//Change color of TextField placeholder 
+extension View {
+    func placeholder<Content: View>(
+        when shouldShow: Bool,
+        alignment: Alignment = .leading,
+        @ViewBuilder placeholder: () -> Content) -> some View {
+
+        ZStack(alignment: alignment) {
+            placeholder().opacity(shouldShow ? 1 : 0)
+            self
         }
     }
 }

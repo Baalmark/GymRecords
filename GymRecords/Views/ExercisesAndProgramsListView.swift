@@ -75,7 +75,7 @@ struct ExercisesAndProgramsListView: View {
             // List of types Execises, Tappable, it has behavior like Navitation Link
             if !didTap {
                 ScrollView {
-                    ViewExerciseList(toggleArray: $viewModel.selectedExArray, shouldHideButton: $viewModel.isSelectedSomeExercise).environmentObject(viewModel)
+                    ViewExerciseList(withCategory: true, toggleArray: $viewModel.selectedExArray, shouldHideButton: $viewModel.isSelectedSomeExercise).environmentObject(viewModel)
                         .overlay(
                             GeometryReader { geo in
                                 Color.clear.onAppear {

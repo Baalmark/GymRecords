@@ -23,8 +23,8 @@ struct ChangeExerciseNameOrDeleteView: View {
                 dismiss()
             } label: {
                 Image(systemName: "xmark.circle.fill")
-                    .symbolRenderingMode(.hierarchical)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color("LightGrayColor"))
+                    .tint(.white)
                     .fixedSize()
                     .font(.title2)
             }
@@ -33,13 +33,19 @@ struct ChangeExerciseNameOrDeleteView: View {
             
             //TextField of exercise title
             VStack {
-                Divider().overlay(.white)
+                Divider().overlay(viewModel.isDarkMode ?.white : Color("GrayColor"))
                 
                 TextField("Title for exercise:", text: $exercise.name)
-                    .padding([.top,.bottom],5)
-                    .foregroundColor(.white)
+                
+                    .padding(10)
+                    .foregroundColor(viewModel.isDarkMode ?.white : Color("GrayColor"))
+                    .background(Rectangle()
+                        .cornerRadius(viewModel.viewCornerRadiusSimple)
+                        .foregroundColor(viewModel.isDarkMode ? Color("backgroundColor") : Color("LightGrayColor")))
+                    .padding([.top,.bottom], 2)
                     
-                Divider().overlay(.white)
+                    
+                Divider().overlay(viewModel.isDarkMode ?.white : Color("GrayColor"))
                     .padding(.bottom,25)
                 HStack {
                     Text("Double Weight")
@@ -56,7 +62,7 @@ struct ChangeExerciseNameOrDeleteView: View {
                         }
                     Toggle("", isOn: $exercise.doubleWeight)
                 }
-                .foregroundColor(Color("MidGrayColor"))
+                .foregroundColor(viewModel.isDarkMode ? Color("MidGrayColor"): .black)
                 Divider().overlay(Color("GrayColor"))
                 HStack {
                     Text("Body Weight")
@@ -73,7 +79,7 @@ struct ChangeExerciseNameOrDeleteView: View {
                         }
                     Toggle("", isOn: $exercise.selfWeight)
                 }
-                .foregroundColor(Color("MidGrayColor"))
+                .foregroundColor(viewModel.isDarkMode ? Color("MidGrayColor"): .black)
                 Divider().overlay(Color("GrayColor"))
                 
                 Button{
@@ -90,14 +96,17 @@ struct ChangeExerciseNameOrDeleteView: View {
                     viewModel.toggleBodyAndDoubleWeight(exercise: exercise, bodyWeight: exercise.selfWeight, doubleWeight: exercise.doubleWeight)
                     dismiss()
                 }
-                .buttonStyle(GrowingButton(isDarkMode: true,width: 335,height: 45))
-                .foregroundColor(Color("DarkGrayColor"))
+                .buttonStyle(GrowingButton(isDarkMode: viewModel.isDarkMode ,width: 335,height: 45))
                 
             }
             .font(.title2)
             .fontWeight(.bold)
             .padding(20)
         }.background(Color("backgroundColor"))
+            .onTapGesture {
+                self.hideKeyboard()
+            }
+        
     }
 }
 

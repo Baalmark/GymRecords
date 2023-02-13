@@ -41,6 +41,10 @@ struct AddProgramView: View {
         }
         .background(.white)
         .position(x: viewModel.screenWidth / 2,y:400)
+        .onTapGesture {
+            self.hideKeyboard()
+            }
+        .ignoresSafeArea(.keyboard)
     }
     
 }

@@ -12,7 +12,7 @@ struct CreateNewExercise: View {
     
     @EnvironmentObject var viewModel:GymViewModel
     @Environment(\.dismiss) var dismiss
-    @Binding var typeOfExercise:GymModel.TypeOfExercise
+    @State var typeOfExercise:GymModel.TypeOfExercise
     @Binding var showView:Bool
     @State var name = ""
     @State var bodyWeight:Bool = false
@@ -27,8 +27,9 @@ struct CreateNewExercise: View {
                 dismiss()
             } label: {
                 Image(systemName: "xmark.circle.fill")
-                    .symbolRenderingMode(.hierarchical)
-                    .foregroundColor(.white)
+                    
+                    .foregroundColor(Color("LightGrayColor"))
+                    .tint(.white)
                     .fixedSize()
                     .font(.title2)
             }
@@ -37,13 +38,22 @@ struct CreateNewExercise: View {
             
             //TextField of exercise title
             VStack {
-                Divider().overlay(.white)
+                Divider().overlay(viewModel.isDarkMode ? .white : .gray)
                 
-                TextField("Title for exercise:", text: $name)
-                    .padding([.top,.bottom],5)
-                    .foregroundColor(.white)
+                TextField("", text: $name)
+                    
+                    .placeholder(when: name.isEmpty) {
+                        Text("Title for exercise")
+                            .foregroundColor(viewModel.isDarkMode ? .gray : Color("GrayColor"))
+                    }
+                    .padding(10)
+                    .foregroundColor(viewModel.isDarkMode ? .white : .black)
+                    .background(Rectangle()
+                        .cornerRadius(viewModel.viewCornerRadiusSimple)
+                        .foregroundColor(viewModel.isDarkMode ? Color("backgroundColor") : Color("LightGrayColor")))
+                    .padding([.top,.bottom], 2)
                 
-                Divider().overlay(.white)
+                Divider().overlay(viewModel.isDarkMode ? .white : .gray)
                     .padding(.bottom,25)
                 HStack {
                     Text("Double Weight")
@@ -60,7 +70,7 @@ struct CreateNewExercise: View {
                         }
                     Toggle("", isOn: $doubleWeight)
                 }
-                .foregroundColor(Color("MidGrayColor"))
+                .foregroundColor(viewModel.isDarkMode ? Color("MidGrayColor") : Color(.black))
                 Divider().overlay(Color("GrayColor"))
                 HStack {
                     Text("Body Weight")
@@ -77,7 +87,7 @@ struct CreateNewExercise: View {
                         }
                     Toggle("", isOn: $bodyWeight)
                 }
-                .foregroundColor(Color("MidGrayColor"))
+                .foregroundColor(viewModel.isDarkMode ? Color("MidGrayColor") : Color(.black))
                 Divider().overlay(Color("GrayColor"))
                 
                 Spacer()
@@ -87,11 +97,11 @@ struct CreateNewExercise: View {
                     } label: {
                         Image(systemName: "arrow.left")
                             .foregroundColor(.white)
-                            .font(.custom("Helvetica", size: 20))
+                            .font(.custom("Helvetica", size: 14))
                             .fontWeight(.bold)
-                            .padding()
+                            .padding(10)
                             .background(Circle())
-                            .foregroundColor(Color("MidGrayColor").opacity(0.1))
+                            .foregroundColor(Color("MidGrayColor").opacity(viewModel.isDarkMode ? 0.1 : 0.5))
                         
                     }
                     Spacer()
@@ -103,21 +113,25 @@ struct CreateNewExercise: View {
                             }
                             dismiss()
                         }
-                        .buttonStyle(GrowingButton(isDarkMode: true,width: 335 - 50,height: 45))
+                        .buttonStyle(GrowingButton(isDarkMode: viewModel.isDarkMode,width: 335 - 50,height: 45))
                         .foregroundColor(Color("DarkGrayColor"))
                     }
                 }
-                .padding([.leading,.trailing],name != "" ? 20 : 2)
+                .padding([.leading,.trailing],-5)
             }
             .font(.title2)
             .fontWeight(.bold)
             .padding(20)
+            
         }.background(Color("backgroundColor"))
+        .onTapGesture {
+                self.hideKeyboard()
+            }
     }
 }
 
 struct CreateNewExercise_Previews: PreviewProvider {
     static var previews: some View {
-        CreateNewExercise(typeOfExercise: .constant(.arms), showView: .constant(true)).environmentObject(GymViewModel())
+        CreateNewExercise(typeOfExercise: .arms, showView: .constant(true)).environmentObject(GymViewModel())
     }
 }

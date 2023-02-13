@@ -9,7 +9,8 @@ import SwiftUI
 
 struct DataBaseView: View {
     @EnvironmentObject var viewModel:GymViewModel
-    
+    @Environment(\.dismiss) var dismiss
+
     var body: some View {
         VStack {
             VStack{
@@ -33,8 +34,9 @@ struct DataBaseView: View {
             }
             ExercisesAndProgramsListView().environmentObject(viewModel)
         }
+        }
     }
-}
+
 
 struct DataBaseView_Previews: PreviewProvider {
     static var previews: some View {
