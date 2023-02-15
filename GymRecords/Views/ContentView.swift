@@ -116,9 +116,9 @@ struct ContentView: View {
                             viewModel.changeExercisesDB = true
                             isDataBaseSheetActive.toggle()
                         } label: {
-                            Image("weight_addProgramm")
+                            Image("weight")
                                 .resizable()
-                                .frame(width: 35,height: 35)
+                                
                         }
                         .sheet(isPresented: $isDataBaseSheetActive) {
                             DataBaseView()

@@ -41,7 +41,8 @@ struct ViewExerciseList: View {
                         } label: {
                             Image(systemName: "xmark.circle.fill")
                             
-                                .foregroundColor(Color("LightGrayColor"))
+                                .symbolRenderingMode(.hierarchical)
+                                .foregroundColor(.white)
                                 .tint(.white)
                                 .fixedSize()
                                 .font(.title2)
@@ -69,7 +70,7 @@ struct ViewExerciseList: View {
                     ForEach(Array(viewModel.exerciseList.enumerated()), id:\.offset) {index,elem in
                         HStack{
                             
-                            Image(elem.rawValue)
+                            Image(withCategory ? elem.rawValue : elem.rawValue + "N")
                             Text(elem.rawValue.capitalized)
                                 .padding(.leading,10)
                                 .frame(width: 110,height: 50,alignment: .leading)
@@ -93,7 +94,7 @@ struct ViewExerciseList: View {
                                             .font(.custom("Helvetica", size: 18))
                                     }
                                 }
-                                Image(systemName: "greaterthan")
+                                Image(systemName: "chevron.forward")
                                     .font(.footnote)
                                 
                                 
