@@ -18,6 +18,7 @@ struct CreateNewProgrammView: View {
     @State var isColorSelected:Color = .green
     @State var colorDesignStringValue:String = "green"
     @State var isShowExercises = false
+    @State private var selectedRows: [String] = []
     var body: some View {
         VStack {
             //Close button
@@ -60,7 +61,6 @@ struct CreateNewProgrammView: View {
                 .background(RoundedRectangle(cornerRadius: 15)
                     .foregroundStyle(colorDesign.gradient))
                 
-                
                 ScrollView(.horizontal,showsIndicators: false){
                     HStack(spacing:10){
                         ForEach(viewModel.colors,id:\.self) { color in
@@ -95,6 +95,7 @@ struct CreateNewProgrammView: View {
                 
                 Button {
                     isShowExercises.toggle()
+                    viewModel.changeExercisesDB = false
                 } label: {
                     Text("Add exercises")
                     Spacer()
@@ -108,6 +109,50 @@ struct CreateNewProgrammView: View {
                 .background(RoundedRectangle(cornerRadius: 15)
                     .foregroundColor(Color("DarkbackgroundViewColor")))
                 
+                
+                if viewModel.selectedExArray.isEmpty {
+                    
+                } else {
+                    List {
+                        
+                        ForEach(Array(viewModel.selectedExArray.enumerated()), id:\.offset) {index,elem in
+                            HStack(alignment:.center) {
+                                Text(elem.name)
+                                
+                                Spacer()
+                                Image(systemName: "line.3.horizontal")
+                            }
+                            
+                            .padding([.bottom,.top], 10)
+                            .font(.custom("Helvetica", size: 20))
+                            .foregroundColor(.white)
+                            .background(Color( self.selectedRows.contains(elem.name) ? "DarkbackgroundViewColor" :"backgroundDarkColor").animation(.easeInOut))
+                            .listRowBackground(Color( self.selectedRows.contains(elem.name) ? "DarkbackgroundViewColor" :"backgroundDarkColor").animation(.easeInOut))
+                            .onTapGesture {
+                                withAnimation(.easeInOut) {
+                                    if selectedRows.contains(elem.name) {
+                                        selectedRows = selectedRows.filter({$0 != elem.name})
+                                    } else {
+                                        self.selectedRows.append(elem.name)
+                                    }
+                                }
+                            }
+                        }.onDelete(perform: { indexSet in
+                            viewModel.selectedExArray.remove(atOffsets: indexSet)
+                            
+                        })
+                        .onMove(perform: { from, to in
+                            
+                        })
+                        
+                        .listRowSeparator(.hidden)
+                        
+                    }
+                    
+                    .listStyle(.plain)
+                    .padding([.leading,.trailing],-10)
+                    .scrollContentBackground(.hidden)
+                }
                 
                 Spacer()
                 if name != "",exercises.count != 0 {
@@ -128,12 +173,12 @@ struct CreateNewProgrammView: View {
             
             
         }.background(Color("backgroundDarkColor"))
-        .onTapGesture {
+            .onTapGesture {
                 self.hideKeyboard()
             }
-        .fullScreenCover(isPresented: $isShowExercises) {
-            ViewExerciseList(withCategory: false, toggleArray: $viewModel.selectedExArray, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: true).environmentObject(viewModel)
-                }
+            .fullScreenCover(isPresented: $isShowExercises) {
+                ViewExerciseList(withCategory: false, toggleArray: $viewModel.selectedExArray, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: true).environmentObject(viewModel)
+            }
     }
     
 }

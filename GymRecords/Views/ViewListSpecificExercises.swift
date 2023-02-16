@@ -32,9 +32,7 @@ struct ViewListSpecificExercises: View {
                     .fontWeight(.bold)
                     .foregroundColor(exerciseProgramming ? .white : .black)
                 // Exercise Button
-                if exerciseProgramming == false {
-                    ButtonCreateExercise(showCreateExercise: $showCreateExercise)
-                }
+                ButtonCreateExercise(showCreateExercise: $showCreateExercise).opacity(!exerciseProgramming ? 1 : 0).disabled(exerciseProgramming)
                 VStack{
                     
                     ForEach(viewModel.arrayExercises.indices,id:\.self) { id in
@@ -89,6 +87,7 @@ struct ViewListSpecificExercises: View {
                         viewModel.isSelectedSomeExercise = true
                     }
                     
+                    
                     dismiss()
                 } label: {
                     HStack {
@@ -121,7 +120,7 @@ struct ViewListSpecificExercises: View {
             
         }
     }
-        
+    
 }
 
 
@@ -139,38 +138,38 @@ struct ExerciseToggle: View {
     @Binding var toggleArray:[Exercise]
     @Binding var toggleArrayCounter:Int
     var darkMode:Bool
-        var body: some View {
-            VStack(spacing: 0) {
-                Toggle(exercise.name, isOn: $toggle)
-                    .font(.custom("Helvetica",size: 22))
-                    .fontWeight(.bold)
-                    .onChange(of: toggle) { elem in
+    var body: some View {
+        VStack(spacing: 0) {
+            Toggle(exercise.name, isOn: $toggle)
+                .font(.custom("Helvetica",size: 22))
+                .fontWeight(.bold)
+                .onChange(of: toggle) { elem in
+                    
+                    if elem == true {
                         
-                        if elem == true {
-                            
-                            print("Im goin to true")
-                            viewModel.selectingExercise(exercise: exercise, isSelected: toggle)
-                            toggleArrayCounter = viewModel.selectedExArray.count
-                            toggleArray = viewModel.selectedExArray
-                            
-                            
-                        } else {
-                            
-                            print("Im to false")
-                            viewModel.unselectingExercise(exercise: exercise, isSelected: toggle)
-                            toggleArrayCounter = viewModel.selectedExArray.count
-                            toggleArray = viewModel.selectedExArray
-                            
-                        }
+                        print("Im goin to true")
+                        viewModel.selectingExercise(exercise: exercise, isSelected: toggle)
+                        toggleArrayCounter = viewModel.selectedExArray.count
+                        toggleArray = viewModel.selectedExArray
                         
+                        
+                    } else {
+                        
+                        print("Im to false")
+                        viewModel.unselectingExercise(exercise: exercise, isSelected: toggle)
+                        toggleArrayCounter = viewModel.selectedExArray.count
+                        toggleArray = viewModel.selectedExArray
                         
                     }
                     
-            }
-            .toggleStyle(CheckboxStyle(darkMode: darkMode))
-            .padding(.horizontal)
+                    
+                }
+            
         }
+        .toggleStyle(CheckboxStyle(darkMode: darkMode))
+        .padding(.horizontal)
     }
+}
 
 
 
@@ -178,7 +177,7 @@ struct ExerciseToggle: View {
 struct CheckboxStyle: ToggleStyle {
     var darkMode:Bool
     func makeBody(configuration: Self.Configuration) -> some View {
-
+        
         return HStack {
             configuration.label
             Spacer()
@@ -187,10 +186,10 @@ struct CheckboxStyle: ToggleStyle {
                 .frame(width: 18, height: 18)
                 .foregroundColor(darkMode ? (configuration.isOn ? .white : Color("backgroundDarkColor")) : (configuration.isOn ? .black : .white))
                 .font(.custom("Helvetica", size: 22))
-                
+            
         }
         .onTapGesture { configuration.isOn.toggle()}
-
+        
     }
 }
 
@@ -210,12 +209,12 @@ struct ViewListSpecificExercises_Previews: PreviewProvider {
         ViewListSpecificExercises(backButtonLabel: .constant(""),
                                   toggleArray: .constant([Exercise(type: .chest, name: "Push ups",
                                                                    doubleWeight: false, selfWeight: true,
-                                                                   isSelected: true)]),typeOfExercise: .cardio,
+                                                                   isSelected: true)]),typeOfExercise: .arms,
                                   isPresented: .constant(true),
                                   selectedExerciseArray: .constant([]),
                                   exercise: Exercise(type: .chest, name: "Push ups",
                                                      doubleWeight: false, selfWeight: true,
-                                                     isSelected: true), exerciseProgramming: false)
+                                                     isSelected: true), exerciseProgramming: true)
         .environmentObject(GymViewModel())
     }
 }

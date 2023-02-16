@@ -37,6 +37,9 @@ struct ViewExerciseList: View {
                             .fontWeight(.bold)
                         Spacer()
                         Button {
+                            if programmingExercise == true {
+                                viewModel.changeExercisesDB = true
+                            }
                             dismiss()
                         } label: {
                             Image(systemName: "xmark.circle.fill")
@@ -138,11 +141,11 @@ struct ViewExerciseList: View {
                 Spacer()
                 if !withCategory, programmingExercise {
                     
-                    Button("Ready :\(viewModel.selectedExArray.count)") {
-                        
+                    Button("Add \(viewModel.selectedExArray.count)") {
+                        dismiss()
                     }.buttonStyle(GrowingButton(isDarkMode: true,width: 335,height: 45))
                         .tint(.white)
-                        .font(.title2)
+                        .font(.title3)
                         .fontWeight(.semibold)
                         .offset(x:0,y:-20)
                         .opacity(viewModel.selectedExArray.isEmpty ? 0 : 1)
