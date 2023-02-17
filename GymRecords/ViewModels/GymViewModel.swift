@@ -10,8 +10,9 @@ class GymViewModel: ObservableObject {
     @Published var changeExercisesDB:Bool = false
     @Published var isDarkMode:Bool = false
     @Published var selectedExArray:[Exercise] = []
-    var trainingPlannedArray:[GymModel.TrainingInfo]
     @Published var databaseInfoTitle:[(String,Int)]
+    @Published var backButtonLabel:String = ""
+    var trainingPlannedArray:[GymModel.TrainingInfo]
     var colors = GymModel.colors
     var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises
     var programList:[GymModel.Program] = GymModel.programs
@@ -20,16 +21,8 @@ class GymViewModel: ObservableObject {
     var arrayExercises:[Exercise] = GymModel.arrayOfAllCreatedExercises
     
     //Computed Property
-    var selectedCounterLabel:[Int] {
-        var array:[Int] = []
-        for element in exerciseList {
-            let result = findNumberOfSelectedExerciseByTypeVM(
-                type: element, array: arrayExercises)
-            array.append(result)
-            
-        }
-        return array
-    }
+    @Published var selectedCounterLabel:[Int] = []
+        
     
 
     
@@ -58,6 +51,18 @@ class GymViewModel: ObservableObject {
         }
     }
     
+//Compure selected Counter Label
+    func computeSelectedCounderLabel() -> Array<Int> {
+        var array:[Int] = []
+        for element in exerciseList {
+            let result = findNumberOfSelectedExerciseByTypeVM(
+                type: element, array: arrayExercises)
+            array.append(result)
+            
+        }
+        return array
+    }
+    
 //Exercise selection
     func selectingExercise(exercise:Exercise,isSelected:Bool) {
         
@@ -70,11 +75,28 @@ class GymViewModel: ObservableObject {
                 arrayExercises[i].isSelected = newItem.isSelected
             }
         }
+    }
+    
+//Couple exercises unselection
+    func unselectingCoupleOfExercise(arrayOfTitles:[String] = [],arrayOfExercises:[Exercise] = [],isSelected:Bool) {
         
-        for i in selectedExArray {
-            print(i.name,i.isSelected)
+        if arrayOfExercises.isEmpty, !arrayOfTitles.isEmpty {
+            var newArray:[Exercise] = []
+            for element in arrayOfTitles {
+                if let newElement = findExercise(name: element) {
+                    newArray.append(newElement)
+                }
+            }
+            
+            for newElement in newArray {
+                unselectingExercise(exercise: newElement, isSelected: isSelected)
+            }
+            
+        } else if !arrayOfExercises.isEmpty{
+            for element in arrayOfExercises {
+                unselectingExercise(exercise: element, isSelected: isSelected)
+            }
         }
-        
     }
 //Exercise unselection
     func unselectingExercise(exercise:Exercise,isSelected:Bool) {
@@ -87,14 +109,18 @@ class GymViewModel: ObservableObject {
                 arrayExercises[i].isSelected = newItem.isSelected
             }
         }
-        
-        
-        for i in selectedExArray {
-            print(i.name,i.isSelected)
-        }
-        
-        
     }
+    
+//Find exercise from array by name
+    func findExercise(name:String) -> Exercise?{
+        for element in arrayExercises {
+            if element.name == name {
+                return element
+            }
+        }
+        return nil
+    }
+    
     func clearSelectedExArray() {
         self.selectedExArray = []
         
@@ -104,7 +130,7 @@ class GymViewModel: ObservableObject {
             }
         }
     }
-    
+
 //Find a number of exercise same type.
     func findNumberOfExerciseOneType(type:GymModel.TypeOfExercise,array:Array<Exercise>) -> Int {
         return gymModel.findNumberOfExerciseOneType(type: type, array: array)

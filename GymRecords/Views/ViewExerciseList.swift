@@ -15,9 +15,6 @@ struct ViewExerciseList: View {
     @State var isTapped = false
     @State var selectedExer: GymModel.TypeOfExercise? = nil
     @State var showOverlay = false
-    @Binding var toggleArray:[Exercise]
-    @State var backButtonLabel:String = ""
-    @State var selectedExerciseArrayTitle:[Int] = []
     @Binding var shouldHideButton:Bool
     @State var programmingExercise:Bool
     var body: some View {
@@ -63,7 +60,7 @@ struct ViewExerciseList: View {
                             .fontWeight(.bold)
                             .padding(20)
                             .padding(.bottom,20)
-                            
+                        
                     }
                 }
                 //List of exercises
@@ -85,15 +82,15 @@ struct ViewExerciseList: View {
                             Spacer()
                             // Display count of exercise and selected exercise if they are there
                             HStack {
-                                if selectedExerciseArrayTitle.isEmpty { // If selected exercise dont exist
+                                if viewModel.selectedCounterLabel.isEmpty { // If selected exercise dont exist
                                     Text("\(viewModel.findNumberOfExerciseOneType(type: elem, array: viewModel.arrayExercises))")
                                         .font(.custom("Helvetica", size: 18))
                                 } else {
-                                    if selectedExerciseArrayTitle[index] == 0 { // If selected exercises dont exist in some category
+                                    if viewModel.selectedCounterLabel[index] == 0 { // If selected exercises dont exist in some category
                                         Text("\(viewModel.findNumberOfExerciseOneType(type: elem, array: viewModel.arrayExercises))")
                                             .font(.custom("Helvetica", size: 18))
                                     } else { // Display selected exercises
-                                        Text("Selected: \(selectedExerciseArrayTitle[index])")
+                                        Text("Selected: \(viewModel.selectedCounterLabel[index])")
                                             .font(.custom("Helvetica", size: 18))
                                     }
                                 }
@@ -119,16 +116,14 @@ struct ViewExerciseList: View {
                         .fullScreenCover(item: self.$selectedExer) { selected in
                             if withCategory {
                                 
-                                ViewListSpecificExercises(backButtonLabel: $backButtonLabel, toggleArray: $toggleArray,
-                                                          typeOfExercise: selected,isPresented: $isTapped,
-                                                          selectedExerciseArray:$selectedExerciseArrayTitle, exerciseProgramming: false).environmentObject(viewModel)
+                                ViewListSpecificExercises(
+                                    typeOfExercise: selected,isPresented: $isTapped, exerciseProgramming: false).environmentObject(viewModel)
                             } else {
                                 if programmingExercise == false {
                                     CreateNewExercise(typeOfExercise: selected, showView: $isTapped, isNoCategoryCreating: true).environmentObject(viewModel)
                                 } else {
-                                    ViewListSpecificExercises(backButtonLabel: $backButtonLabel, toggleArray: $toggleArray,
-                                                              typeOfExercise: selected,isPresented: $isTapped,
-                                                              selectedExerciseArray:$selectedExerciseArrayTitle, exerciseProgramming: true).environmentObject(viewModel)
+                                    ViewListSpecificExercises(
+                                        typeOfExercise: selected,isPresented: $isTapped, exerciseProgramming: true).environmentObject(viewModel)
                                 }
                             }
                             
@@ -170,10 +165,10 @@ struct ViewExerciseList: View {
 struct ViewExerciseList_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ViewExerciseList(withCategory: true, toggleArray: .constant([]), shouldHideButton: .constant(true), programmingExercise: false).environmentObject(GymViewModel())
+            ViewExerciseList(withCategory: true, shouldHideButton: .constant(true), programmingExercise: false).environmentObject(GymViewModel())
             
-            ViewExerciseList(withCategory: false, toggleArray: .constant([]), shouldHideButton: .constant(true), programmingExercise: true).environmentObject(GymViewModel())
-            ViewExerciseList(withCategory: false, toggleArray: .constant([]), shouldHideButton: .constant(true), programmingExercise: false).environmentObject(GymViewModel())
+            ViewExerciseList(withCategory: false, shouldHideButton: .constant(true), programmingExercise: true).environmentObject(GymViewModel())
+            ViewExerciseList(withCategory: false, shouldHideButton: .constant(true), programmingExercise: false).environmentObject(GymViewModel())
             
         }
     }

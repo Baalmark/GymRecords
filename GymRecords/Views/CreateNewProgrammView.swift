@@ -19,6 +19,7 @@ struct CreateNewProgrammView: View {
     @State var colorDesignStringValue:String = "green"
     @State var isShowExercises = false
     @State private var selectedRows: [String] = []
+    @State private var showDeleteButton = false
     var body: some View {
         VStack {
             //Close button
@@ -96,6 +97,7 @@ struct CreateNewProgrammView: View {
                 Button {
                     isShowExercises.toggle()
                     viewModel.changeExercisesDB = false
+                    viewModel.selectedCounterLabel = viewModel.computeSelectedCounderLabel()
                 } label: {
                     Text("Add exercises")
                     Spacer()
@@ -135,14 +137,21 @@ struct CreateNewProgrammView: View {
                                     } else {
                                         self.selectedRows.append(elem.name)
                                     }
+                                    
+                                    if selectedRows.count >= 1 {
+                                        showDeleteButton = true
+                                    }
                                 }
                             }
                         }.onDelete(perform: { indexSet in
-                            viewModel.selectedExArray.remove(atOffsets: indexSet)
-                            
+                            if let firtIndex = indexSet.first {
+                                viewModel.unselectingExercise(exercise: viewModel.selectedExArray[firtIndex], isSelected: false)
+                                viewModel.backButtonLabel = "\(viewModel.selectedExArray.count == 0 ? "" : "Selected: \(viewModel.selectedExArray.count)")"
+                            viewModel.selectedCounterLabel = viewModel.computeSelectedCounderLabel()
+                            }
                         })
                         .onMove(perform: { from, to in
-                            
+                            viewModel.selectedExArray.move(fromOffsets: from, toOffset: to)
                         })
                         
                         .listRowSeparator(.hidden)
@@ -153,7 +162,13 @@ struct CreateNewProgrammView: View {
                     .padding([.leading,.trailing],-10)
                     .scrollContentBackground(.hidden)
                 }
-                
+                Spacer()
+                Button {
+                    viewModel.unselectingCoupleOfExercise(arrayOfTitles: selectedRows, isSelected: false)
+                } label: {
+                    Text("Remove")
+                        .foregroundColor(Color("RedColorScarlet"))
+                }
                 Spacer()
                 if name != "",exercises.count != 0 {
                     Button("Create exercise") {
@@ -177,7 +192,7 @@ struct CreateNewProgrammView: View {
                 self.hideKeyboard()
             }
             .fullScreenCover(isPresented: $isShowExercises) {
-                ViewExerciseList(withCategory: false, toggleArray: $viewModel.selectedExArray, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: true).environmentObject(viewModel)
+                ViewExerciseList(withCategory: false, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: true).environmentObject(viewModel)
             }
     }
     

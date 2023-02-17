@@ -79,7 +79,7 @@ struct ExercisesAndProgramsListView: View {
             if !didTap {
                 ScrollView {
                     ButtonCreateExercise(showCreateExercise: $createExericseWithCategory)
-                    ViewExerciseList(withCategory: true, toggleArray: $viewModel.selectedExArray, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: false).environmentObject(viewModel)
+                    ViewExerciseList(withCategory: true, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: false).environmentObject(viewModel)
                         .overlay(
                             GeometryReader { geo in
                                 Color.clear.onAppear {
@@ -109,7 +109,7 @@ struct ExercisesAndProgramsListView: View {
             }
         }
         .fullScreenCover(isPresented: $createExericseWithCategory) {
-            ViewExerciseList(withCategory: false, toggleArray: $viewModel.selectedExArray, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: false).environmentObject(viewModel)
+            ViewExerciseList(withCategory: false, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: false).environmentObject(viewModel)
         }
         
         
