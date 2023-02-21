@@ -47,8 +47,10 @@ struct ViewProgramsList: View {
                     .onTapGesture {
                         isSheetActivated.toggle()
                     }
-                }.sheet(isPresented: $isSheetActivated) {
-                    EditOrRemoveTheProgram()
+                    .sheet(isPresented: $isSheetActivated) {
+                        EditOrRemoveTheProgram(program:$viewModel.programList[elem])
+                }
+                
                 }
             }
             Spacer()

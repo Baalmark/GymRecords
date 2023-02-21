@@ -223,10 +223,6 @@ class Exercise:Equatable,Identifiable {
 }
 
 //MARK: Extensions
-extension GymModel.Program {
-    static var exercises = [Exercise(type: GymModel.TypeOfExercise.back, name: "Back",doubleWeight: false,selfWeight: false,isSelected: false)]
-}
-
 
 extension GymModel {
     static var colors = ["green","red","cyan","purple","yellow","gray","blue","orange","pink","indigo","teal"]
@@ -254,4 +250,9 @@ extension GymModel {
     static var doubleWeightAlertText = "For exercises with two projectiles (for example, with two dumbbells) specify the weight of only one projectile, then the tonnage statistics will be doubled and calculated correctly"
     
     static var bodyWeightAlertText = "For exercises with own weight (e.g. push-ups) instead of tonnage statistics will be displayed repetition statistics. If necessary, you can record the weight of the additional weight or leave the field empty"
+}
+
+
+extension GymModel.Program {
+    static var exercises = GymModel.arrayOfAllCreatedExercises
 }

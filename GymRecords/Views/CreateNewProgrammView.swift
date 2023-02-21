@@ -49,7 +49,7 @@ struct CreateNewProgrammView: View {
                     
                     TextField("",text:$description)
                         .font(.headline)
-                        .placeholder(when: name.isEmpty) {
+                        .placeholder(when: description.isEmpty) {
                             Text("Description")
                                 .foregroundColor(.white)
                                 .font(.headline)
@@ -125,8 +125,8 @@ struct CreateNewProgrammView: View {
                                 Image(systemName: "line.3.horizontal")
                             }
                             
-                            .padding([.bottom,.top], 10)
-                            .font(.custom("Helvetica", size: 20))
+                            .padding(10)
+                            .font(.custom("Helvetica", size: 18))
                             .foregroundColor(.white)
                             .background(Color( self.selectedRows.contains(elem.name) ? "DarkbackgroundViewColor" :"backgroundDarkColor").animation(.easeInOut))
                             .listRowBackground(Color( self.selectedRows.contains(elem.name) ? "DarkbackgroundViewColor" :"backgroundDarkColor").animation(.easeInOut))
@@ -147,7 +147,7 @@ struct CreateNewProgrammView: View {
                             if let firtIndex = indexSet.first {
                                 viewModel.unselectingExercise(exercise: viewModel.selectedExArray[firtIndex], isSelected: false)
                                 viewModel.backButtonLabel = "\(viewModel.selectedExArray.count == 0 ? "" : "Selected: \(viewModel.selectedExArray.count)")"
-                            viewModel.selectedCounterLabel = viewModel.computeSelectedCounderLabel()
+                                viewModel.selectedCounterLabel = viewModel.computeSelectedCounderLabel()
                             }
                         })
                         .onMove(perform: { from, to in
@@ -158,30 +158,50 @@ struct CreateNewProgrammView: View {
                         
                     }
                     
+                    
                     .listStyle(.plain)
                     .padding([.leading,.trailing],-10)
                     .scrollContentBackground(.hidden)
                 }
                 Spacer()
-                Button {
-                    viewModel.unselectingCoupleOfExercise(arrayOfTitles: selectedRows, isSelected: false)
-                } label: {
-                    Text("Remove")
-                        .foregroundColor(Color("RedColorScarlet"))
+                HStack {
+                    Button {
+                        viewModel.unselectingCoupleOfExercise(arrayOfTitles: selectedRows, isSelected: false)
+                    } label: {
+                        Text("Remove")
+                            .font(.custom("Helvetica", size: 16))
+                            .foregroundColor(Color("RedColorScarlet"))
+                    }
+                    Spacer()
+                    Button {
+                        //
+                    } label: {
+                        Text("Super set")
+                            .font(.custom("Helvetica", size: 16))
+                            .foregroundColor(.white)
+                    }.opacity(selectedRows.count > 1 ? 0 : 1)
                 }
+                .padding(20)
+                .opacity(selectedRows.isEmpty ? 0 : 1)
+                
                 Spacer()
-                if name != "",exercises.count != 0 {
-                    Button("Create exercise") {
-                        if name != "" {
-                            let newProgramm = GymModel.Program(programTitle: name, description: description, colorDesign: colorDesignStringValue, exercises: exercises)
-                        }
+                if !description.isEmpty, !name.isEmpty, !viewModel.selectedExArray.isEmpty {
+                    Button("Save") {
+                        exercises = viewModel.selectedExArray
+                        let newProgramm = GymModel.Program(programTitle: name, description: description, colorDesign: colorDesignStringValue, exercises: exercises)
+                        viewModel.createNewProgram(program: newProgramm)
+                        viewModel.clearSelectedExArray()
+                        exercises.removeAll()
                         dismiss()
                     }
+                    
                     .buttonStyle(GrowingButton(isDarkMode: true,width: 335 - 50,height: 45))
                     .foregroundColor(Color("DarkGrayColor"))
+                    
                 }
                 
             }
+            
             .font(.title2)
             .fontWeight(.bold)
             .padding(10)
@@ -191,6 +211,7 @@ struct CreateNewProgrammView: View {
             .onTapGesture {
                 self.hideKeyboard()
             }
+            .ignoresSafeArea(.keyboard)
             .fullScreenCover(isPresented: $isShowExercises) {
                 ViewExerciseList(withCategory: false, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: true).environmentObject(viewModel)
             }

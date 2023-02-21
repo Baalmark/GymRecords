@@ -12,10 +12,12 @@ class GymViewModel: ObservableObject {
     @Published var selectedExArray:[Exercise] = []
     @Published var databaseInfoTitle:[(String,Int)]
     @Published var backButtonLabel:String = ""
+    @Published var programList:[GymModel.Program] = GymModel.programs
+    
+    
     var trainingPlannedArray:[GymModel.TrainingInfo]
     var colors = GymModel.colors
     var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises
-    var programList:[GymModel.Program] = GymModel.programs
     var imagesArray:[UIImage] = []
     var stringExerciseList:[String] = []
     var arrayExercises:[Exercise] = GymModel.arrayOfAllCreatedExercises
@@ -37,7 +39,7 @@ class GymViewModel: ObservableObject {
         self.gymModel = GymModel(programTitle: GymModel.Program(programTitle: "Test", description: "", colorDesign: "White", exercises: GymModel.programs[0].exercises))
         self.selectedExArray = []
         self.trainingPlannedArray = [GymModel.TrainingInfo(name: "FirstTrain", arrayOfExercises: arrayExercises, Date: .distantPast)]
-        self.databaseInfoTitle = [("WorkOut",trainingPlannedArray.count),("Programs",programList.count),("Exercises",arrayExercises.count)]
+        self.databaseInfoTitle = [("WorkOut",trainingPlannedArray.count),("Programs",GymModel.programs.count),("Exercises",arrayExercises.count)]
     }
     
     
@@ -159,7 +161,7 @@ class GymViewModel: ObservableObject {
         let newArray = gymModel.replaceExerciseInArray(exercise: newExercise, array: arrayExercises)
         arrayExercises = newArray
     }
-//Create new Exercise
+//Create a new Exercise
     func createNewExercise(exercise:Exercise) {
         let newArray = gymModel.createNewExercise(exercise: exercise, array: arrayExercises)
         arrayExercises = newArray
@@ -167,7 +169,16 @@ class GymViewModel: ObservableObject {
         //Reload DB Info
         databaseInfoTitle = gymModel.reloadDataBaseInfo(trainArray: trainingPlannedArray, progArray: programList, arrayExercises: arrayExercises)
     }
+    
+// Create a new program
+    func createNewProgram(program:GymModel.Program) {
+        programList.append(program)
+        
+        //Reload DB Info
+        databaseInfoTitle = gymModel.reloadDataBaseInfo(trainArray: trainingPlannedArray, progArray: programList, arrayExercises: arrayExercises)
+    }
 }
+
 
 //MARK: Extensions
 
