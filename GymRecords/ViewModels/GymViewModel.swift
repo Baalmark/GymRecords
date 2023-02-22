@@ -172,10 +172,32 @@ class GymViewModel: ObservableObject {
     
 // Create a new program
     func createNewProgram(program:GymModel.Program) {
-        programList.append(program)
+        var flag = false
+        for (index,elements) in programList.enumerated() {
+            if elements.programTitle == program.programTitle {
+                programList[index] = program
+                flag = true
+            }
+        }
+        if flag == false {
+            programList.append(program)
+            gymModel.addProgram(program)
+            //Reload DB Info
+            databaseInfoTitle = gymModel.reloadDataBaseInfo(trainArray: trainingPlannedArray, progArray: programList, arrayExercises: arrayExercises)
+        }
+    }
+//Remove some program
+    
+    func removeProgram(program:GymModel.Program) {
         
-        //Reload DB Info
-        databaseInfoTitle = gymModel.reloadDataBaseInfo(trainArray: trainingPlannedArray, progArray: programList, arrayExercises: arrayExercises)
+        for (index,element) in programList.enumerated() {
+            if element.programTitle == program.programTitle {
+                programList.remove(at: index)
+                gymModel.removeProgram(index)
+            }
+        }
+        
+        
     }
 }
 
@@ -235,6 +257,33 @@ extension View {
         ZStack(alignment: alignment) {
             placeholder().opacity(shouldShow ? 1 : 0)
             self
+        }
+    }
+    
+//MARK: Blurred Sheet Extension View
+    func blurredSheet<Content:View>(_ style: AnyShapeStyle, show: Binding<Bool>,onDismiss:
+                                    @escaping () -> (),@ViewBuilder content:@escaping ()->Content)->some View {
+        self
+            .sheet(isPresented: show, onDismiss: onDismiss) {
+                content()
+                    .background(RemovebackgroundColor())
+                    .frame(maxWidth: .infinity,maxHeight: .infinity)
+                    .background {
+                        Rectangle()
+                            .fill(style)
+                            .ignoresSafeArea(.container,edges: .all)
+                    }
+            }
+    }
+}
+//MARK: Remove background color
+fileprivate struct RemovebackgroundColor: UIViewRepresentable {
+    func makeUIView(context: Context) -> UIView {
+        return UIView()
+    }
+    func updateUIView(_ uiView: UIView, context: Context) {
+        DispatchQueue.main.async {
+            uiView.superview?.superview?.backgroundColor = .clear
         }
     }
 }

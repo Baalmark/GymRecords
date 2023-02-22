@@ -11,15 +11,17 @@ struct CreateNewProgrammView: View {
     
     @EnvironmentObject var viewModel:GymViewModel
     @Environment(\.dismiss) var dismiss
-    @State var name = ""
-    @State var description = ""
+    @Binding var name:String
+    @Binding var description:String
     @State var colorDesign:Color = .green
-    @State var exercises:[Exercise] = []
+    @Binding var exercises:[Exercise]
     @State var isColorSelected:Color = .green
-    @State var colorDesignStringValue:String = "green"
+    @Binding var colorDesignStringValue:String
     @State var isShowExercises = false
     @State private var selectedRows: [String] = []
     @State private var showDeleteButton = false
+    
+    
     var body: some View {
         VStack {
             //Close button
@@ -72,8 +74,8 @@ struct CreateNewProgrammView: View {
                                         
                                         
                                         colorDesignStringValue = color
-                                        colorDesign = Color[color]
-                                        isColorSelected = Color[color]
+                                        colorDesign = Color[colorDesignStringValue]
+                                        isColorSelected = Color[colorDesignStringValue]
                                         
                                         
                                     }
@@ -221,6 +223,6 @@ struct CreateNewProgrammView: View {
 
 struct CreateNewProgrammView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateNewProgrammView().environmentObject(GymViewModel())
+        CreateNewProgrammView(name: .constant(""), description: .constant(""), exercises: .constant([]), colorDesignStringValue: .constant("green")).environmentObject(GymViewModel())
     }
 }

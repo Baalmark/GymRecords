@@ -11,6 +11,7 @@ struct ViewProgramsList: View {
     @EnvironmentObject var viewModel:GymViewModel
     @State var isSheetActivated = false
     @State var createNewProgrammSheet = false
+    @State var newProgram = GymModel.Program(programTitle: "", description: "", colorDesign: "green", exercises: [])
     var body: some View {
         VStack{
 // Add Programm Button
@@ -37,7 +38,7 @@ struct ViewProgramsList: View {
                 .padding(10)
             }
             .fullScreenCover(isPresented: $createNewProgrammSheet) {
-                CreateNewProgrammView()
+                CreateNewProgrammView(name: $newProgram.programTitle, description: $newProgram.description, exercises: $newProgram.exercises, colorDesignStringValue: $newProgram.colorDesign)
             }
 // List of created custom Programms
             

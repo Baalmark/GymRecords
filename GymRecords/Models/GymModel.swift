@@ -24,7 +24,7 @@ struct GymModel {
         self.programTitle = programTitle
         self.programs = programs
         self.arrayOfPlannedTrainings = []
-        self.createdPrograms = []
+        self.createdPrograms = GymModel.programs
     }
     //MARK: Program Struct
     struct Program {
@@ -191,6 +191,16 @@ struct GymModel {
     //Reload data to DataBase info title
     func reloadDataBaseInfo(trainArray: [GymModel.TrainingInfo],progArray:[Program],arrayExercises:[Exercise]) -> [(String, Int)] {
         return [("WorkOut",trainArray.count),("Programms",progArray.count),("Exercises",arrayExercises.count)]
+    }
+    
+    //Add program
+    mutating func addProgram(_ program:Program) {
+        createdPrograms.append(program)
+    }
+    
+    //Remove program
+    mutating func removeProgram(_ index:Int) {
+            createdPrograms.remove(at: index)
     }
 }
 

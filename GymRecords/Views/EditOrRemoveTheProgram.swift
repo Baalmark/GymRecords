@@ -13,6 +13,9 @@ struct EditOrRemoveTheProgram: View {
     @Environment(\.dismiss) var dismiss
     @Binding var program:GymModel.Program
     @State var showSheet:Bool = false
+    @State var showAlert = false
+    @State var IsProgramDeleted = false
+    @State var isEditProgram = false
     
     var body: some View {
         VStack(alignment:.leading){
@@ -68,33 +71,55 @@ struct EditOrRemoveTheProgram: View {
                 .background(Circle()
                     .frame(width: 40,height: 40)
                     .foregroundColor(Color("MidGrayColor")))
-                .sheet(isPresented: $showSheet) {
+                .blurredSheet(.init(.ultraThinMaterial), show: $showSheet) {
+                    
+                } content: {
                     VStack {
-                        Capsule()
-                            .fill(.gray)
-                            .frame(width: 45, height: 5)
-                            .offset(y:-80)
                         Button {
+                            showAlert.toggle()
+                            
                             
                         } label: {
                             Text("Delete program")
+                                .foregroundStyle(Color("RedColorScarlet").gradient)
                         }
-                        .padding(.bottom,20)
+                        .padding(.bottom,10)
+                        .alert(isPresented:$showAlert, content:  {
+                            Alert(title: Text("Are you sure?"),message:Text("This action cannot be undone"), primaryButton: .default(Text("Yes"),action: {
+                                
+                                viewModel.removeProgram(program: program)
+                                IsProgramDeleted.toggle()
+                                showSheet.toggle()
+                            }), secondaryButton: .cancel(Text("Cancel")))
+                            
+                        })
                         
                         Button {
-                            
+                            isEditProgram.toggle()
+                            viewModel.selectedExArray = program.exercises
                         } label: {
                             Text("Edit program")
+                                .foregroundStyle(.white.gradient)
+                            
+                        }
+                        .fullScreenCover(isPresented: $isEditProgram) {
+                            CreateNewProgrammView(name: $program.programTitle, description: $program.description, exercises: $program.exercises, colorDesignStringValue: $program.colorDesign)
+                            
                         }
                     }
-                    .presentationDetents([.large,.medium,.fraction(0.3)])
+                    .font(.custom("Helvetica", size: 25))
+                    .fontWeight(.bold)
+                    .presentationDetents([.fraction(0.25)])
                     .frame(maxWidth: .infinity,maxHeight: .infinity)
-                    .background(
-                        Rectangle()
-                            .fill(.black)
-                            .ignoresSafeArea(.container,edges: .all))
-                    .presentationDragIndicator(.hidden)
+                    .presentationDragIndicator(.visible)
                     
+                    
+                    
+                }
+                .onDisappear {
+                    if IsProgramDeleted {
+                        dismiss()
+                    }
                 }
                 
                 
