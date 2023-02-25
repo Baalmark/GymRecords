@@ -99,7 +99,9 @@ struct CreateNewExercise: View {
                 Spacer()
                 HStack {
                     Button() {
-                        dismiss()
+                        
+                            viewModel.isShowedCreateNewExerciseList.toggle()
+                        
                     } label: {
                         Image(systemName: "arrow.left")
                             .symbolRenderingMode(.hierarchical)

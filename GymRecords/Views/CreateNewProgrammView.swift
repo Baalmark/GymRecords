@@ -192,9 +192,10 @@ struct CreateNewProgrammView: View {
                         exercises = viewModel.selectedExArray
                         let newProgramm = GymModel.Program(programTitle: name, description: description, colorDesign: colorDesignStringValue, exercises: exercises)
                         viewModel.createNewProgram(program: newProgramm)
-                        viewModel.clearSelectedExArray()
-                        exercises.removeAll()
                         dismiss()
+                        viewModel.clearSelectedExArray()
+                        
+                        
                     }
                     
                     .buttonStyle(GrowingButton(isDarkMode: true,width: 335 - 50,height: 45))

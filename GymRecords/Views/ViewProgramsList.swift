@@ -11,10 +11,11 @@ struct ViewProgramsList: View {
     @EnvironmentObject var viewModel:GymViewModel
     @State var isSheetActivated = false
     @State var createNewProgrammSheet = false
+    @State var selectedProgram:GymModel.Program? = nil
     @State var newProgram = GymModel.Program(programTitle: "", description: "", colorDesign: "green", exercises: [])
     var body: some View {
         VStack{
-// Add Programm Button
+            // Add Programm Button
             VStack{
                 Button {
                     createNewProgrammSheet.toggle()
@@ -40,25 +41,32 @@ struct ViewProgramsList: View {
             .fullScreenCover(isPresented: $createNewProgrammSheet) {
                 CreateNewProgrammView(name: $newProgram.programTitle, description: $newProgram.description, exercises: $newProgram.exercises, colorDesignStringValue: $newProgram.colorDesign)
             }
-// List of created custom Programms
+            // List of created custom Programms
             
             VStack {
                 ForEach(viewModel.programList.indices,id:\.self) { elem in
                     ProgramItemListView(programm: $viewModel.programList[elem])
-                    .onTapGesture {
-                        isSheetActivated.toggle()
-                    }
-                    .sheet(isPresented: $isSheetActivated) {
-                        EditOrRemoveTheProgram(program:$viewModel.programList[elem])
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+//                                self.selectedProgram = viewModel.programList[elem]
+//                                isSheetActivated.toggle()
+                                viewModel.showedEdirOrRemoveProgram = viewModel.programList[elem]
+                                viewModel.isShowedEditOrRemoveView.toggle()
+                            }
+                        }
+                    //                        .fullScreenCover(item: self.$selectedProgram) { prog in
+                    //                            EditOrRemoveTheProgram(program: prog, isShowedView: $isSheetActivated)
+                    //                        }
                 }
                 
-                }
             }
-            Spacer()
+                Spacer()
         }
         
     }
+    
 }
+
 
 
 

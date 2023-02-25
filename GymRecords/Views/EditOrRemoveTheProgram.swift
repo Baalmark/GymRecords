@@ -11,12 +11,12 @@ struct EditOrRemoveTheProgram: View {
     
     @EnvironmentObject var viewModel:GymViewModel
     @Environment(\.dismiss) var dismiss
-    @Binding var program:GymModel.Program
+    @State var program:GymModel.Program
     @State var showSheet:Bool = false
     @State var showAlert = false
     @State var IsProgramDeleted = false
     @State var isEditProgram = false
-    
+    @Binding var isShowedView:Bool
     var body: some View {
         VStack(alignment:.leading){
             Text("Program")
@@ -36,7 +36,7 @@ struct EditOrRemoveTheProgram: View {
                             .padding(.leading,10)
                             .frame(width: 300,height: 50,alignment: .leading)
                             .foregroundColor(.black)
-                            .font(.custom("Helvetica", size: 20))
+                            .font(.custom("Helvetica", size: 16))
                             .fontWeight(.bold)
                     }
                     .padding(.leading,20)
@@ -48,7 +48,9 @@ struct EditOrRemoveTheProgram: View {
             HStack {
                 //Back button
                 Button {
-                    dismiss()
+                    withAnimation(.easeInOut) {
+                        viewModel.isShowedEditOrRemoveView.toggle()
+                    }
                 } label: {
                     Image(systemName: "arrow.left")
                         .foregroundColor(.white)
@@ -88,8 +90,10 @@ struct EditOrRemoveTheProgram: View {
                             Alert(title: Text("Are you sure?"),message:Text("This action cannot be undone"), primaryButton: .default(Text("Yes"),action: {
                                 
                                 viewModel.removeProgram(program: program)
-                                IsProgramDeleted.toggle()
-                                showSheet.toggle()
+                                withAnimation(.easeInOut) {
+                                    IsProgramDeleted.toggle()
+                                    viewModel.isShowedEditOrRemoveView.toggle()
+                                }
                             }), secondaryButton: .cancel(Text("Cancel")))
                             
                         })
@@ -116,11 +120,6 @@ struct EditOrRemoveTheProgram: View {
                     
                     
                 }
-                .onDisappear {
-                    if IsProgramDeleted {
-                        dismiss()
-                    }
-                }
                 
                 
             }
@@ -132,6 +131,6 @@ struct EditOrRemoveTheProgram: View {
 
 struct EditOrRemoveTheProgramm_Previews: PreviewProvider {
     static var previews: some View {
-        EditOrRemoveTheProgram(program: .constant(GymModel.programs[0])).environmentObject(GymViewModel())
+        EditOrRemoveTheProgram(program: GymModel.programs[0], isShowedView: .constant(true)).environmentObject(GymViewModel())
     }
 }

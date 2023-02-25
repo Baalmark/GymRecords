@@ -83,7 +83,9 @@ struct ViewListSpecificExercises: View {
                     }
                     
                     
-                    dismiss()
+                    withAnimation(.easeInOut) {
+                        viewModel.isShowedViewListSpecificExercise.toggle()
+                    }
                 } label: {
                     HStack {
                         Image(systemName: "arrow.left")

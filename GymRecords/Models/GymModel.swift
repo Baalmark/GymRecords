@@ -27,7 +27,7 @@ struct GymModel {
         self.createdPrograms = GymModel.programs
     }
     //MARK: Program Struct
-    struct Program {
+    struct Program:Identifiable {
         
         var id = UUID()
         var programTitle: String

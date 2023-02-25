@@ -14,7 +14,14 @@ class GymViewModel: ObservableObject {
     @Published var backButtonLabel:String = ""
     @Published var programList:[GymModel.Program] = GymModel.programs
     
+    //Edit or Remove View appears and dissapears by these variables
+    @Published var isShowedEditOrRemoveView:Bool = false
+    @Published var showedEdirOrRemoveProgram:GymModel.Program = GymModel.programs[0]
     
+    //View List Specifi Exercise appears and dissapears by these variables
+    @Published var isShowedViewListSpecificExercise:Bool = false
+    @Published var showedViewListSpecificExercise:GymModel.TypeOfExercise = .arms
+    @Published var isShowedCreateNewExerciseList:Bool = false
     var trainingPlannedArray:[GymModel.TrainingInfo]
     var colors = GymModel.colors
     var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises

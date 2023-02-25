@@ -13,38 +13,56 @@ struct AddProgramView: View {
     @EnvironmentObject var viewModel:GymViewModel
     
     var body: some View {
-        VStack {
-            HStack{
-                Image(systemName: "magnifyingglass")
-                    .resizable()
-                    .frame(width: 25, height: 25, alignment: .center)
-                    .foregroundColor(.gray)
-                    .padding([.leading,.top,.bottom],10)
+        ZStack {
+            VStack {
+                HStack{
+                    Image(systemName: "magnifyingglass")
+                        .resizable()
+                        .frame(width: 25, height: 25, alignment: .center)
+                        .foregroundColor(.gray)
+                        .padding([.leading,.top,.bottom],10)
+                    
+                    TextField("Find:", text: $searchWord)
+                        .foregroundColor(.gray)
+                        .tint(.gray)
+                        .font(.custom("Helvetica", size: 20))
+                        .fontWeight(.black)
+                    
+                    
+                }
+                .background(Rectangle()
+                    .cornerRadius(viewModel.viewCornerRadiusSimple)
+                    .foregroundColor(Color("LightGrayColor")))
+                .padding([.top,.bottom], 2)
+                .padding([.leading,.trailing], 10)
                 
-                TextField("Find:", text: $searchWord)
-                    .foregroundColor(.gray)
-                    .tint(.gray)
-                    .font(.custom("Helvetica", size: 20))
-                    .fontWeight(.black)
+                //View of Programms and Exercise with selection
+                ExercisesAndProgramsListView().environmentObject(viewModel)
                 
-                
+            }.opacity(viewModel.isShowedEditOrRemoveView ? 0 : 1)
+                .opacity(viewModel.isShowedViewListSpecificExercise ? 0 : 1)
+            .background(.white)
+            .position(x: viewModel.screenWidth / 2,y:400)
+            .onTapGesture {
+                self.hideKeyboard()
             }
-            .background(Rectangle()
-                .cornerRadius(viewModel.viewCornerRadiusSimple)
-                .foregroundColor(Color("LightGrayColor")))
-            .padding([.top,.bottom], 2)
-            .padding([.leading,.trailing], 10)
+            .ignoresSafeArea(.keyboard)
+            if viewModel.isShowedEditOrRemoveView {
+                if let program = viewModel.showedEdirOrRemoveProgram {
+                        EditOrRemoveTheProgram(program: program, isShowedView: $viewModel.isShowedEditOrRemoveView )
+                    
+                }
+            }
             
-//View of Programms and Exercise with selection
-            ExercisesAndProgramsListView().environmentObject(viewModel)
+            if viewModel.isShowedViewListSpecificExercise {
+                if let type = viewModel.showedViewListSpecificExercise {
+                        ViewListSpecificExercises(
+                            typeOfExercise: type,isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: false).environmentObject(viewModel)
+                }
+            }
             
         }
-        .background(.white)
-        .position(x: viewModel.screenWidth / 2,y:400)
-        .onTapGesture {
-            self.hideKeyboard()
-            }
-        .ignoresSafeArea(.keyboard)
+        
     }
     
 }
