@@ -31,7 +31,8 @@ struct CreateNewExercise: View {
                     .padding(20)
                 Spacer()
                 Button {
-                    dismiss()
+                    viewModel.isShowedCreateNewExerciseList.toggle()
+
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .symbolRenderingMode(.hierarchical)

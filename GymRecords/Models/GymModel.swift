@@ -66,6 +66,7 @@ struct GymModel {
         case body = "body"
         case shoulders = "shoulders"
         case cardio = "cardio"
+        case find = ""
         
         init?(id : Int) {
             switch id {
@@ -77,6 +78,7 @@ struct GymModel {
             case 6: self = .body
             case 7: self = .shoulders
             case 8: self = .cardio
+            case 9: self = .find
             default: return nil
             }
         }
@@ -201,6 +203,19 @@ struct GymModel {
     //Remove program
     mutating func removeProgram(_ index:Int) {
             createdPrograms.remove(at: index)
+    }
+    //Find exercises by find textfield
+    func finderByTextField(letters:String,array:Array<Exercise>) -> Array<Exercise> {
+        
+        var newArray:[Exercise] = []
+        
+        for element in array {
+            if element.name.lowercased().contains(letters.lowercased()) {
+                
+                newArray.append(element)
+            }
+        }
+        return newArray
     }
 }
 

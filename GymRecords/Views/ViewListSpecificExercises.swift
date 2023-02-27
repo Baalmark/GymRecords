@@ -17,27 +17,32 @@ struct ViewListSpecificExercises: View {
     @State var showCreateExercise = false
     @State var isChangeSheet = false
     @State var exercise:Exercise = Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true, isSelected: false)
-    
     @State var exerciseProgramming:Bool
     var body: some View {
         ZStack {
             VStack(alignment:.leading){
-                //Title and Button Create Exercise
-                Text("\(typeOfExercise.rawValue.capitalized)")
-                    .padding([.leading,.top],30)
-                    .font(.custom("Helvetica", size: 24))
-                    .fontWeight(.bold)
-                    .foregroundColor(exerciseProgramming ? .white : .black)
-                // Exercise Button
-                ButtonCreateExercise(showCreateExercise: $showCreateExercise).opacity(!exerciseProgramming ? 1 : 0).disabled(exerciseProgramming)
-                VStack{
+                if viewModel.searchWord.isEmpty {
+                    //Title and Button Create Exercise
+                    Text("\(typeOfExercise.rawValue.capitalized)")
+                        .padding([.leading,.top],30)
+                        .font(.custom("Helvetica", size: 24))
+                        .fontWeight(.bold)
+                        .foregroundColor(exerciseProgramming ? .white : .black)
+                        .opacity(!viewModel.searchWord.isEmpty ? 0 : 1)
+                    // Exercise Button
+                    ButtonCreateExercise(showCreateExercise: $showCreateExercise)
+                        .opacity(!exerciseProgramming ? 1 : 0)
+                        .disabled(exerciseProgramming)
+                }
                     
-                    ForEach(viewModel.arrayExercises.indices,id:\.self) { id in
-                        if viewModel.arrayExercises[id].type == typeOfExercise {
+                VStack{
+                    if !viewModel.arrayOfFoundExercise.isEmpty {
+                        
+                        ForEach(viewModel.arrayOfFoundExercise.indices,id:\.self) { id in
                             if viewModel.changeExercisesDB == false{
                                 HStack {
-                                    ExerciseToggle(exercise:viewModel.arrayExercises[id],
-                                                   toggle: viewModel.arrayExercises[id].isSelected,
+                                    ExerciseToggle(exercise:viewModel.arrayOfFoundExercise[id],
+                                                   toggle: viewModel.arrayOfFoundExercise[id].isSelected,
                                                    darkMode: exerciseProgramming)
                                 }
                                 .foregroundColor(exerciseProgramming ? .white : .black)
@@ -45,7 +50,7 @@ struct ViewListSpecificExercises: View {
                                 .padding(.top,30)
                             } else {
                                 HStack {
-                                    Text(viewModel.arrayExercises[id].name)
+                                    Text(viewModel.arrayOfFoundExercise[id].name)
                                         .font(.custom("Helvetica", size: 22))
                                         .fontWeight(.bold)
                                     Spacer()
@@ -54,14 +59,44 @@ struct ViewListSpecificExercises: View {
                                 .padding([.leading,.trailing],30)
                                 .padding(.top,20)
                                 .onTapGesture{
-                                    exercise = viewModel.arrayExercises[id]
+                                    exercise = viewModel.arrayOfFoundExercise[id]
                                     UIView.setAnimationsEnabled(true)    // << here !!
                                     isChangeSheet.toggle()
                                 }
                             }
                         }
                         
-                        
+                    } else {
+                        ForEach(viewModel.arrayExercises.indices,id:\.self) { id in
+                            if viewModel.arrayExercises[id].type == typeOfExercise {
+                                if viewModel.changeExercisesDB == false{
+                                    HStack {
+                                        ExerciseToggle(exercise:viewModel.arrayExercises[id],
+                                                       toggle: viewModel.arrayExercises[id].isSelected,
+                                                       darkMode: exerciseProgramming)
+                                    }
+                                    .foregroundColor(exerciseProgramming ? .white : .black)
+                                    .padding([.leading,.trailing],30)
+                                    .padding(.top,30)
+                                } else {
+                                    HStack {
+                                        Text(viewModel.arrayExercises[id].name)
+                                            .font(.custom("Helvetica", size: 22))
+                                            .fontWeight(.bold)
+                                        Spacer()
+                                    }
+                                    .padding(.bottom,20)
+                                    .padding([.leading,.trailing],30)
+                                    .padding(.top,20)
+                                    .onTapGesture{
+                                        exercise = viewModel.arrayExercises[id]
+                                        UIView.setAnimationsEnabled(true)    // << here !!
+                                        isChangeSheet.toggle()
+                                    }
+                                }
+                            }
+                            
+                        }
                         
                     }
                     
@@ -104,6 +139,8 @@ struct ViewListSpecificExercises: View {
                 .foregroundColor(Color("MidGrayColor"))
                 .padding(.bottom,40)
                 .padding(.leading,30)
+                .opacity(!viewModel.searchWord.isEmpty ? 0 : 1) // if client doesn't find certain exercise
+                .disabled(!viewModel.searchWord.isEmpty)
                 
                 .onChange(of: viewModel.selectedExArray.count) { elem in
                     withAnimation(.easeInOut(duration: 0.2)) {

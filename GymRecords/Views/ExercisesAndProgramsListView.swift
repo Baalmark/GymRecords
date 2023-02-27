@@ -79,18 +79,22 @@ struct ExercisesAndProgramsListView: View {
             if !didTap {
                 ScrollView {
                     ButtonCreateExercise(showCreateExercise: $createExericseWithCategory)
-                    ViewExerciseList(withCategory: true, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: false).environmentObject(viewModel)
-                        .overlay(
-                            GeometryReader { geo in
-                                Color.clear.onAppear {
-                                    contentSize = geo.size
+                    if viewModel.searchWord.isEmpty {
+                        ViewExerciseList(withCategory: true, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: false).environmentObject(viewModel)
+                            .overlay(
+                                GeometryReader { geo in
+                                    Color.clear.onAppear {
+                                        contentSize = geo.size
+                                    }
                                 }
-                            }
-                        )
-                        .frame(width: viewModel.screenWidth,height: 600)
-                        .transition(.move(edge: .leading))
-                    
-                    
+                            )
+                            .frame(width: viewModel.screenWidth,height: 600)
+                            .transition(.move(edge: .leading))
+                        
+                        
+                    } else {
+                        ViewListSpecificExercises(typeOfExercise: .find, isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: false).environmentObject(viewModel)
+                    }
                 }
                 .frame(maxWidth: contentSize.width, maxHeight: contentSize.height)
                 .transition(.move(edge: .leading))

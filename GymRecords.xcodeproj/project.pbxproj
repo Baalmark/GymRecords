@@ -31,6 +31,7 @@
 		3A9E9A542995340300DAA547 /* ChangeExerciseNameOrDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A532995340300DAA547 /* ChangeExerciseNameOrDeleteView.swift */; };
 		3A9E9A5629964BD500DAA547 /* EditOrRemoveTheProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A5529964BD500DAA547 /* EditOrRemoveTheProgram.swift */; };
 		3A9E9A5829964F3000DAA547 /* ProgramItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A5729964F3000DAA547 /* ProgramItemListView.swift */; };
+		3AB0A7F729ACC51E00E5E7BA /* SearchExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB0A7F629ACC51E00E5E7BA /* SearchExerciseView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		3A9E9A532995340300DAA547 /* ChangeExerciseNameOrDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeExerciseNameOrDeleteView.swift; sourceTree = "<group>"; };
 		3A9E9A5529964BD500DAA547 /* EditOrRemoveTheProgram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrRemoveTheProgram.swift; sourceTree = "<group>"; };
 		3A9E9A5729964F3000DAA547 /* ProgramItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramItemListView.swift; sourceTree = "<group>"; };
+		3AB0A7F629ACC51E00E5E7BA /* SearchExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchExerciseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 				3A9E9A4129852F8200DAA547 /* AddProgramView.swift */,
 				3A9E9A4D29951AF400DAA547 /* DataBaseView.swift */,
 				3A9E9A4F29951BF700DAA547 /* ExercisesAndProgramsListView.swift */,
+				3AB0A7F629ACC51E00E5E7BA /* SearchExerciseView.swift */,
 				3A9E9A4329897C7B00DAA547 /* ViewExerciseList.swift */,
 				3A1B8324299AAD38006F959E /* CreateExerciseAndSelectCategory.swift */,
 				3A9E9A4529897E0100DAA547 /* ViewProgramsList.swift */,
@@ -242,6 +245,7 @@
 				3A9E9A5029951BF700DAA547 /* ExercisesAndProgramsListView.swift in Sources */,
 				3A1B831F2996EC10006F959E /* CreateNewExercise.swift in Sources */,
 				3A9E9A4E29951AF400DAA547 /* DataBaseView.swift in Sources */,
+				3AB0A7F729ACC51E00E5E7BA /* SearchExerciseView.swift in Sources */,
 				008C51F3297AFA620046EF5B /* GymCalendarView.swift in Sources */,
 				3A9E9A4229852F8200DAA547 /* AddProgramView.swift in Sources */,
 				008C51DD2972F8F50046EF5B /* ContentView.swift in Sources */,

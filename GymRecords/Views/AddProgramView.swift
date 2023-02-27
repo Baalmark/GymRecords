@@ -9,7 +9,6 @@ import SwiftUI
 
 struct AddProgramView: View {
     @Environment(\.dismiss) var dismiss
-    @State private var searchWord = ""
     @EnvironmentObject var viewModel:GymViewModel
     
     var body: some View {
@@ -17,19 +16,22 @@ struct AddProgramView: View {
             VStack {
                 HStack{
                     Image(systemName: "magnifyingglass")
-                        .resizable()
-                        .frame(width: 25, height: 25, alignment: .center)
-                        .foregroundColor(.gray)
+                        .fixedSize()
+                        
                         .padding([.leading,.top,.bottom],10)
                     
-                    TextField("Find:", text: $searchWord)
-                        .foregroundColor(.gray)
-                        .tint(.gray)
-                        .font(.custom("Helvetica", size: 20))
-                        .fontWeight(.black)
-                    
-                    
+                    TextField("", text: $viewModel.searchWord)
+                        .placeholder(when: viewModel.searchWord.isEmpty) {
+                            Text("Find:").foregroundColor(Color("MidGrayColor"))
+                        }
+                        .onChange(of: viewModel.searchWord) {newValue in 
+                            viewModel.arrayOfFoundExercise = viewModel.findAnyExerciseByLetters(letters: viewModel.searchWord, array: viewModel.arrayExercises)
+                        }
+                        .tint(.black)
+                        .foregroundColor(.black)
+                        .font(.custom("Helvetica", size: 18))
                 }
+                .foregroundColor(Color("MidGrayColor"))
                 .background(Rectangle()
                     .cornerRadius(viewModel.viewCornerRadiusSimple)
                     .foregroundColor(Color("LightGrayColor")))

@@ -22,6 +22,14 @@ class GymViewModel: ObservableObject {
     @Published var isShowedViewListSpecificExercise:Bool = false
     @Published var showedViewListSpecificExercise:GymModel.TypeOfExercise = .arms
     @Published var isShowedCreateNewExerciseList:Bool = false
+    
+    
+    
+    //Finder any Exercises
+    @Published var searchWord:String = ""
+    @Published var arrayOfFoundExercise:[Exercise] = []
+    @Published var isSearching: Bool = false
+    
     var trainingPlannedArray:[GymModel.TrainingInfo]
     var colors = GymModel.colors
     var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises
@@ -205,6 +213,10 @@ class GymViewModel: ObservableObject {
         }
         
         
+    }
+//Find any exercises by search
+    func findAnyExerciseByLetters(letters:String,array:[Exercise]) -> Array<Exercise>{
+        return gymModel.finderByTextField(letters: letters, array: array)
     }
 }
 
