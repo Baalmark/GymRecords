@@ -109,15 +109,6 @@ struct ViewListSpecificExercises: View {
                 //Button back to ExerciseViewList
                 Button{
                     
-                    viewModel.selectedCounterLabel = viewModel.computeSelectedCounderLabel()
-                    
-                    if viewModel.selectedExArray.isEmpty {
-                        viewModel.isSelectedSomeExercise = false
-                    } else {
-                        viewModel.isSelectedSomeExercise = true
-                    }
-                    
-                    
                     withAnimation(.easeInOut) {
                         viewModel.isShowedViewListSpecificExercise.toggle()
                     }
@@ -181,6 +172,7 @@ struct ExerciseToggle: View {
                     } else {
                         viewModel.unselectingExercise(exercise: exercise, isSelected: toggle)
                     }
+                    viewModel.selectedCounterLabel = viewModel.computeSelectedCounderLabel()
                 }
             
         }

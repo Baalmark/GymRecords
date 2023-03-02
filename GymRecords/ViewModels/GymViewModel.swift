@@ -23,7 +23,8 @@ class GymViewModel: ObservableObject {
     @Published var showedViewListSpecificExercise:GymModel.TypeOfExercise = .arms
     @Published var isShowedCreateNewExerciseList:Bool = false
     
-    
+    //Passing Date for new Programm
+    @Published var dataForProgramm:Date = Date.now
     
     //Finder any Exercises
     @Published var searchWord:String = ""

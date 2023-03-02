@@ -105,8 +105,8 @@ struct ExercisesAndProgramsListView: View {
                     .font(.title2)
                     .fontWeight(.semibold)
                     .offset(x:0,y:-20)
-                    .opacity(viewModel.isSelectedSomeExercise ? 1 : 0)
-                
+                    .opacity(viewModel.selectedExArray.isEmpty ? 0 : 1)
+                    
             } else {
                 ViewProgramsList()
                     .transition(.move(edge: .trailing))

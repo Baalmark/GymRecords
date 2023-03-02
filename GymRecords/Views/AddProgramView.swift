@@ -14,6 +14,7 @@ struct AddProgramView: View {
     var body: some View {
         ZStack {
             VStack {
+//Search View
                 HStack{
                     Image(systemName: "magnifyingglass")
                         .fixedSize()
@@ -24,7 +25,8 @@ struct AddProgramView: View {
                         .placeholder(when: viewModel.searchWord.isEmpty) {
                             Text("Find:").foregroundColor(Color("MidGrayColor"))
                         }
-                        .onChange(of: viewModel.searchWord) {newValue in 
+                        .onChange(of: viewModel.searchWord) {newValue in
+                            
                             viewModel.arrayOfFoundExercise = viewModel.findAnyExerciseByLetters(letters: viewModel.searchWord, array: viewModel.arrayExercises)
                         }
                         .tint(.black)
@@ -40,6 +42,7 @@ struct AddProgramView: View {
                 
                 //View of Programms and Exercise with selection
                 ExercisesAndProgramsListView().environmentObject(viewModel)
+              
                 
             }.opacity(viewModel.isShowedEditOrRemoveView ? 0 : 1)
                 .opacity(viewModel.isShowedViewListSpecificExercise ? 0 : 1)

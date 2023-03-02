@@ -15,6 +15,8 @@ struct ContentView: View {
     @State private var viewState = CGSize.zero
     @State private var appearSheet = false
     @State var isDataBaseSheetActive = false
+
+    @State var selectedDate: Date = Date()
     
     private var maxHeight:CGFloat = 500
     private var minHeight:CGFloat = 325
@@ -22,24 +24,24 @@ struct ContentView: View {
     private var systemShadowColor = Color(UIColor(red: 0.65, green: 0.65, blue: 0.65, alpha: 1))
     @StateObject private var viewModel = GymViewModel()
     
-    @EnvironmentObject var eventStore: EventStore
     
     var body: some View {
         ZStack {
             NavigationStack{
                 VStack{
-                    
                     VStack(alignment: .center){
-                        Spacer(minLength: 90)
-                        GymCalendarView(interval: DateInterval(start: .distantPast, end: .distantFuture), eventStore: eventStore)
-                            .frame(width: width, height:  height <= maxHeight ? height : maxHeight  ,alignment: .top)
-                            .environmentObject(viewModel)
-                            .clipShape(Rectangle())
-                            .shadow(color: .black,radius: 1)
-                            
-                            
+                        Text(selectedDate.formatted(date: .abbreviated, time: .omitted))
+                                .font(.system(size: 28))
+                                .bold()
+                                .foregroundColor(Color.accentColor)
+                                .padding()
+                                .animation(.spring(), value: selectedDate)
+                                
+                            DatePicker("Select Date", selection: $selectedDate, displayedComponents: [.date])
+                                .padding(.horizontal)
+                                .datePickerStyle(.graphical)
                         Spacer(minLength: 5)
-                        //Little button for unwrapping the Calendar View
+//Little button for unwrapping the Calendar View
                         VStack{
                             Text("")
                                 .background(Rectangle()
@@ -82,6 +84,7 @@ struct ContentView: View {
                             viewModel.changeExercisesDB = false
                         }
                         .sheet(isPresented:$appearSheet) {
+                            //viewModel.dataForProgramm
                             AddProgramView()
                         }
                         .buttonStyle(GrowingButton(isDarkMode: false,width: 335,height: 45))
@@ -106,8 +109,8 @@ struct ContentView: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         
-                        Text("Today")
-                            .font(.custom("Helvetica", fixedSize: 35))
+                        Text("")
+                            .font(.custom("Helvetica", fixedSize: 25))
                             .bold()
                     }
                     
@@ -135,32 +138,10 @@ struct ContentView: View {
     
     }
 
-
-
-//Style of bottom Button
-struct GrowingButton: ButtonStyle {
-    
-    var isDarkMode:Bool
-    var width:CGFloat
-    var height:CGFloat
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding()
-            .frame(width: width,height: height)
-            .background(!isDarkMode ? .black : .white)
-            .foregroundColor(!isDarkMode ? .white : .black)
-            .clipShape(Rectangle())
-            .cornerRadius(15)
-            .shadow(color: .gray, radius: 3)
-            .scaleEffect(configuration.isPressed ? 1.5 : 1)
-            .animation(.easeOut(duration: 0.33), value: configuration.isPressed)
-    }
-}
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(EventStore(preview: true))
+           
     }
 }
 
