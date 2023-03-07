@@ -31,6 +31,13 @@ class GymViewModel: ObservableObject {
     @Published var arrayOfFoundExercise:[Exercise] = []
     @Published var isSearching: Bool = false
     
+    
+    //Date holder
+    @Published var date = Date() // Current date
+    @Published var arrayOfMonths:[Date] = []
+    
+    
+
     var trainingPlannedArray:[GymModel.TrainingInfo]
     var colors = GymModel.colors
     var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises
@@ -56,6 +63,9 @@ class GymViewModel: ObservableObject {
         self.selectedExArray = []
         self.trainingPlannedArray = [GymModel.TrainingInfo(name: "FirstTrain", arrayOfExercises: arrayExercises, Date: .distantPast)]
         self.databaseInfoTitle = [("WorkOut",trainingPlannedArray.count),("Programs",GymModel.programs.count),("Exercises",arrayExercises.count)]
+        
+        //Date holder
+        arrayOfMonths = [CalendarModel().minusMonth(date),date,CalendarModel().plusMonth(date)]
     }
     
     

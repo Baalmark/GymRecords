@@ -11,8 +11,9 @@ import SwiftUI
 
 struct GymRecordsApp: App {
     var body: some Scene {
+        let dateHolderModel = DateHolderModel()
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(dateHolderModel)
         }
     }
 }

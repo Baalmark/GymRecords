@@ -18,6 +18,12 @@
 		3A1B8321299A4F8B006F959E /* CreateNewProgrammView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B8320299A4F8B006F959E /* CreateNewProgrammView.swift */; };
 		3A1B8323299A8BA4006F959E /* ButtonCreateExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B8322299A8BA4006F959E /* ButtonCreateExercise.swift */; };
 		3A1B8325299AAD38006F959E /* CreateExerciseAndSelectCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B8324299AAD38006F959E /* CreateExerciseAndSelectCategory.swift */; };
+		3A8896B429B7579D00219446 /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896B329B7579D00219446 /* CalendarModel.swift */; };
+		3A8896B829B7587200219446 /* MonthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896B729B7587200219446 /* MonthViewModel.swift */; };
+		3A8896BC29B7595E00219446 /* MonthLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896BB29B7595E00219446 /* MonthLabelView.swift */; };
+		3A8896BF29B759B700219446 /* CalendarCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896BE29B759B700219446 /* CalendarCellView.swift */; };
+		3A8896C329B75B5300219446 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896C229B75B5300219446 /* CalendarView.swift */; };
+		3A8896C529B75CDB00219446 /* DateHolderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896C429B75CDB00219446 /* DateHolderModel.swift */; };
 		3A9E9A4229852F8200DAA547 /* AddProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A4129852F8200DAA547 /* AddProgramView.swift */; };
 		3A9E9A4429897C7B00DAA547 /* ViewExerciseList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A4329897C7B00DAA547 /* ViewExerciseList.swift */; };
 		3A9E9A4629897E0100DAA547 /* ViewProgramsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A4529897E0100DAA547 /* ViewProgramsList.swift */; };
@@ -47,6 +53,12 @@
 		3A1B8320299A4F8B006F959E /* CreateNewProgrammView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProgrammView.swift; sourceTree = "<group>"; };
 		3A1B8322299A8BA4006F959E /* ButtonCreateExercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCreateExercise.swift; sourceTree = "<group>"; };
 		3A1B8324299AAD38006F959E /* CreateExerciseAndSelectCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseAndSelectCategory.swift; sourceTree = "<group>"; };
+		3A8896B329B7579D00219446 /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
+		3A8896B729B7587200219446 /* MonthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthViewModel.swift; sourceTree = "<group>"; };
+		3A8896BB29B7595E00219446 /* MonthLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthLabelView.swift; sourceTree = "<group>"; };
+		3A8896BE29B759B700219446 /* CalendarCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCellView.swift; sourceTree = "<group>"; };
+		3A8896C229B75B5300219446 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		3A8896C429B75CDB00219446 /* DateHolderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHolderModel.swift; sourceTree = "<group>"; };
 		3A9E9A4029845EDC00DAA547 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3A9E9A4129852F8200DAA547 /* AddProgramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProgramView.swift; sourceTree = "<group>"; };
 		3A9E9A4329897C7B00DAA547 /* ViewExerciseList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExerciseList.swift; sourceTree = "<group>"; };
@@ -117,6 +129,7 @@
 		008C51EA2972FE1B0046EF5B /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3A8896C129B759E600219446 /* CalendarModel */,
 				008C51E82972FB500046EF5B /* GymModel.swift */,
 			);
 			path = Models;
@@ -125,6 +138,7 @@
 		008C51EB2972FE430046EF5B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				3A8896BD29B759AA00219446 /* CalendarViews */,
 				3AB0A80529B0C85900E5E7BA /* StyleViews */,
 				008C51DC2972F8F50046EF5B /* ContentView.swift */,
 				3A9E9A4129852F8200DAA547 /* AddProgramView.swift */,
@@ -149,6 +163,7 @@
 		008C51EC2972FE4C0046EF5B /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				3A8896C029B759D800219446 /* CalendarViewModels */,
 				008C51F12973063A0046EF5B /* Bindings */,
 				008C51ED297304540046EF5B /* GymViewModel.swift */,
 			);
@@ -161,6 +176,33 @@
 				008C51EF297305660046EF5B /* GymDynamic.swift */,
 			);
 			path = Bindings;
+			sourceTree = "<group>";
+		};
+		3A8896BD29B759AA00219446 /* CalendarViews */ = {
+			isa = PBXGroup;
+			children = (
+				3A8896BE29B759B700219446 /* CalendarCellView.swift */,
+				3A8896BB29B7595E00219446 /* MonthLabelView.swift */,
+				3A8896C229B75B5300219446 /* CalendarView.swift */,
+			);
+			path = CalendarViews;
+			sourceTree = "<group>";
+		};
+		3A8896C029B759D800219446 /* CalendarViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				3A8896B729B7587200219446 /* MonthViewModel.swift */,
+			);
+			path = CalendarViewModels;
+			sourceTree = "<group>";
+		};
+		3A8896C129B759E600219446 /* CalendarModel */ = {
+			isa = PBXGroup;
+			children = (
+				3A8896B329B7579D00219446 /* CalendarModel.swift */,
+				3A8896C429B75CDB00219446 /* DateHolderModel.swift */,
+			);
+			path = CalendarModel;
 			sourceTree = "<group>";
 		};
 		3AB0A7F829B0B5BC00E5E7BA /* Extensions */ = {
@@ -250,11 +292,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A8896BC29B7595E00219446 /* MonthLabelView.swift in Sources */,
 				3A9E9A4629897E0100DAA547 /* ViewProgramsList.swift in Sources */,
+				3A8896B429B7579D00219446 /* CalendarModel.swift in Sources */,
 				3A9E9A4429897C7B00DAA547 /* ViewExerciseList.swift in Sources */,
 				3A1B8323299A8BA4006F959E /* ButtonCreateExercise.swift in Sources */,
+				3A8896C529B75CDB00219446 /* DateHolderModel.swift in Sources */,
+				3A8896B829B7587200219446 /* MonthViewModel.swift in Sources */,
 				008C51E92972FB500046EF5B /* GymModel.swift in Sources */,
 				3AB0A7FA29B0B5DE00E5E7BA /* DateExtensions.swift in Sources */,
+				3A8896BF29B759B700219446 /* CalendarCellView.swift in Sources */,
 				3A9E9A5229952C9C00DAA547 /* DataBaseInfoTitle.swift in Sources */,
 				008C51F0297305660046EF5B /* GymDynamic.swift in Sources */,
 				3A9E9A5829964F3000DAA547 /* ProgramItemListView.swift in Sources */,
@@ -265,6 +312,7 @@
 				3AB0A7F729ACC51E00E5E7BA /* SearchExerciseView.swift in Sources */,
 				3A9E9A4229852F8200DAA547 /* AddProgramView.swift in Sources */,
 				008C51DD2972F8F50046EF5B /* ContentView.swift in Sources */,
+				3A8896C329B75B5300219446 /* CalendarView.swift in Sources */,
 				008C51EE297304540046EF5B /* GymViewModel.swift in Sources */,
 				3A9E9A5629964BD500DAA547 /* EditOrRemoveTheProgram.swift in Sources */,
 				008C51DB2972F8F50046EF5B /* GymRecordsApp.swift in Sources */,
