@@ -33,7 +33,7 @@ class GymViewModel: ObservableObject {
     
     
     //Date holder
-    @Published var date = Date() // Current date
+    @Published var date = Date() //todays date
     @Published var arrayOfMonths:[Date] = []
     
     
@@ -229,6 +229,41 @@ class GymViewModel: ObservableObject {
     func findAnyExerciseByLetters(letters:String,array:[Exercise]) -> Array<Exercise>{
         return gymModel.finderByTextField(letters: letters, array: array)
     }
+    
+//Enum of directions
+    enum SwipeHVDirection: String {
+        case left, right, up, down, none
+    }
+//Detecting drag gesture directions
+    
+    func detectDirection(value: DragGesture.Value) -> SwipeHVDirection {
+    if value.startLocation.x < value.location.x - 24 {
+                return .left
+              }
+              if value.startLocation.x > value.location.x + 24 {
+                return .right
+              }
+              if value.startLocation.y < value.location.y - 24 {
+                return .down
+              }
+              if value.startLocation.y > value.location.y + 24 {
+                return .up
+              }
+      return .none
+      }
+//Updating array of months
+    func updateArrayMonthsNext() {
+        for (i,element) in arrayOfMonths.enumerated() {
+            arrayOfMonths[i] = CalendarModel().plusMonth(element)
+        }
+    }
+    func updateArrayMonthsBack() {
+        for (i,element) in arrayOfMonths.enumerated() {
+            arrayOfMonths[i] = CalendarModel().minusMonth(element)
+
+        }
+    }
+    
 }
 
 

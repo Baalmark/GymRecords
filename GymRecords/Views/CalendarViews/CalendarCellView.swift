@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CalendarCellView: View
 {
-    @EnvironmentObject var dateHolder: DateHolderModel
+    @EnvironmentObject var viewModel:GymViewModel
+
     
     let count : Int
     let startingSpaces : Int

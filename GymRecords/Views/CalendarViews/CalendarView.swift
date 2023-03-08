@@ -9,15 +9,17 @@ import SwiftUI
 
 struct CalendarView: View
 {
-    @EnvironmentObject var dateHolder: DateHolderModel
+    @EnvironmentObject var viewModel:GymViewModel
     
+    var month:Date
     var body: some View
     {
-        ScrollView(.horizontal) {
-            LazyHStack(spacing: 10) {
-                test
-            }
-            
+        VStack(spacing: 1) {
+            MonthLabelView(month:month)
+                .environmentObject(viewModel)
+                .padding()
+            dayOfWeekStack
+            calendarGrid
         }
     }
     
@@ -39,10 +41,10 @@ struct CalendarView: View
     {
         VStack(spacing: 1)
         {
-            let daysInMonth = CalendarModel().daysInMonth(dateHolder.date)
-            let firstDayOfMonth = CalendarModel().firstOfMonth(dateHolder.date)
+            let daysInMonth = CalendarModel().daysInMonth(month)
+            let firstDayOfMonth = CalendarModel().firstOfMonth(month)
             let startingSpaces = CalendarModel().weekDay(firstDayOfMonth)
-            let prevMonth = CalendarModel().minusMonth(dateHolder.date)
+            let prevMonth = CalendarModel().minusMonth(month)
             let daysInPrevMonth = CalendarModel().daysInMonth(prevMonth)
             
             ForEach(0..<6)
@@ -55,7 +57,7 @@ struct CalendarView: View
                         column in
                         let count = column + (row * 7)
                         CalendarCellView(count: count, startingSpaces:startingSpaces, daysInMonth: daysInMonth, daysInPrevMonth: daysInPrevMonth)
-                            .environmentObject(dateHolder)
+                            .environmentObject(viewModel)
                         
                     }
                 }
@@ -64,41 +66,11 @@ struct CalendarView: View
         .frame(maxHeight: .infinity)
     }
     
-    var test: some View {
-        TabView {
-            ForEach(dateHolder.arrayOfMonths, id: \.self) { value in
-                VStack(spacing: 1)
-                {
-                    
-                    MonthLabelView(month: value)
-                        .environmentObject(dateHolder)
-                        .padding()
-                    dayOfWeekStack
-                    calendarGrid
-                    
-                }
-                
-            }
-            
-        }
-        .frame(width: UIScreen.main.bounds.width, height: 500)
-        .tabViewStyle(PageTabViewStyle())
-    }
-    
-    func previousMonth()
-    {
-        dateHolder.date = CalendarModel().minusMonth(dateHolder.date)
-    }
-    
-    func nextMonth()
-    {
-        dateHolder.date = CalendarModel().plusMonth(dateHolder.date)
-    }
 }
 
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarView().environmentObject(DateHolderModel())
+        CalendarView(month: GymViewModel().date).environmentObject(GymViewModel())
     }
 }
 

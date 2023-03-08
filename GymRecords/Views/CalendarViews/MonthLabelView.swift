@@ -9,22 +9,23 @@ import SwiftUI
 
 struct MonthLabelView: View
 {
-    @EnvironmentObject var dateHolder: DateHolderModel
-    var month:Date
+    @EnvironmentObject var viewModel:GymViewModel
     
+    var month:Date
     var body: some View
     {
         HStack
         {
             Spacer()
             Button {
-                dateHolder.date = month
+                
                 previousMonth()
             } label:
             {
                 Image(systemName: "arrow.left")
                     .imageScale(.large)
                     .font(Font.title.weight(.bold))
+                    .opacity(0)
             }
             Text(CalendarModel().monthYearString(month))
                 .font(.title)
@@ -32,13 +33,14 @@ struct MonthLabelView: View
                 .animation(.none)
                 .frame(maxWidth: .infinity)
             Button {
-                dateHolder.date = month
+                
                 nextMonth()
             } label:
             {
                 Image(systemName: "arrow.right")
                     .imageScale(.large)
                     .font(Font.title.weight(.bold))
+                    .opacity(0)
             }
             Spacer()
         }
@@ -46,18 +48,17 @@ struct MonthLabelView: View
     
     func previousMonth()
     {
-        dateHolder.date = CalendarModel().minusMonth(dateHolder.date)
-        print(dateHolder.date)
+        viewModel.date = CalendarModel().minusMonth(viewModel.date)
     }
     
     func nextMonth()
     {
-        dateHolder.date = CalendarModel().plusMonth(dateHolder.date)
+        viewModel.date = CalendarModel().plusMonth(viewModel.date)
     }
 }
 
 struct MonthLabelView_Previews: PreviewProvider {
     static var previews: some View {
-        MonthLabelView(month: DateHolderModel().date).environmentObject(DateHolderModel())
+        MonthLabelView(month:GymViewModel().date).environmentObject(GymViewModel())
     }
 }

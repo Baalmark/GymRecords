@@ -247,6 +247,12 @@ class Exercise:Equatable,Identifiable {
     
 }
 
+
+
+
+
+
+
 //MARK: Extensions
 
 extension GymModel {

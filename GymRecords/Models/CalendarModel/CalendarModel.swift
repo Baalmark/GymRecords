@@ -53,4 +53,18 @@ class CalendarModel
         return components.weekday! - 1
     }
     
+    func scrollingCalendarUP(array:[Date]) -> Array<Date> {
+        
+        //There are 3 elements here
+        var newArray:[Date] = []
+        
+        for element in array {
+            let element = plusMonth(element)
+            newArray.append(element)
+        }
+        
+        return newArray
+        
+    }
+    
 }
