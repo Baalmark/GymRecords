@@ -35,8 +35,8 @@ class GymViewModel: ObservableObject {
     //Date holder
     @Published var date = Date() //todays date
     @Published var arrayOfMonths:[Date] = []
-    
-    
+    @Published var selectedDate:Date = Date() // Selected Date for new training day
+    @Published var selectedDayForChecking:Int = 0
 
     var trainingPlannedArray:[GymModel.TrainingInfo]
     var colors = GymModel.colors
@@ -66,6 +66,11 @@ class GymViewModel: ObservableObject {
         
         //Date holder
         arrayOfMonths = [CalendarModel().minusMonth(date),date,CalendarModel().plusMonth(date)]
+        
+        
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.day], from: date)
+        selectedDayForChecking = components.day!
     }
     
     
@@ -229,7 +234,7 @@ class GymViewModel: ObservableObject {
     func findAnyExerciseByLetters(letters:String,array:[Exercise]) -> Array<Exercise>{
         return gymModel.finderByTextField(letters: letters, array: array)
     }
-    
+//MARK: Behavior for the Calendar View
 //Enum of directions
     enum SwipeHVDirection: String {
         case left, right, up, down, none
@@ -263,6 +268,30 @@ class GymViewModel: ObservableObject {
 
         }
     }
+// Selecting new day for new training day
+    func selectDayForTraining(day:Int) {
+        
+        //Update month
+        updateMonth()
+    
+        selectedDate = CalendarModel().selectDay(date, day: day)
+        
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.day], from: selectedDate)
+        selectedDayForChecking = components.day!
+        
+    }
+// Update month of current date
+    
+    func updateMonth() {
+        date = arrayOfMonths[1]
+    }
+    
+// Is the correct day selected?
+    func isSelectedDay(day:Int) -> Bool {
+        return selectedDayForChecking == day
+    }
+        
     
 }
 

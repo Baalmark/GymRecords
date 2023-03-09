@@ -15,9 +15,9 @@ struct CalendarView: View
     var body: some View
     {
         VStack(spacing: 1) {
-            MonthLabelView(month:month)
-                .environmentObject(viewModel)
-                .padding()
+//            MonthLabelView(month:month)
+//                .environmentObject(viewModel)
+//                .padding()
             dayOfWeekStack
             calendarGrid
         }
@@ -35,6 +35,8 @@ struct CalendarView: View
             Text("Fri").dayOfWeek()
             Text("Sat").dayOfWeek()
         }
+        .fontWeight(.bold)
+        .foregroundColor(Color("RedColorScarlet"))
     }
     
     var calendarGrid: some View

@@ -16,33 +16,11 @@ struct MonthLabelView: View
     {
         HStack
         {
-            Spacer()
-            Button {
-                
-                previousMonth()
-            } label:
-            {
-                Image(systemName: "arrow.left")
-                    .imageScale(.large)
-                    .font(Font.title.weight(.bold))
-                    .opacity(0)
-            }
             Text(CalendarModel().monthYearString(month))
                 .font(.title)
-                .bold()
-                .animation(.none)
-                .frame(maxWidth: .infinity)
-            Button {
                 
-                nextMonth()
-            } label:
-            {
-                Image(systemName: "arrow.right")
-                    .imageScale(.large)
-                    .font(Font.title.weight(.bold))
-                    .opacity(0)
-            }
-            Spacer()
+                .bold()
+                
         }
     }
     

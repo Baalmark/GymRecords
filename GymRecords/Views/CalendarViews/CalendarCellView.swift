@@ -16,16 +16,37 @@ struct CalendarCellView: View
     let startingSpaces : Int
     let daysInMonth : Int
     let daysInPrevMonth : Int
-    
+    @State var correctDay: Int = 1
+    @State var tappedView = false
     var body: some View
     {
-        Text(monthStruct().day())
-            .foregroundColor(textColor(type: monthStruct().monthType))
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        ZStack {
+            
+            Text(monthStruct().day())
+                .foregroundColor(!tappedView ? textColor(type: monthStruct().monthType) : .white)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .fontWeight(.bold)
+                .zIndex(1)
+                .onTapGesture {
+                    withAnimation(.spring(response: 0.2,dampingFraction: 0.4,blendDuration: 0.2)) {
+                        tappedView.toggle()
+                        
+                        if let day = Int(monthStruct().day()) {
+                            correctDay = day
+                            viewModel.selectDayForTraining(day: day)
+                        }
+                    }
+                }
+                Circle()
+                .frame(width: tappedView ? 40 : 0,height: tappedView ? 40 : 0)
+                    .foregroundColor(.black)
+                    .zIndex(0)
+            
+        }
     }
     func textColor(type: MonthType) -> Color
     {
-        return type == MonthType.Current ? Color.black : Color.gray
+        return type == MonthType.Current ? Color.black : Color("MidGrayColor")
     }
     
     func monthStruct() -> MonthViewModel

@@ -15,8 +15,8 @@ class CalendarModel
     
     func monthYearString(_ date: Date) -> String
     {
-        dateFormatter.dateFormat = "LLL yyyy"
-        return dateFormatter.string(from: date)
+        dateFormatter.dateFormat = "LLLL yyyy"
+        return dateFormatter.string(from: date).capitalized
     }
     
     func plusMonth(_ date: Date) -> Date
@@ -27,6 +27,18 @@ class CalendarModel
     func minusMonth(_ date: Date) -> Date
     {
         return calendar.date(byAdding: .month, value: -1, to: date)!
+    }
+    
+    func selectDay(_ date: Date, day:Int) -> Date
+    {
+        var dateComponents = Calendar.current.dateComponents([.year, .month], from: date)
+        dateComponents.hour = 14
+        dateComponents.day = day
+        dateComponents.month = dateComponents.month
+        dateComponents.year = dateComponents.year
+
+        let newDate = Calendar.current.date(from: dateComponents)
+        return newDate!
     }
     
     func daysInMonth(_ date: Date) -> Int
