@@ -10,66 +10,59 @@ import SwiftUI
 struct CalendarCellView: View
 {
     @EnvironmentObject var viewModel:GymViewModel
-
+    
     
     let count : Int
     let startingSpaces : Int
     let daysInMonth : Int
     let daysInPrevMonth : Int
-    @State var correctDay: Int = 1
+    @Binding var correctDay: Int
     @State var tappedView = false
+    @Binding var isSelected:Bool
+    var month:Date
     var body: some View
     {
         ZStack {
-            
             Text(monthStruct().day())
-                .foregroundColor(!tappedView ? textColor(type: monthStruct().monthType) : .white)
+                .foregroundColor(!isSelectedCheking() ? .black : .white)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .fontWeight(.bold)
+                .opacity(monthStruct().monthType == .Current ? 1 : 0)
                 .zIndex(1)
-                .onTapGesture {
-                    withAnimation(.spring(response: 0.2,dampingFraction: 0.4,blendDuration: 0.2)) {
-                        tappedView.toggle()
-                        
-                        if let day = Int(monthStruct().day()) {
-                            correctDay = day
-                            viewModel.selectDayForTraining(day: day)
-                        }
-                    }
-                }
+            
                 Circle()
-                .frame(width: tappedView ? 40 : 0,height: tappedView ? 40 : 0)
+                .frame(width: isSelectedCheking() ? 40 : 0,height: isSelectedCheking() ? 40 : 0)
                     .foregroundColor(.black)
                     .zIndex(0)
-            
-        }
-    }
-    func textColor(type: MonthType) -> Color
-    {
-        return type == MonthType.Current ? Color.black : Color("MidGrayColor")
+            }
     }
     
-    func monthStruct() -> MonthViewModel
+
+    
+    func isSelectedCheking() -> Bool
     {
-        let start = startingSpaces == 0 ? startingSpaces + 7 : startingSpaces
-        if(count <= start)
-        {
-            let day = daysInPrevMonth + count - start
-            return MonthViewModel(monthType: MonthType.Previous, dayInt: day)
-        }
-        else if (count - start > daysInMonth)
-        {
-            let day = count - start - daysInMonth
-            return MonthViewModel(monthType: MonthType.Next, dayInt: day)
-        }
-        
-        let day = count - start
-        return MonthViewModel(monthType: MonthType.Current, dayInt: day)
+        guard isSelected else { return false }
+        guard correctDay == Int(monthStruct().day()) else { return false}
+        let selectedDate = viewModel.selectedDate
+        guard Calendar.current.isDate(selectedDate, equalTo: month, toGranularity: .month) else { return false}
+        guard monthStruct().monthType == .Current else { return false}
+        return true
     }
+
+    
+func textColor(type: MonthType) -> Color
+{
+    return type == MonthType.Current ? Color.black : Color("MidGrayColor")
+}
+
+func monthStruct() -> MonthViewModel
+{
+    CalendarModel().monthStruct(count: count, startingSpaces: startingSpaces, daysInPrevMonth: daysInPrevMonth, daysInMonth: daysInMonth)
+}
 }
 
 struct CalendarCell_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarCellView(count: 1, startingSpaces: 1, daysInMonth: 1, daysInPrevMonth: 1)
+        CalendarCellView(count: 1, startingSpaces: 1, daysInMonth: 1, daysInPrevMonth: 1,correctDay: .constant(7), isSelected: .constant(true), month: Date())
     }
 }

@@ -260,20 +260,19 @@ class GymViewModel: ObservableObject {
     func updateArrayMonthsNext() {
         for (i,element) in arrayOfMonths.enumerated() {
             arrayOfMonths[i] = CalendarModel().plusMonth(element)
+            
         }
     }
     func updateArrayMonthsBack() {
         for (i,element) in arrayOfMonths.enumerated() {
             arrayOfMonths[i] = CalendarModel().minusMonth(element)
-
+            
         }
     }
 // Selecting new day for new training day
     func selectDayForTraining(day:Int) {
-        
         //Update month
         updateMonth()
-    
         selectedDate = CalendarModel().selectDay(date, day: day)
         
         let calendar = Calendar.current
@@ -288,8 +287,8 @@ class GymViewModel: ObservableObject {
     }
     
 // Is the correct day selected?
-    func isSelectedDay(day:Int) -> Bool {
-        return selectedDayForChecking == day
+    func isSelectedDay(day:Int,date:Date) -> Bool {
+        return selectedDayForChecking == day  && date == arrayOfMonths[1]
     }
         
     

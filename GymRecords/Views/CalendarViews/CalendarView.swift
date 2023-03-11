@@ -12,12 +12,15 @@ struct CalendarView: View
     @EnvironmentObject var viewModel:GymViewModel
     
     var month:Date
+    @State var tappedView = false
+    @State var correctDay = 0
+    @State var isSelectedDay = false
     var body: some View
     {
         VStack(spacing: 1) {
-//            MonthLabelView(month:month)
-//                .environmentObject(viewModel)
-//                .padding()
+            //            MonthLabelView(month:month)
+            //                .environmentObject(viewModel)
+            //                .padding()
             dayOfWeekStack
             calendarGrid
         }
@@ -58,16 +61,30 @@ struct CalendarView: View
                     {
                         column in
                         let count = column + (row * 7)
-                        CalendarCellView(count: count, startingSpaces:startingSpaces, daysInMonth: daysInMonth, daysInPrevMonth: daysInPrevMonth)
-                            .environmentObject(viewModel)
                         
+                        CalendarCellView(count: count, startingSpaces:startingSpaces, daysInMonth: daysInMonth, daysInPrevMonth: daysInPrevMonth,correctDay:$viewModel.selectedDayForChecking, isSelected: $isSelectedDay, month: month)
+                            .environmentObject(viewModel)
+                            .zIndex(1)
+                            .onTapGesture {
+                                withAnimation(.spring(response: 0.2,dampingFraction: 0.4,blendDuration: 0.2)) {
+                                    
+                                    
+                                    let monthStruct = CalendarModel().monthStruct(count: count, startingSpaces: startingSpaces, daysInPrevMonth: daysInPrevMonth, daysInMonth: daysInMonth)
+                                    if monthStruct.monthType == .Current {
+                                        correctDay = Int(monthStruct.day())!
+                                        viewModel.selectDayForTraining(day: correctDay)
+                                        isSelectedDay = true
+                                        print(viewModel.selectedDate)
+                                    }
+                                }
+                            }
                     }
                 }
             }
+            .frame(maxHeight: .infinity)
         }
-        .frame(maxHeight: .infinity)
+        
     }
-    
 }
 
 struct CalendarView_Previews: PreviewProvider {

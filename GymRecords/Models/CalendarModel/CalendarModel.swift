@@ -56,6 +56,7 @@ class CalendarModel
     func firstOfMonth(_ date: Date) -> Date
     {
         let components = calendar.dateComponents([.year, .month], from: date)
+        
         return calendar.date(from: components)!
     }
     
@@ -76,6 +77,36 @@ class CalendarModel
         }
         
         return newArray
+        
+    }
+    func monthStruct(count:Int, startingSpaces:Int, daysInPrevMonth:Int, daysInMonth:Int) -> MonthViewModel
+    {
+        let start = startingSpaces == 0 ? startingSpaces + 7 : startingSpaces
+        if(count <= start)
+        {
+            let day = daysInPrevMonth + count - start
+            return MonthViewModel(monthType: MonthType.Previous, dayInt: day)
+        }
+        else if (count - start > daysInMonth)
+        {
+            let day = count - start - daysInMonth
+            return MonthViewModel(monthType: MonthType.Next, dayInt: day)
+        }
+        
+        let day = count - start
+        return MonthViewModel(monthType: MonthType.Current, dayInt: day)
+    }
+    func constructDate(day:Int, month:Date) -> Date {
+        
+        var dateComponents = Calendar.current.dateComponents([.month, .year, .minute, .second], from: month)
+
+        dateComponents.hour = 12
+        dateComponents.day = day
+
+        if let newDate = Calendar.current.date(from: dateComponents) {
+            return newDate
+        }
+        return month
         
     }
     
