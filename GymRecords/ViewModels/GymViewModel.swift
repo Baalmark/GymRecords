@@ -12,11 +12,12 @@ class GymViewModel: ObservableObject {
     @Published var selectedExArray:[Exercise] = []
     @Published var databaseInfoTitle:[(String,Int)]
     @Published var backButtonLabel:String = ""
-    @Published var programList:[GymModel.Program] = GymModel.programs
-    
+    @Published var programList:[GymModel.Program]
+    @Published var trainings:[String:GymModel.Program]
+    @Published var selectedProgramForNewTrainingDay:GymModel.Program? = nil
     //Edit or Remove View appears and dissapears by these variables
     @Published var isShowedEditOrRemoveView:Bool = false
-    @Published var showedEdirOrRemoveProgram:GymModel.Program = GymModel.programs[0]
+    @Published var showedEdirOrRemoveProgram:GymModel.Program
     
     //View List Specifi Exercise appears and dissapears by these variables
     @Published var isShowedViewListSpecificExercise:Bool = false
@@ -24,7 +25,7 @@ class GymViewModel: ObservableObject {
     @Published var isShowedCreateNewExerciseList:Bool = false
     
     //Passing Date for new Programm
-    @Published var dataForProgramm:Date = Date.now
+    @Published var dataForProgramm:Date
     
     //Finder any Exercises
     @Published var searchWord:String = ""
@@ -33,12 +34,13 @@ class GymViewModel: ObservableObject {
     
     
     //Date holder
-    @Published var date = Date() //todays date
+    @Published var date:Date
     @Published var arrayOfMonths:[Date] = []
     @Published var selectedDate:Date = Date() // Selected Date for new training day
     @Published var selectedDayForChecking:Int = 0
-
-    var trainingPlannedArray:[GymModel.TrainingInfo]
+    
+    
+   
     var colors = GymModel.colors
     var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises
     var imagesArray:[UIImage] = []
@@ -59,17 +61,21 @@ class GymViewModel: ObservableObject {
     var paddingSafeArea = 20
     
     init() {
-        self.gymModel = GymModel(programTitle: GymModel.Program(programTitle: "Test", description: "", colorDesign: "White", exercises: GymModel.programs[0].exercises))
+        self.gymModel = GymModel()
+        self.programList = GymModel().programs
         self.selectedExArray = []
-        self.trainingPlannedArray = [GymModel.TrainingInfo(name: "FirstTrain", arrayOfExercises: arrayExercises, Date: .distantPast)]
-        self.databaseInfoTitle = [("WorkOut",trainingPlannedArray.count),("Programs",GymModel.programs.count),("Exercises",arrayExercises.count)]
-        
+        self.trainings = GymModel().trainingDictionary
+        self.showedEdirOrRemoveProgram = GymModel().programs[0]
+        self.databaseInfoTitle = [("WorkOut",GymModel().trainingDictionary.count),("Programs",GymModel().programs.count),("Exercises",arrayExercises.count)]
         //Date holder
-        arrayOfMonths = [CalendarModel().minusMonth(date),date,CalendarModel().plusMonth(date)]
+        
+        self.date = Date()
+        self.dataForProgramm = Date.now
+        self.arrayOfMonths = [CalendarModel().minusMonth(Date()),Date(),CalendarModel().plusMonth(Date())]
         
         
         let calendar = Calendar.current
-        let components = calendar.dateComponents([.day], from: date)
+        let components = calendar.dateComponents([.day], from: Date())
         selectedDayForChecking = components.day!
     }
     
@@ -183,7 +189,7 @@ class GymViewModel: ObservableObject {
         //Reload info for DataBaseTitle Exercise Counter
         
         //Reload DB Info
-        databaseInfoTitle = gymModel.reloadDataBaseInfo(trainArray: trainingPlannedArray, progArray: programList, arrayExercises: arrayExercises)
+        databaseInfoTitle = gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
     }
     
 //Change settings of exerise by toggle.
@@ -198,7 +204,7 @@ class GymViewModel: ObservableObject {
         arrayExercises = newArray
         
         //Reload DB Info
-        databaseInfoTitle = gymModel.reloadDataBaseInfo(trainArray: trainingPlannedArray, progArray: programList, arrayExercises: arrayExercises)
+        databaseInfoTitle = gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
     }
     
 // Create a new program
@@ -214,7 +220,7 @@ class GymViewModel: ObservableObject {
             programList.append(program)
             gymModel.addProgram(program)
             //Reload DB Info
-            databaseInfoTitle = gymModel.reloadDataBaseInfo(trainArray: trainingPlannedArray, progArray: programList, arrayExercises: arrayExercises)
+            databaseInfoTitle = gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
         }
     }
 //Remove some program
@@ -228,8 +234,13 @@ class GymViewModel: ObservableObject {
             }
         }
         
-        
     }
+    
+//Select programm for new training Day
+    func selectingProgrammForNewTrainingDay(program:GymModel.Program) {
+        selectedProgramForNewTrainingDay = program
+    }
+    
 //Find any exercises by search
     func findAnyExerciseByLetters(letters:String,array:[Exercise]) -> Array<Exercise>{
         return gymModel.finderByTextField(letters: letters, array: array)
@@ -291,7 +302,28 @@ class GymViewModel: ObservableObject {
         return selectedDayForChecking == day  && date == arrayOfMonths[1]
     }
         
+// Create new training day
     
+    func createTraining(date:Date,exercises:[Exercise]){
+        
+        let stringDate = toStringDate(date: date)
+        let newProgram = GymModel.Program(programTitle: "blank", description: "blank", colorDesign: "blank", exercises: exercises)
+        trainings[stringDate] = newProgram
+    }
+    
+    func createTraining(date:Date,program:GymModel.Program)  {
+        
+        let stringDate = toStringDate(date: date)
+        trainings[stringDate] = program
+        
+    }
+    
+//Creating String of Date from Date
+    func toStringDate(date:Date) -> String {
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "y/M/d"
+        return dateFormater.string(from: date)
+    }
 }
 
 

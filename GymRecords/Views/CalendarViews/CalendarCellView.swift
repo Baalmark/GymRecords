@@ -41,6 +41,14 @@ struct CalendarCellView: View
     
     func isSelectedCheking() -> Bool
     {
+        let components = viewModel.selectedDate.get(.day, .month, .year)
+        
+        if let day = components.day, let month = components.month, let year = components.year {
+            if day == monthStruct().dayInt{
+                return true
+            }
+        }
+        
         guard isSelected else { return false }
         guard correctDay == Int(monthStruct().day()) else { return false}
         let selectedDate = viewModel.selectedDate

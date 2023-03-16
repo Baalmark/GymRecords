@@ -74,7 +74,7 @@ struct CalendarView: View
                                         correctDay = Int(monthStruct.day())!
                                         viewModel.selectDayForTraining(day: correctDay)
                                         isSelectedDay = true
-                                        print(viewModel.selectedDate)
+                                        
                                     }
                                 }
                             }

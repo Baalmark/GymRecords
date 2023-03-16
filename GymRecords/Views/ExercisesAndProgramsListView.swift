@@ -99,7 +99,7 @@ struct ExercisesAndProgramsListView: View {
                 .frame(maxWidth: contentSize.width, maxHeight: contentSize.height)
                 .transition(.move(edge: .leading))
                 Button("Ready") {
-                    
+                    viewModel.createTraining(date: .now, exercises: viewModel.arrayExercises)
                 }.buttonStyle(GrowingButton(isDarkMode: false,width: 335,height: 45))
                     .tint(.white)
                     .font(.title2)

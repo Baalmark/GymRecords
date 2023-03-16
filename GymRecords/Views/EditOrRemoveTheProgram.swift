@@ -97,7 +97,7 @@ struct EditOrRemoveTheProgram: View {
                             }), secondaryButton: .cancel(Text("Cancel")))
                             
                         })
-                        
+
                         Button {
                             isEditProgram.toggle()
                             viewModel.selectedExArray = program.exercises
@@ -106,6 +106,7 @@ struct EditOrRemoveTheProgram: View {
                                 .foregroundStyle(.white.gradient)
                             
                         }
+                        
                         .fullScreenCover(isPresented: $isEditProgram) {
                             CreateNewProgrammView(name: $program.programTitle, description: $program.description, exercises: $program.exercises, colorDesignStringValue: $program.colorDesign)
                             
@@ -121,7 +122,15 @@ struct EditOrRemoveTheProgram: View {
                     
                 }
                 
-                
+                Button {
+                    viewModel.selectingProgrammForNewTrainingDay(program: program)
+                    dismiss()
+                } label: {
+                    Text("Ready")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                }.buttonStyle(GrowingButton(isDarkMode: false, width: 220, height: 40))
+                    .padding(20)
             }
             
         }
@@ -131,6 +140,6 @@ struct EditOrRemoveTheProgram: View {
 
 struct EditOrRemoveTheProgramm_Previews: PreviewProvider {
     static var previews: some View {
-        EditOrRemoveTheProgram(program: GymModel.programs[0], isShowedView: .constant(true)).environmentObject(GymViewModel())
+        EditOrRemoveTheProgram(program: GymModel().programs[0], isShowedView: .constant(true)).environmentObject(GymViewModel())
     }
 }

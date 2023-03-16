@@ -11,20 +11,16 @@ import Foundation
 struct GymModel {
     
     
-    //    var Date: Date
-    var programTitle: Program
-    var programs:[Program]?
-    var createdPrograms:[Program]
+    var programs:[Program]
     var typesExercises:[TypeOfExercise] = TypeOfExercise.allExercises
     var arrayOfExercises:[Exercise] = arrayOfAllCreatedExercises
     var arrayOfPlannedTrainings:[TrainingInfo]
+    var trainingDictionary:Dictionary<String,Program>
     
-    
-    init(programTitle: Program, programs: [Program]? = nil) {
-        self.programTitle = programTitle
-        self.programs = programs
+    init() {
+        self.programs = [Program(programTitle: "Test", description: "TestDescription", colorDesign: "red", exercises: Program.exercises)]
         self.arrayOfPlannedTrainings = []
-        self.createdPrograms = GymModel.programs
+        trainingDictionary = [:]
     }
     //MARK: Program Struct
     struct Program:Identifiable {
@@ -43,17 +39,7 @@ struct GymModel {
             exercises.append(Exercise(type: t, name: name, doubleWeight: dB, selfWeight: sW,isSelected: false))
         }
     }
-//    //MARK: Exercise Struct
-//    struct Exercise:Hashable {
-//
-//        var type: TypeOfExercise
-//        var name: String
-//        var doubleWeight:Bool
-//        var selfWeight:Bool
-//        var isSelected:Bool
-//
-//
-//    }
+
     //MARK: type of execrice Enumeration
     enum TypeOfExercise:String,CaseIterable,Identifiable {
         var id: String { return self.rawValue }
@@ -97,7 +83,6 @@ struct GymModel {
     //MARK: Training
     
     struct TrainingInfo {
-        var name:String
         var arrayOfExercises:[Exercise]
         var Date:Date
         
@@ -117,7 +102,7 @@ struct GymModel {
     
 //MARK: MAIN Functions
     mutating func createNewProgram(title name:String,exercises exs:[Exercise],color cDesign:String,description desc:String) {
-        createdPrograms.append(Program(programTitle: name, description: desc, colorDesign: cDesign, exercises: exs))
+        programs.append(Program(programTitle: name, description: desc, colorDesign: cDesign, exercises: exs))
         
     }
     mutating func AddNewExercise(type:TypeOfExercise,title:String,doubleW db:Bool,selfW sw:Bool) {
@@ -191,19 +176,19 @@ struct GymModel {
             return newArray
         }
     //Reload data to DataBase info title
-    func reloadDataBaseInfo(trainArray: [GymModel.TrainingInfo],progArray:[Program],arrayExercises:[Exercise]) -> [(String, Int)] {
-        return [("WorkOut",trainArray.count),("Programms",progArray.count),("Exercises",arrayExercises.count)]
+    func reloadDataBaseInfo(trainDictionary: [String:GymModel.Program],progArray:[Program],arrayExercises:[Exercise]) -> [(String, Int)] {
+        return [("WorkOut",trainDictionary.count),("Programms",progArray.count),("Exercises",arrayExercises.count)]
     }
     
     //Add program
     mutating func addProgram(_ program:Program) {
-        createdPrograms.append(program)
+            programs.append(program)
     }
     
     //Remove program
     mutating func removeProgram(_ index:Int) {
-            createdPrograms.remove(at: index)
-    }
+            programs.remove(at: index)
+        }
     //Find exercises by find textfield
     func finderByTextField(letters:String,array:Array<Exercise>) -> Array<Exercise> {
         
@@ -257,7 +242,7 @@ class Exercise:Equatable,Identifiable {
 
 extension GymModel {
     static var colors = ["green","red","cyan","purple","yellow","gray","blue","orange","pink","indigo","teal"]
-    static var programs = [Program(programTitle: "Test", description: "TestDescription", colorDesign: "red", exercises: Program.exercises)]
+    
 }
 
 extension GymModel.TypeOfExercise{

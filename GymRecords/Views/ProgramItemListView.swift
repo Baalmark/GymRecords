@@ -48,6 +48,6 @@ struct ProgramItemListView: View {
 
 struct ProgrammItemListView_Previews: PreviewProvider {
     static var previews: some View {
-        ProgramItemListView(programm: .constant(GymModel.programs[0])).environmentObject(GymViewModel())
+        ProgramItemListView(programm: .constant(GymModel().programs[0])).environmentObject(GymViewModel())
     }
 }
