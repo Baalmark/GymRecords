@@ -234,6 +234,15 @@ class Exercise:Equatable,Identifiable {
 
 
 
+enum CalendarMinimizingPosition:CGFloat {
+    
+    case firstRow = 15
+    case secondRow = 25
+    
+   
+}
+    
+
 
 
 

@@ -11,14 +11,15 @@ struct CalendarCellView: View
 {
     @EnvironmentObject var viewModel:GymViewModel
     
-    
+    let rowIndex : Int
     let count : Int
     let startingSpaces : Int
     let daysInMonth : Int
     let daysInPrevMonth : Int
+    @State var someFlag = false
     @Binding var correctDay: Int
     @State var tappedView = false
-    @Binding var isSelected:Bool
+    @Binding var isSelected:Date
     var month:Date
     var body: some View
     {
@@ -37,23 +38,26 @@ struct CalendarCellView: View
             }
     }
     
-
+    
     
     func isSelectedCheking() -> Bool
     {
+       
         let components = viewModel.selectedDate.get(.day, .month, .year)
         
+       
+        
+        guard correctDay == Int(monthStruct().day()) else { return false}
+        guard Calendar.current.isDate(viewModel.selectedDate, equalTo: month, toGranularity: .month) else { return false}
+        guard monthStruct().monthType == .Current else { return false}
+        
         if let day = components.day, let month = components.month, let year = components.year {
-            if day == monthStruct().dayInt{
+            
+            if day == monthStruct().dayInt {
+                
                 return true
             }
         }
-        
-        guard isSelected else { return false }
-        guard correctDay == Int(monthStruct().day()) else { return false}
-        let selectedDate = viewModel.selectedDate
-        guard Calendar.current.isDate(selectedDate, equalTo: month, toGranularity: .month) else { return false}
-        guard monthStruct().monthType == .Current else { return false}
         return true
     }
 
@@ -71,6 +75,6 @@ func monthStruct() -> MonthViewModel
 
 struct CalendarCell_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarCellView(count: 1, startingSpaces: 1, daysInMonth: 1, daysInPrevMonth: 1,correctDay: .constant(7), isSelected: .constant(true), month: Date())
+        CalendarCellView(rowIndex: 1, count: 1, startingSpaces: 1, daysInMonth: 1, daysInPrevMonth: 1,correctDay: .constant(7), isSelected: .constant(Date()), month: Date()).environmentObject(GymViewModel())
     }
 }

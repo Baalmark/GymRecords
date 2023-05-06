@@ -18,6 +18,7 @@
 		3A1B8321299A4F8B006F959E /* CreateNewProgrammView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B8320299A4F8B006F959E /* CreateNewProgrammView.swift */; };
 		3A1B8323299A8BA4006F959E /* ButtonCreateExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B8322299A8BA4006F959E /* ButtonCreateExercise.swift */; };
 		3A1B8325299AAD38006F959E /* CreateExerciseAndSelectCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B8324299AAD38006F959E /* CreateExerciseAndSelectCategory.swift */; };
+		3A637A0C2A06A28B002B5857 /* DragGestureLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A637A0B2A06A28B002B5857 /* DragGestureLineView.swift */; };
 		3A8896B429B7579D00219446 /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896B329B7579D00219446 /* CalendarModel.swift */; };
 		3A8896B829B7587200219446 /* MonthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896B729B7587200219446 /* MonthViewModel.swift */; };
 		3A8896BC29B7595E00219446 /* MonthLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896BB29B7595E00219446 /* MonthLabelView.swift */; };
@@ -53,6 +54,7 @@
 		3A1B8320299A4F8B006F959E /* CreateNewProgrammView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProgrammView.swift; sourceTree = "<group>"; };
 		3A1B8322299A8BA4006F959E /* ButtonCreateExercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCreateExercise.swift; sourceTree = "<group>"; };
 		3A1B8324299AAD38006F959E /* CreateExerciseAndSelectCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseAndSelectCategory.swift; sourceTree = "<group>"; };
+		3A637A0B2A06A28B002B5857 /* DragGestureLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragGestureLineView.swift; sourceTree = "<group>"; };
 		3A8896B329B7579D00219446 /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		3A8896B729B7587200219446 /* MonthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthViewModel.swift; sourceTree = "<group>"; };
 		3A8896BB29B7595E00219446 /* MonthLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthLabelView.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				3A8896BD29B759AA00219446 /* CalendarViews */,
 				3AB0A80529B0C85900E5E7BA /* StyleViews */,
 				008C51DC2972F8F50046EF5B /* ContentView.swift */,
+				3A637A0B2A06A28B002B5857 /* DragGestureLineView.swift */,
 				3A9E9A4129852F8200DAA547 /* AddProgramView.swift */,
 				3A9E9A4D29951AF400DAA547 /* DataBaseView.swift */,
 				3A9E9A4F29951BF700DAA547 /* ExercisesAndProgramsListView.swift */,
@@ -316,6 +319,7 @@
 				008C51EE297304540046EF5B /* GymViewModel.swift in Sources */,
 				3A9E9A5629964BD500DAA547 /* EditOrRemoveTheProgram.swift in Sources */,
 				008C51DB2972F8F50046EF5B /* GymRecordsApp.swift in Sources */,
+				3A637A0C2A06A28B002B5857 /* DragGestureLineView.swift in Sources */,
 				3A1B8321299A4F8B006F959E /* CreateNewProgrammView.swift in Sources */,
 				3A9E9A542995340300DAA547 /* ChangeExerciseNameOrDeleteView.swift in Sources */,
 				3A1B8325299AAD38006F959E /* CreateExerciseAndSelectCategory.swift in Sources */,

@@ -14,7 +14,7 @@ struct CalendarView: View
     var month:Date
     @State var tappedView = false
     @State var correctDay = 0
-    @State var isSelectedDay = false
+    @State var isSelectedDay:Date = Date()
     var body: some View
     {
         VStack(spacing: 1) {
@@ -30,13 +30,14 @@ struct CalendarView: View
     {
         HStack(spacing: 1)
         {
-            Text("Sun").dayOfWeek()
+            
             Text("Mon").dayOfWeek()
             Text("Tue").dayOfWeek()
             Text("Wed").dayOfWeek()
             Text("Thu").dayOfWeek()
             Text("Fri").dayOfWeek()
             Text("Sat").dayOfWeek()
+            Text("Sun").dayOfWeek()
         }
         .fontWeight(.bold)
         .foregroundColor(Color("RedColorScarlet"))
@@ -55,29 +56,44 @@ struct CalendarView: View
             ForEach(0..<6)
             {
                 row in
+                
                 HStack(spacing: 1)
                 {
-                    ForEach(1..<8)
+                    ForEach(2..<9)
                     {
                         column in
                         let count = column + (row * 7)
-                        
-                        CalendarCellView(count: count, startingSpaces:startingSpaces, daysInMonth: daysInMonth, daysInPrevMonth: daysInPrevMonth,correctDay:$viewModel.selectedDayForChecking, isSelected: $isSelectedDay, month: month)
+                        let rowIndex = row
+                        CalendarCellView(rowIndex: rowIndex, count: count, startingSpaces:startingSpaces, daysInMonth: daysInMonth, daysInPrevMonth: daysInPrevMonth,correctDay:$viewModel.selectedDayForChecking, isSelected: $isSelectedDay, month: month)
+                            .onAppear {
+                                let monthStruct = CalendarModel().monthStruct(count: count, startingSpaces: startingSpaces, daysInPrevMonth: daysInPrevMonth, daysInMonth: daysInMonth)
+                                if monthStruct.monthType == .Current {
+                                    correctDay = Int(monthStruct.day())!
+                                    if viewModel.checkTheRowForTheSelectedDay(correctDay: correctDay, month: month) {
+                                        viewModel.selectedDayRowHolder = row
+                                        print(row)
+                                    }
+                                    
+                                }
+                            }
                             .environmentObject(viewModel)
                             .zIndex(1)
                             .onTapGesture {
                                 withAnimation(.spring(response: 0.2,dampingFraction: 0.4,blendDuration: 0.2)) {
-                                    
-                                    
+
                                     let monthStruct = CalendarModel().monthStruct(count: count, startingSpaces: startingSpaces, daysInPrevMonth: daysInPrevMonth, daysInMonth: daysInMonth)
                                     if monthStruct.monthType == .Current {
                                         correctDay = Int(monthStruct.day())!
                                         viewModel.selectDayForTraining(day: correctDay)
-                                        isSelectedDay = true
+                                        
+                                        
+                                        viewModel.selectedDayRowHolder = row
+                                        print(viewModel.selectedDayRowHolder)
                                         
                                     }
                                 }
                             }
+                            
                     }
                 }
             }

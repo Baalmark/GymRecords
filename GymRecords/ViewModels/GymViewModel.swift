@@ -38,9 +38,9 @@ class GymViewModel: ObservableObject {
     @Published var arrayOfMonths:[Date] = []
     @Published var selectedDate:Date = Date() // Selected Date for new training day
     @Published var selectedDayForChecking:Int = 0
+    @Published var selectedDayRowHolder = 0
     
     
-   
     var colors = GymModel.colors
     var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises
     var imagesArray:[UIImage] = []
@@ -49,9 +49,9 @@ class GymViewModel: ObservableObject {
     
     //Computed Property
     @Published var selectedCounterLabel:[Int] = []
-        
     
-
+    
+    
     
     
     
@@ -83,14 +83,14 @@ class GymViewModel: ObservableObject {
     public func appendImagesToArray(image img:UIImage) {
         imagesArray.append(img)
     }
-//List of exercise types
+    //List of exercise types
     func getListOfExercises(){
         for element in exerciseList {
             stringExerciseList.append(element.rawValue)
         }
     }
     
-//Compure selected Counter Label
+    //Compure selected Counter Label
     func computeSelectedCounderLabel() -> Array<Int> {
         var array:[Int] = []
         for element in exerciseList {
@@ -102,7 +102,7 @@ class GymViewModel: ObservableObject {
         return array
     }
     
-//Exercise selection
+    //Exercise selection
     func selectingExercise(exercise:Exercise,isSelected:Bool) {
         
         selectedExArray = selectedExArray.filter({$0.name != exercise.name})
@@ -116,7 +116,7 @@ class GymViewModel: ObservableObject {
         }
     }
     
-//Couple exercises unselection
+    //Couple exercises unselection
     func unselectingCoupleOfExercise(arrayOfTitles:[String] = [],arrayOfExercises:[Exercise] = [],isSelected:Bool) {
         
         if arrayOfExercises.isEmpty, !arrayOfTitles.isEmpty {
@@ -137,10 +137,10 @@ class GymViewModel: ObservableObject {
             }
         }
     }
-//Exercise unselection
+    //Exercise unselection
     func unselectingExercise(exercise:Exercise,isSelected:Bool) {
         let newItem = Exercise(type: exercise.type, name: exercise.name, doubleWeight: exercise.doubleWeight, selfWeight: exercise.selfWeight, isSelected: isSelected)
-
+        
         selectedExArray = selectedExArray.filter({$0.name != exercise.name})
         
         for (i,element) in arrayExercises.enumerated() {
@@ -150,7 +150,7 @@ class GymViewModel: ObservableObject {
         }
     }
     
-//Find exercise from array by name
+    //Find exercise from array by name
     func findExercise(name:String) -> Exercise?{
         for element in arrayExercises {
             if element.name == name {
@@ -169,19 +169,19 @@ class GymViewModel: ObservableObject {
             }
         }
     }
-
-//Find a number of exercise same type.
+    
+    //Find a number of exercise same type.
     func findNumberOfExerciseOneType(type:GymModel.TypeOfExercise,array:Array<Exercise>) -> Int {
         return gymModel.findNumberOfExerciseOneType(type: type, array: array)
     }
     
-//Find a number of selected Exercise by type of exercise (VM - ViewModel )
+    //Find a number of selected Exercise by type of exercise (VM - ViewModel )
     func findNumberOfSelectedExerciseByTypeVM(type:GymModel.TypeOfExercise,array:Array<Exercise>) -> Int {
         return gymModel.findNumberOfSelectedExerciseByType(type: type, array: array)
     }
     
     
-//Remove some exercise by user's choice
+    //Remove some exercise by user's choice
     func removeSomeExercise(exercise:Exercise) {
         let newArray = gymModel.removeSomeExerciseFromArray(exercise: exercise, array: arrayExercises)
         
@@ -192,13 +192,13 @@ class GymViewModel: ObservableObject {
         databaseInfoTitle = gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
     }
     
-//Change settings of exerise by toggle.
+    //Change settings of exerise by toggle.
     func toggleBodyAndDoubleWeight(exercise:Exercise,bodyWeight:Bool,doubleWeight:Bool) {
-       let newExercise = gymModel.modelToggleBodyAndDoubleWeight(exercise:exercise,bodyWeight:bodyWeight,doubleWeight:doubleWeight)
+        let newExercise = gymModel.modelToggleBodyAndDoubleWeight(exercise:exercise,bodyWeight:bodyWeight,doubleWeight:doubleWeight)
         let newArray = gymModel.replaceExerciseInArray(exercise: newExercise, array: arrayExercises)
         arrayExercises = newArray
     }
-//Create a new Exercise
+    //Create a new Exercise
     func createNewExercise(exercise:Exercise) {
         let newArray = gymModel.createNewExercise(exercise: exercise, array: arrayExercises)
         arrayExercises = newArray
@@ -207,7 +207,7 @@ class GymViewModel: ObservableObject {
         databaseInfoTitle = gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
     }
     
-// Create a new program
+    // Create a new program
     func createNewProgram(program:GymModel.Program) {
         var flag = false
         for (index,elements) in programList.enumerated() {
@@ -223,7 +223,7 @@ class GymViewModel: ObservableObject {
             databaseInfoTitle = gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
         }
     }
-//Remove some program
+    //Remove some program
     
     func removeProgram(program:GymModel.Program) {
         
@@ -236,51 +236,53 @@ class GymViewModel: ObservableObject {
         
     }
     
-//Select programm for new training Day
+    //Select programm for new training Day
     func selectingProgrammForNewTrainingDay(program:GymModel.Program) {
         selectedProgramForNewTrainingDay = program
     }
     
-//Find any exercises by search
+    //Find any exercises by search
     func findAnyExerciseByLetters(letters:String,array:[Exercise]) -> Array<Exercise>{
         return gymModel.finderByTextField(letters: letters, array: array)
     }
-//MARK: Behavior for the Calendar View
-//Enum of directions
+    //MARK: Behavior for the Calendar View
+    //Enum of directions
     enum SwipeHVDirection: String {
         case left, right, up, down, none
     }
-//Detecting drag gesture directions
+    //Detecting drag gesture directions
     
     func detectDirection(value: DragGesture.Value) -> SwipeHVDirection {
-    if value.startLocation.x < value.location.x - 24 {
-                return .left
-              }
-              if value.startLocation.x > value.location.x + 24 {
-                return .right
-              }
-              if value.startLocation.y < value.location.y - 24 {
-                return .down
-              }
-              if value.startLocation.y > value.location.y + 24 {
-                return .up
-              }
-      return .none
-      }
-//Updating array of months
+        if value.startLocation.x < value.location.x - 24 {
+            return .left
+        }
+        if value.startLocation.x > value.location.x + 24 {
+            return .right
+        }
+        if value.startLocation.y < value.location.y - 24 {
+            return .down
+        }
+        if value.startLocation.y > value.location.y + 24 {
+            return .up
+        }
+        return .none
+    }
+    //Updating array of months
     func updateArrayMonthsNext() {
         for (i,element) in arrayOfMonths.enumerated() {
             arrayOfMonths[i] = CalendarModel().plusMonth(element)
             
         }
+        updateMonth()
     }
     func updateArrayMonthsBack() {
         for (i,element) in arrayOfMonths.enumerated() {
             arrayOfMonths[i] = CalendarModel().minusMonth(element)
             
         }
+        updateMonth()
     }
-// Selecting new day for new training day
+    // Selecting new day for new training day
     func selectDayForTraining(day:Int) {
         //Update month
         updateMonth()
@@ -291,18 +293,18 @@ class GymViewModel: ObservableObject {
         selectedDayForChecking = components.day!
         
     }
-// Update month of current date
+    // Update month of current date
     
     func updateMonth() {
         date = arrayOfMonths[1]
     }
     
-// Is the correct day selected?
+    // Is the correct day selected?
     func isSelectedDay(day:Int,date:Date) -> Bool {
         return selectedDayForChecking == day  && date == arrayOfMonths[1]
     }
-        
-// Create new training day
+    
+    // Create new training day
     
     func createTraining(date:Date,exercises:[Exercise]){
         
@@ -318,15 +320,22 @@ class GymViewModel: ObservableObject {
         
     }
     
-//Creating String of Date from Date
+    //Creating String of Date from Date
     func toStringDate(date:Date) -> String {
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "y/M/d"
         return dateFormater.string(from: date)
     }
+    
+    //Checking the row for the selected day
+    func checkTheRowForTheSelectedDay(correctDay:Int, month:Date) -> Bool{
+        let components = selectedDate.get(.day, .month, .year)
+        if components.day == correctDay && Calendar.current.isDate(selectedDate, equalTo: month, toGranularity: .month) {
+                return true
+        }
+        return false
+    }
 }
-
-
 //MARK: Extensions
 
 
