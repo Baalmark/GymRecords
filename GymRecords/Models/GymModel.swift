@@ -236,9 +236,32 @@ class Exercise:Equatable,Identifiable {
 
 enum CalendarMinimizingPosition:CGFloat {
     
-    case firstRow = 15
-    case secondRow = 25
     
+    case zero = 100000
+    case first = 5
+    case second = 2.5
+    case third = 1.675
+    case fourth = 1.26
+    case fifth = 1
+    
+    
+    
+    
+    init?(id : Int) {
+        switch id {
+        case 0: self = .zero
+        case 1: self = .first
+        case 2: self = .second
+        case 3: self = .third
+        case 4: self = .fourth
+        case 5: self = .fifth
+        default: return nil
+        }
+        
+        func asCGFloat() -> CGFloat {
+            return CGFloat(self.rawValue)
+        }
+    }
    
 }
     

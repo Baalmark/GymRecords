@@ -13,8 +13,7 @@ class GymViewModel: ObservableObject {
     @Published var databaseInfoTitle:[(String,Int)]
     @Published var backButtonLabel:String = ""
     @Published var programList:[GymModel.Program]
-    @Published var trainings:[String:GymModel.Program]
-    @Published var selectedProgramForNewTrainingDay:GymModel.Program? = nil
+    
     //Edit or Remove View appears and dissapears by these variables
     @Published var isShowedEditOrRemoveView:Bool = false
     @Published var showedEdirOrRemoveProgram:GymModel.Program
@@ -25,7 +24,7 @@ class GymViewModel: ObservableObject {
     @Published var isShowedCreateNewExerciseList:Bool = false
     
     //Passing Date for new Programm
-    @Published var dataForProgramm:Date
+    @Published var dateForProgramm:Date
     
     //Finder any Exercises
     @Published var searchWord:String = ""
@@ -46,6 +45,13 @@ class GymViewModel: ObservableObject {
     var imagesArray:[UIImage] = []
     var stringExerciseList:[String] = []
     var arrayExercises:[Exercise] = GymModel.arrayOfAllCreatedExercises
+    
+    
+    
+    //All property to creating a training day
+    @Published var trainings:[String:GymModel.Program]
+    @Published var selectedProgramForNewTrainingDay:GymModel.Program? = nil
+    
     
     //Computed Property
     @Published var selectedCounterLabel:[Int] = []
@@ -70,7 +76,7 @@ class GymViewModel: ObservableObject {
         //Date holder
         
         self.date = Date()
-        self.dataForProgramm = Date.now
+        self.dateForProgramm = Date.now
         self.arrayOfMonths = [CalendarModel().minusMonth(Date()),Date(),CalendarModel().plusMonth(Date())]
         
         
@@ -311,12 +317,14 @@ class GymViewModel: ObservableObject {
         let stringDate = toStringDate(date: date)
         let newProgram = GymModel.Program(programTitle: "blank", description: "blank", colorDesign: "blank", exercises: exercises)
         trainings[stringDate] = newProgram
+        print(trainings)
     }
     
     func createTraining(date:Date,program:GymModel.Program)  {
         
         let stringDate = toStringDate(date: date)
         trainings[stringDate] = program
+        print(trainings)
         
     }
     
@@ -334,6 +342,21 @@ class GymViewModel: ObservableObject {
                 return true
         }
         return false
+    }
+    // The function that calculates with what coefficient to shift the calendar view when you use the drag gesture
+    
+    func getCoefficientOffset(row:Int) -> CGFloat {
+        if let offset = CalendarMinimizingPosition(id: row) {
+            return offset.rawValue
+        }
+        return CalendarMinimizingPosition.zero.rawValue
+    }
+    
+    //Сheck for training availability on the selected day
+    func isAnyTrainingSelectedDay() -> Bool {
+        let stringDate = toStringDate(date: selectedDate)
+        
+        return trainings[stringDate] != nil
     }
 }
 //MARK: Extensions

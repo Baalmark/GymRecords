@@ -123,7 +123,12 @@ struct EditOrRemoveTheProgram: View {
                 }
                 
                 Button {
+                    
                     viewModel.selectingProgrammForNewTrainingDay(program: program)
+                    if let newTrainingDay = viewModel.selectedProgramForNewTrainingDay {
+                        viewModel.createTraining(date: viewModel.selectedDate, program: newTrainingDay)
+                    }
+                    viewModel.selectedProgramForNewTrainingDay = nil
                     dismiss()
                 } label: {
                     Text("Ready")

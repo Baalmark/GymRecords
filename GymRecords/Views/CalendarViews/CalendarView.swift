@@ -18,30 +18,11 @@ struct CalendarView: View
     var body: some View
     {
         VStack(spacing: 1) {
-            //            MonthLabelView(month:month)
-            //                .environmentObject(viewModel)
-            //                .padding()
-            dayOfWeekStack
             calendarGrid
         }
     }
     
-    var dayOfWeekStack: some View
-    {
-        HStack(spacing: 1)
-        {
-            
-            Text("Mon").dayOfWeek()
-            Text("Tue").dayOfWeek()
-            Text("Wed").dayOfWeek()
-            Text("Thu").dayOfWeek()
-            Text("Fri").dayOfWeek()
-            Text("Sat").dayOfWeek()
-            Text("Sun").dayOfWeek()
-        }
-        .fontWeight(.bold)
-        .foregroundColor(Color("RedColorScarlet"))
-    }
+    
     
     var calendarGrid: some View
     {
