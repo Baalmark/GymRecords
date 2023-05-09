@@ -97,7 +97,7 @@ struct EditOrRemoveTheProgram: View {
                             }), secondaryButton: .cancel(Text("Cancel")))
                             
                         })
-
+                        
                         Button {
                             isEditProgram.toggle()
                             viewModel.selectedExArray = program.exercises

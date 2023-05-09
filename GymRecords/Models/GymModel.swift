@@ -115,7 +115,7 @@ struct GymModel {
         
         for (index,elements) in arrayOfExercises.enumerated() {
             if elements.name == ex.name {
-                print("imhere")
+                
                 arrayOfExercises[index] = ex
             }
         }
@@ -258,9 +258,7 @@ enum CalendarMinimizingPosition:CGFloat {
         default: return nil
         }
         
-        func asCGFloat() -> CGFloat {
-            return CGFloat(self.rawValue)
-        }
+        
     }
    
 }

@@ -122,9 +122,9 @@ struct ViewExerciseList: View {
                                     }
                                 } else {
                                     if programmingExercise == false {
-                                            viewModel.showedViewListSpecificExercise = elem
-                                            viewModel.isShowedCreateNewExerciseList.toggle()
-                                
+                                        viewModel.showedViewListSpecificExercise = elem
+                                        viewModel.isShowedCreateNewExerciseList.toggle()
+                                        
                                     } else {
                                         withAnimation(.easeInOut(duration: 0.2)) {
                                             viewModel.showedViewListSpecificExercise = elem

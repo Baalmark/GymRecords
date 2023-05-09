@@ -31,28 +31,28 @@ struct CalendarCellView: View
                 .opacity(monthStruct().monthType == .Current ? 1 : 0)
                 .zIndex(1)
             
-                Circle()
+            Circle()
                 .frame(width: isSelectedCheking() ? 40 : 0,height: isSelectedCheking() ? 40 : 0)
-                    .foregroundColor(.black)
-                    .zIndex(0)
-            }
+                .foregroundColor(.black)
+                .zIndex(0)
+        }
     }
     
     
     
     func isSelectedCheking() -> Bool
     {
-       
+        
         let components = viewModel.selectedDate.get(.day, .month, .year)
         
-       
+        
         
         guard correctDay == Int(monthStruct().day()) else { return false}
         guard Calendar.current.isDate(viewModel.selectedDate, equalTo: month, toGranularity: .month) else { return false}
         guard monthStruct().monthType == .Current else { return false}
         
-        if let day = components.day, let month = components.month, let year = components.year {
-            
+        if let day = components.day {
+            //let month = components.month, let year = components.year
             if day == monthStruct().dayInt {
                 
                 return true
@@ -60,17 +60,17 @@ struct CalendarCellView: View
         }
         return true
     }
-
     
-func textColor(type: MonthType) -> Color
-{
-    return type == MonthType.Current ? Color.black : Color("MidGrayColor")
-}
-
-func monthStruct() -> MonthViewModel
-{
-    CalendarModel().monthStruct(count: count, startingSpaces: startingSpaces, daysInPrevMonth: daysInPrevMonth, daysInMonth: daysInMonth)
-}
+    
+    func textColor(type: MonthType) -> Color
+    {
+        return type == MonthType.Current ? Color.black : Color("MidGrayColor")
+    }
+    
+    func monthStruct() -> MonthViewModel
+    {
+        CalendarModel().monthStruct(count: count, startingSpaces: startingSpaces, daysInPrevMonth: daysInPrevMonth, daysInMonth: daysInMonth)
+    }
 }
 
 struct CalendarCell_Previews: PreviewProvider {

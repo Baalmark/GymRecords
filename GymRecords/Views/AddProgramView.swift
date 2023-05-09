@@ -14,11 +14,11 @@ struct AddProgramView: View {
     var body: some View {
         ZStack {
             VStack {
-//Search View
+                //Search View
                 HStack{
                     Image(systemName: "magnifyingglass")
                         .fixedSize()
-                        
+                    
                         .padding([.leading,.top,.bottom],10)
                     
                     TextField("", text: $viewModel.searchWord)
@@ -42,27 +42,27 @@ struct AddProgramView: View {
                 
                 //View of Programms and Exercise with selection
                 ExercisesAndProgramsListView().environmentObject(viewModel)
-              
+                
                 
             }.opacity(viewModel.isShowedEditOrRemoveView ? 0 : 1)
                 .opacity(viewModel.isShowedViewListSpecificExercise ? 0 : 1)
-            .background(.white)
-            .position(x: viewModel.screenWidth / 2,y:400)
-            .onTapGesture {
-                self.hideKeyboard()
-            }
-            .ignoresSafeArea(.keyboard)
+                .background(.white)
+                .position(x: viewModel.screenWidth / 2,y:400)
+                .onTapGesture {
+                    self.hideKeyboard()
+                }
+                .ignoresSafeArea(.keyboard)
             if viewModel.isShowedEditOrRemoveView {
                 if let program = viewModel.showedEdirOrRemoveProgram {
-                        EditOrRemoveTheProgram(program: program, isShowedView: $viewModel.isShowedEditOrRemoveView )
+                    EditOrRemoveTheProgram(program: program, isShowedView: $viewModel.isShowedEditOrRemoveView )
                     
                 }
             }
             
             if viewModel.isShowedViewListSpecificExercise {
                 if let type = viewModel.showedViewListSpecificExercise {
-                        ViewListSpecificExercises(
-                            typeOfExercise: type,isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: false).environmentObject(viewModel)
+                    ViewListSpecificExercises(
+                        typeOfExercise: type,isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: false).environmentObject(viewModel)
                 }
             }
             

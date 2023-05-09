@@ -48,8 +48,8 @@ struct ViewProgramsList: View {
                     ProgramItemListView(programm: $viewModel.programList[elem])
                         .onTapGesture {
                             withAnimation(.easeInOut) {
-//                                self.selectedProgram = viewModel.programList[elem]
-//                                isSheetActivated.toggle()
+                                //                                self.selectedProgram = viewModel.programList[elem]
+                                //                                isSheetActivated.toggle()
                                 viewModel.showedEdirOrRemoveProgram = viewModel.programList[elem]
                                 viewModel.isShowedEditOrRemoveView.toggle()
                             }
@@ -60,7 +60,7 @@ struct ViewProgramsList: View {
                 }
                 
             }
-                Spacer()
+            Spacer()
         }
         
     }

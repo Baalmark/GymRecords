@@ -36,7 +36,7 @@ class CalendarModel
         dateComponents.day = day
         dateComponents.month = dateComponents.month
         dateComponents.year = dateComponents.year
-
+        
         let newDate = Calendar.current.date(from: dateComponents)
         return newDate!
     }
@@ -99,10 +99,10 @@ class CalendarModel
     func constructDate(day:Int, month:Date) -> Date {
         
         var dateComponents = Calendar.current.dateComponents([.month, .year, .minute, .second], from: month)
-
+        
         dateComponents.hour = 12
         dateComponents.day = day
-
+        
         if let newDate = Calendar.current.date(from: dateComponents) {
             return newDate
         }

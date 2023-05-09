@@ -18,9 +18,9 @@ struct MonthLabelView: View
         {
             Text(CalendarModel().monthYearString(month))
                 .font(.title)
-                
+            
                 .bold()
-                
+            
         }
     }
     

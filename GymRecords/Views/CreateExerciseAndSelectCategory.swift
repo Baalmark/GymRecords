@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CreateExerciseAndSelectCategory: View {
     @EnvironmentObject var viewModel:GymViewModel
-
+    
     var body: some View {
         // Exercise Button
         Button {

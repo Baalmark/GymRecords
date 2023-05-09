@@ -32,7 +32,7 @@ struct CreateNewExercise: View {
                 Spacer()
                 Button {
                     viewModel.isShowedCreateNewExerciseList.toggle()
-
+                    
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .symbolRenderingMode(.hierarchical)
@@ -48,7 +48,7 @@ struct CreateNewExercise: View {
                 Divider().overlay(isNoCategoryCreating ? .white : .gray)
                 
                 TextField("", text: $name)
-                    
+                
                     .placeholder(when: name.isEmpty) {
                         Text("Title for exercise")
                             .foregroundColor(isNoCategoryCreating ? .gray : Color("GrayColor"))
@@ -101,7 +101,7 @@ struct CreateNewExercise: View {
                 HStack {
                     Button() {
                         
-                            viewModel.isShowedCreateNewExerciseList.toggle()
+                        viewModel.isShowedCreateNewExerciseList.toggle()
                         
                     } label: {
                         Image(systemName: "arrow.left")
@@ -135,7 +135,7 @@ struct CreateNewExercise: View {
             .padding(20)
             
         }.background(isNoCategoryCreating ? Color("backgroundDarkColor") : .white)
-        .onTapGesture {
+            .onTapGesture {
                 self.hideKeyboard()
             }
     }

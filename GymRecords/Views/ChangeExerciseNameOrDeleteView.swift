@@ -43,13 +43,13 @@ struct ChangeExerciseNameOrDeleteView: View {
                         .cornerRadius(viewModel.viewCornerRadiusSimple)
                         .foregroundColor(viewModel.isDarkMode ? Color("backgroundColor") : Color("LightGrayColor")))
                     .padding([.top,.bottom], 2)
-                    
-                    
+                
+                
                 Divider().overlay(viewModel.isDarkMode ?.white : Color("GrayColor"))
                     .padding(.bottom,25)
                 HStack {
                     Text("Double Weight")
-                        
+                    
                     Button() {
                         isShowAlertDoubleWeight.toggle()
                     } label: {
@@ -66,7 +66,7 @@ struct ChangeExerciseNameOrDeleteView: View {
                 Divider().overlay(Color("GrayColor"))
                 HStack {
                     Text("Body Weight")
-                        
+                    
                     Button() {
                         isShowAlertBodyWeight.toggle()
                     } label: {

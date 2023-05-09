@@ -317,14 +317,14 @@ class GymViewModel: ObservableObject {
         let stringDate = toStringDate(date: date)
         let newProgram = GymModel.Program(programTitle: "blank", description: "blank", colorDesign: "blank", exercises: exercises)
         trainings[stringDate] = newProgram
-        print(trainings)
+        
     }
     
     func createTraining(date:Date,program:GymModel.Program)  {
         
         let stringDate = toStringDate(date: date)
         trainings[stringDate] = program
-        print(trainings)
+        
         
     }
     

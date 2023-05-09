@@ -37,7 +37,7 @@ struct DataBaseView: View {
                 .opacity(viewModel.isShowedViewListSpecificExercise ? 0 : 1)
             if viewModel.isShowedEditOrRemoveView {
                 if let program = viewModel.showedEdirOrRemoveProgram {
-                        EditOrRemoveTheProgram(program: program, isShowedView: $viewModel.isShowedEditOrRemoveView )
+                    EditOrRemoveTheProgram(program: program, isShowedView: $viewModel.isShowedEditOrRemoveView )
                 }
             }
             if viewModel.isShowedViewListSpecificExercise {
@@ -48,7 +48,7 @@ struct DataBaseView: View {
             
         }
     }
-    }
+}
 
 
 struct DataBaseView_Previews: PreviewProvider {

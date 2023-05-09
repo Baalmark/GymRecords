@@ -52,7 +52,7 @@ struct CalendarView: View
                                     correctDay = Int(monthStruct.day())!
                                     if viewModel.checkTheRowForTheSelectedDay(correctDay: correctDay, month: month) {
                                         viewModel.selectedDayRowHolder = row
-                                        print(row)
+                                        
                                     }
                                     
                                 }
@@ -69,7 +69,7 @@ struct CalendarView: View
                                         
                                         
                                         viewModel.selectedDayRowHolder = row
-                                        print(viewModel.selectedDayRowHolder)
+                                       
                                         
                                     }
                                 }

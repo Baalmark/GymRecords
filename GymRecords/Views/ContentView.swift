@@ -16,7 +16,7 @@ struct ContentView: View {
     private var systemColor = Color(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1))
     private var systemShadowColor = Color(UIColor(red: 0.65, green: 0.65, blue: 0.65, alpha: 1))
     @StateObject private var viewModel = GymViewModel()
-    @State var minimizingCalendarOffSet:CGFloat = 0
+    @State var minimizingCalendarOffSet:CGFloat = -295
     //Flags for changing calendar month
     @State private var coeffOfTrainView:CGFloat = 0
     private var previousMonth = false
@@ -107,7 +107,7 @@ struct ContentView: View {
                                         minimizingCalendarOffSet = -295 + value.translation.height
                                     }
                                 }
-                                print(value.translation.height)
+                                
                                 
                             }
                             .onEnded { value in
@@ -151,22 +151,30 @@ struct ContentView: View {
                         }.offset(x:0,y: minimizingCalendarOffSet)
                             .frame(maxWidth: viewModel.screenWidth,maxHeight: 400 + (coeffOfTrainView / 2))
                     } else {
-                        Image("backgroundMain")
-                            .zIndex(1)
-                            .offset(x:0,y: minimizingCalendarOffSet / 2.5)
+                        ZStack {
+                            Image("backgroundMain")
+                                .zIndex(1)
+                                .offset(x:0,y: -minimizingCalendarOffSet / 2.5)
+                            Rectangle()
+                                .foregroundColor(.blue)
+                                .zIndex(0)
+                        }.offset(x:0,y:minimizingCalendarOffSet)
+                        
                     }
                 
                 
                 }
                 
-                .frame(width: viewModel.screenWidth,height: 225 + (coeffOfTrainView / 2))
+                .frame(width: viewModel.screenWidth,height: 225 )
                 
                 .background(.white)
                 .border(.red)
+                
                 .zIndex(2)
                     
                 
                 Spacer()
+                
                 Button("Add Programm") {
                     appearSheet.toggle()
                     viewModel.changeExercisesDB = false
@@ -179,7 +187,11 @@ struct ContentView: View {
                 .tint(.white)
                 .font(.title2)
                 .fontWeight(.semibold)
+                .padding([.leading,.trailing,.top],30)
+                .background(.white)
+                .zIndex(2)
                 
+                Spacer()
             }
         }
         .environmentObject(viewModel)

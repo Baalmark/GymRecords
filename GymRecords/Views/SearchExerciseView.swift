@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchExerciseView: View {
     @EnvironmentObject var viewModel:GymViewModel
-
+    
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
