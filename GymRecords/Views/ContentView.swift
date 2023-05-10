@@ -47,16 +47,19 @@ struct ContentView: View {
                     
                     
                     .padding([.leading,.trailing], 10)
+                    .background(.white)
                     dayOfWeekStack
                         .background(.white)
                 }
-                .padding(.bottom,-10)
                 .background(.white)
-                .zIndex(1)
+                .offset(y:220) // test offset
+                .padding(.bottom,-10)
+                
+                .zIndex(4)
                 HStack(spacing: 10) {
                     ForEach(viewModel.arrayOfMonths, id: \.self) { value in
                         CalendarView(month:value).environmentObject(viewModel)
-                        
+                            
                         
                     }
                     .offset(x: offset.width, y:0)
@@ -87,15 +90,15 @@ struct ContentView: View {
                         })
                 }
                 .frame(width: viewModel.screenWidth * 3 + 30, height: 350)
-                .offset(x:0,y: minimizingCalendarOffSet / viewModel.getCoefficientOffset(row: viewModel.selectedDayRowHolder))
-                .zIndex(0)
+                .offset(x:0,y: minimizingCalendarOffSet / viewModel.getCoefficientOffset(row: viewModel.selectedDayRowHolder) + 215) // test offset
+                .zIndex(3)
                 .padding(.bottom, -10)
                 
                 //Drag gesture line view
-                VStack{
+               
                     dragGestureView
-                        
-                        .offset(x:0,y:minimizingCalendarOffSet)
+                        .zIndex(10)
+                        .offset(x:0,y:minimizingCalendarOffSet + 65)
                         .gesture(DragGesture()
                             .onChanged { value in
                                 if value.translation.height <= 0{
@@ -132,48 +135,53 @@ struct ContentView: View {
                                     }
                                 }
                             })
-                    if viewModel.isAnyTrainingSelectedDay() {
-                        ScrollView {
-                            VStack {
-                                ForEach(viewModel.trainings[viewModel.toStringDate(date: viewModel.selectedDate)]!.exercises, id: \.id) {
-                                    exercise in
-                                    HStack {
-                                        Image(exercise.type.rawValue)
-                                        Text(exercise.name.capitalized)
-                                        Spacer()
-                                        Image(systemName: "chevron.up")
-                                        
+                    
+                    ScrollView {
+                            if viewModel.isAnyTrainingSelectedDay() {
+                                VStack {
+                                    ForEach(viewModel.trainings[viewModel.toStringDate(date: viewModel.selectedDate)]!.exercises, id: \.id) {
+                                        exercise in
+                                        HStack {
+                                            Image(exercise.type.rawValue)
+                                            Text(exercise.name.capitalized)
+                                            Spacer()
+                                            Image(systemName: "chevron.up")
+                                            
+                                        }
+                                        .padding([.leading,.trailing],10)
                                     }
-                                    .padding([.leading,.trailing],10)
-                                }
+                                }.padding()
+                                    .padding(.top,30)
+                                    .background(.white)
+                                    .zIndex(4)
+                            } else {
+                                Image("backgroundMain")
+                                    .zIndex(5)
+                                    .offset(x:0,y: -minimizingCalendarOffSet / 2.5)
+                                    .padding()
+                                    .padding(.top,30)
                             }
-                            .background(.white)
-                        }.offset(x:0,y: minimizingCalendarOffSet)
-                            .frame(maxWidth: viewModel.screenWidth,maxHeight: 400 + (coeffOfTrainView / 2))
-                    } else {
-                        ZStack {
-                            Image("backgroundMain")
-                                .zIndex(1)
-                                .offset(x:0,y: -minimizingCalendarOffSet / 2.5)
-                            Rectangle()
-                                .foregroundColor(.blue)
-                                .zIndex(0)
-                        }.offset(x:0,y:minimizingCalendarOffSet)
+                            
+                            
                         
                     }
-                
-                
-                }
-                
-                .frame(width: viewModel.screenWidth,height: 225 )
-                
-                .background(.white)
-                .border(.red)
-                
-                .zIndex(2)
+                        .frame(width: viewModel.screenWidth,height: 400,alignment: .bottom)
+                        .zIndex(2)
+                            .offset(y:minimizingCalendarOffSet + 100)
+                    
                     
                 
+                
+                .frame(width: viewModel.screenWidth,height: 700 )
+                .border(.green)
+                
+                .background(.white)
+                
+                
+                .zIndex(2)
+                
                 Spacer()
+                
                 
                 Button("Add Programm") {
                     appearSheet.toggle()
@@ -189,11 +197,14 @@ struct ContentView: View {
                 .fontWeight(.semibold)
                 .padding([.leading,.trailing,.top],30)
                 .background(.white)
-                .zIndex(2)
+                .offset(y:-220)
+                .zIndex(4)
                 
                 Spacer()
             }
         }
+        .background(.white)
+        .zIndex(2)
         .environmentObject(viewModel)
         
     }
@@ -220,7 +231,7 @@ struct ContentView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
                 .frame(width: viewModel.screenWidth,height: 15)
-                .shadow(color: Color("MidGrayColor"), radius: 2.5,x:0,y:5)
+                .shadow(color: .gray, radius: 3,x:0,y:6)
                 .foregroundColor(.white)
                 .zIndex(2)
             RoundedRectangle(cornerRadius: 50)
