@@ -51,8 +51,7 @@ class GymViewModel: ObservableObject {
     //All property to creating a training day
     @Published var trainings:[String:GymModel.Program]
     @Published var selectedProgramForNewTrainingDay:GymModel.Program? = nil
-    
-    
+    @Published var trainInSelectedDay:GymModel.Program
     //Computed Property
     @Published var selectedCounterLabel:[Int] = []
     
@@ -83,6 +82,7 @@ class GymViewModel: ObservableObject {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.day], from: Date())
         selectedDayForChecking = components.day!
+        trainInSelectedDay = GymModel.Program(programTitle: "blank", description: "blank", colorDesign: "red", exercises: [])
     }
     
     
@@ -112,7 +112,7 @@ class GymViewModel: ObservableObject {
     func selectingExercise(exercise:Exercise,isSelected:Bool) {
         
         selectedExArray = selectedExArray.filter({$0.name != exercise.name})
-        let newItem = Exercise(type: exercise.type, name: exercise.name, doubleWeight: exercise.doubleWeight, selfWeight: exercise.selfWeight, isSelected: isSelected)
+        let newItem = Exercise(type: exercise.type, name: exercise.name, doubleWeight: exercise.doubleWeight, selfWeight: exercise.selfWeight, isSelected: isSelected, sets: [], isSelectedToAddSet: false)
         selectedExArray.append(newItem)
         
         for (i,element) in arrayExercises.enumerated() {
@@ -145,7 +145,7 @@ class GymViewModel: ObservableObject {
     }
     //Exercise unselection
     func unselectingExercise(exercise:Exercise,isSelected:Bool) {
-        let newItem = Exercise(type: exercise.type, name: exercise.name, doubleWeight: exercise.doubleWeight, selfWeight: exercise.selfWeight, isSelected: isSelected)
+        let newItem = Exercise(type: exercise.type, name: exercise.name, doubleWeight: exercise.doubleWeight, selfWeight: exercise.selfWeight, isSelected: isSelected, sets: [], isSelectedToAddSet: false)
         
         selectedExArray = selectedExArray.filter({$0.name != exercise.name})
         
@@ -317,6 +317,7 @@ class GymViewModel: ObservableObject {
         let stringDate = toStringDate(date: date)
         let newProgram = GymModel.Program(programTitle: "blank", description: "blank", colorDesign: "blank", exercises: exercises)
         trainings[stringDate] = newProgram
+        trainInSelectedDay = newProgram
         
     }
     
@@ -324,7 +325,7 @@ class GymViewModel: ObservableObject {
         
         let stringDate = toStringDate(date: date)
         trainings[stringDate] = program
-        
+        trainInSelectedDay = program
         
     }
     
@@ -357,6 +358,24 @@ class GymViewModel: ObservableObject {
         let stringDate = toStringDate(date: selectedDate)
         
         return trainings[stringDate] != nil
+            
+    }
+    
+    //Selecting the day with a training
+    func selectingTheDayWithTraining() {
+        let stringDate = toStringDate(date: selectedDate)
+        if trainings[stringDate] != nil {
+            trainInSelectedDay = trainings[stringDate]!
+        }
+    }
+    //Change bool value of AddSetsToExercise
+    func addSetsToExerciseSender(exercise:Exercise) {
+        let newTraining = trainInSelectedDay
+        if let index = newTraining.exercises.firstIndex(of: exercise) {
+            
+            newTraining.exercises[index].isSelectedToAddSet.toggle()
+        }
+        trainInSelectedDay = newTraining
     }
 }
 //MARK: Extensions

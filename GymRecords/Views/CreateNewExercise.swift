@@ -119,7 +119,7 @@ struct CreateNewExercise: View {
                     if name != "" {
                         Button("Create exercise") {
                             if name != "" {
-                                let newElement = Exercise(type: typeOfExercise, name: name, doubleWeight: doubleWeight, selfWeight: bodyWeight, isSelected: false)
+                                let newElement = Exercise(type: typeOfExercise, name: name, doubleWeight: doubleWeight, selfWeight: bodyWeight, isSelected: false, sets: [], isSelectedToAddSet: false)
                                 viewModel.createNewExercise(exercise: newElement)
                             }
                             dismiss()

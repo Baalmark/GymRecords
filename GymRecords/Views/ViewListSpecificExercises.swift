@@ -16,7 +16,7 @@ struct ViewListSpecificExercises: View {
     @State var isTappedToggle = false
     @State var showCreateExercise = false
     @State var isChangeSheet = false
-    @State var exercise:Exercise = Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true, isSelected: false)
+    @State var exercise:Exercise = Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true, isSelected: false, sets: [], isSelectedToAddSet: false)
     @State var exerciseProgramming:Bool
     var body: some View {
         ZStack {
@@ -220,7 +220,7 @@ struct ViewListSpecificExercises_Previews: PreviewProvider {
             typeOfExercise: .arms, isPresented: .constant(true),
             exercise: Exercise(type: .chest, name: "Push ups",
                                doubleWeight: false, selfWeight: true,
-                               isSelected: true), exerciseProgramming: true)
+                               isSelected: true, sets: [], isSelectedToAddSet: false), exerciseProgramming: true)
         .environmentObject(GymViewModel())
     }
 }

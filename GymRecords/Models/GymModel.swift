@@ -36,7 +36,7 @@ struct GymModel {
         
         //Create new Exercise
         mutating func createNewExercise(type t: GymModel.TypeOfExercise,title name: String,doubleWeight dB:Bool,selfWeight sW:Bool ) {
-            exercises.append(Exercise(type: t, name: name, doubleWeight: dB, selfWeight: sW,isSelected: false))
+            exercises.append(Exercise(type: t, name: name, doubleWeight: dB, selfWeight: sW,isSelected: false, sets: [], isSelectedToAddSet: false))
         }
     }
 
@@ -106,7 +106,7 @@ struct GymModel {
         
     }
     mutating func AddNewExercise(type:TypeOfExercise,title:String,doubleW db:Bool,selfW sw:Bool) {
-        arrayOfExercises.append(Exercise(type: type, name: title, doubleWeight: db, selfWeight: sw,isSelected: false))
+        arrayOfExercises.append(Exercise(type: type, name: title, doubleWeight: db, selfWeight: sw,isSelected: false, sets: [], isSelectedToAddSet: false))
         
     }
     
@@ -221,17 +221,39 @@ class Exercise:Equatable,Identifiable {
     var doubleWeight:Bool
     var selfWeight:Bool
     var isSelected:Bool
-    
-    init(type: GymModel.TypeOfExercise, name: String, doubleWeight: Bool, selfWeight: Bool, isSelected: Bool) {
+    var sets:[Sets]
+    var isSelectedToAddSet:Bool
+    init(type: GymModel.TypeOfExercise, name: String, doubleWeight: Bool, selfWeight: Bool, isSelected: Bool,sets:[Sets],isSelectedToAddSet:Bool) {
         self.type = type
         self.name = name
         self.doubleWeight = doubleWeight
         self.selfWeight = selfWeight
         self.isSelected = isSelected
+        self.sets = sets
+        self.isSelectedToAddSet = isSelectedToAddSet
     }
     
 }
 
+struct Sets: Identifiable {
+    var id = UUID()
+    var number: Int
+    var date:Date
+    var weight:Double
+    var reps:Double
+    var doubleWeight:Bool
+    var selfWeight:Bool
+    
+    init(id: UUID = UUID(), number: Int, date:Date = Date(), weight: Double, reps: Double, doubleWeight: Bool, selfWeight: Bool) {
+        self.id = id
+        self.number = number
+        self.date = date
+        self.weight = weight
+        self.reps = reps
+        self.doubleWeight = doubleWeight
+        self.selfWeight = selfWeight
+    }
+}
 
 
 enum CalendarMinimizingPosition:CGFloat {
@@ -282,17 +304,18 @@ extension GymModel.TypeOfExercise{
 }
 
 extension GymModel {
-    static var arrayOfAllCreatedExercises = [Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true,isSelected: false),
-                                             Exercise(type: .cardio, name: "Cycling", doubleWeight: false, selfWeight: true,isSelected: false),
-                                             Exercise(type: .cardio, name: "Elips", doubleWeight: false, selfWeight: true,isSelected: false),
-                                             Exercise(type: .cardio, name: "Berpi", doubleWeight: false, selfWeight: true,isSelected: false),
-                                             Exercise(type: .cardio, name: "WorkOut", doubleWeight: false, selfWeight: true,isSelected: false),
-                                             Exercise(type: .arms, name: "Dumbbell Concentration Curl", doubleWeight: false, selfWeight: false,isSelected: false),
-                                             Exercise(type: .arms, name: "Dumbbell Hammers Curl", doubleWeight: true, selfWeight: false,isSelected: false),
-                                             Exercise(type: .arms, name: "Biceps Curl", doubleWeight: true, selfWeight: false,isSelected: false),
-                                             Exercise(type: .chest, name: "Dumbbell bench press", doubleWeight: true, selfWeight: false,isSelected: false),
-                                             Exercise(type: .chest, name: "Push ups", doubleWeight: false, selfWeight: true,isSelected: false)]
+    static var arrayOfAllCreatedExercises = [Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true,isSelected: false, sets: testSets, isSelectedToAddSet: false),
+                                             Exercise(type: .cardio, name: "Cycling", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
+                                             Exercise(type: .cardio, name: "Elips", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
+                                             Exercise(type: .cardio, name: "Berpi", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
+                                             Exercise(type: .cardio, name: "WorkOut", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
+                                             Exercise(type: .arms, name: "Dumbbell Concentration Curl", doubleWeight: false, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+                                             Exercise(type: .arms, name: "Dumbbell Hammers Curl", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+                                             Exercise(type: .arms, name: "Biceps Curl", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+                                             Exercise(type: .chest, name: "Dumbbell bench press", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+                                             Exercise(type: .chest, name: "Push ups", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false)]
     
+    static var testSets = [Sets(number: 1, weight: 75, reps: 2, doubleWeight: false, selfWeight: true),Sets(number: 2, weight: 75, reps: 2, doubleWeight: false, selfWeight: true)]
     static var doubleWeightAlertText = "For exercises with two projectiles (for example, with two dumbbells) specify the weight of only one projectile, then the tonnage statistics will be doubled and calculated correctly"
     
     static var bodyWeightAlertText = "For exercises with own weight (e.g. push-ups) instead of tonnage statistics will be displayed repetition statistics. If necessary, you can record the weight of the additional weight or leave the field empty"

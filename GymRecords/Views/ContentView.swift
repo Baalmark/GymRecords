@@ -21,7 +21,8 @@ struct ContentView: View {
     @State private var coeffOfTrainView:CGFloat = 0
     private var previousMonth = false
     private var nextMonth = false
-    
+    @State var collapsingViewFlag = false
+    @State var isShowedMainAddSetsView = false
     var body: some View {
         ZStack{
             VStack{
@@ -52,14 +53,14 @@ struct ContentView: View {
                         .background(.white)
                 }
                 .background(.white)
-                .offset(y:220) // test offset
+                
                 .padding(.bottom,-10)
                 
                 .zIndex(4)
                 HStack(spacing: 10) {
                     ForEach(viewModel.arrayOfMonths, id: \.self) { value in
                         CalendarView(month:value).environmentObject(viewModel)
-                            
+                        
                         
                     }
                     .offset(x: offset.width, y:0)
@@ -90,122 +91,149 @@ struct ContentView: View {
                         })
                 }
                 .frame(width: viewModel.screenWidth * 3 + 30, height: 350)
-                .offset(x:0,y: minimizingCalendarOffSet / viewModel.getCoefficientOffset(row: viewModel.selectedDayRowHolder) + 215) // test offset
+                .offset(x:0,y: minimizingCalendarOffSet / viewModel.getCoefficientOffset(row: viewModel.selectedDayRowHolder))
                 .zIndex(3)
                 .padding(.bottom, -10)
                 
-                //Drag gesture line view
-               
-                    dragGestureView
-                        .zIndex(10)
-                        .offset(x:0,y:minimizingCalendarOffSet + 65)
-                        .gesture(DragGesture()
-                            .onChanged { value in
-                                if value.translation.height <= 0{
-                                    if minimizingCalendarOffSet > -295 {
-                                        minimizingCalendarOffSet = value.translation.height
-                                    }
-                                } else {
-                                    if minimizingCalendarOffSet < 0 {
-                                        minimizingCalendarOffSet = -295 + value.translation.height
-                                    }
-                                }
-                                
-                                
-                            }
-                            .onEnded { value in
-                                if minimizingCalendarOffSet < 0 {
-                                    if value.translation.height >= 125 {
-                                        withAnimation(.easeInOut) {
-                                            minimizingCalendarOffSet = 0
-                                            coeffOfTrainView = 0
-                                        }
-                                    } else {
-                                        withAnimation(.easeInOut) {
-                                            minimizingCalendarOffSet = -295
-                                            coeffOfTrainView = 295
-                                        }
-                                    }
-                                } else {
-                                    if value.translation.height <= -125 {
-                                        withAnimation(.easeInOut) {
-                                            minimizingCalendarOffSet = -295
-                                            coeffOfTrainView = 295
-                                        }
-                                    }
-                                }
-                            })
-                    
-                    ScrollView {
-                            if viewModel.isAnyTrainingSelectedDay() {
-                                VStack {
-                                    ForEach(viewModel.trainings[viewModel.toStringDate(date: viewModel.selectedDate)]!.exercises, id: \.id) {
-                                        exercise in
-                                        HStack {
-                                            Image(exercise.type.rawValue)
-                                            Text(exercise.name.capitalized)
-                                            Spacer()
-                                            Image(systemName: "chevron.up")
-                                            
-                                        }
-                                        .padding([.leading,.trailing],10)
-                                    }
-                                }.padding()
-                                    .padding(.top,30)
-                                    .background(.white)
-                                    .zIndex(4)
-                            } else {
-                                Image("backgroundMain")
-                                    .zIndex(5)
-                                    .offset(x:0,y: -minimizingCalendarOffSet / 2.5)
-                                    .padding()
-                                    .padding(.top,30)
-                            }
-                            
-                            
-                        
-                    }
-                        .frame(width: viewModel.screenWidth,height: 400,alignment: .bottom)
-                        .zIndex(2)
-                            .offset(y:minimizingCalendarOffSet + 100)
-                    
-                    
                 
                 
-                .frame(width: viewModel.screenWidth,height: 700 )
-                .border(.green)
                 
-                .background(.white)
-                
-                
-                .zIndex(2)
                 
                 Spacer()
                 
                 
-                Button("Add Programm") {
-                    appearSheet.toggle()
-                    viewModel.changeExercisesDB = false
-                }
-                .sheet(isPresented:$appearSheet) {
-                    //viewModel.dataForProgramm
-                    AddProgramView()
-                }
-                .buttonStyle(GrowingButton(isDarkMode: false,width: 335,height: 45))
-                .tint(.white)
-                .font(.title2)
-                .fontWeight(.semibold)
-                .padding([.leading,.trailing,.top],30)
-                .background(.white)
-                .offset(y:-220)
-                .zIndex(4)
                 
-                Spacer()
+                
+                
             }
+            
         }
         .background(.white)
         .zIndex(2)
+        
+        .overlay(alignment:.center) {
+            ZStack(alignment: .top){
+                //Drag gesture line view
+                dragGestureView
+                    .zIndex(10)
+                    .offset(x:0,y:minimizingCalendarOffSet)
+                    .gesture(DragGesture()
+                        .onChanged { value in
+                            if value.translation.height <= 0{
+                                if minimizingCalendarOffSet > -295 {
+                                    minimizingCalendarOffSet = value.translation.height
+                                }
+                            } else {
+                                if minimizingCalendarOffSet < 0 {
+                                    minimizingCalendarOffSet = -295 + value.translation.height
+                                }
+                            }
+                            
+                            
+                        }
+                        .onEnded { value in
+                            if minimizingCalendarOffSet < 0 {
+                                if value.translation.height >= 125 {
+                                    withAnimation(.easeInOut) {
+                                        minimizingCalendarOffSet = 0
+                                        coeffOfTrainView = 0
+                                        collapsingViewFlag = false
+                                    }
+                                } else {
+                                    withAnimation(.easeInOut) {
+                                        minimizingCalendarOffSet = -295
+                                        coeffOfTrainView = 295
+                                        collapsingViewFlag = true
+                                    }
+                                }
+                            } else {
+                                if value.translation.height <= -125 {
+                                    withAnimation(.easeInOut) {
+                                        minimizingCalendarOffSet = -295
+                                        coeffOfTrainView = 295
+                                        collapsingViewFlag = true
+                                    }
+                                }
+                            }
+                        })
+                
+                ScrollView {
+                    if viewModel.isAnyTrainingSelectedDay() {
+                        
+                        VStack {
+                            if viewModel.trainInSelectedDay.programTitle != "blank" && viewModel.trainInSelectedDay.description != "blank" {
+                                ProgramItemListView(programm:$viewModel.trainInSelectedDay)
+                            }
+                            ForEach(viewModel.trainInSelectedDay.exercises) {
+                                exercise in
+                                ContentViewExerciseFromTheListView(exercise: exercise).environmentObject(viewModel)
+                                    .padding([.top,.bottom],10)
+                                    .onTapGesture {
+                                        
+                                        viewModel.addSetsToExerciseSender(exercise:exercise)
+                                        
+                                    }
+                                if exercise.isSelectedToAddSet {
+                                    AddSetsToExercise(exercise: exercise).environmentObject(viewModel)
+                                        .onTapGesture {
+                                            isShowedMainAddSetsView.toggle()
+                                        }
+                                        .fullScreenCover(isPresented: $isShowedMainAddSetsView) {
+                                            AddNewSetsMainView()
+                                        }
+                                }
+                                
+                            }
+                            
+                            
+                        }
+                        
+                            .padding(.top,30)
+                            
+                            
+                    } else {
+                        Image("backgroundMain")
+                           
+                            .offset(x:0,y: -minimizingCalendarOffSet / 2)
+                            .padding()
+                            .padding(.top,30)
+                    }
+                    
+                    
+                    
+                }
+                
+                .frame(maxWidth: viewModel.screenWidth,maxHeight: .infinity)
+                .background(.white)
+                .offset(x:0,y:minimizingCalendarOffSet)
+                
+                
+                
+                
+            }.zIndex(10)
+                .offset(y:420)
+                .overlay(alignment: .bottom) {
+                    Button("Add Programm") {
+                        appearSheet.toggle()
+                        viewModel.changeExercisesDB = false
+                    }
+                    .sheet(isPresented:$appearSheet) {
+                        //viewModel.dataForProgramm
+                        AddProgramView()
+                    }
+                    .buttonStyle(GrowingButton(isDarkMode: false,width: 335,height: 45))
+                    .tint(.white)
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .padding([.leading,.trailing],30)
+                    .padding(.top,10)
+                    .background(.white)
+                    .zIndex(4)
+                    
+                }
+        }
         .environmentObject(viewModel)
+        
         
     }
     
@@ -231,7 +259,7 @@ struct ContentView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
                 .frame(width: viewModel.screenWidth,height: 15)
-                .shadow(color: .gray, radius: 3,x:0,y:6)
+                .shadow(color: Color("LightGrayColor"), radius: 3,x:0,y:6)
                 .foregroundColor(.white)
                 .zIndex(2)
             RoundedRectangle(cornerRadius: 50)

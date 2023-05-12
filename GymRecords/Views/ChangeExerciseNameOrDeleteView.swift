@@ -112,6 +112,6 @@ struct ChangeExerciseNameOrDeleteView: View {
 
 struct ChangeExerciseNameOrDeleteView_Previews: PreviewProvider {
     static var previews: some View {
-        ChangeExerciseNameOrDeleteView(exercise: .constant(Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true, isSelected: false))).environmentObject(GymViewModel())
+        ChangeExerciseNameOrDeleteView(exercise: .constant(Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true, isSelected: false, sets: [], isSelectedToAddSet: false))).environmentObject(GymViewModel())
     }
 }
