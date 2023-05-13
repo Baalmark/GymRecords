@@ -14,6 +14,7 @@
 		008C51E92972FB500046EF5B /* GymModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008C51E82972FB500046EF5B /* GymModel.swift */; };
 		008C51EE297304540046EF5B /* GymViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008C51ED297304540046EF5B /* GymViewModel.swift */; };
 		008C51F0297305660046EF5B /* GymDynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008C51EF297305660046EF5B /* GymDynamic.swift */; };
+		3A05B9912A0FECF40063D055 /* AddSetPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A05B9902A0FECF40063D055 /* AddSetPageView.swift */; };
 		3A1B831F2996EC10006F959E /* CreateNewExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B831E2996EC10006F959E /* CreateNewExercise.swift */; };
 		3A1B8321299A4F8B006F959E /* CreateNewProgrammView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B8320299A4F8B006F959E /* CreateNewProgrammView.swift */; };
 		3A1B8323299A8BA4006F959E /* ButtonCreateExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B8322299A8BA4006F959E /* ButtonCreateExercise.swift */; };
@@ -42,6 +43,8 @@
 		3AB0A80729B0C86A00E5E7BA /* GrowingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB0A80629B0C86A00E5E7BA /* GrowingButton.swift */; };
 		3AB0A80929B0CAC800E5E7BA /* CalendarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB0A80829B0CAC800E5E7BA /* CalendarExtension.swift */; };
 		3ACB31702A0E8C65003C4FC2 /* AddNewSetsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB316F2A0E8C65003C4FC2 /* AddNewSetsMainView.swift */; };
+		3ACB31722A0FD08E003C4FC2 /* ViewOffsetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB31712A0FD08E003C4FC2 /* ViewOffsetExtension.swift */; };
+		3ACB31AF2A0FE719003C4FC2 /* LegacyCod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB31AE2A0FE719003C4FC2 /* LegacyCod.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +56,7 @@
 		008C51E82972FB500046EF5B /* GymModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymModel.swift; sourceTree = "<group>"; };
 		008C51ED297304540046EF5B /* GymViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymViewModel.swift; sourceTree = "<group>"; };
 		008C51EF297305660046EF5B /* GymDynamic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GymDynamic.swift; sourceTree = "<group>"; };
+		3A05B9902A0FECF40063D055 /* AddSetPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSetPageView.swift; sourceTree = "<group>"; };
 		3A1B831E2996EC10006F959E /* CreateNewExercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewExercise.swift; sourceTree = "<group>"; };
 		3A1B8320299A4F8B006F959E /* CreateNewProgrammView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProgrammView.swift; sourceTree = "<group>"; };
 		3A1B8322299A8BA4006F959E /* ButtonCreateExercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCreateExercise.swift; sourceTree = "<group>"; };
@@ -82,6 +86,8 @@
 		3AB0A80629B0C86A00E5E7BA /* GrowingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowingButton.swift; sourceTree = "<group>"; };
 		3AB0A80829B0CAC800E5E7BA /* CalendarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarExtension.swift; sourceTree = "<group>"; };
 		3ACB316F2A0E8C65003C4FC2 /* AddNewSetsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSetsMainView.swift; sourceTree = "<group>"; };
+		3ACB31712A0FD08E003C4FC2 /* ViewOffsetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewOffsetExtension.swift; sourceTree = "<group>"; };
+		3ACB31AE2A0FE719003C4FC2 /* LegacyCod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyCod.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +128,7 @@
 				008C51DA2972F8F50046EF5B /* GymRecordsApp.swift */,
 				008C51DE2972F8F50046EF5B /* Assets.xcassets */,
 				008C51E02972F8F50046EF5B /* Preview Content */,
+				3ACB31AE2A0FE719003C4FC2 /* LegacyCod.swift */,
 			);
 			path = GymRecords;
 			sourceTree = "<group>";
@@ -149,6 +156,7 @@
 				3A8896BD29B759AA00219446 /* CalendarViews */,
 				3AB0A80529B0C85900E5E7BA /* StyleViews */,
 				008C51DC2972F8F50046EF5B /* ContentView.swift */,
+				3A05B9902A0FECF40063D055 /* AddSetPageView.swift */,
 				3ACB316F2A0E8C65003C4FC2 /* AddNewSetsMainView.swift */,
 				3A637A0D2A0E6F6D002B5857 /* ContentViewExerciseFromTheListView.swift */,
 				3A637A0F2A0E7BFB002B5857 /* AddSetsToExercise.swift */,
@@ -222,6 +230,7 @@
 			children = (
 				3AB0A7F929B0B5DE00E5E7BA /* DateExtensions.swift */,
 				3AB0A80829B0CAC800E5E7BA /* CalendarExtension.swift */,
+				3ACB31712A0FD08E003C4FC2 /* ViewOffsetExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -307,6 +316,7 @@
 				3A8896BC29B7595E00219446 /* MonthLabelView.swift in Sources */,
 				3A9E9A4629897E0100DAA547 /* ViewProgramsList.swift in Sources */,
 				3A8896B429B7579D00219446 /* CalendarModel.swift in Sources */,
+				3ACB31722A0FD08E003C4FC2 /* ViewOffsetExtension.swift in Sources */,
 				3A9E9A4429897C7B00DAA547 /* ViewExerciseList.swift in Sources */,
 				3A1B8323299A8BA4006F959E /* ButtonCreateExercise.swift in Sources */,
 				3A8896C529B75CDB00219446 /* DateHolderModel.swift in Sources */,
@@ -321,7 +331,9 @@
 				3A9E9A5029951BF700DAA547 /* ExercisesAndProgramsListView.swift in Sources */,
 				3A1B831F2996EC10006F959E /* CreateNewExercise.swift in Sources */,
 				3A9E9A4E29951AF400DAA547 /* DataBaseView.swift in Sources */,
+				3ACB31AF2A0FE719003C4FC2 /* LegacyCod.swift in Sources */,
 				3AB0A7F729ACC51E00E5E7BA /* SearchExerciseView.swift in Sources */,
+				3A05B9912A0FECF40063D055 /* AddSetPageView.swift in Sources */,
 				3A637A0E2A0E6F6D002B5857 /* ContentViewExerciseFromTheListView.swift in Sources */,
 				3A9E9A4229852F8200DAA547 /* AddProgramView.swift in Sources */,
 				008C51DD2972F8F50046EF5B /* ContentView.swift in Sources */,

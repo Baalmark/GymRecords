@@ -205,7 +205,12 @@ struct GymModel {
 }
 
 
-class Exercise:Equatable,Identifiable {
+class Exercise:Equatable,Identifiable,Hashable {
+    
+    
+    public func hash(into hasher: inout Hasher) {
+             hasher.combine(ObjectIdentifier(self))
+        }
     
     
     static func == (lhs: Exercise, rhs: Exercise) -> Bool {

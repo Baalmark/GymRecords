@@ -23,6 +23,8 @@ struct ContentView: View {
     private var nextMonth = false
     @State var collapsingViewFlag = false
     @State var isShowedMainAddSetsView = false
+    
+    
     var body: some View {
         ZStack{
             VStack{
@@ -94,19 +96,8 @@ struct ContentView: View {
                 .offset(x:0,y: minimizingCalendarOffSet / viewModel.getCoefficientOffset(row: viewModel.selectedDayRowHolder))
                 .zIndex(3)
                 .padding(.bottom, -10)
-                
-                
-                
-                
-                
                 Spacer()
-                
-                
-                
-                
-                
             }
-            
         }
         .background(.white)
         .zIndex(2)
@@ -176,11 +167,11 @@ struct ContentView: View {
                                 if exercise.isSelectedToAddSet {
                                     AddSetsToExercise(exercise: exercise).environmentObject(viewModel)
                                         .onTapGesture {
-                                            isShowedMainAddSetsView.toggle()
+                                            withAnimation(.easeInOut) {
+                                                isShowedMainAddSetsView.toggle()
+                                            }
                                         }
-                                        .fullScreenCover(isPresented: $isShowedMainAddSetsView) {
-                                            AddNewSetsMainView()
-                                        }
+                        
                                 }
                                 
                             }
@@ -234,6 +225,18 @@ struct ContentView: View {
         }
         .environmentObject(viewModel)
         
+        
+        .overlay {
+            if isShowedMainAddSetsView {
+                withAnimation(.easeOut) {
+                    AddNewSetsMainView(exercises: $viewModel.trainInSelectedDay.exercises).environmentObject(viewModel)
+                        
+                        .background(.ultraThinMaterial)
+                        .transition(.move(edge: .bottom))
+                        
+                }
+            }
+        }
         
     }
     

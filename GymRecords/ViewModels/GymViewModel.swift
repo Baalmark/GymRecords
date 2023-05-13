@@ -63,6 +63,7 @@ class GymViewModel: ObservableObject {
     //Design Vars
     var viewCornerRadiusSimple:CGFloat = 10
     var screenWidth = UIScreen.main.bounds.width
+    var screenHeight = UIScreen.main.bounds.height
     var paddingSafeArea = 20
     
     init() {
