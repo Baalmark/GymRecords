@@ -55,7 +55,9 @@ class GymViewModel: ObservableObject {
     //Computed Property
     @Published var selectedCounterLabel:[Int] = []
     
+    //Computed or Store value of Delete / Create / Change a set for the exercise
     
+    @Published var didTapToAddSet:Bool = false
     
     
     
@@ -378,6 +380,7 @@ class GymViewModel: ObservableObject {
         }
         trainInSelectedDay = newTraining
     }
+
 }
 //MARK: Extensions
 

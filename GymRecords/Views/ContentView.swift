@@ -157,6 +157,7 @@ struct ContentView: View {
                             }
                             ForEach(viewModel.trainInSelectedDay.exercises) {
                                 exercise in
+                                
                                 ContentViewExerciseFromTheListView(exercise: exercise).environmentObject(viewModel)
                                     .padding([.top,.bottom],10)
                                     .onTapGesture {
@@ -278,7 +279,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView().environmentObject(GymViewModel())
         
     }
 }

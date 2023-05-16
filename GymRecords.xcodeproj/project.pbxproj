@@ -28,6 +28,9 @@
 		3A8896BF29B759B700219446 /* CalendarCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896BE29B759B700219446 /* CalendarCellView.swift */; };
 		3A8896C329B75B5300219446 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896C229B75B5300219446 /* CalendarView.swift */; };
 		3A8896C529B75CDB00219446 /* DateHolderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896C429B75CDB00219446 /* DateHolderModel.swift */; };
+		3A8CE2F72A1393BA00CEE78F /* AddOrChangeSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CE2F62A1393BA00CEE78F /* AddOrChangeSetView.swift */; };
+		3A8CE2F92A1398E300CEE78F /* AddSetLittleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CE2F82A1398E300CEE78F /* AddSetLittleView.swift */; };
+		3A8CE2FB2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CE2FA2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift */; };
 		3A9E9A4229852F8200DAA547 /* AddProgramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A4129852F8200DAA547 /* AddProgramView.swift */; };
 		3A9E9A4429897C7B00DAA547 /* ViewExerciseList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A4329897C7B00DAA547 /* ViewExerciseList.swift */; };
 		3A9E9A4629897E0100DAA547 /* ViewProgramsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A4529897E0100DAA547 /* ViewProgramsList.swift */; };
@@ -70,6 +73,9 @@
 		3A8896BE29B759B700219446 /* CalendarCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCellView.swift; sourceTree = "<group>"; };
 		3A8896C229B75B5300219446 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		3A8896C429B75CDB00219446 /* DateHolderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHolderModel.swift; sourceTree = "<group>"; };
+		3A8CE2F62A1393BA00CEE78F /* AddOrChangeSetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrChangeSetView.swift; sourceTree = "<group>"; };
+		3A8CE2F82A1398E300CEE78F /* AddSetLittleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSetLittleView.swift; sourceTree = "<group>"; };
+		3A8CE2FA2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterSetAndRepsValueLittleView.swift; sourceTree = "<group>"; };
 		3A9E9A4029845EDC00DAA547 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3A9E9A4129852F8200DAA547 /* AddProgramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddProgramView.swift; sourceTree = "<group>"; };
 		3A9E9A4329897C7B00DAA547 /* ViewExerciseList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExerciseList.swift; sourceTree = "<group>"; };
@@ -157,6 +163,7 @@
 				3AB0A80529B0C85900E5E7BA /* StyleViews */,
 				008C51DC2972F8F50046EF5B /* ContentView.swift */,
 				3A05B9902A0FECF40063D055 /* AddSetPageView.swift */,
+				3A8CE2F62A1393BA00CEE78F /* AddOrChangeSetView.swift */,
 				3ACB316F2A0E8C65003C4FC2 /* AddNewSetsMainView.swift */,
 				3A637A0D2A0E6F6D002B5857 /* ContentViewExerciseFromTheListView.swift */,
 				3A637A0F2A0E7BFB002B5857 /* AddSetsToExercise.swift */,
@@ -239,6 +246,8 @@
 			isa = PBXGroup;
 			children = (
 				3AB0A80629B0C86A00E5E7BA /* GrowingButton.swift */,
+				3A8CE2F82A1398E300CEE78F /* AddSetLittleView.swift */,
+				3A8CE2FA2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift */,
 			);
 			path = StyleViews;
 			sourceTree = "<group>";
@@ -331,11 +340,14 @@
 				3A9E9A5029951BF700DAA547 /* ExercisesAndProgramsListView.swift in Sources */,
 				3A1B831F2996EC10006F959E /* CreateNewExercise.swift in Sources */,
 				3A9E9A4E29951AF400DAA547 /* DataBaseView.swift in Sources */,
+				3A8CE2FB2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift in Sources */,
 				3ACB31AF2A0FE719003C4FC2 /* LegacyCod.swift in Sources */,
 				3AB0A7F729ACC51E00E5E7BA /* SearchExerciseView.swift in Sources */,
 				3A05B9912A0FECF40063D055 /* AddSetPageView.swift in Sources */,
+				3A8CE2F92A1398E300CEE78F /* AddSetLittleView.swift in Sources */,
 				3A637A0E2A0E6F6D002B5857 /* ContentViewExerciseFromTheListView.swift in Sources */,
 				3A9E9A4229852F8200DAA547 /* AddProgramView.swift in Sources */,
+				3A8CE2F72A1393BA00CEE78F /* AddOrChangeSetView.swift in Sources */,
 				008C51DD2972F8F50046EF5B /* ContentView.swift in Sources */,
 				3A637A102A0E7BFB002B5857 /* AddSetsToExercise.swift in Sources */,
 				3A8896C329B75B5300219446 /* CalendarView.swift in Sources */,
