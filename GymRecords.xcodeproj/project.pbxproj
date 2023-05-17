@@ -45,6 +45,7 @@
 		3AB0A7FA29B0B5DE00E5E7BA /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB0A7F929B0B5DE00E5E7BA /* DateExtensions.swift */; };
 		3AB0A80729B0C86A00E5E7BA /* GrowingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB0A80629B0C86A00E5E7BA /* GrowingButton.swift */; };
 		3AB0A80929B0CAC800E5E7BA /* CalendarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB0A80829B0CAC800E5E7BA /* CalendarExtension.swift */; };
+		3AC5F6F72A14F02A007339D7 /* EnterOrChangeOneCertainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC5F6F62A14F02A007339D7 /* EnterOrChangeOneCertainView.swift */; };
 		3ACB31702A0E8C65003C4FC2 /* AddNewSetsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB316F2A0E8C65003C4FC2 /* AddNewSetsMainView.swift */; };
 		3ACB31722A0FD08E003C4FC2 /* ViewOffsetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB31712A0FD08E003C4FC2 /* ViewOffsetExtension.swift */; };
 		3ACB31AF2A0FE719003C4FC2 /* LegacyCod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB31AE2A0FE719003C4FC2 /* LegacyCod.swift */; };
@@ -91,6 +92,7 @@
 		3AB0A7F929B0B5DE00E5E7BA /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		3AB0A80629B0C86A00E5E7BA /* GrowingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowingButton.swift; sourceTree = "<group>"; };
 		3AB0A80829B0CAC800E5E7BA /* CalendarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarExtension.swift; sourceTree = "<group>"; };
+		3AC5F6F62A14F02A007339D7 /* EnterOrChangeOneCertainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterOrChangeOneCertainView.swift; sourceTree = "<group>"; };
 		3ACB316F2A0E8C65003C4FC2 /* AddNewSetsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSetsMainView.swift; sourceTree = "<group>"; };
 		3ACB31712A0FD08E003C4FC2 /* ViewOffsetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewOffsetExtension.swift; sourceTree = "<group>"; };
 		3ACB31AE2A0FE719003C4FC2 /* LegacyCod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyCod.swift; sourceTree = "<group>"; };
@@ -163,11 +165,11 @@
 				3AB0A80529B0C85900E5E7BA /* StyleViews */,
 				008C51DC2972F8F50046EF5B /* ContentView.swift */,
 				3A05B9902A0FECF40063D055 /* AddSetPageView.swift */,
+				3AC5F6F62A14F02A007339D7 /* EnterOrChangeOneCertainView.swift */,
 				3A8CE2F62A1393BA00CEE78F /* AddOrChangeSetView.swift */,
 				3ACB316F2A0E8C65003C4FC2 /* AddNewSetsMainView.swift */,
 				3A637A0D2A0E6F6D002B5857 /* ContentViewExerciseFromTheListView.swift */,
 				3A637A0F2A0E7BFB002B5857 /* AddSetsToExercise.swift */,
-				3A637A0B2A06A28B002B5857 /* DragGestureLineView.swift */,
 				3A9E9A4129852F8200DAA547 /* AddProgramView.swift */,
 				3A9E9A4D29951AF400DAA547 /* DataBaseView.swift */,
 				3A9E9A4F29951BF700DAA547 /* ExercisesAndProgramsListView.swift */,
@@ -248,6 +250,7 @@
 				3AB0A80629B0C86A00E5E7BA /* GrowingButton.swift */,
 				3A8CE2F82A1398E300CEE78F /* AddSetLittleView.swift */,
 				3A8CE2FA2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift */,
+				3A637A0B2A06A28B002B5857 /* DragGestureLineView.swift */,
 			);
 			path = StyleViews;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				3A9E9A4E29951AF400DAA547 /* DataBaseView.swift in Sources */,
 				3A8CE2FB2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift in Sources */,
 				3ACB31AF2A0FE719003C4FC2 /* LegacyCod.swift in Sources */,
+				3AC5F6F72A14F02A007339D7 /* EnterOrChangeOneCertainView.swift in Sources */,
 				3AB0A7F729ACC51E00E5E7BA /* SearchExerciseView.swift in Sources */,
 				3A05B9912A0FECF40063D055 /* AddSetPageView.swift in Sources */,
 				3A8CE2F92A1398E300CEE78F /* AddSetLittleView.swift in Sources */,

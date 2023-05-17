@@ -58,7 +58,7 @@ class GymViewModel: ObservableObject {
     //Computed or Store value of Delete / Create / Change a set for the exercise
     
     @Published var didTapToAddSet:Bool = false
-    
+    @Published var newSets:[Sets] = []
     
     
     
@@ -377,6 +377,42 @@ class GymViewModel: ObservableObject {
         if let index = newTraining.exercises.firstIndex(of: exercise) {
             
             newTraining.exercises[index].isSelectedToAddSet.toggle()
+        }
+        trainInSelectedDay = newTraining
+    }
+    //Create new Set
+    func createNewSet(set:Sets) {
+        if newSets.isEmpty {
+            newSets = [set]
+        } else {
+            newSets.append(set)
+        }
+    }
+    func clearArrayOfSets() {
+        newSets = []
+    }
+    // Change or Add new Set value to the exercise
+    func changeValueToExercise(exercise:Exercise,sets:Sets,weight:Double,reps:Double) {
+        
+        let newTraining = trainInSelectedDay
+        if let exIndex = newTraining.exercises.firstIndex(of: exercise) {
+            
+            if let setIndex = exercise.sets.firstIndex(of:sets) {
+                newTraining.exercises[exIndex].sets[setIndex].weight = weight
+                newTraining.exercises[exIndex].sets[setIndex].reps = reps
+                
+            }
+        }
+        trainInSelectedDay = newTraining
+        print("Done")
+        
+    }
+    //Add new Set to the exercise
+    func addNewSetToExercise(exercise:Exercise,set:Sets) {
+        let newTraining = trainInSelectedDay
+        
+        if let exIndex = newTraining.exercises.firstIndex(of: exercise) {
+            newTraining.exercises[exIndex].sets.append(set)
         }
         trainInSelectedDay = newTraining
     }

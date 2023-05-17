@@ -15,27 +15,29 @@ struct AddSetPageView: View {
     var body: some View {
         TabView {
             ForEach(exercises) { exercise in
-                ZStack(alignment:.leading) {
+                ZStack(alignment:.top) {
                     Color.white
+                    RoundedRectangle(cornerRadius: 5).frame(width: viewModel.screenWidth,height: 30)
                     VStack(alignment: .leading){
+                        
                         Text("\(exercise.name)").foregroundColor(.black)
                             .font(.custom("Helvetica", size: 24).bold())
-                            .padding(25)
+                            .padding(.bottom,20)
                         HStack {
                             Text("weight")
-                                .padding(.trailing,150)
+                                .padding(.trailing,120)
                             Text("reps")
                         }
-                        .padding([.leading,.bottom],35)
+                        .padding(.top,15).padding(.leading,5)
                         .font(.callout.bold())
                         .foregroundColor(Color("MidGrayColor"))
                         
-                        EnterSetAndRepsValueLittleView(exercise: exercise, isActiveView: true).environmentObject(viewModel)
-                            .padding(.leading,20)
+                        EnterSetAndRepsValueLittleView(exercise: exercise, isActiveView: false).environmentObject(viewModel)
+                            
                         
                            
                         AddSetLittleView(number: countOfLittleViews + 1)
-                            .padding(.leading,25)
+                            
                             .onTapGesture {
                                 withAnimation(.easeInOut) {
                                     viewModel.didTapToAddSet.toggle()
@@ -43,6 +45,7 @@ struct AddSetPageView: View {
                             }
                         Spacer()
                     }
+                    .padding(.top, 80)
                     if viewModel.didTapToAddSet {
                         
                         AddOrChangeSetView(exercise: exercise)

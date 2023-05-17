@@ -205,7 +205,7 @@ struct ContentView: View {
             }.zIndex(10)
                 .offset(y:420)
                 .overlay(alignment: .bottom) {
-                    Button("Add Programm") {
+                    Button("Add Program") {
                         appearSheet.toggle()
                         viewModel.changeExercisesDB = false
                     }
@@ -231,7 +231,7 @@ struct ContentView: View {
             if isShowedMainAddSetsView {
                 withAnimation(.easeOut) {
                     AddNewSetsMainView(exercises: $viewModel.trainInSelectedDay.exercises).environmentObject(viewModel)
-                        
+                        .ignoresSafeArea(.keyboard)
                         .background(.ultraThinMaterial)
                         .transition(.move(edge: .bottom))
                         

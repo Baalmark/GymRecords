@@ -240,7 +240,7 @@ class Exercise:Equatable,Identifiable,Hashable {
     
 }
 
-struct Sets: Identifiable {
+struct Sets: Identifiable,Equatable {
     var id = UUID()
     var number: Int
     var date:Date
