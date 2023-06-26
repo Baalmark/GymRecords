@@ -60,6 +60,8 @@ class GymViewModel: ObservableObject {
     @Published var didTapToAddSet:Bool = false
     @Published var newSets:[Sets] = []
     
+    //Show view with sets
+    @Published var isShowedMainAddSetsView = false
     
     
     //Design Vars

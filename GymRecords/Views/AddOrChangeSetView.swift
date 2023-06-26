@@ -10,7 +10,7 @@ import SwiftUI
 struct AddOrChangeSetView: View {
     @EnvironmentObject var viewModel:GymViewModel
     @State var exercise:Exercise
-    
+ 
     
     var body: some View {
         VStack(alignment: .leading){
@@ -31,13 +31,14 @@ struct AddOrChangeSetView: View {
             
             Text("\(exercise.name)").foregroundColor(.white)
                 .font(.custom("Helvetica", size: 24).bold())
-                .padding(25)
+                .padding(20)
+            
             HStack {
                 Text("weight")
                     .padding(.trailing,110)
                 Text("reps")
             }
-            .padding(.leading,35)
+            .padding(.leading,30)
             .font(.callout.bold())
             .foregroundColor(Color("MidGrayColor"))
             EnterSetAndRepsValueLittleView(exercise: exercise, isActiveView: true)
@@ -59,7 +60,7 @@ struct AddOrChangeSetView: View {
             .fontWeight(.semibold)
             .padding([.leading,.trailing],30)
             
-            .offset(y:-50)
+            .offset(y:-10)
             
         }
         .frame(maxWidth: .infinity,maxHeight: .infinity)

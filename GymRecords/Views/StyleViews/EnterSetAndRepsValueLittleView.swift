@@ -11,16 +11,10 @@ struct EnterSetAndRepsValueLittleView: View {
     @EnvironmentObject var viewModel:GymViewModel
     var exercise:Exercise
     var screenWidth = UIScreen.main.bounds.width
-    @State var enterWeightTextField:Double = 0
-    @State var enterRepsTextField:Double = 0
     var isActiveView:Bool
-    @State private var numberFormatter: NumberFormatter = {
-        var nf = NumberFormatter()
-        nf.numberStyle = .decimal
-        return nf
-    }()
-    
-    
+    @State var number:Int = 1
+    @State var lastSet:Sets = Sets(number: 1, weight: 0, reps: 0, doubleWeight: false, selfWeight: false)
+    @State var testFlag = false
     var body: some View {
         
         if isActiveView {
@@ -31,78 +25,62 @@ struct EnterSetAndRepsValueLittleView: View {
     }
     
     var activeView : some View {
-        
-        ForEach(exercise.sets) { onSet in
-            HStack {
-                Text("\(onSet.number)")
-                    .padding(.leading,-15)
-                    .font(.callout.bold())
-                    .foregroundColor(Color("MidGrayColor"))
-                HStack {
-                    TextField("\(onSet.weight)",value: $enterWeightTextField,formatter: numberFormatter)
-                        .onAppear {
-                            enterWeightTextField = onSet.weight
-                        }
-                        .font(.custom("Helvetica", size: 24).bold())
-                        .foregroundColor(.black)
-                        .multilineTextAlignment(.center)
-                        .frame(height: 70)
-                        .background(RoundedRectangle(cornerRadius: 15)
-                            .foregroundColor(Color("LightGrayColor")))
-                    TextField("\(onSet.weight)",value: $enterRepsTextField,formatter: numberFormatter)
-                        .onAppear {
-                            enterRepsTextField = onSet.reps
-                        }
-                        .font(.custom("Helvetica", size: 24).bold())
-                        .foregroundColor(onSet.reps == 0 ? .clear : .black)
-                        .frame(height: 70)
-                        .multilineTextAlignment(.center)
-                        .background(RoundedRectangle(cornerRadius: 15)
-                            .foregroundColor(Color("LightGrayColor")))
+        VStack {
+            if exercise.sets.isEmpty {
+                EnterOrChangeOneCertainView(weight: lastSet.weight, reps: lastSet.reps, onSet: lastSet).onAppear() {
+                    
                     
                 }
-                .frame(width: screenWidth - 60,height: 70)
+                .onChange(of: lastSet) { newValue in
+                    viewModel.changeValueToExercise(exercise: exercise, sets: lastSet, weight: lastSet.weight, reps: lastSet.reps)
+                }
+            } else {
+                
+                ForEach(exercise.sets) { onSet in
+                    EnterOrChangeOneCertainView(weight: onSet.weight, reps: onSet.reps, onSet: onSet).onAppear() {
+                        
+                        if onSet.number == exercise.sets.count {
+                            lastSet = onSet
+                            lastSet.number += 1
+                            testFlag = true
+                            
+                        }
+                    }
+                    .onChange(of: onSet) { newValue in
+                        viewModel.changeValueToExercise(exercise: exercise, sets: onSet, weight: onSet.weight, reps: onSet.reps)
+                    }
+                    
+                    
+                }
             }
+            
+            if testFlag {
+                EnterOrChangeOneCertainView(weight: lastSet.weight, reps: lastSet.reps, onSet: lastSet)
+                    .onAppear {
+                        number += 1
+                    }
+            }
+            AddSetLittleView(number: exercise.sets.count + 2)
+            
         }
-    }
+        .onAppear() {
+            if testFlag && lastSet.weight != 0 && lastSet.reps != 0 {
+                viewModel.newSets = exercise.sets
+                viewModel.newSets.append(lastSet)
+                }
+        }
+        }
+        
+        
     var inActiveView: some View {
         ForEach(exercise.sets) { onSet in
-            HStack {
-                Text("\(onSet.number)")
-                    .padding(.leading,-15)
-                    .font(.callout.bold())
-                    .foregroundColor(Color("MidGrayColor"))
-                HStack {
-                    TextField("\(onSet.weight)",value: $enterWeightTextField,formatter: numberFormatter)
-                        .onAppear {
-                            enterWeightTextField = onSet.weight
-                        }
-                        .font(.custom("Helvetica", size: 24).bold())
-                        .foregroundColor(onSet.weight == 0 ? .clear : .black)
-                        .frame(height: 70)
-                        .multilineTextAlignment(.center)
-                        .background(RoundedRectangle(cornerRadius: 15)
-                            .foregroundColor(Color("LightGrayColor")))
-                    TextField("\(onSet.weight)",value: $enterRepsTextField,formatter: numberFormatter)
-                        .onAppear {
-                            enterRepsTextField = onSet.reps
-                        }
-                        .font(.custom("Helvetica", size: 24).bold())
-                        .foregroundColor(onSet.reps == 0 ? .clear : .black)
-                        .frame(height: 70)
-                        .multilineTextAlignment(.center)
-                        .background(RoundedRectangle(cornerRadius: 15)
-                            .foregroundColor(Color("LightGrayColor")))
-                    
-                }
-                .frame(width: screenWidth - 60,height: 70)
+            EnterOrChangeOneCertainView(weight: onSet.weight, reps: onSet.reps, onSet: onSet)
             }
-        }
     }
 }
 
 struct EnterSetAndRepsValueLittleView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterSetAndRepsValueLittleView(exercise: GymModel.arrayOfAllCreatedExercises[0],isActiveView: false)
+        EnterSetAndRepsValueLittleView(exercise: GymModel.arrayOfAllCreatedExercises[0],isActiveView: false).environmentObject(GymViewModel())
     }
 }

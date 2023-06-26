@@ -15,9 +15,10 @@ struct AddNewSetsMainView: View {
     
     var body: some View {
         ScrollView(.horizontal,showsIndicators: true) {
-            HStack(spacing:20) {
+            
                 AddSetPageView(exercises: exercises)
-                }
+                    
+                
             }
             .frame(width: viewModel.screenWidth)
         }

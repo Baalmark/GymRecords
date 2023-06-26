@@ -22,7 +22,7 @@ struct ContentView: View {
     private var previousMonth = false
     private var nextMonth = false
     @State var collapsingViewFlag = false
-    @State var isShowedMainAddSetsView = false
+    
     
     
     var body: some View {
@@ -169,7 +169,7 @@ struct ContentView: View {
                                     AddSetsToExercise(exercise: exercise).environmentObject(viewModel)
                                         .onTapGesture {
                                             withAnimation(.easeInOut) {
-                                                isShowedMainAddSetsView.toggle()
+                                                viewModel.isShowedMainAddSetsView.toggle()
                                             }
                                         }
                         
@@ -228,7 +228,7 @@ struct ContentView: View {
         
         
         .overlay {
-            if isShowedMainAddSetsView {
+            if viewModel.isShowedMainAddSetsView {
                 withAnimation(.easeOut) {
                     AddNewSetsMainView(exercises: $viewModel.trainInSelectedDay.exercises).environmentObject(viewModel)
                         .ignoresSafeArea(.keyboard)

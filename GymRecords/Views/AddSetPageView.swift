@@ -10,63 +10,98 @@ import SwiftUI
 struct AddSetPageView: View {
     
     @EnvironmentObject var viewModel:GymViewModel
+    @Environment(\.dismiss) var dismiss
     @State var exercises:[Exercise]
-    @State var countOfLittleViews = 0
     var body: some View {
         TabView {
-            ForEach(exercises) { exercise in
-                ZStack(alignment:.top) {
-                    Color.white
-                    RoundedRectangle(cornerRadius: 5).frame(width: viewModel.screenWidth,height: 30)
-                    VStack(alignment: .leading){
-                        
-                        Text("\(exercise.name)").foregroundColor(.black)
-                            .font(.custom("Helvetica", size: 24).bold())
-                            .padding(.bottom,20)
-                        HStack {
-                            Text("weight")
-                                .padding(.trailing,120)
-                            Text("reps")
+                ForEach(exercises) { exercise in
+                    ZStack(alignment:.top) {
+                        Color.white
+                        VStack(alignment: .leading){
+                            
+                            Text("\(exercise.name)").foregroundColor(.black)
+                                .font(.custom("Helvetica", size: 24).bold())
+                                .padding(-3).padding(.leading,-4)
+                            
+                            HStack {
+                                Text("weight")
+                                    .padding(.trailing,110)
+                                Text("reps")
+                            }
+                            .padding(7.6).padding(.leading,-9.5)
+                            
+                            .padding(.top,15).padding(.leading,5)
+                            .font(.callout.bold())
+                            .foregroundColor(Color("MidGrayColor"))
+                            EnterSetAndRepsValueLittleView(exercise: exercise, isActiveView: false).environmentObject(viewModel)
+                                .padding(.leading,-2).padding(.top, -3).padding(.bottom,6)
+                                .onTapGesture {
+                                    withAnimation(.easeInOut) {
+                                        viewModel.didTapToAddSet.toggle()
+                                    }
+                                }
+                            AddSetLittleView(number: exercise.sets.count + 1)
+                                .padding(.leading,-4).padding(.top, -3).padding(.bottom,6)
+                                .onTapGesture {
+                                    withAnimation(.easeInOut) {
+                                        viewModel.didTapToAddSet.toggle()
+                                    }
+                                }
+                            Spacer()
                         }
-                        .padding(.top,15).padding(.leading,5)
-                        .font(.callout.bold())
-                        .foregroundColor(Color("MidGrayColor"))
+                        .padding(.top, 80)
+                        if viewModel.didTapToAddSet {
+                            AddOrChangeSetView(exercise: exercise)
+                                .zIndex(1)
+                        }
                         
-                        EnterSetAndRepsValueLittleView(exercise: exercise, isActiveView: false).environmentObject(viewModel)
-                            
-                        
-                           
-                        AddSetLittleView(number: countOfLittleViews + 1)
-                            
-                            .onTapGesture {
-                                withAnimation(.easeInOut) {
-                                    viewModel.didTapToAddSet.toggle()
+                        Spacer()
+                        HStack {
+                            Button {
+                                //In the environment
+                            }
+                            label: {
+                                HStack {
+                                    Image(systemName: "chart.bar.xaxis")
+                                    Text("Statistics")
                                 }
                             }
-                        Spacer()
-                    }
-                    .padding(.top, 80)
-                    if viewModel.didTapToAddSet {
-                        
-                        AddOrChangeSetView(exercise: exercise)
-                            .zIndex(1)
+                            .background(Capsule(style: .continuous).frame(width: viewModel.screenWidth / 2 - 20,height: 45).foregroundColor(.black))
+                            .tint(.white)
+                            .font(.title2)
+                            .fontWeight(.semibold)
                             
-                        
+                            
+                            .offset(x:-65,y:700)
+                            
+                            Button("Done") {
+                                withAnimation {
+                                    viewModel.isShowedMainAddSetsView.toggle()
+                                }
+                            }
+                            .background(Capsule(style: .continuous).frame(width: viewModel.screenWidth / 2 - 20,height: 45).foregroundColor(.black))
+                            .tint(.white)
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            
+                            
+                            .offset(x: 25,y:700)
+                            
+                            
+                        }.padding()
                     }
-                    
+                    .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
+                    .frame(width: viewModel.screenWidth)
                 }
-                
-                .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
-                
-                
-                .frame(width: viewModel.screenWidth)
-                
-            }
             
-            
+         
         }
-        .frame(width: viewModel.screenWidth)
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+        
+        .frame(width: viewModel.screenWidth + 20)
+        .padding([.leading,.trailing],-10)
+        
+        
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
     }
 }
 
