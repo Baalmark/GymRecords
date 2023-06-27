@@ -169,6 +169,7 @@ struct ContentView: View {
                                     AddSetsToExercise(exercise: exercise).environmentObject(viewModel)
                                         .onTapGesture {
                                             withAnimation(.easeInOut) {
+                                                
                                                 viewModel.isShowedMainAddSetsView.toggle()
                                             }
                                         }

@@ -58,8 +58,10 @@ class GymViewModel: ObservableObject {
     //Computed or Store value of Delete / Create / Change a set for the exercise
     
     @Published var didTapToAddSet:Bool = false
+    @Published var didTapToAddAnotherOneSet = false
+    @Published var setsBackUp:[Sets] = []
     @Published var newSets:[Sets] = []
-    
+    @Published var crntExrcsFrEditSets:Exercise = Exercise(type: .arms, name: "blank", doubleWeight: false, selfWeight: false, isSelected: false, sets: [], isSelectedToAddSet: false)
     //Show view with sets
     @Published var isShowedMainAddSetsView = false
     
@@ -410,11 +412,11 @@ class GymViewModel: ObservableObject {
         
     }
     //Add new Set to the exercise
-    func addNewSetToExercise(exercise:Exercise,set:Sets) {
+    func addNewSetsToExercise(exercise:Exercise,sets:[Sets]) {
         let newTraining = trainInSelectedDay
         
         if let exIndex = newTraining.exercises.firstIndex(of: exercise) {
-            newTraining.exercises[exIndex].sets.append(set)
+            newTraining.exercises[exIndex].sets = sets
         }
         trainInSelectedDay = newTraining
     }

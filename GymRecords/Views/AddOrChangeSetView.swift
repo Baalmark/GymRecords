@@ -10,13 +10,14 @@ import SwiftUI
 struct AddOrChangeSetView: View {
     @EnvironmentObject var viewModel:GymViewModel
     @State var exercise:Exercise
- 
+    @State var toAddSet:Bool
     
     var body: some View {
         VStack(alignment: .leading){
             Button {
                 withAnimation(.easeInOut) {
                     viewModel.didTapToAddSet = false
+                    exercise.sets = viewModel.setsBackUp
                 }
                 
             } label: {
@@ -41,18 +42,22 @@ struct AddOrChangeSetView: View {
             .padding(.leading,30)
             .font(.callout.bold())
             .foregroundColor(Color("MidGrayColor"))
-            EnterSetAndRepsValueLittleView(exercise: exercise, isActiveView: true)
-                .padding(.leading,25)
+            EnterSetAndRepsValueLittleView(exercise: exercise, isActiveView: true,toAddSet: toAddSet)
+                .onAppear {
+                    viewModel.setsBackUp = exercise.sets
+                }
                 .ignoresSafeArea(.keyboard)
+            
                 
             Spacer()
             Button("Save") {
-                print("HERE")
-                if !viewModel.newSets.isEmpty {
-                    if let lastSet = viewModel.newSets.last {
-                        viewModel.addNewSetToExercise(exercise: exercise, set: lastSet)
-                    }
+                
+                
+                
+                withAnimation(.easeInOut) {
+                    viewModel.didTapToAddSet = false
                 }
+                
             }
             .buttonStyle(GrowingButton(isDarkMode: false,width: 335,height: 45))
             .tint(.white)
@@ -60,7 +65,7 @@ struct AddOrChangeSetView: View {
             .fontWeight(.semibold)
             .padding([.leading,.trailing],30)
             
-            .offset(y:-10)
+            .offset(y:-5)
             
         }
         .frame(maxWidth: .infinity,maxHeight: .infinity)
@@ -82,6 +87,6 @@ struct AddOrChangeSetView: View {
 
 struct AddOrChangeSetView_Previews: PreviewProvider {
     static var previews: some View {
-        AddOrChangeSetView(exercise: .init(type: .body, name: "Test", doubleWeight: true, selfWeight: true, isSelected: false, sets: GymModel.testSets, isSelectedToAddSet: true)).environmentObject(GymViewModel())
+        AddOrChangeSetView(exercise: .init(type: .body, name: "Test", doubleWeight: true, selfWeight: true, isSelected: false, sets: GymModel.testSets, isSelectedToAddSet: true), toAddSet: true).environmentObject(GymViewModel())
     }
 }
