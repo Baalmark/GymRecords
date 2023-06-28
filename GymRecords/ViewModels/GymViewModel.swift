@@ -61,7 +61,8 @@ class GymViewModel: ObservableObject {
     @Published var didTapToAddAnotherOneSet = false
     @Published var setsBackUp:[Sets] = []
     @Published var newSets:[Sets] = []
-    @Published var crntExrcsFrEditSets:Exercise = Exercise(type: .arms, name: "blank", doubleWeight: false, selfWeight: false, isSelected: false, sets: [], isSelectedToAddSet: false)
+    @Published var crntExrcsFrEditSets:Exercise
+    
     //Show view with sets
     @Published var isShowedMainAddSetsView = false
     
@@ -90,6 +91,7 @@ class GymViewModel: ObservableObject {
         let components = calendar.dateComponents([.day], from: Date())
         selectedDayForChecking = components.day!
         trainInSelectedDay = GymModel.Program(programTitle: "blank", description: "blank", colorDesign: "red", exercises: [])
+        self.crntExrcsFrEditSets = Exercise(type: .arms, name: "blank", doubleWeight: false, selfWeight: false, isSelected: false, sets: [], isSelectedToAddSet: false)
     }
     
     
@@ -347,7 +349,7 @@ class GymViewModel: ObservableObject {
     func checkTheRowForTheSelectedDay(correctDay:Int, month:Date) -> Bool{
         let components = selectedDate.get(.day, .month, .year)
         if components.day == correctDay && Calendar.current.isDate(selectedDate, equalTo: month, toGranularity: .month) {
-                return true
+            return true
         }
         return false
     }
@@ -365,7 +367,7 @@ class GymViewModel: ObservableObject {
         let stringDate = toStringDate(date: selectedDate)
         
         return trainings[stringDate] != nil
-            
+        
     }
     
     //Selecting the day with a training
@@ -420,7 +422,37 @@ class GymViewModel: ObservableObject {
         }
         trainInSelectedDay = newTraining
     }
+    
+    //Creator a set
+    func createSet(exercise:Exercise) -> Exercise{
+        let newEx = exercise
+        let newElement = Sets(number: exercise.sets.count + 1, weight: 0, reps: 0, doubleWeight: exercise.doubleWeight, selfWeight: exercise.selfWeight)
+        newEx.sets.append(newElement)
+        return newEx
+    }
+    
+    //Save certain set in the exercise
+    func saveSetInEx(set:Sets,exercise:Exercise) -> Exercise {
+            let nEx = exercise
+            nEx.sets[set.number-1] = set
+            return nEx
+        }
+//        saveEditedExercise(exercise: exercise)
 
+    
+    //Save exercise with edited sets
+    func saveEditedExercise(exercise:Exercise) {
+        let newTraining = trainInSelectedDay
+        
+        for var ex in newTraining.exercises {
+            if ex.name == exercise.name {
+                ex = exercise
+                crntExrcsFrEditSets = exercise
+            }
+            trainInSelectedDay = newTraining
+        }
+        
+    }
 }
 //MARK: Extensions
 

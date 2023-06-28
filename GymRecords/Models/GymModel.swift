@@ -235,6 +235,10 @@ class Exercise:Equatable,Identifiable,Hashable {
         self.selfWeight = selfWeight
         self.isSelected = isSelected
         self.sets = sets
+        
+       
+       
+        
         self.isSelectedToAddSet = isSelectedToAddSet
     }
     

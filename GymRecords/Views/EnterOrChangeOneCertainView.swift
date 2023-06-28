@@ -12,6 +12,8 @@ struct EnterOrChangeOneCertainView: View {
     @State var weight:Double
     @State var reps:Double
     @State var onSet:Sets
+    @State var number:Int
+    @State var exercise:Exercise
     @State private var numberFormatter: NumberFormatter = {
         var nf = NumberFormatter()
         nf.numberStyle = .decimal
@@ -20,7 +22,7 @@ struct EnterOrChangeOneCertainView: View {
 
     var body: some View {
         HStack {
-            Text("\(onSet.number)")
+            Text("\(number)")
                 .padding(.leading,-15)
                 .font(.callout.bold())
                 .foregroundColor(Color("MidGrayColor"))
@@ -32,9 +34,11 @@ struct EnterOrChangeOneCertainView: View {
                     .onChange(of:weight) { newValue in
                         onSet.weight = newValue
                         print("\(onSet)")
+                        exercise = viewModel.saveSetInEx(set: onSet, exercise: exercise)
+                        viewModel.crntExrcsFrEditSets = exercise
                     }
                     .font(.custom("Helvetica", size: 24).bold())
-                    .foregroundColor(weight == 0 ? Color("LightGrayColor") : .black)
+                    .foregroundColor(.black)
                     
                     .multilineTextAlignment(.center)
                     .frame(height: 70)
@@ -47,10 +51,12 @@ struct EnterOrChangeOneCertainView: View {
                     .onChange(of:reps) { newValue in
                         onSet.reps = newValue
                         print("\(onSet)")
+                        exercise = viewModel.saveSetInEx(set: onSet, exercise: exercise)
+                        viewModel.crntExrcsFrEditSets = exercise
                     }
                     
                     .font(.custom("Helvetica", size: 24).bold())
-                    .foregroundColor(reps == 0 ? Color("LightGrayColor") : .black)
+                    .foregroundColor(.black)
                     .frame(height: 70)
                     .multilineTextAlignment(.center)
                     .background(RoundedRectangle(cornerRadius: 15)
@@ -65,6 +71,6 @@ struct EnterOrChangeOneCertainView: View {
 
 struct EnterOrChangeOneCertainView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterOrChangeOneCertainView(weight: 10, reps: 10 ,onSet: .init(number: 1, weight: 10, reps: 1, doubleWeight: true, selfWeight: false)).environmentObject(GymViewModel())
+        EnterOrChangeOneCertainView(weight: 10, reps: 10 ,onSet: .init(number: 1, weight: 10, reps: 1, doubleWeight: true, selfWeight: false), number: 1, exercise: GymModel.arrayOfAllCreatedExercises[0]).environmentObject(GymViewModel())
     }
 }

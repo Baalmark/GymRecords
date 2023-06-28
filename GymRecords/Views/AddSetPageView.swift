@@ -46,6 +46,10 @@ struct AddSetPageView: View {
                                                 viewModel.crntExrcsFrEditSets = exercise
                                             }
                                         }
+                                        .onAppear {
+                                            viewModel.crntExrcsFrEditSets = exercise
+                                        }
+                                    
                                     
                                     
                                     AddSetLittleView(number: exercise.sets.count + 1)
