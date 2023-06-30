@@ -13,7 +13,7 @@ struct EnterOrChangeOneCertainView: View {
     @State var reps:Double
     @State var onSet:Sets
     @State var number:Int
-    @State var exercise:Exercise
+    var exercise:Exercise
     @State private var numberFormatter: NumberFormatter = {
         var nf = NumberFormatter()
         nf.numberStyle = .decimal
@@ -33,9 +33,9 @@ struct EnterOrChangeOneCertainView: View {
                     }
                     .onChange(of:weight) { newValue in
                         onSet.weight = newValue
-                        print("\(onSet)")
-                        exercise = viewModel.saveSetInEx(set: onSet, exercise: exercise)
-                        viewModel.crntExrcsFrEditSets = exercise
+                    
+                        viewModel.saveSetInEx(set: onSet, exercise: exercise)
+                        
                     }
                     .font(.custom("Helvetica", size: 24).bold())
                     .foregroundColor(.black)
@@ -50,9 +50,9 @@ struct EnterOrChangeOneCertainView: View {
                     }
                     .onChange(of:reps) { newValue in
                         onSet.reps = newValue
-                        print("\(onSet)")
-                        exercise = viewModel.saveSetInEx(set: onSet, exercise: exercise)
-                        viewModel.crntExrcsFrEditSets = exercise
+                       
+                       viewModel.saveSetInEx(set: onSet, exercise: exercise)
+                        
                     }
                     
                     .font(.custom("Helvetica", size: 24).bold())

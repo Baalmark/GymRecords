@@ -410,7 +410,7 @@ class GymViewModel: ObservableObject {
             }
         }
         trainInSelectedDay = newTraining
-        print("Done")
+        
         
     }
     //Add new Set to the exercise
@@ -426,16 +426,22 @@ class GymViewModel: ObservableObject {
     //Creator a set
     func createSet(exercise:Exercise) -> Exercise{
         let newEx = exercise
-        let newElement = Sets(number: exercise.sets.count + 1, weight: 0, reps: 0, doubleWeight: exercise.doubleWeight, selfWeight: exercise.selfWeight)
-        newEx.sets.append(newElement)
+        if !exercise.sets.isEmpty {
+            let newElement = Sets(number: exercise.sets.count + 1, weight: exercise.sets.last!.weight, reps: exercise.sets.last!.reps, doubleWeight: exercise.doubleWeight, selfWeight: exercise.selfWeight)
+            newEx.sets.append(newElement)
+        } else {
+            let newElement = Sets(number: exercise.sets.count + 1, weight: 0, reps: 0, doubleWeight: exercise.doubleWeight, selfWeight: exercise.selfWeight)
+            newEx.sets.append(newElement)
+        }
+        
         return newEx
     }
     
     //Save certain set in the exercise
-    func saveSetInEx(set:Sets,exercise:Exercise) -> Exercise {
+    func saveSetInEx(set:Sets,exercise:Exercise){
             let nEx = exercise
             nEx.sets[set.number-1] = set
-            return nEx
+            saveEditedExercise(exercise: nEx)
         }
 //        saveEditedExercise(exercise: exercise)
 
@@ -447,11 +453,16 @@ class GymViewModel: ObservableObject {
         for var ex in newTraining.exercises {
             if ex.name == exercise.name {
                 ex = exercise
-                crntExrcsFrEditSets = exercise
+                crntExrcsFrEditSets = ex
+                
             }
             trainInSelectedDay = newTraining
         }
         
+    }
+    
+    func testSave() -> [Exercise] {
+        return trainInSelectedDay.exercises
     }
 }
 //MARK: Extensions

@@ -11,12 +11,12 @@ struct AddNewSetsMainView: View {
     
     @EnvironmentObject var viewModel:GymViewModel
     
-    @Binding var exercises: [Exercise]
+
     
     var body: some View {
         ScrollView(.horizontal,showsIndicators: true) {
             
-                AddSetPageView(exercises: exercises)
+            AddSetPageView()
                     
                 
             }
@@ -38,6 +38,6 @@ struct AddNewSetsMainView: View {
 
     struct AddNewSetsMainView_Previews: PreviewProvider {
         static var previews: some View {
-            AddNewSetsMainView(exercises: .constant(GymModel.arrayOfAllCreatedExercises)).environmentObject(GymViewModel())
+            AddNewSetsMainView().environmentObject(GymViewModel())
         }
     }

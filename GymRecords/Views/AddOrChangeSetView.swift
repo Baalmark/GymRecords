@@ -42,7 +42,7 @@ struct AddOrChangeSetView: View {
             .padding(.leading,30)
             .font(.callout.bold())
             .foregroundColor(Color("MidGrayColor"))
-            EnterSetAndRepsValueLittleView(exercise: exercise, isActiveView: true,toAddSet: toAddSet).environmentObject(viewModel)
+            EnterSetAndRepsValueLittleView(exercise: exercise,toAddSet: toAddSet).environmentObject(viewModel)
                 .onAppear {
                     viewModel.setsBackUp = exercise.sets
                 }
@@ -53,7 +53,9 @@ struct AddOrChangeSetView: View {
             Button("Save") {
                 withAnimation(.easeInOut) {
                     viewModel.didTapToAddSet = false
-                    viewModel.saveEditedExercise(exercise: exercise)
+                    viewModel.crntExrcsFrEditSets = exercise
+                    
+                    
                 }
                 
             }

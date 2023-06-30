@@ -11,11 +11,11 @@ struct AddSetPageView: View {
     
     @EnvironmentObject var viewModel:GymViewModel
     @Environment(\.dismiss) var dismiss
-    @State var exercises:[Exercise]
+
     @State var toAddSet:Bool = false
     var body: some View {
         TabView {
-                ForEach(exercises) { exercise in
+            ForEach(viewModel.trainInSelectedDay.exercises) { exercise in
                     ZStack(alignment:.top) {
                         Color.white
                         
@@ -37,7 +37,10 @@ struct AddSetPageView: View {
                             .foregroundColor(Color("MidGrayColor"))
                             ScrollView {
                                 VStack {
-                                    EnterSetAndRepsValueLittleView(exercise: exercise, isActiveView: false,toAddSet: toAddSet).environmentObject(viewModel)
+                                    ForEach(exercise.sets) { onSet in
+                                        EnterOrChangeOneCertainView(weight: onSet.weight, reps: onSet.reps, onSet: onSet, number: onSet.number, exercise: exercise).environmentObject(viewModel)
+                                            
+                                    }
                                         .padding(.leading,-2).padding(.top, -3).padding(.bottom,6)
                                         .onTapGesture {
                                             withAnimation(.easeInOut) {
@@ -59,6 +62,7 @@ struct AddSetPageView: View {
                                                 toAddSet = true
                                                 viewModel.didTapToAddSet.toggle()
                                                 viewModel.crntExrcsFrEditSets = exercise
+                                               
                                             }
                                         }
                                     Spacer()
@@ -66,6 +70,7 @@ struct AddSetPageView: View {
                                 .frame(width: viewModel.screenWidth)
                             }
                         }
+                        
                         .frame(width: viewModel.screenWidth,height: 600)
                         .padding(.top, 80)
                         Spacer()
@@ -88,6 +93,7 @@ struct AddSetPageView: View {
                             Button("Done") {
                                 withAnimation {
                                     viewModel.isShowedMainAddSetsView.toggle()
+                                    viewModel.saveEditedExercise(exercise: exercise)
                                 }
                             }
                             .background(Capsule(style: .continuous).frame(width: viewModel.screenWidth / 2 - 20,height: 45).foregroundColor(.black))
@@ -109,7 +115,9 @@ struct AddSetPageView: View {
         
         if viewModel.didTapToAddSet {
             AddOrChangeSetView(exercise: viewModel.crntExrcsFrEditSets,toAddSet: toAddSet)
+                
                 .zIndex(1)
+                
         }
     }
     
@@ -117,6 +125,6 @@ struct AddSetPageView: View {
 
 struct AddSetPageView_Previews: PreviewProvider {
     static var previews: some View {
-        AddSetPageView(exercises: GymModel.arrayOfAllCreatedExercises).environmentObject(GymViewModel())
+        AddSetPageView().environmentObject(GymViewModel())
     }
 }

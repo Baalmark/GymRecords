@@ -231,7 +231,7 @@ struct ContentView: View {
         .overlay {
             if viewModel.isShowedMainAddSetsView {
                 withAnimation(.easeOut) {
-                    AddNewSetsMainView(exercises: $viewModel.trainInSelectedDay.exercises).environmentObject(viewModel)
+                    AddNewSetsMainView().environmentObject(viewModel)
                         .ignoresSafeArea(.keyboard)
                         .background(.ultraThinMaterial)
                         .transition(.move(edge: .bottom))
