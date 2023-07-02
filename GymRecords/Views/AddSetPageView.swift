@@ -37,10 +37,7 @@ struct AddSetPageView: View {
                             .foregroundColor(Color("MidGrayColor"))
                             ScrollView {
                                 VStack {
-                                    ForEach(exercise.sets) { onSet in
-                                        EnterOrChangeOneCertainView(weight: onSet.weight, reps: onSet.reps, onSet: onSet, number: onSet.number, exercise: exercise).environmentObject(viewModel)
-                                            
-                                    }
+                                        DisplaySetsMainView(exercise: exercise)
                                         .padding(.leading,-2).padding(.top, -3).padding(.bottom,6)
                                         .onTapGesture {
                                             withAnimation(.easeInOut) {
@@ -52,8 +49,7 @@ struct AddSetPageView: View {
                                         .onAppear {
                                             viewModel.crntExrcsFrEditSets = exercise
                                         }
-                                    
-                                    
+                                
                                     
                                     AddSetLittleView(number: exercise.sets.count + 1)
                                         .padding(.leading,-4).padding(.top, -3).padding(.bottom,6)

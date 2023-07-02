@@ -49,6 +49,7 @@
 		3ACB31702A0E8C65003C4FC2 /* AddNewSetsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB316F2A0E8C65003C4FC2 /* AddNewSetsMainView.swift */; };
 		3ACB31722A0FD08E003C4FC2 /* ViewOffsetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB31712A0FD08E003C4FC2 /* ViewOffsetExtension.swift */; };
 		3ACB31AF2A0FE719003C4FC2 /* LegacyCod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB31AE2A0FE719003C4FC2 /* LegacyCod.swift */; };
+		3AF0C3602A51841E006AD7BB /* DisplaySetsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0C35F2A51841E006AD7BB /* DisplaySetsMainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,6 +97,7 @@
 		3ACB316F2A0E8C65003C4FC2 /* AddNewSetsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSetsMainView.swift; sourceTree = "<group>"; };
 		3ACB31712A0FD08E003C4FC2 /* ViewOffsetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewOffsetExtension.swift; sourceTree = "<group>"; };
 		3ACB31AE2A0FE719003C4FC2 /* LegacyCod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyCod.swift; sourceTree = "<group>"; };
+		3AF0C35F2A51841E006AD7BB /* DisplaySetsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplaySetsMainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,12 +166,12 @@
 				3A8896BD29B759AA00219446 /* CalendarViews */,
 				3AB0A80529B0C85900E5E7BA /* StyleViews */,
 				008C51DC2972F8F50046EF5B /* ContentView.swift */,
+				3AF0C35F2A51841E006AD7BB /* DisplaySetsMainView.swift */,
 				3A05B9902A0FECF40063D055 /* AddSetPageView.swift */,
 				3AC5F6F62A14F02A007339D7 /* EnterOrChangeOneCertainView.swift */,
 				3A8CE2F62A1393BA00CEE78F /* AddOrChangeSetView.swift */,
 				3ACB316F2A0E8C65003C4FC2 /* AddNewSetsMainView.swift */,
 				3A637A0D2A0E6F6D002B5857 /* ContentViewExerciseFromTheListView.swift */,
-				3A637A0F2A0E7BFB002B5857 /* AddSetsToExercise.swift */,
 				3A9E9A4129852F8200DAA547 /* AddProgramView.swift */,
 				3A9E9A4D29951AF400DAA547 /* DataBaseView.swift */,
 				3A9E9A4F29951BF700DAA547 /* ExercisesAndProgramsListView.swift */,
@@ -251,6 +253,7 @@
 				3A8CE2F82A1398E300CEE78F /* AddSetLittleView.swift */,
 				3A8CE2FA2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift */,
 				3A637A0B2A06A28B002B5857 /* DragGestureLineView.swift */,
+				3A637A0F2A0E7BFB002B5857 /* AddSetsToExercise.swift */,
 			);
 			path = StyleViews;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 			files = (
 				3A8896BC29B7595E00219446 /* MonthLabelView.swift in Sources */,
 				3A9E9A4629897E0100DAA547 /* ViewProgramsList.swift in Sources */,
+				3AF0C3602A51841E006AD7BB /* DisplaySetsMainView.swift in Sources */,
 				3A8896B429B7579D00219446 /* CalendarModel.swift in Sources */,
 				3ACB31722A0FD08E003C4FC2 /* ViewOffsetExtension.swift in Sources */,
 				3A9E9A4429897C7B00DAA547 /* ViewExerciseList.swift in Sources */,

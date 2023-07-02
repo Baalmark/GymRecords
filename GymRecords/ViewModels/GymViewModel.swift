@@ -453,7 +453,7 @@ class GymViewModel: ObservableObject {
         for var ex in newTraining.exercises {
             if ex.name == exercise.name {
                 ex = exercise
-                crntExrcsFrEditSets = ex
+                
                 
             }
             trainInSelectedDay = newTraining
