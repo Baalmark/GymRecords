@@ -42,9 +42,13 @@ struct AddOrChangeSetView: View {
             .padding(.leading,30)
             .font(.callout.bold())
             .foregroundColor(Color("MidGrayColor"))
-            EnterSetAndRepsValueLittleView(exercise: exercise,toAddSet: toAddSet).environmentObject(viewModel)
+            EnterSetAndRepsValueLittleView(exercise: exercise,toAddSet: toAddSet)
                 .onAppear {
+                
+                    print(viewModel.crntExrcsFrEditSets.name)
+                    print(viewModel.crntExrcsFrEditSets.sets.count)
                     viewModel.setsBackUp = exercise.sets
+                    
                 }
                 .ignoresSafeArea(.keyboard)
             
@@ -52,8 +56,16 @@ struct AddOrChangeSetView: View {
             Spacer()
             Button("Save") {
                 withAnimation(.easeInOut) {
+                    
+                    if !exercise.sets.isEmpty {
+                        let filteredSets = exercise.sets.filter { Set in
+                            Set.reps != 0 || Set.weight != 0
+                        }
+                        exercise.sets = filteredSets
+                    }
                     viewModel.didTapToAddSet = false
                     viewModel.crntExrcsFrEditSets = exercise
+                    viewModel.setsBackUp = []
                     
                     
                 }

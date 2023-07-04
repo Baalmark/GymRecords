@@ -22,7 +22,7 @@ struct ContentView: View {
     private var previousMonth = false
     private var nextMonth = false
     @State var collapsingViewFlag = false
-    
+    @State var scrollToIndex:Int = 0
     
     
     var body: some View {
@@ -155,7 +155,7 @@ struct ContentView: View {
                             if viewModel.trainInSelectedDay.programTitle != "blank" && viewModel.trainInSelectedDay.description != "blank" {
                                 ProgramItemListView(programm:$viewModel.trainInSelectedDay)
                             }
-                            ForEach(viewModel.trainInSelectedDay.exercises) {
+                            ForEachIndex(viewModel.trainInSelectedDay.exercises){ index,
                                 exercise in
                                 
                                 ContentViewExerciseFromTheListView(exercise: exercise).environmentObject(viewModel)
@@ -169,7 +169,7 @@ struct ContentView: View {
                                     AddSetsToExercise(exercise: exercise).environmentObject(viewModel)
                                         .onTapGesture {
                                             withAnimation(.easeInOut) {
-                                                
+                                                scrollToIndex = index
                                                 viewModel.isShowedMainAddSetsView.toggle()
                                             }
                                         }
@@ -231,10 +231,13 @@ struct ContentView: View {
         .overlay {
             if viewModel.isShowedMainAddSetsView {
                 withAnimation(.easeOut) {
-                    AddNewSetsMainView().environmentObject(viewModel)
+                    AddNewSetsMainView(scrollToIndex: scrollToIndex).environmentObject(viewModel)
                         .ignoresSafeArea(.keyboard)
                         .background(.ultraThinMaterial)
                         .transition(.move(edge: .bottom))
+                        .onDisappear {
+                            scrollToIndex = 0
+                        }
                         
                 }
             }

@@ -10,18 +10,15 @@ import SwiftUI
 struct AddNewSetsMainView: View {
     
     @EnvironmentObject var viewModel:GymViewModel
-    
+    var scrollToIndex:Int
 
     
     var body: some View {
-        ScrollView(.horizontal,showsIndicators: true) {
             
-            AddSetPageView()
-                    
-                
-            }
+                AddSetPageView(scrollToIndex: scrollToIndex)
             .frame(width: viewModel.screenWidth)
-        }
+        
+    }
 
 
     var widthOfFrame: CGFloat
@@ -38,6 +35,6 @@ struct AddNewSetsMainView: View {
 
     struct AddNewSetsMainView_Previews: PreviewProvider {
         static var previews: some View {
-            AddNewSetsMainView().environmentObject(GymViewModel())
+            AddNewSetsMainView(scrollToIndex: 0).environmentObject(GymViewModel())
         }
     }

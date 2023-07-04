@@ -40,6 +40,7 @@ struct EnterSetAndRepsValueLittleView: View {
                     .onTapGesture {
                         withAnimation(.easeInOut) {
                             viewModel.setsBackUp = exercise.sets
+                            
                             exercise = viewModel.createSet(exercise: viewModel.crntExrcsFrEditSets)
                             
                         }
