@@ -13,7 +13,7 @@ struct EnterOrChangeOneCertainView: View {
     @State var reps:Double
     @State var onSet:Sets
     @State var number:Int
-    var exercise:Exercise
+    @State var exercise:Exercise
     @State private var numberFormatter: NumberFormatter = {
         var nf = NumberFormatter()
         nf.numberStyle = .decimal
@@ -34,7 +34,7 @@ struct EnterOrChangeOneCertainView: View {
                     .onChange(of:weight) { newValue in
                         onSet.weight = newValue
                     
-                        viewModel.saveSetInEx(set: onSet, exercise: exercise)
+                        exercise =  viewModel.saveSetInEx(set: onSet, exercise: exercise)
                         
                     }
                     .font(.custom("Helvetica", size: 24).bold())
@@ -51,7 +51,8 @@ struct EnterOrChangeOneCertainView: View {
                     .onChange(of:reps) { newValue in
                         onSet.reps = newValue
                        
-                       viewModel.saveSetInEx(set: onSet, exercise: exercise)
+                        exercise =  viewModel.saveSetInEx(set: onSet, exercise: exercise)
+
                         
                     }
                     

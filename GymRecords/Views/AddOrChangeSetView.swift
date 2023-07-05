@@ -10,7 +10,6 @@ import SwiftUI
 struct AddOrChangeSetView: View {
     @EnvironmentObject var viewModel:GymViewModel
     @State var exercise:Exercise
-    @State var toAddSet:Bool
     
     var body: some View {
         VStack(alignment: .leading){
@@ -42,14 +41,7 @@ struct AddOrChangeSetView: View {
             .padding(.leading,30)
             .font(.callout.bold())
             .foregroundColor(Color("MidGrayColor"))
-            EnterSetAndRepsValueLittleView(exercise: exercise,toAddSet: toAddSet)
-                .onAppear {
-                
-                    print(viewModel.crntExrcsFrEditSets.name)
-                    print(viewModel.crntExrcsFrEditSets.sets.count)
-                    viewModel.setsBackUp = exercise.sets
-                    
-                }
+            EnterSetAndRepsValueLittleView(exercise: exercise)
                 .ignoresSafeArea(.keyboard)
             
                 
@@ -63,11 +55,10 @@ struct AddOrChangeSetView: View {
                         }
                         exercise.sets = filteredSets
                     }
+                    viewModel.saveEditedExercise(exercise: exercise)
                     viewModel.didTapToAddSet = false
-                    viewModel.crntExrcsFrEditSets = exercise
+                    viewModel.crntExrcsFrEditSets = Exercise(type: .arms, name: "nil", doubleWeight: false, selfWeight: false, isSelected: false, sets: [], isSelectedToAddSet: false)
                     viewModel.setsBackUp = []
-                    
-                    
                 }
                 
             }
@@ -99,6 +90,6 @@ struct AddOrChangeSetView: View {
 
 struct AddOrChangeSetView_Previews: PreviewProvider {
     static var previews: some View {
-        AddOrChangeSetView(exercise: .init(type: .body, name: "Test", doubleWeight: true, selfWeight: true, isSelected: false, sets: GymModel.testSets, isSelectedToAddSet: true), toAddSet: true).environmentObject(GymViewModel())
+        AddOrChangeSetView(exercise: .init(type: .body, name: "Test", doubleWeight: true, selfWeight: true, isSelected: false, sets: GymModel.testSets, isSelectedToAddSet: true)).environmentObject(GymViewModel())
     }
 }

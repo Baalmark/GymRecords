@@ -173,36 +173,22 @@ struct ContentView: View {
                                                 viewModel.isShowedMainAddSetsView.toggle()
                                             }
                                         }
-                        
                                 }
-                                
                             }
-                            
-                            
                         }
-                        
-                            .padding(.top,30)
-                            
-                            
+                        .padding(.top,30)
                     } else {
                         Image("backgroundMain")
-                           
+                        
                             .offset(x:0,y: -minimizingCalendarOffSet / 2)
                             .padding()
                             .padding(.top,30)
                     }
-                    
-                    
-                    
                 }
                 
                 .frame(maxWidth: viewModel.screenWidth,maxHeight: .infinity)
                 .background(.white)
                 .offset(x:0,y:minimizingCalendarOffSet)
-                
-                
-                
-                
             }.zIndex(10)
                 .offset(y:420)
                 .overlay(alignment: .bottom) {
@@ -238,7 +224,7 @@ struct ContentView: View {
                         .onDisappear {
                             scrollToIndex = 0
                         }
-                        
+                    
                 }
             }
         }

@@ -12,7 +12,6 @@ struct AddSetPageView: View {
     @EnvironmentObject var viewModel:GymViewModel
     @Environment(\.dismiss) var dismiss
     @State var scrollToIndex:Int
-    @State var toAddSet:Bool = false
     var body: some View {
         TabView(selection:$scrollToIndex) {
             ForEachIndex(viewModel.trainInSelectedDay.exercises){ index,
@@ -38,23 +37,21 @@ struct AddSetPageView: View {
                                         .padding(.leading,-2).padding(.top, -3).padding(.bottom,6)
                                         .onTapGesture {
                                             withAnimation(.easeInOut) {
-                                                toAddSet = false
                                                 viewModel.didTapToAddSet.toggle()
                                                 viewModel.crntExrcsFrEditSets = exercise
-                                                print(viewModel.crntExrcsFrEditSets.name)
+                                                viewModel.setsBackUp = viewModel.crntExrcsFrEditSets.sets
                                             }
                                         }
-                                        .onAppear {
-                                            viewModel.crntExrcsFrEditSets = exercise
-                                        }
+
                                     AddSetLittleView(number: exercise.sets.count + 1)
                                         .padding(.leading,-4).padding(.top, -3).padding(.bottom,6)
                                         .onTapGesture {
                                             withAnimation(.easeInOut) {
-                                                toAddSet = true
+                                                
                                                 viewModel.didTapToAddSet.toggle()
                                                 viewModel.crntExrcsFrEditSets = exercise
-                                                
+                                                viewModel.crntExrcsFrEditSets = viewModel.createSet(exercise: viewModel.crntExrcsFrEditSets)
+                                                viewModel.setsBackUp = viewModel.crntExrcsFrEditSets.sets
                                             }
                                         }
                                     Spacer()
@@ -82,7 +79,7 @@ struct AddSetPageView: View {
                             Button("Done") {
                                 withAnimation {
                                     viewModel.isShowedMainAddSetsView.toggle()
-                                    viewModel.saveEditedExercise(exercise: exercise)
+                                    
                                 }
                             }
                             .background(Capsule(style: .continuous).frame(width: viewModel.screenWidth / 2 - 20,height: 45).foregroundColor(.black))
@@ -95,11 +92,12 @@ struct AddSetPageView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
                     .frame(width: viewModel.screenWidth)
                     .tag(index)
+                
                 }
             .overlay{
                 if viewModel.didTapToAddSet {
                     
-                    AddOrChangeSetView(exercise: viewModel.crntExrcsFrEditSets,toAddSet: toAddSet)
+                    AddOrChangeSetView(exercise: viewModel.crntExrcsFrEditSets)
                         .gesture(DragGesture()
                             .onChanged { value in
                              

@@ -438,10 +438,11 @@ class GymViewModel: ObservableObject {
     }
     
     //Save certain set in the exercise
-    func saveSetInEx(set:Sets,exercise:Exercise){
+    func saveSetInEx(set:Sets,exercise:Exercise) -> Exercise{
             let nEx = exercise
             nEx.sets[set.number-1] = set
-            saveEditedExercise(exercise: nEx)
+           
+            return nEx
         }
 //        saveEditedExercise(exercise: exercise)
 
@@ -449,7 +450,6 @@ class GymViewModel: ObservableObject {
     //Save exercise with edited sets
     func saveEditedExercise(exercise:Exercise) {
         let newTraining = trainInSelectedDay
-        
         for var ex in newTraining.exercises {
             if ex.name == exercise.name {
                 ex = exercise
@@ -567,3 +567,4 @@ struct ForEachIndex<ItemType, ContentView: View>: View {
         }
     }
 }
+

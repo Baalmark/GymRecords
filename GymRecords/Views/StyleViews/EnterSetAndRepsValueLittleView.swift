@@ -14,8 +14,7 @@ struct EnterSetAndRepsValueLittleView: View {
     @State var notSavedSets:[Sets] = []
     @State var number:Int = 1
     @State var lastSet = Sets(number: 1, weight: 0, reps: 0, doubleWeight: false, selfWeight: false)
-
-    @State var toAddSet:Bool
+    
     var body: some View {
         activeView
     }
@@ -25,15 +24,7 @@ struct EnterSetAndRepsValueLittleView: View {
             VStack {
                 ForEach(exercise.sets, id: \.id) { onSet in
                     EnterOrChangeOneCertainView(weight: onSet.weight, reps: onSet.reps, onSet: onSet, number: onSet.number, exercise: exercise)
-                        
-                        .onAppear {
-                            if exercise.sets.isEmpty {
-                                let newSet = Sets(number: 1, weight: 0, reps: 0, doubleWeight: exercise.doubleWeight, selfWeight: exercise.selfWeight)
-                                lastSet = newSet
-                                exercise.sets.append(newSet)
-                            }
-                        }
-                    
+   
                 }
                 
                 AddSetLittleView(number: exercise.sets.count + 1)
@@ -41,27 +32,14 @@ struct EnterSetAndRepsValueLittleView: View {
                         withAnimation(.easeInOut) {
                             viewModel.setsBackUp = exercise.sets
                             
-                            exercise = viewModel.createSet(exercise: viewModel.crntExrcsFrEditSets)
+                            exercise = viewModel.createSet(exercise: exercise)
                             
                         }
                     }
                 
             }
-            .onAppear {
-                if toAddSet {
-                    withAnimation(.easeInOut) {
-                        viewModel.setsBackUp = exercise.sets
-                        exercise = viewModel.createSet(exercise: viewModel.crntExrcsFrEditSets)
-                        
-                    }
-                }
-            }
+            
             .frame(width: viewModel.screenWidth)
-        }
-        .onAppear() {
-            if exercise.sets.first?.reps != 0 || exercise.sets.first?.weight != 0 {
-                viewModel.newSets = exercise.sets
-            }
         }
     }
     
@@ -71,6 +49,6 @@ struct EnterSetAndRepsValueLittleView: View {
 
 struct EnterSetAndRepsValueLittleView_Previews: PreviewProvider {
     static var previews: some View {
-        EnterSetAndRepsValueLittleView(exercise: GymModel.arrayOfAllCreatedExercises[0], toAddSet: true).environmentObject(GymViewModel())
+        EnterSetAndRepsValueLittleView(exercise: GymModel.arrayOfAllCreatedExercises[0]).environmentObject(GymViewModel())
     }
 }
