@@ -100,11 +100,17 @@ struct AddSetPageView: View {
                     AddOrChangeSetView(exercise: viewModel.crntExrcsFrEditSets)
                         .gesture(DragGesture()
                             .onChanged { value in
-                             
                             }
                             .onEnded { value in
-                                
                             })
+                        .ignoresSafeArea(.all)
+                        .onAppear {
+                            viewModel.blurOrBlackBackground = false
+                        }
+                        .onDisappear {
+                            viewModel.blurOrBlackBackground = true
+                        }
+                        
                 }
             }
         }

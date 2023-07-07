@@ -82,8 +82,9 @@ struct AddOrChangeSetView: View {
         .background(Color("backgroundDarkColor"))
         
         .ignoresSafeArea(.all)
-        
+        .preferredColorScheme(.dark)
     }
+    
     
     
 }

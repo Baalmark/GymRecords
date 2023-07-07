@@ -21,12 +21,15 @@ struct EditOrRemoveTheProgram: View {
         VStack(alignment:.leading){
             Text("Program")
                 .padding([.leading,.trailing],40)
-                .font(.title)
+                .font(.largeTitle)
                 .fontWeight(.bold)
-                .padding(.top,20)
+                .padding(.top,30)
             
             ProgramItemListView(programm: $program)
-            VStack {
+                .padding(.bottom,20)
+            
+            
+            ScrollView {
                 ForEach(program.exercises,id: \.id) { elem in
                     HStack {
                         

@@ -62,6 +62,7 @@ class GymViewModel: ObservableObject {
     @Published var setsBackUp:[Sets] = []
     @Published var newSets:[Sets] = []
     @Published var crntExrcsFrEditSets:Exercise
+    @Published var blurOrBlackBackground:Bool = true
     
     //Show view with sets
     @Published var isShowedMainAddSetsView = false
