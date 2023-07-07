@@ -21,43 +21,51 @@ struct ContentView: View {
     @State private var coeffOfTrainView:CGFloat = 0
     private var previousMonth = false
     private var nextMonth = false
-    @State var collapsingViewFlag = false
+    @State var collapsingViewFlag = true
     @State var scrollToIndex:Int = 0
     
-    
     var body: some View {
+        
+        VStack {
         ZStack{
             VStack{
                 //Bar
-                VStack {
-                    HStack {
-                        MonthLabelView(month:viewModel.arrayOfMonths[1])
-                            .environmentObject(viewModel)
-                            .animation(.spring(), value: viewModel.arrayOfMonths[1])
+                ZStack {
+                    VStack {
+                        HStack {
+                            MonthLabelView(month:viewModel.arrayOfMonths[1])
+                                .environmentObject(viewModel)
+                                .animation(.spring(), value: viewModel.arrayOfMonths[1])
+                            
+                            Spacer()
+                            Button{
+                                viewModel.changeExercisesDB = true
+                                isDataBaseSheetActive.toggle()
+                            } label: {
+                                Image("weight")
+                                    .fixedSize()
+                            }
+                            .sheet(isPresented: $isDataBaseSheetActive) {
+                                DataBaseView()
+                            }
+                        }
                         
-                        Spacer()
-                        Button{
-                            viewModel.changeExercisesDB = true
-                            isDataBaseSheetActive.toggle()
-                        } label: {
-                            Image("weight")
-                                .fixedSize()
-                        }
-                        .sheet(isPresented: $isDataBaseSheetActive) {
-                            DataBaseView()
-                        }
+                        
+                        .padding([.leading,.trailing], 10)
+                        
+                        dayOfWeekStack
+                        
                     }
-                    
-                    
-                    .padding([.leading,.trailing], 10)
                     .background(.white)
-                    dayOfWeekStack
-                        .background(.white)
+                    .padding(.bottom,-10)
+                    
+                    Rectangle()
+                        .frame(height: 80)
+                        .zIndex(0)
+                        .offset(y:-70)
+                        .foregroundColor(.white)
+                       
                 }
-                .background(.white)
-                
-                .padding(.bottom,-10)
-                
                 .zIndex(4)
                 HStack(spacing: 10) {
                     ForEach(viewModel.arrayOfMonths, id: \.self) { value in
@@ -101,7 +109,7 @@ struct ContentView: View {
         }
         .background(.white)
         .zIndex(2)
-        
+        .frame(height: collapsingViewFlag ? 140 : 415)
         .overlay(alignment:.center) {
             ZStack(alignment: .top){
                 //Drag gesture line view
@@ -129,12 +137,16 @@ struct ContentView: View {
                                         minimizingCalendarOffSet = 0
                                         coeffOfTrainView = 0
                                         collapsingViewFlag = false
+                                        print("collapsed")
+                                        
                                     }
                                 } else {
                                     withAnimation(.easeInOut) {
                                         minimizingCalendarOffSet = -295
                                         coeffOfTrainView = 295
                                         collapsingViewFlag = true
+                                        
+                                        print("opened up")
                                     }
                                 }
                             } else {
@@ -143,11 +155,12 @@ struct ContentView: View {
                                         minimizingCalendarOffSet = -295
                                         coeffOfTrainView = 295
                                         collapsingViewFlag = true
+                                        
                                     }
                                 }
                             }
                         })
-                
+                    
                 ScrollView {
                     if viewModel.isAnyTrainingSelectedDay() {
                         
@@ -183,36 +196,18 @@ struct ContentView: View {
                             .offset(x:0,y: -minimizingCalendarOffSet / 2)
                             .padding()
                             .padding(.top,30)
+                            .offset(y:collapsingViewFlag ? -140 : 0)
                     }
                 }
                 
-                .frame(maxWidth: viewModel.screenWidth,maxHeight: .infinity)
+                .frame(maxWidth: viewModel.screenWidth)
+                .frame(height: collapsingViewFlag ? 580 : 290)
                 .background(.white)
                 .offset(x:0,y:minimizingCalendarOffSet)
             }.zIndex(10)
-                .offset(y:420)
-                .overlay(alignment: .bottom) {
-                    Button("Add Program") {
-                        appearSheet.toggle()
-                        viewModel.changeExercisesDB = false
-                    }
-                    .sheet(isPresented:$appearSheet) {
-                        //viewModel.dataForProgramm
-                        AddProgramView()
-                    }
-                    .buttonStyle(GrowingButton(isDarkMode: false,width: 335,height: 45))
-                    .tint(.white)
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .padding([.leading,.trailing],30)
-                    .padding(.top,10)
-                    .background(.white)
-                    .zIndex(4)
-                    
-                }
+                .offset(y:collapsingViewFlag ? 510 : 360)
+            
         }
-        .environmentObject(viewModel)
-        
         
         .overlay {
             if viewModel.isShowedMainAddSetsView {
@@ -228,9 +223,28 @@ struct ContentView: View {
                 }
             }
         }
-        
+        .offset(y:-130)
+        Button("Add Program") {
+            appearSheet.toggle()
+            viewModel.changeExercisesDB = false
+        }
+        .sheet(isPresented:$appearSheet) {
+            //viewModel.dataForProgramm
+            AddProgramView()
+        }
+        .buttonStyle(GrowingButton(isDarkMode: false,width: 335,height: 45))
+        .tint(.white)
+        .font(.title2)
+        .fontWeight(.semibold)
+        .padding([.leading,.trailing],30)
+        .padding(.top,10)
+        .background(.white)
+        .zIndex(3)
+        .offset(y:collapsingViewFlag ? 295 : 160)
+        .opacity(1)
+    }.environmentObject(viewModel)
+            
     }
-    
     var dayOfWeekStack: some View
     {
         HStack(spacing: 1)
