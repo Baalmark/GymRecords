@@ -38,25 +38,16 @@ class GymViewModel: ObservableObject {
     @Published var selectedDate:Date = Date() // Selected Date for new training day
     @Published var selectedDayForChecking:Int = 0
     @Published var selectedDayRowHolder = 0
-    
-    
-    var colors = GymModel.colors
-    var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises
-    var imagesArray:[UIImage] = []
-    var stringExerciseList:[String] = []
-    var arrayExercises:[Exercise] = GymModel.arrayOfAllCreatedExercises
-    
-    
+
     
     //All property to creating a training day
     @Published var trainings:[String:GymModel.Program]
     @Published var selectedProgramForNewTrainingDay:GymModel.Program? = nil
     @Published var trainInSelectedDay:GymModel.Program
-    //Computed Property
     @Published var selectedCounterLabel:[Int] = []
+
     
     //Computed or Store value of Delete / Create / Change a set for the exercise
-    
     @Published var didTapToAddSet:Bool = false
     @Published var didTapToAddAnotherOneSet = false
     @Published var setsBackUp:[Sets] = []
@@ -67,12 +58,21 @@ class GymViewModel: ObservableObject {
     //Show view with sets
     @Published var isShowedMainAddSetsView = false
     
+    //Edit program on the Main Content View
+    @Published var editMode = false
     
     //Design Vars
     var viewCornerRadiusSimple:CGFloat = 10
     var screenWidth = UIScreen.main.bounds.width
     var screenHeight = UIScreen.main.bounds.height
     var paddingSafeArea = 20
+    var colors = GymModel.colors
+    var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises
+    var imagesArray:[UIImage] = []
+    var stringExerciseList:[String] = []
+    var arrayExercises:[Exercise] = GymModel.arrayOfAllCreatedExercises
+    
+    
     
     init() {
         self.gymModel = GymModel()
@@ -371,6 +371,12 @@ class GymViewModel: ObservableObject {
         
     }
     
+    func removeTrainingFromSelectedDay() {
+        let stringDate = toStringDate(date: selectedDate)
+        
+        trainings[stringDate] = nil
+    }
+    
     //Selecting the day with a training
     func selectingTheDayWithTraining() {
         let stringDate = toStringDate(date: selectedDate)
@@ -440,13 +446,13 @@ class GymViewModel: ObservableObject {
     
     //Save certain set in the exercise
     func saveSetInEx(set:Sets,exercise:Exercise) -> Exercise{
-            let nEx = exercise
-            nEx.sets[set.number-1] = set
-           
-            return nEx
-        }
-//        saveEditedExercise(exercise: exercise)
-
+        let nEx = exercise
+        nEx.sets[set.number-1] = set
+        
+        return nEx
+    }
+    //        saveEditedExercise(exercise: exercise)
+    
     
     //Save exercise with edited sets
     func saveEditedExercise(exercise:Exercise) {
@@ -461,9 +467,18 @@ class GymViewModel: ObservableObject {
         }
         
     }
+
     
-    func testSave() -> [Exercise] {
-        return trainInSelectedDay.exercises
+    func unSelectingEx(array:[Exercise]) {
+        for element in array {
+            element.isSelected = false
+        }
+    }
+    func removeExercieFromListOfTrainingInSelectedDay(exercise:Exercise) {
+        
+        if let indexOfExercise = trainInSelectedDay.exercises.firstIndex(of: exercise) {
+            trainInSelectedDay.exercises.remove(at: indexOfExercise)
+        }
     }
 }
 //MARK: Extensions

@@ -216,11 +216,19 @@ struct CheckboxStyle: ToggleStyle {
 
 struct ViewListSpecificExercises_Previews: PreviewProvider {
     static var previews: some View {
-        ViewListSpecificExercises(
-            typeOfExercise: .arms, isPresented: .constant(true),
-            exercise: Exercise(type: .chest, name: "Push ups",
-                               doubleWeight: false, selfWeight: true,
-                               isSelected: true, sets: [], isSelectedToAddSet: false), exerciseProgramming: true)
+        Group {
+            ViewListSpecificExercises(
+                typeOfExercise: .arms, isPresented: .constant(true),
+                exercise: Exercise(type: .chest, name: "Push ups",
+                                   doubleWeight: false, selfWeight: true,
+                                   isSelected: true, sets: [], isSelectedToAddSet: false), exerciseProgramming: true)
+            
+            ViewListSpecificExercises(
+                typeOfExercise: .arms, isPresented: .constant(true),
+                exercise: Exercise(type: .chest, name: "Push ups",
+                                   doubleWeight: false, selfWeight: true,
+                                   isSelected: true, sets: [], isSelectedToAddSet: false), exerciseProgramming: false)
+        }
         .environmentObject(GymViewModel())
     }
 }

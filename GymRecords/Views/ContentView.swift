@@ -161,7 +161,7 @@ struct ContentView: View {
                             })
                     
                     ScrollView {
-                        if viewModel.isAnyTrainingSelectedDay() {
+                        if viewModel.isAnyTrainingSelectedDay(){
                             
                             VStack {
                                 if viewModel.trainInSelectedDay.programTitle != "blank" && viewModel.trainInSelectedDay.description != "blank" {
@@ -171,7 +171,7 @@ struct ContentView: View {
                                     exercise in
                                     
                                     ContentViewExerciseFromTheListView(exercise: exercise).environmentObject(viewModel)
-                                        .padding([.top,.bottom],10)
+                                       
                                         .onTapGesture {
                                             
                                             viewModel.addSetsToExerciseSender(exercise:exercise)
@@ -185,6 +185,13 @@ struct ContentView: View {
                                                     viewModel.isShowedMainAddSetsView.toggle()
                                                 }
                                             }
+                                    }
+                                }
+                                .onChange(of: viewModel.trainInSelectedDay.exercises.count) { newValue in
+                                    if newValue == 0 {
+                                        viewModel.trainInSelectedDay = GymModel.Program(programTitle: "blank", description: "blank", colorDesign: "red", exercises: [])
+                                        viewModel.editMode = false
+                                        viewModel.removeTrainingFromSelectedDay()
                                     }
                                 }
                             }
@@ -208,9 +215,14 @@ struct ContentView: View {
                 
             }
             .offset(y:-130)
-            Button("Add Program") {
-                appearSheet.toggle()
-                viewModel.changeExercisesDB = false
+            Button(viewModel.isAnyTrainingSelectedDay() ? "Edit Program" : "Add Program") {
+                
+                if viewModel.isAnyTrainingSelectedDay() {
+                    viewModel.editMode = true
+                } else {
+                    appearSheet.toggle()
+                    viewModel.changeExercisesDB = false
+                }
             }
             .sheet(isPresented:$appearSheet) {
                 //viewModel.dataForProgramm

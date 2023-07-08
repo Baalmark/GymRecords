@@ -100,7 +100,12 @@ struct ExercisesAndProgramsListView: View {
                 .transition(.move(edge: .leading))
                 Button("Ready") {
                     viewModel.createTraining(date: viewModel.selectedDate, exercises: viewModel.selectedExArray)
+                    viewModel.unSelectingEx(array: viewModel.arrayExercises)
+                    viewModel.selectedExArray = []
+                    viewModel.selectedCounterLabel = []
+                    viewModel.backButtonLabel = ""
                     dismiss()
+                    
                 }.buttonStyle(GrowingButton(isDarkMode: false,width: 335,height: 45))
                     .tint(.white)
                     .font(.title2)
