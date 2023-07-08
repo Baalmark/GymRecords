@@ -4,7 +4,7 @@ import SwiftUI
 
 
 class GymViewModel: ObservableObject {
-    
+    let defaults = UserDefaults.standard
     @Published private(set) var gymModel: GymModel
     @Published var isSelectedSomeExercise:Bool = false
     @Published var changeExercisesDB:Bool = false

@@ -10,7 +10,6 @@ import Foundation
 //MARK: GymModel Struct
 struct GymModel {
     
-    
     var programs:[Program]
     var typesExercises:[TypeOfExercise] = TypeOfExercise.allExercises
     var arrayOfExercises:[Exercise] = arrayOfAllCreatedExercises

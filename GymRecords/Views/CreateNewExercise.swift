@@ -31,8 +31,8 @@ struct CreateNewExercise: View {
                     .padding(20)
                 Spacer()
                 Button {
-                    viewModel.isShowedCreateNewExerciseList.toggle()
-                    
+//                    viewModel.isShowedCreateNewExerciseList.toggle()
+                    dismiss()
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .symbolRenderingMode(.hierarchical)
@@ -101,8 +101,8 @@ struct CreateNewExercise: View {
                 HStack {
                     Button() {
                         
-                        viewModel.isShowedCreateNewExerciseList.toggle()
-                        
+//                        viewModel.isShowedCreateNewExerciseList.toggle()
+                        dismiss()
                     } label: {
                         Image(systemName: "arrow.left")
                             .symbolRenderingMode(.hierarchical)
@@ -122,6 +122,7 @@ struct CreateNewExercise: View {
                                 let newElement = Exercise(type: typeOfExercise, name: name, doubleWeight: doubleWeight, selfWeight: bodyWeight, isSelected: false, sets: [], isSelectedToAddSet: false)
                                 viewModel.createNewExercise(exercise: newElement)
                             }
+//                            viewModel.isShowedCreateNewExerciseList.toggle()
                             dismiss()
                         }
                         .buttonStyle(GrowingButton(isDarkMode: viewModel.isDarkMode,width: 335 - 50,height: 45))

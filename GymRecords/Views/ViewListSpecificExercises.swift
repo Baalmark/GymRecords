@@ -104,6 +104,8 @@ struct ViewListSpecificExercises: View {
                 .fullScreenCover(isPresented:$isChangeSheet) {
                     ChangeExerciseNameOrDeleteView(exercise: $exercise)
                 }
+                
+                
                 Spacer()
                 
                 //Button back to ExerciseViewList
@@ -143,6 +145,10 @@ struct ViewListSpecificExercises: View {
             .background(exerciseProgramming ? Color("backgroundDarkColor") : .white)
             .interactiveDismissDisabled()
             
+        }
+        .fullScreenCover(isPresented: $showCreateExercise) {
+
+            CreateNewExercise(typeOfExercise: typeOfExercise, showView: $viewModel.isShowedCreateNewExerciseList, isNoCategoryCreating: false)
         }
     }
     

@@ -15,8 +15,10 @@ struct ViewExerciseList: View {
     @State var isTapped = false
     @State var selectedExer: GymModel.TypeOfExercise? = nil
     @State var showOverlay = false
+    @State var showCreateExercise = false
     @Binding var shouldHideButton:Bool
     @State var programmingExercise:Bool
+    
     var body: some View {
         ZStack {
             NavigationView{
@@ -153,35 +155,36 @@ struct ViewExerciseList: View {
                 .background(withCategory ? .white : Color("backgroundDarkColor"))
             }.opacity(viewModel.isShowedCreateNewExerciseList ? 0 : 1)
             
-            if viewModel.isShowedCreateNewExerciseList {
-                if let type = viewModel.showedViewListSpecificExercise {
-                    CreateNewExercise(typeOfExercise: type, showView: $viewModel.isShowedCreateNewExerciseList, isNoCategoryCreating: true)
-                    
+            //            if viewModel.isShowedCreateNewExerciseList {
+                .fullScreenCover(isPresented: $showCreateExercise) {
+                    if let type = viewModel.showedViewListSpecificExercise {
+                        CreateNewExercise(typeOfExercise: type, showView: $viewModel.isShowedCreateNewExerciseList, isNoCategoryCreating: true)
+                    }
                 }
-            }
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    struct ViewExerciseList_Previews: PreviewProvider {
-        static var previews: some View {
-            Group {
-                ViewExerciseList(withCategory: true, shouldHideButton: .constant(true), programmingExercise: false).environmentObject(GymViewModel())
-                
-                ViewExerciseList(withCategory: false, shouldHideButton: .constant(true), programmingExercise: true).environmentObject(GymViewModel())
-                ViewExerciseList(withCategory: false, shouldHideButton: .constant(true), programmingExercise: false).environmentObject(GymViewModel())
-                
-            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+struct ViewExerciseList_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            ViewExerciseList(withCategory: true, shouldHideButton: .constant(true), programmingExercise: false).environmentObject(GymViewModel())
+            
+            ViewExerciseList(withCategory: false, shouldHideButton: .constant(true), programmingExercise: true).environmentObject(GymViewModel())
+            ViewExerciseList(withCategory: false, shouldHideButton: .constant(true), programmingExercise: false).environmentObject(GymViewModel())
+            
         }
     }
+}
 }
