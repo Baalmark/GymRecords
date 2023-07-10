@@ -17,6 +17,13 @@ struct AddOrChangeSetView: View {
                 withAnimation(.easeInOut) {
                     viewModel.didTapToAddSet = false
                     exercise.sets = viewModel.setsBackUp
+                    
+                    if !exercise.sets.isEmpty {
+                        let filteredSets = exercise.sets.filter { Set in
+                            Set.reps != 0 || Set.weight != 0
+                        }
+                        exercise.sets = filteredSets
+                    }
                 }
                 
             } label: {
@@ -76,7 +83,7 @@ struct AddOrChangeSetView: View {
         
         
         .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
-        .padding(.top, 20)
+        .padding(.top, 30)
         .padding([.leading,.trailing],5)
         .frame(width: viewModel.screenWidth)
         .background(Color("backgroundDarkColor"))

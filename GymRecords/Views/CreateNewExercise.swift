@@ -36,7 +36,7 @@ struct CreateNewExercise: View {
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .symbolRenderingMode(.hierarchical)
-                        .foregroundColor(isNoCategoryCreating ? Color("GrayColor") : Color("LightGrayColor"))
+                        .foregroundColor(isNoCategoryCreating ? Color("GrayColor") : Color("MidGrayColor"))
                         .tint(isNoCategoryCreating ? .white : .black)
                         .fixedSize()
                         .font(.title2)

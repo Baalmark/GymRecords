@@ -104,6 +104,7 @@ struct ExercisesAndProgramsListView: View {
                     viewModel.selectedExArray = []
                     viewModel.selectedCounterLabel = []
                     viewModel.backButtonLabel = ""
+                    
                     dismiss()
                     
                 }.buttonStyle(GrowingButton(isDarkMode: false,width: 335,height: 45))

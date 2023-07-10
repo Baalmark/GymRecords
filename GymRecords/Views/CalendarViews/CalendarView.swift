@@ -46,6 +46,7 @@ struct CalendarView: View
                         let count = column + (row * 7)
                         let rowIndex = row
                         CalendarCellView(rowIndex: rowIndex, count: count, startingSpaces:startingSpaces, daysInMonth: daysInMonth, daysInPrevMonth: daysInPrevMonth,correctDay:$viewModel.selectedDayForChecking, isSelected: $isSelectedDay, month: month)
+                       
                             .onAppear {
                                 let monthStruct = CalendarModel().monthStruct(count: count, startingSpaces: startingSpaces, daysInPrevMonth: daysInPrevMonth, daysInMonth: daysInMonth)
                                 if monthStruct.monthType == .Current {
@@ -58,6 +59,7 @@ struct CalendarView: View
                                     
                                 }
                             }
+                            
                             .environmentObject(viewModel)
                             .zIndex(1)
                             .onTapGesture {

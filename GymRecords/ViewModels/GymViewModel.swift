@@ -38,7 +38,6 @@ class GymViewModel: ObservableObject {
     @Published var selectedDate:Date = Date() // Selected Date for new training day
     @Published var selectedDayForChecking:Int = 0
     @Published var selectedDayRowHolder = 0
-
     
     //All property to creating a training day
     @Published var trainings:[String:GymModel.Program]
@@ -346,6 +345,20 @@ class GymViewModel: ObservableObject {
         return dateFormater.string(from: date)
     }
     
+    //Creating date from string
+    
+    func toDateFromStringDate(date:String) -> Date? {
+        
+        let dateFormatter = DateFormatter()
+        
+        if let date = dateFormatter.date(from: date) {
+            print(date)
+            return date
+            
+        }
+        return nil
+    }
+    
     //Checking the row for the selected day
     func checkTheRowForTheSelectedDay(correctDay:Int, month:Date) -> Bool{
         let components = selectedDate.get(.day, .month, .year)
@@ -369,6 +382,20 @@ class GymViewModel: ObservableObject {
         
         return trainings[stringDate] != nil
         
+    }
+    //
+    func isAnyTrainingAnyDayDisplayMark(day:Int,month:Int) -> Bool {
+        
+        
+        
+//        for date in trainings.keys {
+//            
+//            if let date = toDateFromStringDate(date: date) {
+//                let components = date.get(.day, .month, .year)
+//            }
+//            
+//        }
+        return true
     }
     
     func removeTrainingFromSelectedDay() {

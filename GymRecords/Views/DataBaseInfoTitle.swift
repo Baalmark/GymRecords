@@ -20,17 +20,16 @@ struct DataBaseInfoTitle: View {
                         .font(.custom("Helvetica", size: 14))
                     
                 }
-                
                 .fontWeight(.bold)
-                .background(RoundedRectangle(cornerRadius: 15)
-                    .frame(width: viewModel.screenWidth / 3.3,height: 50)
-                    .foregroundColor(Color("MidGrayColor")))
-                .padding([.leading,.trailing],25)
-                
+                    .frame(width: viewModel.screenWidth / 3 - 15,height: 50)
+                .background(RoundedRectangle(cornerRadius: 10)
+                    .foregroundColor(Color("LightGrayColor")))
                 
             }
             
         }
+        .frame(width: viewModel.screenWidth)
+        
     }
 }
 

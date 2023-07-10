@@ -132,6 +132,7 @@ struct EditOrRemoveTheProgram: View {
                         viewModel.createTraining(date: viewModel.selectedDate, program: newTrainingDay)
                     }
                     viewModel.selectedProgramForNewTrainingDay = nil
+                    viewModel.isShowedEditOrRemoveView = false
                     dismiss()
                 } label: {
                     Text("Ready")
