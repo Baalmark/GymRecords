@@ -159,9 +159,9 @@ struct ViewExerciseList: View {
             
             //            if viewModel.isShowedCreateNewExerciseList {
                 .fullScreenCover(isPresented: $showCreateExercise) {
-                    if let type = viewModel.showedViewListSpecificExercise {
+                    let type = viewModel.showedViewListSpecificExercise 
                         CreateNewExercise(typeOfExercise: type, showView: $viewModel.isShowedCreateNewExerciseList, isNoCategoryCreating: true)
-                    }
+                    
                 }
         }
     }

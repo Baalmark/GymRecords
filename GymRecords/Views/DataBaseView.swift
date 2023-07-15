@@ -36,14 +36,13 @@ struct DataBaseView: View {
             }.opacity(viewModel.isShowedEditOrRemoveView ? 0 : 1)
                 .opacity(viewModel.isShowedViewListSpecificExercise ? 0 : 1)
             if viewModel.isShowedEditOrRemoveView {
-                if let program = viewModel.showedEdirOrRemoveProgram {
+                let program = viewModel.showedEdirOrRemoveProgram
                     EditOrRemoveTheProgram(program: program, isShowedView: $viewModel.isShowedEditOrRemoveView )
-                }
             }
             if viewModel.isShowedViewListSpecificExercise {
-                if let type = viewModel.showedViewListSpecificExercise {
+                let type = viewModel.showedViewListSpecificExercise
                     ViewListSpecificExercises(typeOfExercise: type, isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: false)
-                }
+                
             }
             
         }

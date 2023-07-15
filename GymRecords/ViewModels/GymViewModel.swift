@@ -1,7 +1,7 @@
 
 
 import SwiftUI
-
+import RealmSwift
 
 class GymViewModel: ObservableObject {
     let defaults = UserDefaults.standard

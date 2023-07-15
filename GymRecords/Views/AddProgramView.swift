@@ -53,17 +53,17 @@ struct AddProgramView: View {
                 }
                 .ignoresSafeArea(.keyboard)
             if viewModel.isShowedEditOrRemoveView {
-                if let program = viewModel.showedEdirOrRemoveProgram {
-                    EditOrRemoveTheProgram(program: program, isShowedView: $viewModel.isShowedEditOrRemoveView )
-                    
-                }
+                let program = viewModel.showedEdirOrRemoveProgram
+                EditOrRemoveTheProgram(program: program, isShowedView: $viewModel.isShowedEditOrRemoveView )
+                
+                
             }
             
             if viewModel.isShowedViewListSpecificExercise {
-                if let type = viewModel.showedViewListSpecificExercise {
-                    ViewListSpecificExercises(
-                        typeOfExercise: type,isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: false).environmentObject(viewModel)
-                }
+                let type = viewModel.showedViewListSpecificExercise
+                ViewListSpecificExercises(
+                    typeOfExercise: type,isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: false).environmentObject(viewModel)
+                
             }
             
         }

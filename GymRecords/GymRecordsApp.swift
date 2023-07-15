@@ -13,6 +13,9 @@ struct GymRecordsApp: App {
     var body: some Scene {
         let viewModel = GymViewModel()
         WindowGroup {
+            let _ = UserDefaults.standard.set(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
+            let _ = print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
+            
             ContentView().environmentObject(viewModel)
         }
     }

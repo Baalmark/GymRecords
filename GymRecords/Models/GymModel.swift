@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import RealmSwift
 //MARK: GymModel Struct
 struct GymModel {
     
