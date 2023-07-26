@@ -132,7 +132,7 @@ struct ViewExerciseList: View {
                                         withAnimation(.easeInOut(duration: 0.2)) {
                                             viewModel.showedViewListSpecificExercise = elem
                                             viewModel.isShowedViewListSpecificExercise.toggle()
-                                            showCreateExercise.toggle()
+                                            
                                         }
                                     }
                                 }
@@ -162,6 +162,10 @@ struct ViewExerciseList: View {
                     let type = viewModel.showedViewListSpecificExercise 
                         CreateNewExercise(typeOfExercise: type, showView: $viewModel.isShowedCreateNewExerciseList, isNoCategoryCreating: true)
                     
+                }
+                .fullScreenCover(isPresented: $viewModel.isShowedViewListSpecificExercise) {
+                    let type = viewModel.showedViewListSpecificExercise
+                    ViewListSpecificExercises(typeOfExercise: type, isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: true)
                 }
         }
     }

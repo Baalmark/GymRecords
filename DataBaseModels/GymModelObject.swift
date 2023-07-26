@@ -8,15 +8,19 @@
 import Foundation
 import RealmSwift
 
-class GymModelObject:Object {
+class GymModelObject:Object,Identifiable {
     
+    @Persisted(primaryKey: true) var id:ObjectId
     @Persisted var programs: List<ProgramObject> = List<ProgramObject>()
     
     @Persisted var typesExercises:List<TypeOfExerciseObject> = List<TypeOfExerciseObject>()
     @Persisted var arrayOfExercises:List<ExerciseObject> = List<ExerciseObject>()
     @Persisted var arrayOfPlannedTrainings:List<TrainingInfoObject> = List<TrainingInfoObject>()
-    @Persisted var trainingDictionary:Map<String,ProgramObject> = Map<String,ProgramObject>()
+    @Persisted var trainingDictionary:List<TrainingInfoObject> = List<TrainingInfoObject>()
     
+    override class func primaryKey() -> String? {
+        return "id"
+    }
     
     
 }

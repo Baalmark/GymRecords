@@ -8,7 +8,14 @@
 import Foundation
 import RealmSwift
 
-class TrainingInfoObject:Object {
-    @Persisted var arrayOfExercises: List<ExerciseObject> = List<ExerciseObject>()
-    @Persisted var Date:Date
+class TrainingInfoObject:Object,Identifiable {
+    
+    
+    
+    @Persisted(primaryKey: true) var id: ObjectId
+    @Persisted var program:ProgramObject?
+    @Persisted var date:String
+    override class func primaryKey() -> String? {
+        return "id"
+    }
 }

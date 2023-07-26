@@ -4,8 +4,17 @@ import SwiftUI
 import RealmSwift
 
 class GymViewModel: ObservableObject {
-    let defaults = UserDefaults.standard
+    
+    let realm = try! Realm()
+    
     @Published private(set) var gymModel: GymModel
+    
+    @ObservedResults(ProgramObject.self) var programObjects
+    @ObservedResults(ExerciseObject.self) var exerciseObjects
+    @ObservedResults(SetsObject.self) var setsObjects
+    @ObservedResults(TrainingInfoObject.self) var trainingInfoObjects
+    @ObservedResults(Trainings.self) var trainingsObjects
+    @ObservedResults(GymModelObject.self) var GymModelObjects
     @Published var isSelectedSomeExercise:Bool = false
     @Published var changeExercisesDB:Bool = false
     @Published var isDarkMode:Bool = false
@@ -74,6 +83,8 @@ class GymViewModel: ObservableObject {
     
     
     init() {
+        
+        
         self.gymModel = GymModel()
         self.programList = GymModel().programs
         self.selectedExArray = []
@@ -90,7 +101,7 @@ class GymViewModel: ObservableObject {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.day], from: Date())
         selectedDayForChecking = components.day!
-        trainInSelectedDay = GymModel.Program(programTitle: "blank", description: "blank", colorDesign: "red", exercises: [])
+        trainInSelectedDay = GymModel.Program(programTitle: "blank", programDescription: "blank", colorDesign: "red", exercises: [])
         self.crntExrcsFrEditSets = Exercise(type: .arms, name: "blank", doubleWeight: false, selfWeight: false, isSelected: false, sets: [], isSelectedToAddSet: false)
     }
     
@@ -237,6 +248,8 @@ class GymViewModel: ObservableObject {
             //Reload DB Info
             databaseInfoTitle = gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
         }
+        saveProgramIntoRealmDB(newProgram: program)
+        
     }
     //Remove some program
     
@@ -324,9 +337,10 @@ class GymViewModel: ObservableObject {
     func createTraining(date:Date,exercises:[Exercise]){
         
         let stringDate = toStringDate(date: date)
-        let newProgram = GymModel.Program(programTitle: "blank", description: "blank", colorDesign: "blank", exercises: exercises)
+        let newProgram = GymModel.Program(programTitle: "blank", programDescription: "blank", colorDesign: "blank", exercises: exercises)
         trainings[stringDate] = newProgram
         trainInSelectedDay = newProgram
+        saveTrainingIntoRealmDB(date: stringDate, exercises: exercises)
         
     }
     
@@ -335,6 +349,8 @@ class GymViewModel: ObservableObject {
         let stringDate = toStringDate(date: date)
         trainings[stringDate] = program
         trainInSelectedDay = program
+        
+        saveTrainingIntoRealmDB(date: stringDate, program: program)
         
     }
     
@@ -507,6 +523,95 @@ class GymViewModel: ObservableObject {
             trainInSelectedDay.exercises.remove(at: indexOfExercise)
         }
     }
+    
+    func saveExerciseIntoRealmDB(exercise:Exercise) {
+        //
+    }
+    
+    func saveProgramIntoRealmDB(newProgram:GymModel.Program) {
+        
+        let programObject = ProgramObject()
+        programObject.colorDesign = newProgram.colorDesign
+        programObject.programDescription = newProgram.programDescription
+        programObject.programTitle = newProgram.programTitle
+        
+        for element in newProgram.exercises {
+            let exerciseObject = ExerciseObject()
+            exerciseObject.name = element.name
+            exerciseObject.type = element.type.rawValue // Testing
+            exerciseObject.doubleWeight = element.doubleWeight
+            exerciseObject.selfWeight = element.selfWeight
+            exerciseObject.isSelectedToAddSet = element.isSelectedToAddSet
+            exerciseObject.isSelected = element.isSelected
+            programObject.exercises.append(exerciseObject)
+        }
+        $programObjects.append(programObject)
+    }
+    
+    func saveTrainingIntoRealmDB(date:String,exercises:[Exercise]) {
+        let newTraining = TrainingInfoObject()
+        newTraining.date = date
+        let newProgram = ProgramObject()
+        for element in exercises {
+            let exerciseObject = ExerciseObject()
+            exerciseObject.name = element.name
+            exerciseObject.type = element.type.rawValue // Testing
+            exerciseObject.doubleWeight = element.doubleWeight
+            exerciseObject.selfWeight = element.selfWeight
+            exerciseObject.isSelectedToAddSet = element.isSelectedToAddSet
+            exerciseObject.isSelected = element.isSelected
+            for nSet in element.sets {
+                let setObject = SetsObject()
+                setObject.number = nSet.number
+                setObject.date = nSet.date
+                setObject.doubleWeight = nSet.doubleWeight
+                setObject.selfWeight = nSet.selfWeight
+                setObject.reps = nSet.reps
+                setObject.weight = nSet.weight
+                exerciseObject.sets.append(setObject)
+            }
+            newProgram.exercises.append(exerciseObject)
+            newProgram.programTitle = "blank"
+            newProgram.programDescription = "blank"
+            newProgram.colorDesign = "red"
+            
+        }
+        newTraining.program = newProgram
+        $trainingInfoObjects.append(newTraining)
+        print("Correct")
+    }
+    func saveTrainingIntoRealmDB(date:String,program:GymModel.Program) {
+        let newTraining = TrainingInfoObject()
+        newTraining.date = date
+        let newProgram = ProgramObject()
+        for element in program.exercises {
+            let exerciseObject = ExerciseObject()
+            exerciseObject.name = element.name
+            exerciseObject.type = element.type.rawValue // Testing
+            exerciseObject.doubleWeight = element.doubleWeight
+            exerciseObject.selfWeight = element.selfWeight
+            exerciseObject.isSelectedToAddSet = element.isSelectedToAddSet
+            exerciseObject.isSelected = element.isSelected
+            for nSet in element.sets {
+                let setObject = SetsObject()
+                setObject.number = nSet.number
+                setObject.date = nSet.date
+                setObject.doubleWeight = nSet.doubleWeight
+                setObject.selfWeight = nSet.selfWeight
+                setObject.reps = nSet.reps
+                setObject.weight = nSet.weight
+                exerciseObject.sets.append(setObject)
+            }
+            newProgram.exercises.append(exerciseObject)
+            newProgram.programTitle = program.programTitle
+            newProgram.programDescription = program.programDescription
+            newProgram.colorDesign = program.colorDesign
+            
+        }
+        newTraining.program = newProgram
+        $trainingInfoObjects.append(newTraining)
+        print("Correct")
+    }
 }
 //MARK: Extensions
 
@@ -611,3 +716,30 @@ struct ForEachIndex<ItemType, ContentView: View>: View {
     }
 }
 
+
+
+//@ObservedResults(ProgramObject.self) var programObjects
+//@ObservedResults(ExerciseObject.self) var exerciseObjects
+//@ObservedResults(SetsObject.self) var setsObjects
+//@ObservedResults(TrainingInfoObject.self) var trainingInfoObjects
+//self.programList = []
+//self.gymModel = GymModel()
+//if !programObjects.isEmpty {
+//    for program in programObjects {
+//        var allExercises:[Exercise] = []
+//        for ex in program.exercises {
+//            var allSets:[Sets] = []
+//            for nSet in ex.sets {
+//                let newSet = Sets(number: nSet.number, weight: nSet.weight, reps: nSet.reps, doubleWeight: nSet.doubleWeight, selfWeight: nSet.selfWeight)
+//                allSets.append(newSet)
+//            }
+//            if let type = GymModel.TypeOfExercise(rawValue: ex.type) {
+//                let exercise = Exercise(type: type, name: ex.name, doubleWeight: ex.doubleWeight, selfWeight: ex.selfWeight, isSelected: ex.isSelected, sets: allSets, isSelectedToAddSet: ex.isSelectedToAddSet)
+//                allExercises.append(exercise)
+//            }
+//        }
+//
+//        let newProgram = GymModel.Program(programTitle: program.programTitle, programDescription: program.programDescription, colorDesign: program.colorDesign, exercises: allExercises)
+//        self.programList.append(newProgram)
+//    }
+//}

@@ -15,7 +15,7 @@ struct ProgramItemListView: View {
         HStack {
             VStack(alignment:.leading) {
                 Text("\(programm.programTitle)")
-                Text("\(programm.description)")
+                Text("\(programm.programDescription)")
                     .font(.custom("Helvetica", size: 18))
                     .fontWeight(.bold)
             }

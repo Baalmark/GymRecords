@@ -13,13 +13,17 @@ class ExerciseObject: Object,Identifiable {
     
     @Persisted(primaryKey: true) var id: ObjectId
     
-    @Persisted var type: TypeOfExerciseObject = TypeOfExerciseObject()
+    @Persisted var type: String
     @Persisted var name: String
     @Persisted var doubleWeight:Bool
     @Persisted var selfWeight:Bool
     @Persisted var isSelected:Bool
     @Persisted var sets: List<SetsObject> = List<SetsObject>()
     @Persisted var isSelectedToAddSet:Bool
+    
+    override class func primaryKey() -> String? {
+        return "id"
+    }
 }
 
 

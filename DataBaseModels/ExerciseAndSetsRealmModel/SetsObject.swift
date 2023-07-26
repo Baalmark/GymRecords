@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 
-class SetsObject: Object {
+class SetsObject: Object, Identifiable {
     
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var number: Int
@@ -19,6 +19,8 @@ class SetsObject: Object {
     @Persisted var doubleWeight:Bool
     @Persisted var selfWeight:Bool
     
-    
+    override class func primaryKey() -> String? {
+        return "id"
+    }
     
 }

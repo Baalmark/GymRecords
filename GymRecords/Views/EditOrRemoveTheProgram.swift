@@ -111,7 +111,7 @@ struct EditOrRemoveTheProgram: View {
                         }
                         
                         .fullScreenCover(isPresented: $isEditProgram) {
-                            CreateNewProgrammView(name: $program.programTitle, description: $program.description, exercises: $program.exercises, colorDesignStringValue: $program.colorDesign)
+                            CreateNewProgrammView(name: $program.programTitle, description: $program.programDescription, exercises: $program.exercises, colorDesignStringValue: $program.colorDesign)
                             
                         }
                     }

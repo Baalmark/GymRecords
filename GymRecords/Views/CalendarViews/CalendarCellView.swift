@@ -86,8 +86,8 @@ struct CalendarCellView: View
                 currentComponents.month = month.get(.month)
                 currentComponents.day = monthStruct().dayInt
                  
-                print("Components",components)
-                print("Current Components", currentComponents)
+//                print("Components",components)
+//                print("Current Components", currentComponents)
                 if components.day == currentComponents.day && components.month == currentComponents.month
                     && components.year == currentComponents.year{
                     return true

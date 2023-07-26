@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-
 struct CreateNewProgrammView: View {
     
     @EnvironmentObject var viewModel:GymViewModel
@@ -20,8 +19,7 @@ struct CreateNewProgrammView: View {
     @State var isShowExercises = false
     @State private var selectedRows: [String] = []
     @State private var showDeleteButton = false
-    
-    
+  
     var body: some View {
         VStack {
             //Close button
@@ -190,8 +188,12 @@ struct CreateNewProgrammView: View {
                 if !description.isEmpty, !name.isEmpty, !viewModel.selectedExArray.isEmpty {
                     Button("Save") {
                         exercises = viewModel.selectedExArray
-                        let newProgramm = GymModel.Program(programTitle: name, description: description, colorDesign: colorDesignStringValue, exercises: exercises)
-                        viewModel.createNewProgram(program: newProgramm)
+                        let newProgram = GymModel.Program(programTitle: name, programDescription: description, colorDesign: colorDesignStringValue, exercises: exercises)
+                        viewModel.createNewProgram(program: newProgram)
+                        
+                        
+                        
+                        
                         dismiss()
                         viewModel.clearSelectedExArray()
                         

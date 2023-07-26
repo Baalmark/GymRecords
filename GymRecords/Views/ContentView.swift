@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
-
+import RealmSwift
 struct ContentView: View {
     
+    @Environment(\.dismiss) var dismiss
     @State private var appearSheet = false
     @State var isDataBaseSheetActive = false
     @State private var offset = CGSize.zero
@@ -23,7 +24,6 @@ struct ContentView: View {
     private var nextMonth = false
     @State var collapsingViewFlag = true
     @State var scrollToIndex:Int = 0
-    
     var body: some View {
         VStack {
             ZStack{
@@ -164,7 +164,7 @@ struct ContentView: View {
                         if viewModel.isAnyTrainingSelectedDay(){
                             
                             VStack {
-                                if viewModel.trainInSelectedDay.programTitle != "blank" && viewModel.trainInSelectedDay.description != "blank" {
+                                if viewModel.trainInSelectedDay.programTitle != "blank" && viewModel.trainInSelectedDay.programDescription != "blank" {
                                     ProgramItemListView(programm:$viewModel.trainInSelectedDay)
                                 }
                                 ForEachIndex(viewModel.trainInSelectedDay.exercises){ index,
@@ -189,7 +189,7 @@ struct ContentView: View {
                                 }
                                 .onChange(of: viewModel.trainInSelectedDay.exercises.count) { newValue in
                                     if newValue == 0 {
-                                        viewModel.trainInSelectedDay = GymModel.Program(programTitle: "blank", description: "blank", colorDesign: "red", exercises: [])
+                                        viewModel.trainInSelectedDay = GymModel.Program(programTitle: "blank", programDescription: "blank", colorDesign: "red", exercises: [])
                                         viewModel.editMode = false
                                         viewModel.removeTrainingFromSelectedDay()
                                     }
@@ -220,6 +220,7 @@ struct ContentView: View {
                 if viewModel.isAnyTrainingSelectedDay() {
                     viewModel.editMode = true
                 } else {
+                    
                     appearSheet.toggle()
                     viewModel.changeExercisesDB = false
                 }

@@ -10,6 +10,7 @@ import RealmSwift
 //MARK: GymModel Struct
 struct GymModel {
     
+    
     var programs:[Program]
     var typesExercises:[TypeOfExercise] = TypeOfExercise.allExercises
     var arrayOfExercises:[Exercise] = arrayOfAllCreatedExercises
@@ -17,16 +18,74 @@ struct GymModel {
     var trainingDictionary:Dictionary<String,Program>
     
     init() {
-        self.programs = [Program(programTitle: "Test", description: "TestDescription", colorDesign: "red", exercises: Program.exercises)]
+        @ObservedResults(ProgramObject.self) var programObjects
+        @ObservedResults(ExerciseObject.self) var exerciseObjects
+        @ObservedResults(SetsObject.self) var setsObjects
+        @ObservedResults(TrainingInfoObject.self) var trainingInfoObjects
+        @ObservedResults(Trainings.self) var trainings
+        @ObservedResults(GymModelObject.self) var GymModelObject
+        //Fetch all saved Programs
+        self.programs = []
+        if !programObjects.isEmpty {
+            for program in programObjects {
+                var allExercises:[Exercise] = []
+                for ex in program.exercises {
+                    var allSets:[Sets] = []
+                    for nSet in ex.sets {
+                        let newSet = Sets(number: nSet.number, weight: nSet.weight, reps: nSet.reps, doubleWeight: nSet.doubleWeight, selfWeight: nSet.selfWeight)
+                        allSets.append(newSet)
+                    }
+                    if let type = TypeOfExercise(rawValue: ex.type) {
+                        let exercise = Exercise(type: type, name: ex.name, doubleWeight: ex.doubleWeight, selfWeight: ex.selfWeight, isSelected: ex.isSelected, sets: allSets, isSelectedToAddSet: ex.isSelectedToAddSet)
+                        allExercises.append(exercise)
+                    }
+                }
+                
+                let newProgram = Program(programTitle: program.programTitle, programDescription: program.programDescription, colorDesign: program.colorDesign, exercises: allExercises)
+                self.programs.append(newProgram)
+            }
+        } else {
+            self.programs = [Program(programTitle: "Test", programDescription: "Testing", colorDesign: "green", exercises: arrayOfExercises)]
+        }
+        
+        
+        //Fetch all saved trainings
         self.arrayOfPlannedTrainings = []
         trainingDictionary = [:]
+        if !trainingInfoObjects.isEmpty {
+            for element in trainingInfoObjects {
+                
+                if let fProgram = element.program {
+                    var allExercises:[Exercise] = []
+                    for ex in fProgram.exercises {
+                        
+                        var allSets:[Sets] = []
+                        for nSet in ex.sets {
+                            let newSet = Sets(number: nSet.number, weight: nSet.weight, reps: nSet.reps, doubleWeight: nSet.doubleWeight, selfWeight: nSet.selfWeight)
+                            allSets.append(newSet)
+                        }
+                        if let type = TypeOfExercise(rawValue: ex.type) {
+                            let exercise = Exercise(type: type, name: ex.name, doubleWeight: ex.doubleWeight, selfWeight: ex.selfWeight, isSelected: ex.isSelected, sets: allSets, isSelectedToAddSet: ex.isSelectedToAddSet)
+                            allExercises.append(exercise)
+                        }
+                    }
+                    let newProgram = Program(programTitle: fProgram.programTitle, programDescription: fProgram.programDescription, colorDesign: fProgram.colorDesign, exercises: allExercises)
+                    trainingDictionary[element.date] = newProgram
+                }
+            }
+            
+        }
+        
     }
+    
+    
+    
     //MARK: Program Struct
     struct Program:Identifiable {
         
         var id = UUID()
         var programTitle: String
-        var description: String
+        var programDescription: String
         var colorDesign: String
         var exercises:[Exercise]
         
@@ -38,7 +97,7 @@ struct GymModel {
             exercises.append(Exercise(type: t, name: name, doubleWeight: dB, selfWeight: sW,isSelected: false, sets: [], isSelectedToAddSet: false))
         }
     }
-
+    
     //MARK: type of execrice Enumeration
     enum TypeOfExercise:String,CaseIterable,Identifiable {
         var id: String { return self.rawValue }
@@ -53,17 +112,17 @@ struct GymModel {
         case cardio = "cardio"
         case find = ""
         
-        init?(id : Int) {
+        init?(id : String) {
             switch id {
-            case 1: self = .arms
-            case 2: self = .stretching
-            case 3: self = .legs
-            case 4: self = .back
-            case 5: self = .chest
-            case 6: self = .body
-            case 7: self = .shoulders
-            case 8: self = .cardio
-            case 9: self = .find
+            case "arms": self = .arms
+            case "stretching": self = .stretching
+            case "legs": self = .legs
+            case "back": self = .back
+            case "chest": self = .chest
+            case "body": self = .body
+            case "shoulders": self = .shoulders
+            case "cardio": self = .cardio
+            case "find": self = .find
             default: return nil
             }
         }
@@ -99,9 +158,9 @@ struct GymModel {
     }
     
     
-//MARK: MAIN Functions
+    //MARK: MAIN Functions
     mutating func createNewProgram(title name:String,exercises exs:[Exercise],color cDesign:String,description desc:String) {
-        programs.append(Program(programTitle: name, description: desc, colorDesign: cDesign, exercises: exs))
+        programs.append(Program(programTitle: name, programDescription: desc, colorDesign: cDesign, exercises: exs))
         
     }
     mutating func AddNewExercise(type:TypeOfExercise,title:String,doubleW db:Bool,selfW sw:Bool) {
@@ -169,11 +228,11 @@ struct GymModel {
         return newArray
     }
     //Create new Exercise to arrayOfExercise by User
-        func createNewExercise(exercise:Exercise,array:[Exercise]) -> [Exercise] {
-            var newArray = array
-            newArray.append(exercise)
-            return newArray
-        }
+    func createNewExercise(exercise:Exercise,array:[Exercise]) -> [Exercise] {
+        var newArray = array
+        newArray.append(exercise)
+        return newArray
+    }
     //Reload data to DataBase info title
     func reloadDataBaseInfo(trainDictionary: [String:GymModel.Program],progArray:[Program],arrayExercises:[Exercise]) -> [(String, Int)] {
         return [("WorkOut",trainDictionary.count),("Programms",progArray.count),("Exercises",arrayExercises.count)]
@@ -181,13 +240,13 @@ struct GymModel {
     
     //Add program
     mutating func addProgram(_ program:Program) {
-            programs.append(program)
+        programs.append(program)
     }
     
     //Remove program
     mutating func removeProgram(_ index:Int) {
-            programs.remove(at: index)
-        }
+        programs.remove(at: index)
+    }
     //Find exercises by find textfield
     func finderByTextField(letters:String,array:Array<Exercise>) -> Array<Exercise> {
         
@@ -208,8 +267,8 @@ class Exercise:Equatable,Identifiable,Hashable {
     
     
     public func hash(into hasher: inout Hasher) {
-             hasher.combine(ObjectIdentifier(self))
-        }
+        hasher.combine(ObjectIdentifier(self))
+    }
     
     
     static func == (lhs: Exercise, rhs: Exercise) -> Bool {
@@ -235,8 +294,8 @@ class Exercise:Equatable,Identifiable,Hashable {
         self.isSelected = isSelected
         self.sets = sets
         
-       
-       
+        
+        
         
         self.isSelectedToAddSet = isSelectedToAddSet
     }
@@ -290,9 +349,9 @@ enum CalendarMinimizingPosition:CGFloat {
         
         
     }
-   
-}
     
+}
+
 
 
 

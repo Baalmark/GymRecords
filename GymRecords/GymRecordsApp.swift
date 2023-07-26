@@ -11,7 +11,10 @@ import SwiftUI
 
 struct GymRecordsApp: App {
     var body: some Scene {
+        
+        let migrator = Migrator()
         let viewModel = GymViewModel()
+        
         WindowGroup {
             let _ = UserDefaults.standard.set(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
             let _ = print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
