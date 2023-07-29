@@ -131,6 +131,8 @@ struct ExercisesAndProgramsListView: View {
 
 struct ExercisesAndProgrammsListView_Previews: PreviewProvider {
     static var previews: some View {
+        let migrator = Migrator()
+
         ExercisesAndProgramsListView().environmentObject(GymViewModel())
     }
 }

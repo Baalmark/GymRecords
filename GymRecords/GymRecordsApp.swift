@@ -10,6 +10,7 @@ import SwiftUI
 @main
 
 struct GymRecordsApp: App {
+    @Environment(\.realm) private var realm
     var body: some Scene {
         
         let migrator = Migrator()
@@ -19,7 +20,7 @@ struct GymRecordsApp: App {
             let _ = UserDefaults.standard.set(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
             let _ = print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.path)
             
-            ContentView().environmentObject(viewModel)
+            ContentView()
         }
     }
 }

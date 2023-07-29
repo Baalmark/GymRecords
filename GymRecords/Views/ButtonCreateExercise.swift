@@ -44,6 +44,7 @@ struct ButtonCreateExercise: View {
 
 struct ButtonCreateExercise_Previews: PreviewProvider {
     static var previews: some View {
+        let migrator = Migrator()
         ButtonCreateExercise( showCreateExercise: .constant(false)).environmentObject(GymViewModel())
     }
 }

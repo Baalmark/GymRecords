@@ -5,8 +5,7 @@ import RealmSwift
 
 class GymViewModel: ObservableObject {
     
-    let realm = try! Realm()
-    
+    lazy var realm = try! Realm()
     @Published private(set) var gymModel: GymModel
     
     @ObservedResults(ProgramObject.self) var programObjects
@@ -15,6 +14,9 @@ class GymViewModel: ObservableObject {
     @ObservedResults(TrainingInfoObject.self) var trainingInfoObjects
     @ObservedResults(Trainings.self) var trainingsObjects
     @ObservedResults(GymModelObject.self) var GymModelObjects
+    
+    
+    
     @Published var isSelectedSomeExercise:Bool = false
     @Published var changeExercisesDB:Bool = false
     @Published var isDarkMode:Bool = false
@@ -31,7 +33,7 @@ class GymViewModel: ObservableObject {
     @Published var isShowedViewListSpecificExercise:Bool = false
     @Published var showedViewListSpecificExercise:GymModel.TypeOfExercise = .arms
     @Published var isShowedCreateNewExerciseList:Bool = false
-    
+    @Published var isShowedCreateExView:Bool = false
     //Passing Date for new Programm
     @Published var dateForProgramm:Date
     
@@ -612,6 +614,23 @@ class GymViewModel: ObservableObject {
         $trainingInfoObjects.append(newTraining)
         print("Correct")
     }
+    
+    
+    func doSomething(){
+        let realm = try! Realm() // Placed this here instead
+      }
+    
+    static var previewRealm: Realm {
+        var realm: Realm
+        let identifier = "previewRealm"
+        let config = Realm.Configuration(inMemoryIdentifier: identifier)
+        do {
+            realm = try Realm(configuration: config)
+            return realm
+        } catch let error {
+            fatalError("Can't bootstrap item data: \(error.localizedDescription)")
+        }
+    }
 }
 //MARK: Extensions
 
@@ -715,6 +734,17 @@ struct ForEachIndex<ItemType, ContentView: View>: View {
         }
     }
 }
+
+public extension EnvironmentValues {
+   var isPreview: Bool {
+      #if DEBUG
+      return ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+      #else
+      return false
+      #endif
+   }
+}
+
 
 
 

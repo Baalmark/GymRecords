@@ -83,6 +83,8 @@ struct AddProgramView: View {
 
 struct AddProgrammView_Previews: PreviewProvider {
     static var previews: some View {
+        let migrator = Migrator()
+
         AddProgramView().environmentObject(GymViewModel())
     }
 }

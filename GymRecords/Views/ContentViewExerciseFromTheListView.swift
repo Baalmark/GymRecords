@@ -94,6 +94,8 @@ struct ContentViewExerciseFromTheListView: View {
 
 struct ContentViewExerciseFromTheListView_Previews: PreviewProvider {
     static var previews: some View {
+        let migrator = Migrator()
+
         ContentViewExerciseFromTheListView(exercise: .init(type: .arms, name: "Dumbbell Up", doubleWeight: true, selfWeight: false, isSelected: false, sets: [], isSelectedToAddSet: false)).environmentObject(GymViewModel())
     }
 }

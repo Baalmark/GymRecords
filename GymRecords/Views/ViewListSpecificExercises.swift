@@ -30,7 +30,7 @@ struct ViewListSpecificExercises: View {
                         .foregroundColor(exerciseProgramming ? .white : .black)
                         .opacity(!viewModel.searchWord.isEmpty ? 0 : 1)
                     // Exercise Button
-                    ButtonCreateExercise(showCreateExercise: $showCreateExercise)
+                    ButtonCreateExercise(showCreateExercise: $viewModel.isShowedCreateExView)
                         .opacity(!exerciseProgramming ? 1 : 0)
                         .disabled(exerciseProgramming)
                 }
@@ -146,13 +146,15 @@ struct ViewListSpecificExercises: View {
             .interactiveDismissDisabled()
             
         }
-        .fullScreenCover(isPresented: $showCreateExercise) {
-
-            CreateNewExercise(typeOfExercise: typeOfExercise, showView: $viewModel.isShowedCreateNewExerciseList, isNoCategoryCreating: false)
+        .overlay() {
+            if viewModel.isShowedCreateExView {
+                CreateNewExercise(typeOfExercise: typeOfExercise, isNoCategoryCreating: false)
+            }
+        }
         }
     }
     
-}
+
 
 
 
@@ -222,6 +224,7 @@ struct CheckboxStyle: ToggleStyle {
 
 struct ViewListSpecificExercises_Previews: PreviewProvider {
     static var previews: some View {
+        let migrator = Migrator()
         Group {
             ViewListSpecificExercises(
                 typeOfExercise: .arms, isPresented: .constant(true),

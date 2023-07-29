@@ -17,6 +17,8 @@ struct SearchExerciseView: View {
 
 struct SearchExerciseView_Previews: PreviewProvider {
     static var previews: some View {
+        let migrator = Migrator()
+
         SearchExerciseView()
     }
 }

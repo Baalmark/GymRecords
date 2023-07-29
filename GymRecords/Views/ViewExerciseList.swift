@@ -125,13 +125,15 @@ struct ViewExerciseList: View {
                                 } else {
                                     if programmingExercise == false {
                                         viewModel.showedViewListSpecificExercise = elem
-//                                        viewModel.isShowedCreateNewExerciseList.toggle()
+                                        
+                                        viewModel.isShowedCreateExView.toggle()
                                         showCreateExercise.toggle()
                                         
                                     } else {
                                         withAnimation(.easeInOut(duration: 0.2)) {
                                             viewModel.showedViewListSpecificExercise = elem
                                             viewModel.isShowedViewListSpecificExercise.toggle()
+                                            viewModel.isShowedCreateExView.toggle()
                                             
                                         }
                                     }
@@ -155,18 +157,17 @@ struct ViewExerciseList: View {
                     }
                 }
                 .background(withCategory ? .white : Color("backgroundDarkColor"))
-            }.opacity(viewModel.isShowedCreateNewExerciseList ? 0 : 1)
-            
-            //            if viewModel.isShowedCreateNewExerciseList {
-                .fullScreenCover(isPresented: $showCreateExercise) {
-                    let type = viewModel.showedViewListSpecificExercise 
-                        CreateNewExercise(typeOfExercise: type, showView: $viewModel.isShowedCreateNewExerciseList, isNoCategoryCreating: true)
-                    
-                }
-                .fullScreenCover(isPresented: $viewModel.isShowedViewListSpecificExercise) {
+            }.overlay {
+                if viewModel.isShowedCreateExView {
                     let type = viewModel.showedViewListSpecificExercise
-                    ViewListSpecificExercises(typeOfExercise: type, isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: true)
+                    CreateNewExercise(typeOfExercise: type, isNoCategoryCreating: true)
                 }
+                if viewModel.isShowedViewListSpecificExercise {
+                    let type = viewModel.showedViewListSpecificExercise
+                    ViewListSpecificExercises(typeOfExercise: type, isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: false)
+                }
+            }
+        }
         }
     }
 
@@ -184,6 +185,7 @@ struct ViewExerciseList: View {
 
 struct ViewExerciseList_Previews: PreviewProvider {
     static var previews: some View {
+        let migrator = Migrator()
         Group {
             ViewExerciseList(withCategory: true, shouldHideButton: .constant(true), programmingExercise: false).environmentObject(GymViewModel())
             
@@ -193,4 +195,4 @@ struct ViewExerciseList_Previews: PreviewProvider {
         }
     }
 }
-}
+

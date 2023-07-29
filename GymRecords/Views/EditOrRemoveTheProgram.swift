@@ -149,6 +149,7 @@ struct EditOrRemoveTheProgram: View {
 
 struct EditOrRemoveTheProgramm_Previews: PreviewProvider {
     static var previews: some View {
+        let migrator = Migrator()
         EditOrRemoveTheProgram(program: GymModel().programs[0], isShowedView: .constant(true)).environmentObject(GymViewModel())
     }
 }

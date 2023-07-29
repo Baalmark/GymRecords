@@ -71,6 +71,7 @@ struct CalendarCellView: View
     
     func hasProgram() -> Bool
     {
+        guard monthStruct().monthType == .Current else { return false}
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         for sDate in viewModel.trainings.keys {
@@ -113,6 +114,8 @@ struct CalendarCellView: View
 
 struct CalendarCell_Previews: PreviewProvider {
     static var previews: some View {
+        let migrator = Migrator()
+
         CalendarCellView(rowIndex: 1, count: 1, startingSpaces: 1, daysInMonth: 1, daysInPrevMonth: 1,correctDay: .constant(7), isSelected: .constant(Date()), month: Date()).environmentObject(GymViewModel())
     }
 }

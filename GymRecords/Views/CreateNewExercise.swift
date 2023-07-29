@@ -13,7 +13,7 @@ struct CreateNewExercise: View {
     @EnvironmentObject var viewModel:GymViewModel
     @Environment(\.dismiss) var dismiss
     @State var typeOfExercise:GymModel.TypeOfExercise
-    @Binding var showView:Bool
+
     @State var name = ""
     @State var bodyWeight:Bool = false
     @State var doubleWeight:Bool = false
@@ -31,8 +31,7 @@ struct CreateNewExercise: View {
                     .padding(20)
                 Spacer()
                 Button {
-//                    viewModel.isShowedCreateNewExerciseList.toggle()
-                    dismiss()
+                    viewModel.isShowedCreateExView.toggle()
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .symbolRenderingMode(.hierarchical)
@@ -100,9 +99,7 @@ struct CreateNewExercise: View {
                 Spacer()
                 HStack {
                     Button() {
-                        
-//                        viewModel.isShowedCreateNewExerciseList.toggle()
-                        dismiss()
+                        viewModel.isShowedCreateExView.toggle()
                     } label: {
                         Image(systemName: "arrow.left")
                             .symbolRenderingMode(.hierarchical)
@@ -122,8 +119,8 @@ struct CreateNewExercise: View {
                                 let newElement = Exercise(type: typeOfExercise, name: name, doubleWeight: doubleWeight, selfWeight: bodyWeight, isSelected: false, sets: [], isSelectedToAddSet: false)
                                 viewModel.createNewExercise(exercise: newElement)
                             }
-//                            viewModel.isShowedCreateNewExerciseList.toggle()
-                            dismiss()
+                            viewModel.isShowedCreateNewExerciseList.toggle()
+                            viewModel.isShowedCreateExView.toggle()
                         }
                         .buttonStyle(GrowingButton(isDarkMode: viewModel.isDarkMode,width: 335 - 50,height: 45))
                         .foregroundColor(Color("DarkGrayColor"))
@@ -144,6 +141,7 @@ struct CreateNewExercise: View {
 
 struct CreateNewExercise_Previews: PreviewProvider {
     static var previews: some View {
-        CreateNewExercise(typeOfExercise: .arms, showView: .constant(true), isNoCategoryCreating: true).environmentObject(GymViewModel())
+        let migrator = Migrator()
+        CreateNewExercise(typeOfExercise: .arms, isNoCategoryCreating: false).environmentObject(GymViewModel())
     }
 }

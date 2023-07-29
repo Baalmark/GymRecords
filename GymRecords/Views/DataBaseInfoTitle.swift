@@ -35,6 +35,7 @@ struct DataBaseInfoTitle: View {
 
 struct DataBaseInfoTitle_Previews: PreviewProvider {
     static var previews: some View {
+        let migrator = Migrator()
         DataBaseInfoTitle().environmentObject(GymViewModel())
     }
 }

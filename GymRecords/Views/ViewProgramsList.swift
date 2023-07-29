@@ -77,6 +77,8 @@ struct ViewProgramsList: View {
 
 struct ViewProgrammsList_Previews: PreviewProvider {
     static var previews: some View {
+        let migrator = Migrator()
+
         ViewProgramsList().environmentObject(GymViewModel())
     }
 }

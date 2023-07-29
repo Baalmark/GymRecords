@@ -126,6 +126,8 @@ struct AddSetPageView: View {
 
 struct AddSetPageView_Previews: PreviewProvider {
     static var previews: some View {
+        let migrator = Migrator()
+
         AddSetPageView(scrollToIndex: 0).environmentObject(GymViewModel())
     }
 }

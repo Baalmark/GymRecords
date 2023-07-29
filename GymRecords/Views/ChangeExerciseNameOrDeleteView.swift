@@ -112,6 +112,7 @@ struct ChangeExerciseNameOrDeleteView: View {
 
 struct ChangeExerciseNameOrDeleteView_Previews: PreviewProvider {
     static var previews: some View {
+        let migrator = Migrator()
         ChangeExerciseNameOrDeleteView(exercise: .constant(Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true, isSelected: false, sets: [], isSelectedToAddSet: false))).environmentObject(GymViewModel())
     }
 }
