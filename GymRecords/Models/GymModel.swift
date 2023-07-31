@@ -17,7 +17,7 @@ struct GymModel {
     var arrayOfPlannedTrainings:[TrainingInfo]
     var trainingDictionary:Dictionary<String,Program>
     
-    init() {
+    init(programs:[Program] = [],exercises:[Exercise] = GymModel.arrayOfAllCreatedExercises, trainingDictionary:Dictionary<String,Program> = [:]) {
         @ObservedResults(ProgramObject.self) var programObjects
         @ObservedResults(ExerciseObject.self) var exerciseObjects
         @ObservedResults(SetsObject.self) var setsObjects
@@ -51,7 +51,7 @@ struct GymModel {
         
         //Fetch all saved trainings
         self.arrayOfPlannedTrainings = []
-        trainingDictionary = [:]
+        self.trainingDictionary = [:]
         if !trainingInfoObjects.isEmpty {
             for element in trainingInfoObjects {
                 
@@ -70,7 +70,7 @@ struct GymModel {
                         }
                     }
                     let newProgram = Program(programTitle: fProgram.programTitle, programDescription: fProgram.programDescription, colorDesign: fProgram.colorDesign, exercises: allExercises)
-                    trainingDictionary[element.date] = newProgram
+                    self.trainingDictionary[element.date] = newProgram
                 }
             }
             

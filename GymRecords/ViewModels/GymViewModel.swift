@@ -80,18 +80,79 @@ class GymViewModel: ObservableObject {
     var exerciseList:[GymModel.TypeOfExercise] = GymModel.TypeOfExercise.allExercises
     var imagesArray:[UIImage] = []
     var stringExerciseList:[String] = []
-    var arrayExercises:[Exercise] = GymModel.arrayOfAllCreatedExercises
+    var arrayExercises:[Exercise] //= GymModel.arrayOfAllCreatedExercises
+    
+    
+    
+    fileprivate func loadProgramsFromRealmDB() -> [GymModel.Program]{
+        self.programList = []
+        var result:[GymModel.Program] = []
+        if !programObjects.isEmpty {
+            for program in programObjects {
+                var allExercises:[Exercise] = []
+                for ex in program.exercises {
+                    var allSets:[Sets] = []
+                    for nSet in ex.sets {
+                        let newSet = Sets(number: nSet.number, weight: nSet.weight, reps: nSet.reps, doubleWeight: nSet.doubleWeight, selfWeight: nSet.selfWeight)
+                        allSets.append(newSet)
+                    }
+                    if let type = GymModel.TypeOfExercise(rawValue: ex.type) {
+                        let exercise = Exercise(type: type, name: ex.name, doubleWeight: ex.doubleWeight, selfWeight: ex.selfWeight, isSelected: ex.isSelected, sets: allSets, isSelectedToAddSet: ex.isSelectedToAddSet)
+                        allExercises.append(exercise)
+                    }
+                }
+                
+                let newProgram = GymModel.Program(programTitle: program.programTitle, programDescription: program.programDescription, colorDesign: program.colorDesign, exercises: allExercises)
+                result.append(newProgram)
+            }
+        } else {
+            return [GymModel.Program(programTitle: "Test", programDescription: "Testing", colorDesign: "green", exercises: GymModel.arrayOfAllCreatedExercises)]
+        }
+    }
+    fileprivate func loadExercisesFromRealmDB() -> [Exercise]{
+        self.arrayExercises = []
+        var result:[Exercise] = []
+        if exerciseObjects.count > GymModel.arrayOfAllCreatedExercises.count {
+            for ex in exerciseObjects {
+                var allSets:[Sets] = []
+                for nSet in ex.sets {
+                    let newSet = Sets(number: nSet.number, weight: nSet.weight, reps: nSet.reps, doubleWeight: nSet.doubleWeight, selfWeight: nSet.selfWeight)
+                    allSets.append(newSet)
+                }
+                if let type = GymModel.TypeOfExercise(rawValue: ex.type) {
+                    let exercise = Exercise(type: type, name: ex.name, doubleWeight: ex.doubleWeight, selfWeight: ex.selfWeight, isSelected: ex.isSelected, sets: allSets, isSelectedToAddSet: ex.isSelectedToAddSet)
+                    result.append(exercise)
+                }
+            }
+        } else {
+            for element in GymModel.arrayOfAllCreatedExercises {
+                saveExerciseByRealm(exercise: element)
+            }
+            return GymModel.arrayOfAllCreatedExercises
+        }
+    }
+    fileprivate func loadTrainingsFromRealmDB() -> Dictionary<String,TrainingInfoObject> {
+        //NExt patch
+    }
+    
     
     
     
     init() {
-        
-        
-        self.gymModel = GymModel()
-        self.programList = GymModel().programs
-        self.selectedExArray = []
-        self.trainings = GymModel().trainingDictionary
-        self.showedEdirOrRemoveProgram = GymModel().programs[0]
+        if GymModelObjects.isEmpty {
+
+            self.gymModel = GymModel()
+            self.programList = GymModel().programs
+            self.selectedExArray = []
+            self.trainings = GymModel().trainingDictionary
+            self.showedEdirOrRemoveProgram = GymModel().programs[0]
+        } else {
+            let loadedPrograms = loadProgramsFromRealmDB()
+            let loadedExercises = loadExercisesFromRealmDB()
+            let loadedTrainings = loadTrainingsFromRealmDB()
+            
+            self.gymModel = GymModel(programs: <#T##[GymModel.Program]#>)
+        }
         self.databaseInfoTitle = [("WorkOut",GymModel().trainingDictionary.count),("Programs",GymModel().programs.count),("Exercises",arrayExercises.count)]
         //Date holder
         
@@ -231,6 +292,8 @@ class GymViewModel: ObservableObject {
         let newArray = gymModel.createNewExercise(exercise: exercise, array: arrayExercises)
         arrayExercises = newArray
         
+        
+        saveExerciseByRealm(exercise: exercise)
         //Reload DB Info
         databaseInfoTitle = gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
     }
@@ -525,11 +588,12 @@ class GymViewModel: ObservableObject {
             trainInSelectedDay.exercises.remove(at: indexOfExercise)
         }
     }
-    
+    //MARK: Saving all data by Realm
     func saveExerciseIntoRealmDB(exercise:Exercise) {
         //
+        composeGymModelObject()
     }
-    
+    //Program
     func saveProgramIntoRealmDB(newProgram:GymModel.Program) {
         
         let programObject = ProgramObject()
@@ -548,8 +612,9 @@ class GymViewModel: ObservableObject {
             programObject.exercises.append(exerciseObject)
         }
         $programObjects.append(programObject)
+        composeGymModelObject()
     }
-    
+    //Trainings by array of exercises (custom program)
     func saveTrainingIntoRealmDB(date:String,exercises:[Exercise]) {
         let newTraining = TrainingInfoObject()
         newTraining.date = date
@@ -580,8 +645,10 @@ class GymViewModel: ObservableObject {
         }
         newTraining.program = newProgram
         $trainingInfoObjects.append(newTraining)
-        print("Correct")
+        composeGymModelObject()
     }
+    
+    //Trainings by program
     func saveTrainingIntoRealmDB(date:String,program:GymModel.Program) {
         let newTraining = TrainingInfoObject()
         newTraining.date = date
@@ -612,25 +679,56 @@ class GymViewModel: ObservableObject {
         }
         newTraining.program = newProgram
         $trainingInfoObjects.append(newTraining)
-        print("Correct")
+        composeGymModelObject()
     }
     
+    //Saving created exercise
     
-    func doSomething(){
-        let realm = try! Realm() // Placed this here instead
-      }
-    
-    static var previewRealm: Realm {
-        var realm: Realm
-        let identifier = "previewRealm"
-        let config = Realm.Configuration(inMemoryIdentifier: identifier)
-        do {
-            realm = try Realm(configuration: config)
-            return realm
-        } catch let error {
-            fatalError("Can't bootstrap item data: \(error.localizedDescription)")
+    func saveExerciseByRealm(exercise:Exercise) {
+        
+        let newExercise = ExerciseObject()
+        newExercise.name = exercise.name
+        newExercise.doubleWeight = exercise.doubleWeight
+        newExercise.selfWeight = exercise.selfWeight
+        newExercise.type = exercise.type.rawValue
+        
+        //Let's create Sets in the Realm Format SetsObjects
+        
+        for nSet in exercise.sets {
+            let newSet = SetsObject()
+            newSet.date = nSet.date
+            newSet.doubleWeight = nSet.doubleWeight
+            newSet.number = nSet.number
+            newSet.reps = nSet.reps
+            newSet.weight = nSet.weight
+            newSet.selfWeight = nSet.selfWeight
+            newExercise.sets.append(newSet)
+            
         }
+        $exerciseObjects.append(newExercise)
+        composeGymModelObject()
     }
+    
+    //Composing GymModelObjects
+    func composeGymModelObject() {
+        
+        let newGymModelObject = GymModelObject()
+        let exercises = realm.objects(ExerciseObject.self)
+        let trainings = realm.objects(Trainings.self)
+        let programs = realm.objects(ProgramObject.self)
+        
+        
+        let programsList = programs.list
+        let exercisesList = exercises.list
+        let trainingsList = trainings.list
+        
+        newGymModelObject.arrayOfExercises = exercisesList
+        newGymModelObject.programs = programsList
+        newGymModelObject.arrayOfPlannedTrainings = trainingsList
+        
+        $GymModelObjects.append(newGymModelObject)
+        }
+   
 }
 //MARK: Extensions
 
@@ -773,3 +871,14 @@ public extension EnvironmentValues {
 //        self.programList.append(newProgram)
 //    }
 //}
+
+
+//MARK:  Convert Results into List
+extension Results {
+    var list: RealmSwift.List<Element> {
+    reduce(.init()) { list, element in
+      list.append(element)
+      return list
+    }
+  }
+}
