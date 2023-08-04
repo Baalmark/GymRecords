@@ -133,7 +133,7 @@ struct ViewExerciseList: View {
                                         withAnimation(.easeInOut(duration: 0.2)) {
                                             viewModel.showedViewListSpecificExercise = elem
                                             viewModel.isShowedViewListSpecificExercise.toggle()
-                                            viewModel.isShowedCreateExView.toggle()
+//                                            viewModel.isShowedCreateExView.toggle()
                                             
                                         }
                                     }
@@ -161,10 +161,15 @@ struct ViewExerciseList: View {
                 if viewModel.isShowedCreateExView {
                     let type = viewModel.showedViewListSpecificExercise
                     CreateNewExercise(typeOfExercise: type, isNoCategoryCreating: true)
+                        .onDisappear() {
+                            dismiss()
+                        }
                 }
                 if viewModel.isShowedViewListSpecificExercise {
                     let type = viewModel.showedViewListSpecificExercise
-                    ViewListSpecificExercises(typeOfExercise: type, isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: false)
+                    
+                    
+                    ViewListSpecificExercises(typeOfExercise: type, isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: programmingExercise)
                 }
             }
         }

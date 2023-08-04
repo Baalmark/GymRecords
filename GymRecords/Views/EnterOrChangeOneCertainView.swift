@@ -33,7 +33,7 @@ struct EnterOrChangeOneCertainView: View {
                     }
                     .onChange(of:weight) { newValue in
                         onSet.weight = newValue
-                    
+                        print(newValue)
                         exercise =  viewModel.saveSetInEx(set: onSet, exercise: exercise)
                         
                     }

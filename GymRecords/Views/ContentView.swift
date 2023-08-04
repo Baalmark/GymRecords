@@ -72,6 +72,7 @@ struct ContentView: View {
                             
                             
                         }
+                        .background(.white)
                         .offset(x: offset.width, y:0)
                         .gesture(DragGesture()
                             .onChanged { value in
@@ -136,7 +137,7 @@ struct ContentView: View {
                                             minimizingCalendarOffSet = 0
                                             coeffOfTrainView = 0
                                             collapsingViewFlag = false
-                                            print("collapsed")
+                                         
                                             
                                         }
                                     } else {
@@ -144,8 +145,7 @@ struct ContentView: View {
                                             minimizingCalendarOffSet = -295
                                             coeffOfTrainView = 295
                                             collapsingViewFlag = true
-                                            
-                                            print("opened up")
+                                        
                                         }
                                     }
                                 } else {
@@ -218,7 +218,7 @@ struct ContentView: View {
             Button(viewModel.isAnyTrainingSelectedDay() ? "Edit Program" : "Add Program") {
                 
                 if viewModel.isAnyTrainingSelectedDay() {
-                    viewModel.editMode = true
+                    viewModel.editMode.toggle()
                 } else {
                     
                     appearSheet.toggle()

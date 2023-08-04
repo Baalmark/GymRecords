@@ -17,7 +17,6 @@
 		3A05B9912A0FECF40063D055 /* AddSetPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A05B9902A0FECF40063D055 /* AddSetPageView.swift */; };
 		3A14FAA52A713C5C008EFF4A /* TestObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A14FAA42A713C5C008EFF4A /* TestObject.swift */; };
 		3A14FAA82A717340008EFF4A /* Migrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A14FAA72A717340008EFF4A /* Migrator.swift */; };
-		3A14FAAA2A717DB8008EFF4A /* Trainings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A14FAA92A717DB8008EFF4A /* Trainings.swift */; };
 		3A1B831F2996EC10006F959E /* CreateNewExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B831E2996EC10006F959E /* CreateNewExercise.swift */; };
 		3A1B8321299A4F8B006F959E /* CreateNewProgrammView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B8320299A4F8B006F959E /* CreateNewProgrammView.swift */; };
 		3A1B8323299A8BA4006F959E /* ButtonCreateExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B8322299A8BA4006F959E /* ButtonCreateExercise.swift */; };
@@ -75,7 +74,6 @@
 		3A05B9902A0FECF40063D055 /* AddSetPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSetPageView.swift; sourceTree = "<group>"; };
 		3A14FAA42A713C5C008EFF4A /* TestObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestObject.swift; sourceTree = "<group>"; };
 		3A14FAA72A717340008EFF4A /* Migrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Migrator.swift; sourceTree = "<group>"; };
-		3A14FAA92A717DB8008EFF4A /* Trainings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trainings.swift; sourceTree = "<group>"; };
 		3A1B831E2996EC10006F959E /* CreateNewExercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewExercise.swift; sourceTree = "<group>"; };
 		3A1B8320299A4F8B006F959E /* CreateNewProgrammView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProgrammView.swift; sourceTree = "<group>"; };
 		3A1B8322299A8BA4006F959E /* ButtonCreateExercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCreateExercise.swift; sourceTree = "<group>"; };
@@ -267,7 +265,6 @@
 			children = (
 				3A4C03EB2A633123000003EE /* ProgramObject.swift */,
 				3A4C03EF2A633366000003EE /* TrainingInfoObject.swift */,
-				3A14FAA92A717DB8008EFF4A /* Trainings.swift */,
 			);
 			path = ProgramRealmModel;
 			sourceTree = "<group>";
@@ -405,7 +402,6 @@
 				3A8896B429B7579D00219446 /* CalendarModel.swift in Sources */,
 				3A4C03DE2A631CCB000003EE /* ExerciseObject.swift in Sources */,
 				3ACB31722A0FD08E003C4FC2 /* ViewOffsetExtension.swift in Sources */,
-				3A14FAAA2A717DB8008EFF4A /* Trainings.swift in Sources */,
 				3A9E9A4429897C7B00DAA547 /* ViewExerciseList.swift in Sources */,
 				3A1B8323299A8BA4006F959E /* ButtonCreateExercise.swift in Sources */,
 				3A8896C529B75CDB00219446 /* DateHolderModel.swift in Sources */,
