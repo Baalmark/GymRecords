@@ -16,6 +16,6 @@ class TrainingInfoObject:Object,Identifiable {
     @Persisted var program:ProgramObject?
     @Persisted var date:String
     override class func primaryKey() -> String? {
-        return "id"
+        return "date"
     }
 }

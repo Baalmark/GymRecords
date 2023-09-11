@@ -100,6 +100,6 @@ struct AddOrChangeSetView_Previews: PreviewProvider {
     static var previews: some View {
         let migrator = Migrator()
         
-        AddOrChangeSetView(exercise: .init(type: .body, name: "Test", doubleWeight: true, selfWeight: true, isSelected: false, sets: GymModel.testSets, isSelectedToAddSet: true)).environmentObject(GymViewModel())
+        AddOrChangeSetView(exercise: .init(type: .body, name: "Test", doubleWeight: true, selfWeight: true, isSelected: false, sets: [], isSelectedToAddSet: true)).environmentObject(GymViewModel())
     }
 }

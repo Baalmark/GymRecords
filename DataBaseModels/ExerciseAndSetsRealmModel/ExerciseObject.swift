@@ -11,7 +11,7 @@ import RealmSwift
 class ExerciseObject: Object,Identifiable {
     
     
-    @Persisted(primaryKey: true) var id: ObjectId
+//    @Persisted(primaryKey: true) var id: ObjectId
     
     @Persisted var type: String
     @Persisted var name: String
@@ -22,7 +22,7 @@ class ExerciseObject: Object,Identifiable {
     @Persisted var isSelectedToAddSet:Bool
     
     override class func primaryKey() -> String? {
-        return "id"
+        return "name"
     }
 }
 

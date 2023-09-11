@@ -194,6 +194,7 @@ struct ContentView: View {
                                         viewModel.removeTrainingFromSelectedDay()
                                     }
                                 }
+                                
                             }
                             .padding(.top,30)
                         } else {

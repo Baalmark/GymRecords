@@ -59,6 +59,7 @@
 		3ACB31702A0E8C65003C4FC2 /* AddNewSetsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB316F2A0E8C65003C4FC2 /* AddNewSetsMainView.swift */; };
 		3ACB31722A0FD08E003C4FC2 /* ViewOffsetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB31712A0FD08E003C4FC2 /* ViewOffsetExtension.swift */; };
 		3ACB31AF2A0FE719003C4FC2 /* LegacyCod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB31AE2A0FE719003C4FC2 /* LegacyCod.swift */; };
+		3AEA6A422AAF20E90014A43C /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEA6A412AAF20E90014A43C /* DataLoader.swift */; };
 		3AF0C3602A51841E006AD7BB /* DisplaySetsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0C35F2A51841E006AD7BB /* DisplaySetsMainView.swift */; };
 /* End PBXBuildFile section */
 
@@ -115,6 +116,7 @@
 		3ACB316F2A0E8C65003C4FC2 /* AddNewSetsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewSetsMainView.swift; sourceTree = "<group>"; };
 		3ACB31712A0FD08E003C4FC2 /* ViewOffsetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewOffsetExtension.swift; sourceTree = "<group>"; };
 		3ACB31AE2A0FE719003C4FC2 /* LegacyCod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyCod.swift; sourceTree = "<group>"; };
+		3AEA6A412AAF20E90014A43C /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		3AF0C35F2A51841E006AD7BB /* DisplaySetsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplaySetsMainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -218,6 +220,7 @@
 				3A8896C029B759D800219446 /* CalendarViewModels */,
 				008C51F12973063A0046EF5B /* Bindings */,
 				008C51ED297304540046EF5B /* GymViewModel.swift */,
+				3AEA6A412AAF20E90014A43C /* DataLoader.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -412,6 +415,7 @@
 				3A4C03F02A633366000003EE /* TrainingInfoObject.swift in Sources */,
 				3A9E9A5229952C9C00DAA547 /* DataBaseInfoTitle.swift in Sources */,
 				008C51F0297305660046EF5B /* GymDynamic.swift in Sources */,
+				3AEA6A422AAF20E90014A43C /* DataLoader.swift in Sources */,
 				3A9E9A5829964F3000DAA547 /* ProgramItemListView.swift in Sources */,
 				3AB0A80929B0CAC800E5E7BA /* CalendarExtension.swift in Sources */,
 				3A9E9A5029951BF700DAA547 /* ExercisesAndProgramsListView.swift in Sources */,

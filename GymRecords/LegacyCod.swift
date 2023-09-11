@@ -100,3 +100,80 @@ import Foundation
 //}
 //
 //    
+
+
+//MARK: GymModel Legacy
+//Init
+//        if !programObjects.isEmpty {
+//            print("Im stuck here is Empty Model")
+//            for program in programObjects {
+//                var allExercises:[Exercise] = []
+//                for ex in program.exercises {
+//                    var allSets:[Sets] = []
+//                    for nSet in ex.sets {
+//                        let newSet = Sets(number: nSet.number, weight: nSet.weight, reps: nSet.reps, doubleWeight: nSet.doubleWeight, selfWeight: nSet.selfWeight)
+//                        allSets.append(newSet)
+//                    }
+//                    if let type = TypeOfExercise(rawValue: ex.type) {
+//                        let exercise = Exercise(type: type, name: ex.name, doubleWeight: ex.doubleWeight, selfWeight: ex.selfWeight, isSelected: ex.isSelected, sets: allSets, isSelectedToAddSet: ex.isSelectedToAddSet)
+//                        allExercises.append(exercise)
+//                    }
+//                }
+//
+//                let newProgram = Program(programTitle: program.programTitle, programDescription: program.programDescription, colorDesign: program.colorDesign, exercises: allExercises)
+//                self.programs.append(newProgram)
+//            }
+//        } else {
+
+//        if !trainingInfoObjects.isEmpty {
+//            for element in trainingInfoObjects {
+//
+//                if let fProgram = element.program {
+//                    var allExercises:[Exercise] = []
+//                    for ex in fProgram.exercises {
+//
+//                        var allSets:[Sets] = []
+//                        for nSet in ex.sets {
+//                            let newSet = Sets(number: nSet.number, weight: nSet.weight, reps: nSet.reps, doubleWeight: nSet.doubleWeight, selfWeight: nSet.selfWeight)
+//                            allSets.append(newSet)
+//                        }
+//                        if let type = TypeOfExercise(rawValue: ex.type) {
+//                            let exercise = Exercise(type: type, name: ex.name, doubleWeight: ex.doubleWeight, selfWeight: ex.selfWeight, isSelected: ex.isSelected, sets: allSets, isSelectedToAddSet: ex.isSelectedToAddSet)
+//                            allExercises.append(exercise)
+//                        }
+//                    }
+//                    let newProgram = Program(programTitle: fProgram.programTitle, programDescription: fProgram.programDescription, colorDesign: fProgram.colorDesign, exercises: allExercises)
+//                    self.trainingDictionary[element.date] = newProgram
+//                }
+//            }
+//
+//        } else {
+  //          print("trainObjectsRealm stuck here also (empty")
+  //      }
+//MARK: GymViewModel Init
+//@ObservedResults(ProgramObject.self) var programObjects
+//@ObservedResults(ExerciseObject.self) var exerciseObjects
+//@ObservedResults(SetsObject.self) var setsObjects
+//@ObservedResults(TrainingInfoObject.self) var trainingInfoObjects
+//self.programList = []
+//self.gymModel = GymModel()
+//if !programObjects.isEmpty {
+//    for program in programObjects {
+//        var allExercises:[Exercise] = []
+//        for ex in program.exercises {
+//            var allSets:[Sets] = []
+//            for nSet in ex.sets {
+//                let newSet = Sets(number: nSet.number, weight: nSet.weight, reps: nSet.reps, doubleWeight: nSet.doubleWeight, selfWeight: nSet.selfWeight)
+//                allSets.append(newSet)
+//            }
+//            if let type = GymModel.TypeOfExercise(rawValue: ex.type) {
+//                let exercise = Exercise(type: type, name: ex.name, doubleWeight: ex.doubleWeight, selfWeight: ex.selfWeight, isSelected: ex.isSelected, sets: allSets, isSelectedToAddSet: ex.isSelectedToAddSet)
+//                allExercises.append(exercise)
+//            }
+//        }
+//
+//        let newProgram = GymModel.Program(programTitle: program.programTitle, programDescription: program.programDescription, colorDesign: program.colorDesign, exercises: allExercises)
+//        self.programList.append(newProgram)
+//    }
+//}
+

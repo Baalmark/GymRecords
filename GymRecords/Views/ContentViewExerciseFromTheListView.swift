@@ -49,7 +49,7 @@ struct ContentViewExerciseFromTheListView: View {
                         .padding([.leading,.trailing], 10)
                         .onTapGesture {
                             withAnimation(.easeInOut) {
-                                viewModel.removeExercieFromListOfTrainingInSelectedDay(exercise: exercise)
+                                viewModel.removeExerciseFromListOfTrainingInSelectedDay(exercise: exercise,selectedDate: viewModel.selectedDate)
                             }
                         }
                     
@@ -72,7 +72,7 @@ struct ContentViewExerciseFromTheListView: View {
                         .onEnded { _ in
                             withAnimation(.easeInOut) {
                                 if offset < -120 {
-                                    viewModel.removeExercieFromListOfTrainingInSelectedDay(exercise: exercise)
+                                    viewModel.removeExerciseFromListOfTrainingInSelectedDay(exercise: exercise,selectedDate: viewModel.selectedDate)
                                     offset = 0
                                     backgroundColor = .white
                                 }
