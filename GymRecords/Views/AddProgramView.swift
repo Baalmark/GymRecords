@@ -41,7 +41,8 @@ struct AddProgramView: View {
                 .padding([.leading,.trailing], 10)
                 
                 //View of Programms and Exercise with selection
-                ExercisesAndProgramsListView().environmentObject(viewModel)
+                ExercisesAndProgramsListView()
+//                    .environmentObject(viewModel)
                 
                 
             }.opacity(viewModel.isShowedEditOrRemoveView ? 0 : 1)
@@ -62,7 +63,8 @@ struct AddProgramView: View {
             if viewModel.isShowedViewListSpecificExercise {
                 let type = viewModel.showedViewListSpecificExercise
                 ViewListSpecificExercises(
-                    typeOfExercise: type,isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: false).environmentObject(viewModel)
+                    typeOfExercise: type,isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: false)
+//                .environmentObject(viewModel)
                 
             }
             

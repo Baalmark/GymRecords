@@ -37,7 +37,6 @@ struct ViewListSpecificExercises: View {
                     
                 VStack{
                     if !viewModel.arrayOfFoundExercise.isEmpty {
-                        
                         ForEach(viewModel.arrayOfFoundExercise.indices,id:\.self) { id in
                             if viewModel.changeExercisesDB == false{
                                 HStack {
@@ -68,33 +67,36 @@ struct ViewListSpecificExercises: View {
                         
                     } else {
                         ForEach(viewModel.arrayExercises.indices,id:\.self) { id in
-                            if viewModel.arrayExercises[id].type == typeOfExercise {
-                                if viewModel.changeExercisesDB == false{
-                                    HStack {
-                                        ExerciseToggle(exercise:viewModel.arrayExercises[id],
-                                                       toggle: viewModel.arrayExercises[id].isSelected,
-                                                       darkMode: exerciseProgramming)
-                                    }
-                                    .foregroundColor(exerciseProgramming ? .white : .black)
-                                    .padding([.leading,.trailing],30)
-                                    .padding(.top,30)
-                                } else {
-                                    HStack {
-                                        Text(viewModel.arrayExercises[id].name)
-                                            .font(.custom("Helvetica", size: 22))
-                                            .fontWeight(.bold)
-                                        Spacer()
-                                    }
-                                    .padding(.bottom,20)
-                                    .padding([.leading,.trailing],30)
-                                    .padding(.top,20)
-                                    .onTapGesture{
-                                        exercise = viewModel.arrayExercises[id]
-                                        UIView.setAnimationsEnabled(true)    // << here !!
-                                        isChangeSheet.toggle()
+                            
+                                if viewModel.arrayExercises[id].type == typeOfExercise {
+                                    if viewModel.changeExercisesDB == false{
+                                        HStack {
+                                            ExerciseToggle(exercise:viewModel.arrayExercises[id],
+                                                           toggle: viewModel.arrayExercises[id].isSelected,
+                                                           darkMode: exerciseProgramming)
+                                        }
+                                        .foregroundColor(exerciseProgramming ? .white : !viewModel.comprasionNameExerciseWithListAllExercises(name: viewModel.arrayExercises[id].name, exercises: viewModel.trainInSelectedDay.exercises) ? .black : .red )
+                                        .padding([.leading,.trailing],30)
+                                        .padding(.top,30)
+                                        .disabled(viewModel.comprasionNameExerciseWithListAllExercises(name: viewModel.arrayExercises[id].name, exercises: viewModel.trainInSelectedDay.exercises))
+                                        
+                                    } else {
+                                        HStack {
+                                            Text(viewModel.arrayExercises[id].name)
+                                                .font(.custom("Helvetica", size: 22))
+                                                .fontWeight(.bold)
+                                            Spacer()
+                                        }
+                                        .padding(.bottom,20)
+                                        .padding([.leading,.trailing],30)
+                                        .padding(.top,20)
+                                        .onTapGesture{
+                                            exercise = viewModel.arrayExercises[id]
+                                            UIView.setAnimationsEnabled(true)    // << here !!
+                                            isChangeSheet.toggle()
+                                        }
                                     }
                                 }
-                            }
                             
                         }
                         
@@ -210,16 +212,6 @@ struct CheckboxStyle: ToggleStyle {
         
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 
 struct ViewListSpecificExercises_Previews: PreviewProvider {

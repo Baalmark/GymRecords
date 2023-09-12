@@ -13,7 +13,7 @@ struct EnterSetAndRepsValueLittleView: View {
     var screenWidth = UIScreen.main.bounds.width
     @State var notSavedSets:[Sets] = []
     @State var number:Int = 1
-    @State var lastSet = Sets(number: 1, weight: 0, reps: 0, doubleWeight: false, selfWeight: false)
+    @State var lastSet = Sets(number: 1, date: Date(),weight: 0, reps: 0, doubleWeight: false, selfWeight: false)
     
     var body: some View {
         activeView

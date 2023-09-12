@@ -60,11 +60,13 @@ struct CalendarView: View
                                 }
                             }
                             
-                            .environmentObject(viewModel)
+//                            .environmentObject(viewModel)
                             .zIndex(1)
                             .onTapGesture {
                                 withAnimation(.spring(response: 0.2,dampingFraction: 0.4,blendDuration: 0.2)) {
-
+                                    viewModel.editMode = false
+                                    viewModel.editModeButtonName = "Edit program"
+                                    viewModel.addExerciseFlag = false
                                     let monthStruct = CalendarModel().monthStruct(count: count, startingSpaces: startingSpaces, daysInPrevMonth: daysInPrevMonth, daysInMonth: daysInMonth)
                                     if monthStruct.monthType == .Current {
                                         correctDay = Int(monthStruct.day())!

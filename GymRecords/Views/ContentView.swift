@@ -24,6 +24,8 @@ struct ContentView: View {
     private var nextMonth = false
     @State var collapsingViewFlag = true
     @State var scrollToIndex:Int = 0
+    @State var mainButtonName = "Add exercises"
+    @State var mainButtonEditName = "Edit program"
     var body: some View {
         VStack {
             ZStack{
@@ -33,11 +35,15 @@ struct ContentView: View {
                         VStack {
                             HStack {
                                 MonthLabelView(month:viewModel.arrayOfMonths[1])
-                                    .environmentObject(viewModel)
+                                //                                    .environmentObject(viewModel)
                                     .animation(.spring(), value: viewModel.arrayOfMonths[1])
                                 
                                 Spacer()
                                 Button{
+                                    viewModel.addExerciseFlag = false
+                                    viewModel.editMode = false
+                                    mainButtonEditName = "Edit program"
+                                    mainButtonName = "Add exercises"
                                     viewModel.changeExercisesDB = true
                                     isDataBaseSheetActive.toggle()
                                 } label: {
@@ -68,7 +74,8 @@ struct ContentView: View {
                     .zIndex(4)
                     HStack(spacing: 10) {
                         ForEach(viewModel.arrayOfMonths, id: \.self) { value in
-                            CalendarView(month:value).environmentObject(viewModel)
+                            CalendarView(month:value)
+//                                .environmentObject(viewModel)
                             
                             
                         }
@@ -137,7 +144,7 @@ struct ContentView: View {
                                             minimizingCalendarOffSet = 0
                                             coeffOfTrainView = 0
                                             collapsingViewFlag = false
-                                         
+                                            
                                             
                                         }
                                     } else {
@@ -145,7 +152,7 @@ struct ContentView: View {
                                             minimizingCalendarOffSet = -295
                                             coeffOfTrainView = 295
                                             collapsingViewFlag = true
-                                        
+                                            
                                         }
                                     }
                                 } else {
@@ -171,7 +178,7 @@ struct ContentView: View {
                                     exercise in
                                     
                                     ContentViewExerciseFromTheListView(exercise: exercise).environmentObject(viewModel)
-                                       
+                                    
                                         .onTapGesture {
                                             
                                             viewModel.addSetsToExerciseSender(exercise:exercise)
@@ -195,15 +202,18 @@ struct ContentView: View {
                                     }
                                 }
                                 
+                                
                             }
+                            
+                            
                             .padding(.top,30)
                         } else {
                             Image("backgroundMain")
-                            
                                 .offset(x:0,y: -minimizingCalendarOffSet / 2)
                                 .padding()
                                 .padding(.top,30)
                                 .offset(y:collapsingViewFlag ? -140 : 0)
+                            
                         }
                     }
                     
@@ -216,30 +226,62 @@ struct ContentView: View {
                 
             }
             .offset(y:-130)
-            Button(viewModel.isAnyTrainingSelectedDay() ? "Edit Program" : "Add Program") {
-                
-                if viewModel.isAnyTrainingSelectedDay() {
-                    viewModel.editMode.toggle()
-                } else {
+            HStack {
+                Button(viewModel.isAnyTrainingSelectedDay() ? viewModel.editModeButtonName : mainButtonName) {
                     
-                    appearSheet.toggle()
-                    viewModel.changeExercisesDB = false
+                    if viewModel.isAnyTrainingSelectedDay() {
+                        withAnimation(.easeInOut) {
+                            viewModel.editMode.toggle()
+                            viewModel.editModeButtonName = viewModel.editMode ? "Save" : "Edit program"
+                        }
+                    } else {
+                        appearSheet.toggle()
+                        viewModel.changeExercisesDB = false
+                    }
+                }
+                .sheet(isPresented:$appearSheet) {
+                    //viewModel.dataForProgramm
+                    AddProgramView()
+                }
+                
+                .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.editMode ? 335 / 2.2 : 335,height: 45))
+                .tint(.white)
+                .font(.title2)
+                .fontWeight(.semibold)
+                .padding(.trailing,10)
+                .background(.white)
+                .zIndex(3)
+                .offset(y:collapsingViewFlag ? 290 : 155)
+                .opacity(1)
+                
+                
+                if viewModel.editMode {
+                    Button("Add exercise") {
+                        appearSheet.toggle()
+                        viewModel.addExerciseFlag = true
+                        viewModel.changeExercisesDB = false
+                    }
+                    .buttonStyle(GrowingButton(isDarkMode: false,width: 335 / 2.2,height: 45))
+                    .tint(.black)
+                    .font(.callout)
+                    .fontWeight(.semibold)
+                    
+                    
+                    .background(.clear)
+                    .zIndex(3)
+                    .offset(y:collapsingViewFlag ? 290 : 155)
+                    .opacity(1)
+                    
+                    .sheet(isPresented:$appearSheet) {
+                        //viewModel.dataForProgramm
+                        
+                        AddProgramView()
+                    }
                 }
             }
-            .sheet(isPresented:$appearSheet) {
-                //viewModel.dataForProgramm
-                AddProgramView()
-            }
-            .buttonStyle(GrowingButton(isDarkMode: false,width: 335,height: 45))
-            .tint(.white)
-            .font(.title2)
-            .fontWeight(.semibold)
             .padding([.leading,.trailing],30)
             .padding(.top,10)
-            .background(.white)
-            .zIndex(3)
-            .offset(y:collapsingViewFlag ? 290 : 155)
-            .opacity(1)
+            
         }
         .frame(height: viewModel.screenHeight - 70)
         

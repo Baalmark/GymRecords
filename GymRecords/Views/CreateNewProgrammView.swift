@@ -218,7 +218,8 @@ struct CreateNewProgrammView: View {
             }
             .ignoresSafeArea(.keyboard)
             .fullScreenCover(isPresented: $isShowExercises) {
-                ViewExerciseList(withCategory: false, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: true).environmentObject(viewModel)
+                ViewExerciseList(withCategory: false, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: true)
+//              .environmentObject(viewModel)
             }
     }
     

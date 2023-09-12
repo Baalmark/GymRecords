@@ -74,6 +74,6 @@ struct EnterOrChangeOneCertainView_Previews: PreviewProvider {
     static var previews: some View {
         let migrator = Migrator()
 
-        EnterOrChangeOneCertainView(weight: 10, reps: 10 ,onSet: .init(number: 1, weight: 10, reps: 1, doubleWeight: true, selfWeight: false), number: 1, exercise: GymModel.arrayOfAllCreatedExercises[0]).environmentObject(GymViewModel())
+        EnterOrChangeOneCertainView(weight: 10, reps: 10 ,onSet: .init(number: 1, date: Date(), weight: 10, reps: 1, doubleWeight: true, selfWeight: false), number: 1, exercise: GymModel.arrayOfAllCreatedExercises[0]).environmentObject(GymViewModel())
     }
 }

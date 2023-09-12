@@ -37,7 +37,8 @@ struct AddSetsToExercise: View {
             
         } else {
             ForEach(exercise.sets, id: \.id) { newSet in
-                HStack {
+                if viewModel.sameDateCheck(date1: viewModel.selectedDate, date2: newSet.date) {
+                    HStack {
                     Text("\(newSet.number)")
                         .font(.callout)
                     
@@ -55,9 +56,10 @@ struct AddSetsToExercise: View {
                                 .foregroundColor(Color("LightGrayColor")))
                     }
                 }
-                .fontWeight(.bold)
-                .frame(width: viewModel.screenWidth,height: 40)
+                    .fontWeight(.bold)
+                    .frame(width: viewModel.screenWidth,height: 40)
             }
+        }
         }
     }
     
@@ -67,6 +69,6 @@ struct AddSetsToExercise: View {
 
 struct AddSetsToExercise_Previews: PreviewProvider {
     static var previews: some View {
-        AddSetsToExercise(exercise: .init(type: .arms, name: "DumbBell Ups", doubleWeight: true, selfWeight: false, isSelected: false, sets: [.init(number: 1, weight: 25, reps: 25, doubleWeight: true, selfWeight: false)], isSelectedToAddSet: true)).environmentObject(GymViewModel())
+        AddSetsToExercise(exercise: .init(type: .arms, name: "DumbBell Ups", doubleWeight: true, selfWeight: false, isSelected: false, sets: [.init(number: 1, date: Date(), weight: 25, reps: 25, doubleWeight: true, selfWeight: false)], isSelectedToAddSet: true)).environmentObject(GymViewModel())
     }
 }

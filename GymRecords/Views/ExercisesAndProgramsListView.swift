@@ -80,7 +80,8 @@ struct ExercisesAndProgramsListView: View {
                 ScrollView {
                     ButtonCreateExercise(showCreateExercise: $createExericseWithCategory)
                     if viewModel.searchWord.isEmpty {
-                        ViewExerciseList(withCategory: true, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: false).environmentObject(viewModel)
+                        ViewExerciseList(withCategory: true, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: false)
+//                            .environmentObject(viewModel)
                             .overlay(
                                 GeometryReader { geo in
                                     Color.clear.onAppear {
@@ -93,7 +94,9 @@ struct ExercisesAndProgramsListView: View {
                         
                         
                     } else {
-                        ViewListSpecificExercises(typeOfExercise: .find, isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: false).environmentObject(viewModel)
+                        ViewListSpecificExercises(typeOfExercise: .find, isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: false)
+//                            .environmentObject(viewModel)
+                            
                     }
                 }
                 .frame(maxWidth: contentSize.width, maxHeight: contentSize.height)
@@ -120,7 +123,8 @@ struct ExercisesAndProgramsListView: View {
             }
         }
         .fullScreenCover(isPresented: $createExericseWithCategory) {
-            ViewExerciseList(withCategory: false, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: false).environmentObject(viewModel)
+            ViewExerciseList(withCategory: false, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: false)
+//          .environmentObject(viewModel)
         }
         
         

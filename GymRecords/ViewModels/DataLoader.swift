@@ -64,7 +64,7 @@ class DataLoader {
             for ex in exerciseObjects {
                 var allSets:[Sets] = []
                 for nSet in ex.sets {
-                    let newSet = Sets(number: nSet.number, weight: nSet.weight, reps: nSet.reps, doubleWeight: nSet.doubleWeight, selfWeight: nSet.selfWeight)
+                    let newSet = Sets(number: nSet.number, date: nSet.date ,weight: nSet.weight, reps: nSet.reps, doubleWeight: nSet.doubleWeight, selfWeight: nSet.selfWeight)
                     allSets.append(newSet)
                 }
                 if let type = GymModel.TypeOfExercise(rawValue: ex.type) {
@@ -172,7 +172,7 @@ class DataLoader {
         for ex in program.exercises {
             var allSets:[Sets] = []
             for nSet in ex.sets {
-                let newSet = Sets(number: nSet.number, weight: nSet.weight, reps: nSet.reps, doubleWeight: nSet.doubleWeight, selfWeight: nSet.selfWeight)
+                let newSet = Sets(number: nSet.number,date: nSet.date ,weight: nSet.weight, reps: nSet.reps, doubleWeight: nSet.doubleWeight, selfWeight: nSet.selfWeight)
                 allSets.append(newSet)
             }
             if let type = GymModel.TypeOfExercise(rawValue: ex.type) {

@@ -17,6 +17,6 @@ class ProgramObject:Object, Identifiable {
     @Persisted var programDescription: String
     
     override class func primaryKey() -> String? {
-        return "programTitle"
+        return "id"
     }
 }

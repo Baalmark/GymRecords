@@ -142,6 +142,6 @@ struct CreateNewExercise: View {
 struct CreateNewExercise_Previews: PreviewProvider {
     static var previews: some View {
         let migrator = Migrator()
-        CreateNewExercise(typeOfExercise: .arms, isNoCategoryCreating: false).environmentObject(GymViewModel())
+        CreateNewExercise(typeOfExercise: .arms, isNoCategoryCreating: false)
     }
 }

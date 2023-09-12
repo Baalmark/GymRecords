@@ -233,7 +233,7 @@ struct GymModel {
         for ex in program.exercises {
             var allSets:[Sets] = []
             for nSet in ex.sets {
-                let newSet = Sets(number: nSet.number, weight: nSet.weight, reps: nSet.reps, doubleWeight: nSet.doubleWeight, selfWeight: nSet.selfWeight)
+                let newSet = Sets(number: nSet.number, date: nSet.date, weight: nSet.weight, reps: nSet.reps, doubleWeight: nSet.doubleWeight, selfWeight: nSet.selfWeight)
                 allSets.append(newSet)
             }
             if let type = GymModel.TypeOfExercise(rawValue: ex.type) {
@@ -295,7 +295,7 @@ struct Sets: Identifiable,Equatable {
     var doubleWeight:Bool
     var selfWeight:Bool
     
-    init(id: UUID = UUID(), number: Int, date:Date = Date(), weight: Double, reps: Double, doubleWeight: Bool, selfWeight: Bool) {
+    init(id: UUID = UUID(), number: Int, date:Date, weight: Double, reps: Double, doubleWeight: Bool, selfWeight: Bool) {
         self.id = id
         self.number = number
         self.date = date
