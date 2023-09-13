@@ -183,15 +183,19 @@ struct ContentView: View {
                                             
                                             viewModel.addSetsToExerciseSender(exercise:exercise)
                                             
+                                            
                                         }
+                                        
                                     if exercise.isSelectedToAddSet {
                                         AddSetsToExercise(exercise: exercise).environmentObject(viewModel)
                                             .onTapGesture {
                                                 withAnimation(.easeInOut) {
                                                     scrollToIndex = index
                                                     viewModel.isShowedMainAddSetsView.toggle()
+                                                    
                                                 }
                                             }
+                                            
                                     }
                                 }
                                 .onChange(of: viewModel.trainInSelectedDay.exercises.count) { newValue in

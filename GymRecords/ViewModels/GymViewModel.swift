@@ -478,7 +478,6 @@ class GymViewModel: ObservableObject {
     func addSetsToExerciseSender(exercise:Exercise) {
         let newTraining = trainInSelectedDay
         if let index = newTraining.exercises.firstIndex(of: exercise) {
-            
             newTraining.exercises[index].isSelectedToAddSet.toggle()
         }
         trainInSelectedDay = newTraining
@@ -551,13 +550,12 @@ class GymViewModel: ObservableObject {
     
     
     //MARK: Save exercise with edited sets
-    func saveEditedExercise(exercise:Exercise) {
+    func saveEditedExercise(exercise:Exercise,newSets:[Sets]) {
         
         let newTraining = trainInSelectedDay
         for var ex in newTraining.exercises {
             if ex.name == exercise.name  {
                 ex = exercise
-                
                 
             }
         }
@@ -566,13 +564,35 @@ class GymViewModel: ObservableObject {
         //Realm Changing data
         let stringDate = toStringDate(date: selectedDate)
         let trainings = realm.objects(TrainingInfoObject.self)
+        
+        
         for train in trainings {
             if train.date == stringDate {
                 let trainInfo = realm.objects(TrainingInfoObject.self).where { $0.date == train.date }.first!
                 if let program = trainInfo.program {
-                    createRealmFormatOfProgramObject(program, trainInSelectedDay)
-                    
-                    train.program = program
+                    for ex in program.exercises {
+                        if ex.name == exercise.name {
+                            try! realm.write {
+                                ex.sets.removeAll()
+                            }
+                            for exSet in exercise.sets {
+                                let setObject = SetsObject()
+                                setObject.date = exSet.date
+                                setObject.number = exSet.number
+                                setObject.doubleWeight = exSet.doubleWeight
+                                setObject.selfWeight = exSet.selfWeight
+                                setObject.reps = exSet.reps
+                                setObject.weight = exSet.weight
+                                
+                                try! realm.write {
+                                    ex.sets.append(setObject)
+                                }
+                            }
+                        }
+                    }
+//                    createRealmFormatOfProgramObject(program, trainInSelectedDay)
+//
+//                    train.program = program
                 }
             }
         }
@@ -591,14 +611,16 @@ class GymViewModel: ObservableObject {
     }
     //MARK: Same date check
     func sameDateCheck(date1:Date,date2:Date) -> Bool {
+        let date1String = toStringDate(date: date1)
+        let date2String = toStringDate(date: date2)
         
-        let date1 = toStringDate(date: date1)
-        let date2 = toStringDate(date: date2)
-        if date1 == date2 {
-            print(date1,"Selected date")
-            print(date2,"Set date")
-        }
-        return date1 == date2
+        let realmSet2 = realm.objects(SetsObject.self).where { $0.date == date2}
+//        print("Selected Date",date1String)
+//        print("Realm Date")
+//        print(realmSet2)
+//        print(date1String == date2String)
+//        print("_______________________")
+        return date1String == date2String
     }
     
     //MARK: Unselecting exercise

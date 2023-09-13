@@ -62,7 +62,7 @@ struct AddOrChangeSetView: View {
                         }
                         exercise.sets = filteredSets
                     }
-                    viewModel.saveEditedExercise(exercise: exercise)
+                    viewModel.saveEditedExercise(exercise: exercise,newSets: exercise.sets)
                     viewModel.didTapToAddSet = false
                     viewModel.crntExrcsFrEditSets = Exercise(type: .arms, name: "nil", doubleWeight: false, selfWeight: false, isSelected: false, sets: [], isSelectedToAddSet: false)
                     viewModel.setsBackUp = []

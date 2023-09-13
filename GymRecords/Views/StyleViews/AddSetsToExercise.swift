@@ -59,7 +59,7 @@ struct AddSetsToExercise: View {
                     .fontWeight(.bold)
                     .frame(width: viewModel.screenWidth,height: 40)
             }
-        }
+            }
         }
     }
     
