@@ -12,8 +12,10 @@ struct AddSetsToExercise: View {
     
     var exercise:Exercise
     var body: some View {
-        
-        if exercise.sets.isEmpty {
+        //MARK: Advanced checker is any sets created before on selected date
+        if !exercise.sets.contains(where: {
+            viewModel.toStringDate(date: $0.date) == viewModel.toStringDate(date: viewModel.selectedDate)
+        }){
             HStack {
                 Text("1")
                     .font(.callout)

@@ -19,6 +19,7 @@ struct CreateNewProgrammView: View {
     @State var isShowExercises = false
     @State private var selectedRows: [String] = []
     @State private var showDeleteButton = false
+    var toChangeProgram:Bool
   
     var body: some View {
         VStack {
@@ -188,12 +189,11 @@ struct CreateNewProgrammView: View {
                 if !description.isEmpty, !name.isEmpty, !viewModel.selectedExArray.isEmpty {
                     Button("Save") {
                         exercises = viewModel.selectedExArray
-                        let newProgram = GymModel.Program(programTitle: name, programDescription: description, colorDesign: colorDesignStringValue, exercises: exercises)
-                        viewModel.createNewProgram(program: newProgram)
-                        
-                        
-                        
-                        
+                        let newProgram = GymModel.Program(numberOfProgram: viewModel.getterNumberOfProgram(),programTitle: name, programDescription: description, colorDesign: colorDesignStringValue, exercises: exercises)
+                        if toChangeProgram {
+                            viewModel.changeProgramRealm(program: newProgram)}
+                        else {
+                            viewModel.createNewProgram(program: newProgram)}
                         dismiss()
                         viewModel.clearSelectedExArray()
                         
@@ -229,6 +229,6 @@ struct CreateNewProgrammView_Previews: PreviewProvider {
     static var previews: some View {
         let migrator = Migrator()
 
-        CreateNewProgrammView(name: .constant(""), description: .constant(""), exercises: .constant([]), colorDesignStringValue: .constant("green")).environmentObject(GymViewModel())
+        CreateNewProgrammView(name: .constant(""), description: .constant(""), exercises: .constant([]), colorDesignStringValue: .constant("green"), toChangeProgram: true).environmentObject(GymViewModel())
     }
 }

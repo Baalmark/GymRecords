@@ -78,7 +78,7 @@ struct ViewListSpecificExercises: View {
                                         .foregroundColor(exerciseProgramming ? .white : !viewModel.comprasionNameExerciseWithListAllExercises(name: viewModel.arrayExercises[id].name, exercises: viewModel.trainInSelectedDay.exercises) ? .black : .red )
                                         .padding([.leading,.trailing],30)
                                         .padding(.top,30)
-                                        .disabled(viewModel.comprasionNameExerciseWithListAllExercises(name: viewModel.arrayExercises[id].name, exercises: viewModel.trainInSelectedDay.exercises))
+                                        .disabled( viewModel.comprasionNameExerciseWithListAllExercises(name: viewModel.arrayExercises[id].name, exercises: viewModel.trainInSelectedDay.exercises))
                                         
                                     } else {
                                         HStack {

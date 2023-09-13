@@ -14,7 +14,8 @@ struct DisplaySetsMainView: View {
     var width:CGFloat = 33.5
     var body: some View {
         
-            ForEach(exercise.sets, id: \.id) { newSet in
+        ForEach(exercise.sets, id: \.id) { newSet in
+            if viewModel.sameDateCheck(date1: viewModel.selectedDate, date2: newSet.date) {
                 HStack {
                     Text("\(newSet.number)")
                         .padding(.leading,-15)
@@ -24,7 +25,7 @@ struct DisplaySetsMainView: View {
                         Text("\(newSet.weight.formatted())")
                             .font(.custom("Helvetica", size: 24).bold())
                             .foregroundColor(.black)
-                            
+                        
                             .multilineTextAlignment(.center)
                             .frame(width: viewModel.screenWidth / 2 - width,height: 70)
                             .background(RoundedRectangle(cornerRadius: 15)
@@ -39,9 +40,10 @@ struct DisplaySetsMainView: View {
                     }
                 }
                 
+                
                 .frame(width: viewModel.screenWidth - 60,height: 70)
             }
-            
+        }
         }
     }
     

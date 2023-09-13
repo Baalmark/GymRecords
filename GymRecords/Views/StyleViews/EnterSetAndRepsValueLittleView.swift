@@ -23,30 +23,31 @@ struct EnterSetAndRepsValueLittleView: View {
         ScrollView {
             VStack {
                 ForEach(exercise.sets, id: \.id) { onSet in
-                    
-                    EnterOrChangeOneCertainView(weight: onSet.weight, reps: onSet.reps, onSet: onSet, number: onSet.number, exercise: exercise)
-                    
+                    if viewModel.sameDateCheck(date1: viewModel.selectedDate, date2: onSet.date) {
+                        EnterOrChangeOneCertainView(weight: onSet.weight, reps: onSet.reps, onSet: onSet, number: onSet.number, exercise: exercise)
                         
-   
-                }
-                Button {
-                    withAnimation(.easeInOut(duration:0.1)) {
-                        viewModel.removelastSet(exercise: exercise)
+                        
+                        
                     }
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(Color("GrayColor"))
-                        .opacity(0.75)
-                        .tint(.white)
-                        .font(.system(size: 10))
+                    Button {
+                        withAnimation(.easeInOut(duration:0.1)) {
+                            viewModel.removelastSet(exercise: exercise)
+                        }
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(Color("GrayColor"))
+                            .opacity(0.75)
+                            .tint(.white)
+                            .font(.system(size: 10))
                         
                         
-                }
-                .background(Circle()
-                    .frame(width: 20,height: 20))
+                    }
+                    .background(Circle()
+                        .frame(width: 20,height: 20))
                     .offset(x:170,y:-79)
                     .foregroundColor(.clear)
-                AddSetLittleView(number: exercise.sets.count + 1)
+                }
+                AddSetLittleView(number: viewModel.getNumberAddSetButton(sets: exercise.sets))
                     .onTapGesture {
                         withAnimation(.easeInOut) {
                             viewModel.setsBackUp = exercise.sets

@@ -169,10 +169,10 @@ struct ViewExerciseList: View {
                     let type = viewModel.showedViewListSpecificExercise
                     
 //MARK: ???
-//                    ViewListSpecificExercises(typeOfExercise: type, isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: programmingExercise)
-//                        .onAppear() {
-//                            print("Testing second")
-//                        }
+                    ViewListSpecificExercises(typeOfExercise: type, isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: programmingExercise)
+                        .onAppear() {
+                            
+                        }
                 }
             }
         }

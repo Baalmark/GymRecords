@@ -124,7 +124,7 @@ class GymViewModel: ObservableObject {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.day], from: Date())
         selectedDayForChecking = components.day!
-        trainInSelectedDay = GymModel.Program(programTitle: "blank", programDescription: "blank", colorDesign: "red", exercises: [])
+        trainInSelectedDay = GymModel.Program(numberOfProgram:0,programTitle: "blank", programDescription: "blank", colorDesign: "red", exercises: [])
         self.crntExrcsFrEditSets = Exercise(type: .arms, name: "blank", doubleWeight: false, selfWeight: false, isSelected: false, sets: [], isSelectedToAddSet: false)
     }
     
@@ -368,7 +368,7 @@ class GymViewModel: ObservableObject {
             let stringDate = toStringDate(date: date)
             let training = realm.objects(TrainingInfoObject.self).where { $0.date == stringDate}.first!
             var namesOfExercises:[String] = []
-
+            
             for exercise in exercises {
                 namesOfExercises.append(exercise.name)
                 trainInSelectedDay.exercises.append(exercise)
@@ -383,7 +383,7 @@ class GymViewModel: ObservableObject {
             
         } else {
             let stringDate = toStringDate(date: date)
-            let newProgram = GymModel.Program(programTitle: "blank", programDescription: "blank", colorDesign: "blank", exercises: exercises)
+            let newProgram = GymModel.Program(numberOfProgram:0,programTitle: "blank", programDescription: "blank", colorDesign: "blank", exercises: exercises)
             trainings[stringDate] = newProgram
             trainInSelectedDay = newProgram
             saveTrainingIntoRealmDB(date: stringDate, exercises: exercises)
@@ -394,10 +394,38 @@ class GymViewModel: ObservableObject {
     func createTraining(date:Date,program:GymModel.Program)  {
         
         let stringDate = toStringDate(date: date)
-        trainings[stringDate] = program
-        trainInSelectedDay = program
-        
-        saveTrainingIntoRealmDB(date: stringDate, program: program)
+        if addExerciseFlag {
+
+
+            let training = realm.objects(TrainingInfoObject.self).where { $0.date == stringDate}.first!
+            var namesOfExercises:[String] = []
+            
+            for exercise in program.exercises {
+                namesOfExercises.append(exercise.name)
+                trainInSelectedDay.exercises.append(exercise)
+                trainings[stringDate]?.exercises.append(exercise)
+            }
+            for elem in namesOfExercises {
+                let exercise = realm.objects(ExerciseObject.self).where { $0.name == elem }
+                try! realm.write {
+                    training.program?.exercises.append(objectsIn: exercise)
+                }
+            }
+            
+        } else {
+            
+
+            let newProgram = GymModel.Program(numberOfProgram: program.numberOfProgram,programTitle: program.programTitle,
+                                              programDescription: program.programDescription, colorDesign: program.colorDesign,
+                                              exercises: program.exercises)
+            
+            trainings[stringDate] = newProgram
+            trainInSelectedDay = newProgram
+            print("Did2f")
+            saveTrainingIntoRealmDB(date: stringDate, program: program)
+            print("Did2ff")
+            databaseInfoTitle =  gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
+        }
         
     }
     
@@ -450,7 +478,7 @@ class GymViewModel: ObservableObject {
     func isAnyTrainingAnyDayDisplayMark(day:Int,month:Int) -> Bool {
         
         
-        
+        //D
         //        for date in trainings.keys {
         //
         //            if let date = toDateFromStringDate(date: date) {
@@ -506,8 +534,6 @@ class GymViewModel: ObservableObject {
             }
         }
         trainInSelectedDay = newTraining
-        
-        
     }
     //MARK: Add new Set to the exercise
     func addNewSetsToExercise(exercise:Exercise,sets:[Sets]) {
@@ -551,12 +577,10 @@ class GymViewModel: ObservableObject {
     
     //MARK: Save exercise with edited sets
     func saveEditedExercise(exercise:Exercise,newSets:[Sets]) {
-        
         let newTraining = trainInSelectedDay
         for var ex in newTraining.exercises {
             if ex.name == exercise.name  {
                 ex = exercise
-                
             }
         }
         trainInSelectedDay = newTraining
@@ -572,34 +596,30 @@ class GymViewModel: ObservableObject {
                 if let program = trainInfo.program {
                     for ex in program.exercises {
                         if ex.name == exercise.name {
-                            try! realm.write {
-                                ex.sets.removeAll()
-                            }
                             for exSet in exercise.sets {
-                                let setObject = SetsObject()
-                                setObject.date = exSet.date
-                                setObject.number = exSet.number
-                                setObject.doubleWeight = exSet.doubleWeight
-                                setObject.selfWeight = exSet.selfWeight
-                                setObject.reps = exSet.reps
-                                setObject.weight = exSet.weight
-                                
-                                try! realm.write {
-                                    ex.sets.append(setObject)
+                                if toStringDate(date:exSet.date) == train.date {
+                                    let setObject = SetsObject()
+                                    setObject.date = exSet.date
+                                    setObject.number = exSet.number
+                                    setObject.doubleWeight = exSet.doubleWeight
+                                    setObject.selfWeight = exSet.selfWeight
+                                    setObject.reps = exSet.reps
+                                    setObject.weight = exSet.weight
+                                    
+                                    try! realm.write {
+                                        ex.sets.append(setObject)
+                                    }
                                 }
+                                
                             }
                         }
                     }
-//                    createRealmFormatOfProgramObject(program, trainInSelectedDay)
-//
-//                    train.program = program
+                    //                    createRealmFormatOfProgramObject(program, trainInSelectedDay)
+                    //
+                    //                    train.program = program
                 }
             }
         }
-        
-        
-        
-        
     }
     //MARK: Comparison of the name in the finished program with the list of names of all exercises
     func comprasionNameExerciseWithListAllExercises(name:String,exercises:[Exercise]) -> Bool {
@@ -613,14 +633,18 @@ class GymViewModel: ObservableObject {
     func sameDateCheck(date1:Date,date2:Date) -> Bool {
         let date1String = toStringDate(date: date1)
         let date2String = toStringDate(date: date2)
-        
         let realmSet2 = realm.objects(SetsObject.self).where { $0.date == date2}
-//        print("Selected Date",date1String)
-//        print("Realm Date")
-//        print(realmSet2)
-//        print(date1String == date2String)
-//        print("_______________________")
         return date1String == date2String
+    }
+    //MARK: Get number of view in the addSetMainView for AddSetButton
+    func getNumberAddSetButton(sets:[Sets]) -> Int {
+        var tempResult = 0
+        for element in sets {
+            if sameDateCheck(date1: selectedDate, date2: element.date) {
+                tempResult += 1
+            }
+        }
+        return tempResult + 1
     }
     
     //MARK: Unselecting exercise
@@ -629,6 +653,7 @@ class GymViewModel: ObservableObject {
             element.isSelected = false
         }
     }
+    
     //MARK: Remove exercise from list of trainins by selecting day
     func removeExerciseFromListOfTrainingInSelectedDay(exercise:Exercise,selectedDate:Date) {
         
@@ -637,8 +662,6 @@ class GymViewModel: ObservableObject {
             if let indexOfTraining = training.exercises.firstIndex(of: exercise) {
                 training.exercises.remove(at: indexOfTraining)
             }
-            
-            
             //Realm Changing data
             let trainings = realm.objects(TrainingInfoObject.self)
             
@@ -647,159 +670,69 @@ class GymViewModel: ObservableObject {
                     if train.date == stringDate {
                         let newProgram = ProgramObject()
                         createRealmFormatOfProgramObject(newProgram, trainInSelectedDay)
-                        
                         train.program = newProgram
                     }
                 }
             }
-            
-            
             if training.exercises.isEmpty {
                 removeTrainingFromRealmDB(date: stringDate, program: training)
-                trainInSelectedDay = GymModel.Program(programTitle: "blank", programDescription: "blank", colorDesign: "red", exercises: [])
+                trainInSelectedDay = GymModel.Program(numberOfProgram:0,programTitle: "blank", programDescription: "blank", colorDesign: "red", exercises: [])
             }
-            
-            
-            
         }
-        
-        
-        
-        
-        
         if let indexOfExercise = trainInSelectedDay.exercises.firstIndex(of: exercise) {
             trainInSelectedDay.exercises.remove(at: indexOfExercise)
             print(trainInSelectedDay)
-            
         }
+    }
+    //MARK: Change program in realm DB
+    func changeProgramRealm(program:GymModel.Program) {
+        DataLoader().changeProgramRealm(program: program)
         
     }
+    //MARK: Get number of Program
+    func getterNumberOfProgram() -> Int{
+        return realm.objects(ProgramObject.self).count
+    }
+    
     //MARK: Saving all data by Realm
     
     //MARK: Save Program into realm Data Base
     fileprivate func createRealmFormatOfProgramObject(_ programObject: ProgramObject, _ newProgram: GymModel.Program) {
-        
-        //        programObject.colorDesign = newProgram.colorDesign
-        //        programObject.programDescription = newProgram.programDescription
-        //        programObject.programTitle = newProgram.programTitle
-        //
-        for element in newProgram.exercises {
-            
-            let exerciseRealm = reformattingExerciseToRealmFormat(element:element)
-            programObject.exercises.append(exerciseRealm)
-        }
+        DataLoader().createRealmFormatOfProgramObject(programObject, newProgram)
     }
-    
+    //MARK: Save Program into Realm DB
     func saveProgramIntoRealmDB(newProgram:GymModel.Program) {
-        
-        let programObject = ProgramObject()
-        createRealmFormatOfProgramObject(programObject, newProgram)
-        $programObjects.append(programObject)
-        DataLoader().composeGymModelObject()
+        DataLoader().saveProgramIntoRealmDB(newProgram: newProgram)
     }
     //MARK: Create sets for Realm Exercise
     fileprivate func setCreatorForRealm(_ element: Exercise, _ exerciseObject: ExerciseObject) {
-        
-        for nSet in element.sets {
-            print("Try")
-            let setObject = SetsObject()
-            setObject.number = nSet.number
-            setObject.date = nSet.date
-            setObject.doubleWeight = nSet.doubleWeight
-            setObject.selfWeight = nSet.selfWeight
-            setObject.reps = nSet.reps
-            setObject.weight = nSet.weight
-            exerciseObject.sets.append(setObject)
-        }
+        DataLoader().setCreatorForRealm(element, exerciseObject)
     }
     //MARK: Save trainings into Realm Data Base
     func saveTrainingIntoRealmDB(date:String,exercises:[Exercise]) {
-        let newTraining = TrainingInfoObject()
-        newTraining.date = date
-        let newProgram = ProgramObject()
-        for element in exercises {
-            
-            let exerciseRealm = reformattingExerciseToRealmFormat(element:element)
-            
-            setCreatorForRealm(element, exerciseRealm)
-            
-            newProgram.exercises.append(exerciseRealm)
-            newProgram.programTitle = "blank"
-            newProgram.programDescription = "blank"
-            newProgram.colorDesign = "red"
-            
-        }
-        newTraining.program = newProgram
-        $trainingInfoObjects.append(newTraining)
-        DataLoader().composeGymModelObject()
+        DataLoader().saveTrainingIntoRealmDB(date: date, exercises: exercises)
     }
     
     //MARK: Reformatting to Realm Format Exercise
     fileprivate func reformattingExerciseToRealmFormat(element: Exercise) -> ExerciseObject{
-        
-        
-        let exerciseRealm = realm.objects(ExerciseObject.self).where { $0.name == element.name }.first!
-        setCreatorForRealm(element, exerciseRealm)
-        return exerciseRealm
+        return DataLoader().reformattingExerciseToRealmFormat(element: element)
     }
     //MARK: Save trainings into Realm DataBase
     func saveTrainingIntoRealmDB(date:String,program:GymModel.Program) {
-        let newTraining = TrainingInfoObject()
-        newTraining.date = date
-        let newProgram = ProgramObject()
-        for element in program.exercises {
-            
-            let exerciseObject = reformattingExerciseToRealmFormat(element: element)
-            
-            
-            
-            newProgram.exercises.append(exerciseObject)
-            newProgram.programTitle = program.programTitle
-            newProgram.programDescription = program.programDescription
-            newProgram.colorDesign = program.colorDesign
-            
-        }
-        newTraining.program = newProgram
-        $trainingInfoObjects.append(newTraining)
-        DataLoader().composeGymModelObject()
+        DataLoader().saveTrainingIntoRealmDB(date: date, program: program)
     }
     //MARK: Remove trainings into Realm DataBase
     func removeTrainingFromRealmDB(date:String,program:GymModel.Program) {
         
-        let programToDelete = realm.objects(TrainingInfoObject.self).where {
-            $0.date == date
-            
-        }.first!
-        print(programToDelete)
-        
-        
-        try! realm.write {
-            // You cannot set an AnyRealmValue to nil; you must set it to `.none`, instead.
-            $trainingInfoObjects.remove(programToDelete)
-        }
-        
+        DataLoader().removeTrainingFromRealmDB(date: date, program: program)
         
     }
     
     //MARK: Saving created exercise
-    
     func saveExerciseByRealm(exercise:Exercise) {
         
-        
-        let newExercise = reformattingExerciseToRealmFormat(element:exercise)
-        
-        //Let's create Sets in the Realm Format SetsObjects
-        
-        setCreatorForRealm(exercise, newExercise)
-        
-        $exerciseObjects.append(newExercise)
-        DataLoader().composeGymModelObject()
+        DataLoader().saveCreatedExerciseByRealm()
     }
-    
-    
-    
-    
-    
 }
 //MARK: Extensions
 

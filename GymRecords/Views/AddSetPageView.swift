@@ -43,7 +43,7 @@ struct AddSetPageView: View {
                                             }
                                         }
 
-                                    AddSetLittleView(number: exercise.sets.count + 1)
+                                    AddSetLittleView(number: viewModel.getNumberAddSetButton(sets: exercise.sets))
                                         .padding(.leading,-4).padding(.top, -3).padding(.bottom,6)
                                         .onTapGesture {
                                             withAnimation(.easeInOut) {

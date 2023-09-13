@@ -11,6 +11,7 @@ import RealmSwift
 class ProgramObject:Object, Identifiable {
     
     @Persisted(primaryKey: true) var id: ObjectId
+    @Persisted var numberOfProgram:Int
     @Persisted var programTitle: String
     @Persisted var colorDesign: String
     @Persisted var exercises:List<ExerciseObject> = List<ExerciseObject>()

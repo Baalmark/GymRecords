@@ -19,7 +19,7 @@ struct GymModel {
     
     init(programs:[Program] = [],exercises:[Exercise] = GymModel.arrayOfAllCreatedExercises, trainingDictionary:Dictionary<String,Program> = [:]) {
         self.programs = []
-            self.programs = [Program(programTitle: "Test", programDescription: "Testing", colorDesign: "green", exercises: GymModel.arrayOfAllCreatedExercises)]
+        self.programs = [Program(numberOfProgram:1,programTitle: "Test", programDescription: "Testing", colorDesign: "green", exercises: GymModel.arrayOfAllCreatedExercises)]
         self.trainingDictionary = [:]
             
 
@@ -31,6 +31,7 @@ struct GymModel {
     struct Program:Identifiable {
         
         var id = UUID()
+        var numberOfProgram:Int
         var programTitle: String
         var programDescription: String
         var colorDesign: String
@@ -106,8 +107,8 @@ struct GymModel {
     
     
     //MARK: MAIN Functions
-    mutating func createNewProgram(title name:String,exercises exs:[Exercise],color cDesign:String,description desc:String) {
-        programs.append(Program(programTitle: name, programDescription: desc, colorDesign: cDesign, exercises: exs))
+    mutating func createNewProgram(numberOfProgram:Int, title name:String,exercises exs:[Exercise],color cDesign:String,description desc:String) {
+        programs.append(Program(numberOfProgram: numberOfProgram,programTitle: name, programDescription: desc, colorDesign: cDesign, exercises: exs))
         
     }
     mutating func AddNewExercise(type:TypeOfExercise,title:String,doubleW db:Bool,selfW sw:Bool) {

@@ -200,7 +200,7 @@ struct ContentView: View {
                                 }
                                 .onChange(of: viewModel.trainInSelectedDay.exercises.count) { newValue in
                                     if newValue == 0 {
-                                        viewModel.trainInSelectedDay = GymModel.Program(programTitle: "blank", programDescription: "blank", colorDesign: "red", exercises: [])
+                                        viewModel.trainInSelectedDay = GymModel.Program(numberOfProgram: 0,programTitle: "blank", programDescription: "blank", colorDesign: "red", exercises: [])
                                         viewModel.editMode = false
                                         viewModel.removeTrainingFromSelectedDay()
                                     }
