@@ -36,9 +36,9 @@ struct ExercisesAndProgramsListView: View {
                     }
                 }
                 
-                .frame(width: 125,height: 35)
+                .frame(width: viewModel.constW(w:125),height: viewModel.constH(h:35))
                 .foregroundColor(didTap ? .gray : .white)
-                .font(.custom("Helvetica", size: 20))
+                .font(.custom("Helvetica", size: viewModel.constW(w:20)))
                 .fontWeight(.black)
                 .padding([.top,.bottom],10)
                 .padding([.leading,.trailing],30)
@@ -62,9 +62,9 @@ struct ExercisesAndProgramsListView: View {
                     
                     
                 }
-                .frame(width: 125,height: 35)
+                .frame(width: viewModel.constW(w:125),height: viewModel.constH(h:35))
                 .foregroundColor(didTap ? .white : .gray)
-                .font(.custom("Helvetica", size: 20))
+                .font(.custom("Helvetica", size: viewModel.constW(w:20)))
                 .fontWeight(.black)
                 .padding([.top,.bottom],10)
                 .padding([.leading,.trailing],30)
@@ -91,7 +91,7 @@ struct ExercisesAndProgramsListView: View {
                                     }
                                 }
                             )
-                            .frame(width: viewModel.screenWidth,height: 600)
+                            .frame(width: viewModel.constW(w:viewModel.screenWidth),height: viewModel.constH(h:600))
                             .transition(.move(edge: .leading))
                         
                         
@@ -112,11 +112,11 @@ struct ExercisesAndProgramsListView: View {
                     
                     dismiss()
                     
-                }.buttonStyle(GrowingButton(isDarkMode: false,width: 335,height: 45))
+                }.buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.constW(w:335),height: viewModel.constH(h:45)))
                     .tint(.white)
                     .font(.title2)
                     .fontWeight(.semibold)
-                    .offset(x:0,y:-20)
+                    .offset(x:0,y:viewModel.constH(h:-20))
                     .opacity(viewModel.selectedExArray.isEmpty ? 0 : 1)
                 
             } else {

@@ -22,7 +22,7 @@ struct DataBaseView: View {
                         } label: {
                             Image(systemName: "gearshape.fill")
                                 .foregroundColor(Color("MidGrayColor"))
-                                .font(.custom("Helvetica", size: 16))
+                                .font(.custom("Helvetica", size: viewModel.constW(w:16)))
                         }
                     }
                     .padding([.leading,.trailing],30)

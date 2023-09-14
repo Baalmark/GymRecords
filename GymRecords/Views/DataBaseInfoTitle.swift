@@ -15,13 +15,13 @@ struct DataBaseInfoTitle: View {
             ForEach(viewModel.databaseInfoTitle.indices,id:\.self) {element in
                 VStack{
                     Text("\(viewModel.databaseInfoTitle[element].1)")
-                        .font(.custom("Helvetica", size: 20))
+                        .font(.custom("Helvetica", size: viewModel.constW(w:20)))
                     Text("\(viewModel.databaseInfoTitle[element].0)")
-                        .font(.custom("Helvetica", size: 14))
+                        .font(.custom("Helvetica", size: viewModel.constW(w:14)))
                     
                 }
                 .fontWeight(.bold)
-                    .frame(width: viewModel.screenWidth / 3 - 15,height: 50)
+                    .frame(width: viewModel.constW(w:viewModel.screenWidth / 3 - 15),height: viewModel.constH(h:50))
                 .background(RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(Color("LightGrayColor")))
                 

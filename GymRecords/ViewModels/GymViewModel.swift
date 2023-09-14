@@ -462,7 +462,9 @@ class GymViewModel: ObservableObject {
     
     func getCoefficientOffset(row:Int) -> CGFloat {
         if let offset = CalendarMinimizingPosition(id: row) {
-            return offset.rawValue
+            print(offset.rawValue," - - - - Offset")
+            print(constH(h: offset.rawValue), "- - - - - - Changed")
+            return constH(h: offset.rawValue)
         }
         return CalendarMinimizingPosition.zero.rawValue
     }

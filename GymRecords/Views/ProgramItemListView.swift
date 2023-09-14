@@ -17,11 +17,11 @@ struct ProgramItemListView: View {
                 VStack(alignment:.leading) {
                     Text("\(programm.programTitle)")
                     Text("\(programm.programDescription)")
-                        .font(.custom("Helvetica", size: 18))
+                        .font(.custom("Helvetica", size: viewModel.constW(w:18)))
                         .fontWeight(.bold)
                 }
                 .padding(.leading,20)
-                .font(.custom("Helvetica", size: 20))
+                .font(.custom("Helvetica", size: viewModel.constW(w:20)))
                 .fontWeight(.bold)
                 .padding(.leading,10)
                 Spacer()
@@ -29,7 +29,7 @@ struct ProgramItemListView: View {
                     .font(.title2)
                     .fontWeight(.bold)
                     .background(Circle()
-                        .frame(width: 50,height: 50)
+                        .frame(width: viewModel.constW(w:50),height: viewModel.constW(w:50))
                         .foregroundStyle(Color[programm.colorDesign].gradient)
                         .overlay(Circle().opacity(0.1))
                                 
@@ -40,7 +40,7 @@ struct ProgramItemListView: View {
             }
             .foregroundColor(.white)
             .background(RoundedRectangle(cornerRadius: 10)
-                .frame(width: viewModel.screenWidth - 20,height: 60)
+                .frame(width: viewModel.constW(w:viewModel.screenWidth - 20),height: viewModel.constH(h:60))
                         
                 .foregroundStyle(Color[programm.colorDesign].gradient))
             
@@ -53,13 +53,13 @@ struct ProgramItemListView: View {
                             .tint(.black)
                             .font(.callout)
                             .zIndex(1)
-                        Circle().frame(width: 15,height: 15)
+                        Circle().frame(width: viewModel.constW(w:15),height: viewModel.constW(w:15))
                             .foregroundColor(.white)
                             .zIndex(0)
                     }
-                    .offset(x:185,y:-72.5)
+                    .offset(x:viewModel.constW(w:185),y:viewModel.constH(h:-72.5))
                     .background(Circle()
-                        .frame(width: 30,height: 30))
+                        .frame(width: viewModel.constW(w:30),height: viewModel.constW(w:30)))
                     .foregroundColor(.clear)
                     
                     .onTapGesture {

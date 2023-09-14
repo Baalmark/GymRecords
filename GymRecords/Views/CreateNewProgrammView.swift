@@ -33,7 +33,7 @@ struct CreateNewProgrammView: View {
                     .fixedSize()
                     .font(.title2)
             }
-            .offset(x:viewModel.screenWidth / 2,y:0)
+            .offset(x:viewModel.constW(w:viewModel.screenWidth / 2),y:0)
             .padding(.trailing,70)
             
             VStack {
@@ -57,7 +57,7 @@ struct CreateNewProgrammView: View {
                         }.opacity(0.7)
                     
                 }
-                .frame(width: viewModel.screenWidth - 50,height: 62)
+                .frame(width: viewModel.constW(w:viewModel.screenWidth - 50),height: viewModel.constH(h:62))
                 .padding([.top,.bottom],5)
                 .padding([.leading,.trailing],15)
                 .background(RoundedRectangle(cornerRadius: 15)
@@ -86,11 +86,11 @@ struct CreateNewProgrammView: View {
                                     .opacity(isColorSelected == Color[color] ? 1 : 0)
                             }
                         }
-                        .frame(width: 44,height: 44)
+                        .frame(width: viewModel.constW(w:44),height: viewModel.constW(w:44))
                     }
                 }
                 
-                .frame(width: viewModel.screenWidth - 20,height: 72)
+                .frame(width: viewModel.constW(w:viewModel.screenWidth - 20),height: viewModel.constH(h:72))
                 .background(RoundedRectangle(cornerRadius: 15)
                     .foregroundColor(Color("DarkbackgroundViewColor")))
                 
@@ -108,7 +108,7 @@ struct CreateNewProgrammView: View {
                 .foregroundColor(.white)
                 .padding(.leading,15)
                 .padding(.trailing,25)
-                .frame(width: viewModel.screenWidth - 20,height: 72)
+                .frame(width: viewModel.constW(w:viewModel.screenWidth - 20),height: viewModel.constH(h:72))
                 .background(RoundedRectangle(cornerRadius: 15)
                     .foregroundColor(Color("DarkbackgroundViewColor")))
                 
@@ -127,7 +127,7 @@ struct CreateNewProgrammView: View {
                             }
                             
                             .padding(10)
-                            .font(.custom("Helvetica", size: 18))
+                            .font(.custom("Helvetica", size: viewModel.constW(w:18)))
                             .foregroundColor(.white)
                             .background(Color( self.selectedRows.contains(elem.name) ? "DarkbackgroundViewColor" :"backgroundDarkColor").animation(.easeInOut))
                             .listRowBackground(Color( self.selectedRows.contains(elem.name) ? "DarkbackgroundViewColor" :"backgroundDarkColor").animation(.easeInOut))
@@ -170,7 +170,7 @@ struct CreateNewProgrammView: View {
                         viewModel.unselectingCoupleOfExercise(arrayOfTitles: selectedRows, isSelected: false)
                     } label: {
                         Text("Remove")
-                            .font(.custom("Helvetica", size: 16))
+                            .font(.custom("Helvetica", size: viewModel.constW(w:16)))
                             .foregroundColor(Color("RedColorScarlet"))
                     }
                     Spacer()
@@ -178,7 +178,7 @@ struct CreateNewProgrammView: View {
                         //
                     } label: {
                         Text("Super set")
-                            .font(.custom("Helvetica", size: 16))
+                            .font(.custom("Helvetica", size: viewModel.constW(w:16)))
                             .foregroundColor(.white)
                     }.opacity(selectedRows.count > 1 ? 0 : 1)
                 }
@@ -200,7 +200,7 @@ struct CreateNewProgrammView: View {
                         
                     }
                     
-                    .buttonStyle(GrowingButton(isDarkMode: true,width: 335 - 50,height: 45))
+                    .buttonStyle(GrowingButton(isDarkMode: true,width: viewModel.constW(w:335 - 50),height: viewModel.constH(h:45)))
                     .foregroundColor(Color("DarkGrayColor"))
                     
                 }

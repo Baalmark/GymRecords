@@ -64,9 +64,9 @@ struct ContentView: View {
                         .padding(.bottom,-10)
                         
                         Rectangle()
-                            .frame(height: 80)
+                            .frame(height: viewModel.constH(h:80))
                             .zIndex(0)
-                            .offset(y:-70)
+                            .offset(y:-viewModel.constH(h: -70))
                             .foregroundColor(.white)
                         
                     }
@@ -74,9 +74,6 @@ struct ContentView: View {
                     HStack(spacing: 10) {
                         ForEach(viewModel.arrayOfMonths, id: \.self) { value in
                             CalendarView(month:value)
-//                                .environmentObject(viewModel)
-                            
-                            
                         }
                         .background(.white)
                         .offset(x: offset.width, y:0)
@@ -86,16 +83,16 @@ struct ContentView: View {
                             }
                             .onEnded { value in
                                 let direction = viewModel.detectDirection(value: value)
-                                if direction == .right, value.translation.width < -200 {
+                                if direction == .right, value.translation.width < viewModel.constW(w:-200) {
                                     viewModel.updateArrayMonthsNext()
                                     withAnimation() {
-                                        offset.width = -405
+                                        offset.width = viewModel.constW(w:-405)
                                     }
                                     offset.width = 0
-                                } else if direction == .left, value.translation.width > 200{
+                                } else if direction == .left, value.translation.width > viewModel.constW(w:200){
                                     viewModel.updateArrayMonthsBack()
                                     withAnimation() {
-                                        offset.width = 405
+                                        offset.width = viewModel.constW(w:200)
                                     }
                                     offset.width = 0
                                     
@@ -106,7 +103,7 @@ struct ContentView: View {
                                 }
                             })
                     }
-                    .frame(width: viewModel.screenWidth * 3 + 30, height: 350)
+                    .frame(width: viewModel.constW(w:viewModel.screenWidth * 3 + 30), height: viewModel.constH(h:350))
                     .offset(x:0,y: minimizingCalendarOffSet / viewModel.getCoefficientOffset(row: viewModel.selectedDayRowHolder))
                     .zIndex(3)
                     .padding(.bottom, -10)
@@ -115,7 +112,7 @@ struct ContentView: View {
             }
             .background(.white)
             .zIndex(2)
-            .frame(height: collapsingViewFlag ? 140 : 415)
+            .frame(height: collapsingViewFlag ? viewModel.constH(h:140) : viewModel.constH(h:415))
             .overlay(alignment:.center) {
                 ZStack(alignment: .top){
                     //Drag gesture line view
@@ -125,12 +122,12 @@ struct ContentView: View {
                         .gesture(DragGesture()
                             .onChanged { value in
                                 if value.translation.height <= 0{
-                                    if minimizingCalendarOffSet > -295 {
+                                    if minimizingCalendarOffSet > viewModel.constH(h:-295) {
                                         minimizingCalendarOffSet = value.translation.height
                                     }
                                 } else {
                                     if minimizingCalendarOffSet < 0 {
-                                        minimizingCalendarOffSet = -295 + value.translation.height
+                                        minimizingCalendarOffSet = viewModel.constH(h:-295) + value.translation.height
                                     }
                                 }
                                 
@@ -148,8 +145,8 @@ struct ContentView: View {
                                         }
                                     } else {
                                         withAnimation(.easeInOut) {
-                                            minimizingCalendarOffSet = -295
-                                            coeffOfTrainView = 295
+                                            minimizingCalendarOffSet = viewModel.constH(h:-295)
+                                            coeffOfTrainView = viewModel.constH(h:295)
                                             collapsingViewFlag = true
                                             
                                         }
@@ -157,8 +154,8 @@ struct ContentView: View {
                                 } else {
                                     if value.translation.height <= -125 {
                                         withAnimation(.easeInOut) {
-                                            minimizingCalendarOffSet = -295
-                                            coeffOfTrainView = 295
+                                            minimizingCalendarOffSet = viewModel.constH(h:-295)
+                                            coeffOfTrainView = viewModel.constH(h:295)
                                             collapsingViewFlag = true
                                             
                                         }
@@ -212,10 +209,13 @@ struct ContentView: View {
                             .padding(.top,30)
                         } else {
                             Image("backgroundMain")
+                                .resizable()
+                                .frame(width: viewModel.constW(w: viewModel.screenWidth), height: viewModel.constH(h: viewModel.screenHeight / 2.2))
                                 .offset(x:0,y: -minimizingCalendarOffSet / 2)
                                 .padding()
                                 .padding(.top,30)
-                                .offset(y:collapsingViewFlag ? -140 : 0)
+                                .offset(y:collapsingViewFlag ? viewModel.constH(h:-140) : 0)
+                        
                                 .onAppear() {
                                     print(viewModel.screenWidth)
                                     print(viewModel.screenHeight)
@@ -224,14 +224,14 @@ struct ContentView: View {
                     }
                     
                     .frame(maxWidth: viewModel.screenWidth)
-                    .frame(height: collapsingViewFlag ? 580 : 290)
+                    .frame(height: collapsingViewFlag ? viewModel.constH(h:580) : viewModel.constH(h:290))
                     .background(.white)
                     .offset(x:0,y:minimizingCalendarOffSet)
                 }.zIndex(10)
-                    .offset(y:collapsingViewFlag ? 510 : 360)
+                    .offset(y:collapsingViewFlag ? viewModel.constH(h:510) : viewModel.constH(h:360))
                 
             }
-            .offset(y:-130)
+            .offset(y:-viewModel.constH(h:-130))
             HStack {
                 Button(viewModel.isAnyTrainingSelectedDay() ? viewModel.editModeButtonName : mainButtonName) {
                     
@@ -250,14 +250,14 @@ struct ContentView: View {
                     AddProgramView()
                 }
                 
-                .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.editMode ? 335 / 2.2 : 335,height: 45))
+                .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.editMode ? viewModel.constW(w:335 / 2.2) : viewModel.constW(w:335),height: viewModel.constH(h:45)))
                 .tint(.white)
                 .font(.title2)
                 .fontWeight(.semibold)
                 .padding(.trailing,10)
                 .background(.white)
                 .zIndex(3)
-                .offset(y:collapsingViewFlag ? 290 : 155)
+                .offset(y:collapsingViewFlag ? viewModel.constH(h:290) : viewModel.constH(h:155))
                 .opacity(1)
                 
                 
@@ -267,7 +267,7 @@ struct ContentView: View {
                         viewModel.addExerciseFlag = true
                         viewModel.changeExercisesDB = false
                     }
-                    .buttonStyle(GrowingButton(isDarkMode: false,width: 335 / 2.2,height: 45))
+                    .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.constW(w: 335 / 2.2), height: viewModel.constH(h:45)))
                     .tint(.black)
                     .font(.callout)
                     .fontWeight(.semibold)
@@ -275,7 +275,7 @@ struct ContentView: View {
                     
                     .background(.clear)
                     .zIndex(3)
-                    .offset(y:collapsingViewFlag ? 290 : 155)
+                    .offset(y:collapsingViewFlag ? viewModel.constH(h:290) : viewModel.constH(h:155))
                     .opacity(1)
                     
                     .sheet(isPresented:$appearSheet) {
@@ -289,8 +289,9 @@ struct ContentView: View {
             .padding(.top,10)
             
         }
-        .frame(height: viewModel.screenHeight - 70)
-        
+        .frame(height: viewModel.constH(h: viewModel.screenHeight - 70),alignment:.top)
+//        .frame(height: viewModel.constH(h: viewModel.screenHeight - 70))
+        .border(.red)
         .overlay {
             if viewModel.isShowedMainAddSetsView {
                 withAnimation(.easeOut) {

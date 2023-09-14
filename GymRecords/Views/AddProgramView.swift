@@ -32,7 +32,7 @@ struct AddProgramView: View {
                             }
                             .tint(.black)
                             .foregroundColor(.black)
-                            .font(.custom("Helvetica", size: 18))
+                            .font(.custom("Helvetica", size: viewModel.constW(w:18)))
                     }
                     .foregroundColor(Color("MidGrayColor"))
                     .background(Rectangle()
@@ -49,7 +49,7 @@ struct AddProgramView: View {
             }.opacity(viewModel.isShowedEditOrRemoveView ? 0 : 1)
                 .opacity(viewModel.isShowedViewListSpecificExercise ? 0 : 1)
                 .background(.white)
-                .position(x: viewModel.screenWidth / 2,y:400)
+                .position(x: viewModel.constW(w:viewModel.screenWidth / 2),y:viewModel.constH(h:400))
                 .onTapGesture {
                     self.hideKeyboard()
                 }

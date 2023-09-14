@@ -34,10 +34,10 @@ struct AddOrChangeSetView: View {
                     .fixedSize()
                     .font(.title)
             }
-            .offset(x:viewModel.screenWidth - 45)
+            .offset(x:viewModel.constW(w:viewModel.screenWidth - 45))
             
             Text("\(exercise.name)").foregroundColor(.white)
-                .font(.custom("Helvetica", size: 24).bold())
+                .font(.custom("Helvetica", size: viewModel.constW(w:24)).bold())
                 .padding(20)
             
             HStack {
@@ -69,13 +69,13 @@ struct AddOrChangeSetView: View {
                 }
                 
             }
-            .buttonStyle(GrowingButton(isDarkMode: false,width: 335,height: 45))
+            .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.constW(w:335),height: viewModel.constH(h:45)))
             .tint(.white)
             .font(.title2)
             .fontWeight(.semibold)
             .padding([.leading,.trailing],30)
             
-            .offset(y:-5)
+            .offset(y:viewModel.constH(h:-5))
             
         }
         .frame(maxWidth: .infinity,maxHeight: .infinity)
@@ -85,6 +85,7 @@ struct AddOrChangeSetView: View {
         .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
         .padding(.top, 30)
         .padding([.leading,.trailing],5)
+//MARK: TO CHECK
         .frame(width: viewModel.screenWidth)
         .background(Color("backgroundDarkColor"))
         

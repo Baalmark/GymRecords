@@ -36,11 +36,11 @@ struct EnterOrChangeOneCertainView: View {
                         exercise =  viewModel.saveSetInEx(set: onSet, exercise: exercise)
                         
                     }
-                    .font(.custom("Helvetica", size: 24).bold())
+                    .font(.custom("Helvetica", size: viewModel.constW(w:24)).bold())
                     .foregroundColor(.black)
                     
                     .multilineTextAlignment(.center)
-                    .frame(height: 70)
+                    .frame(height: viewModel.constH(h:70))
                     .background(RoundedRectangle(cornerRadius: 15)
                         .foregroundColor(Color("LightGrayColor")))
                 TextField("reps",value: $reps,formatter: numberFormatter)
@@ -55,16 +55,16 @@ struct EnterOrChangeOneCertainView: View {
                         
                     }
                     
-                    .font(.custom("Helvetica", size: 24).bold())
+                    .font(.custom("Helvetica", size: viewModel.constW(w:24)).bold())
                     .foregroundColor(.black)
-                    .frame(height: 70)
+                    .frame(height: viewModel.constH(h:70))
                     .multilineTextAlignment(.center)
                     .background(RoundedRectangle(cornerRadius: 15)
                         .foregroundColor(Color("LightGrayColor")))
                 
             }
             
-            .frame(width: viewModel.screenWidth - 60,height: 70)
+            .frame(width: viewModel.constW(w:viewModel.screenWidth - 60) ,height: viewModel.constH(h:70))
         }
     }
 }

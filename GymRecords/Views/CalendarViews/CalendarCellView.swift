@@ -32,14 +32,14 @@ struct CalendarCellView: View
                 .zIndex(1)
             
             Circle()
-                .frame(width: isSelectedCheking() ? 40 : 0,height: isSelectedCheking() ? 40 : 0)
+                .frame(width: isSelectedCheking() ? viewModel.constW(w:40) : 0,height: isSelectedCheking() ? viewModel.constH(h:40) : 0)
                 .foregroundColor(.black)
                 .zIndex(0)
             
             Circle()
                 .frame(width: isSelectedCheking() ? 3 : 7,height: hasProgram() ? 3 : 7)
                 .foregroundColor(.black)
-                .offset(y: isSelectedCheking() ?  25 : 15)
+                .offset(y: isSelectedCheking() ?  viewModel.constH(h:25) : viewModel.constH(h:15))
                 .opacity(hasProgram() ? 1 : 0)
                 .zIndex(0)
             
