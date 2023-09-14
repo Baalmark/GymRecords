@@ -183,7 +183,7 @@ struct GymModel {
     }
     //Reload data to DataBase info title
     func reloadDataBaseInfo(trainDictionary: [String:GymModel.Program],progArray:[Program],arrayExercises:[Exercise]) -> [(String, Int)] {
-        return [("WorkOut",trainDictionary.count),("Programms",progArray.count),("Exercises",arrayExercises.count)]
+        return [("WorkOut",DataLoader().returnCountOfTrainings()),("Programs",DataLoader().returnCountOfPrograms()),("Exercises",DataLoader().returnCountOfExercises())]
     }
     
     //Add program

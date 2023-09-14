@@ -89,16 +89,14 @@ class GymViewModel: ObservableObject {
         self.selectedExArray = []
         if GymModelObjects.isEmpty {
             DataLoader().createGymModelObject()
-            print("in")
             DataLoader().saveCreatedExerciseByRealm()
             self.programList = gymModel.programs
             self.trainings = gymModel.trainingDictionary
             self.showedEdirOrRemoveProgram = gymModel.programs[0]
             self.arrayExercises = GymModel.arrayOfAllCreatedExercises
-            self.databaseInfoTitle = [("WorkOut",gymModel.trainingDictionary.count),("Programs",gymModel.programs.count),("Exercises",arrayExercises.count)]
+            self.databaseInfoTitle = [("WorkOut",DataLoader().returnCountOfTrainings()),("Programs",DataLoader().returnCountOfPrograms()),("Exercises",DataLoader().returnCountOfExercises())]
             
         } else {
-            print("IM OUT OF HERE")
             let loadedPrograms = DataLoader().loadPrograms()
             let loadedExercises = DataLoader().loadExercises()
             let loadedTrainings = DataLoader().loadTrainingDictionary()
@@ -111,7 +109,7 @@ class GymViewModel: ObservableObject {
             self.gymModel = GymModel(programs:loadedPrograms,exercises: loadedExercises)
             self.arrayExercises = loadedExercises
             self.programList = loadedPrograms
-            self.databaseInfoTitle = [("WorkOut",gymModel.trainingDictionary.count),("Programs",loadedPrograms.count),("Exercises",arrayExercises.count)]
+            self.databaseInfoTitle = [("WorkOut",DataLoader().returnCountOfTrainings()),("Programs",DataLoader().returnCountOfPrograms()),("Exercises",DataLoader().returnCountOfExercises())]
         }
         
         //Date holder
@@ -253,7 +251,7 @@ class GymViewModel: ObservableObject {
         arrayExercises = newArray
         
         
-        saveExerciseByRealm(exercise: exercise)
+        saveExerciseByRealmDB(exercise: exercise)
         //Reload DB Info
         databaseInfoTitle = gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
     }
@@ -383,10 +381,10 @@ class GymViewModel: ObservableObject {
             
         } else {
             let stringDate = toStringDate(date: date)
-            let newProgram = GymModel.Program(numberOfProgram:0,programTitle: "blank", programDescription: "blank", colorDesign: "blank", exercises: exercises)
+            let newProgram = GymModel.Program(numberOfProgram:trainings.count + 1,programTitle: stringDate, programDescription: "", colorDesign: "green", exercises: exercises)
             trainings[stringDate] = newProgram
             trainInSelectedDay = newProgram
-            saveTrainingIntoRealmDB(date: stringDate, exercises: exercises)
+            saveTrainingIntoRealmDB(date: stringDate, program: newProgram)
             databaseInfoTitle =  gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
         }
     }
@@ -413,17 +411,13 @@ class GymViewModel: ObservableObject {
             }
             
         } else {
-            
-
             let newProgram = GymModel.Program(numberOfProgram: program.numberOfProgram,programTitle: program.programTitle,
                                               programDescription: program.programDescription, colorDesign: program.colorDesign,
                                               exercises: program.exercises)
-            
             trainings[stringDate] = newProgram
             trainInSelectedDay = newProgram
-            print("Did2f")
             saveTrainingIntoRealmDB(date: stringDate, program: program)
-            print("Did2ff")
+            
             databaseInfoTitle =  gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
         }
         
@@ -443,7 +437,6 @@ class GymViewModel: ObservableObject {
         let dateFormatter = DateFormatter()
         
         if let date = dateFormatter.date(from: date) {
-            print(date)
             return date
             
         }
@@ -676,12 +669,19 @@ class GymViewModel: ObservableObject {
             }
             if training.exercises.isEmpty {
                 removeTrainingFromRealmDB(date: stringDate, program: training)
-                trainInSelectedDay = GymModel.Program(numberOfProgram:0,programTitle: "blank", programDescription: "blank", colorDesign: "red", exercises: [])
+                trainInSelectedDay = GymModel.Program(numberOfProgram:-1,programTitle: "", programDescription: "", colorDesign: "red", exercises: [])
             }
         }
         if let indexOfExercise = trainInSelectedDay.exercises.firstIndex(of: exercise) {
             trainInSelectedDay.exercises.remove(at: indexOfExercise)
-            print(trainInSelectedDay)
+        }
+    }
+    //MARK: Remove whole training by one click
+    func removeTrainingByClick(selectedDate:Date) {
+        let stringDate = toStringDate(date: selectedDate)
+        if var training = trainings[stringDate] {
+            removeTrainingFromRealmDB(date: stringDate, program: training)
+            trainInSelectedDay = GymModel.Program(numberOfProgram:-1,programTitle: "", programDescription: "", colorDesign: "red", exercises: [])
         }
     }
     //MARK: Change program in realm DB
@@ -726,6 +726,10 @@ class GymViewModel: ObservableObject {
         
         DataLoader().removeTrainingFromRealmDB(date: date, program: program)
         
+    }
+    //MARK: Saving new exercise into Realm
+    func saveExerciseByRealmDB(exercise:Exercise) {
+        DataLoader().saveExerciseByRealm(exercise: exercise)
     }
     
     //MARK: Saving created exercise

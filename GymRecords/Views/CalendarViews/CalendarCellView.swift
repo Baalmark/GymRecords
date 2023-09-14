@@ -75,8 +75,7 @@ struct CalendarCellView: View
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         for sDate in viewModel.trainings.keys {
-//            print("SDATE - ",sDate)
-            
+
             if let date = dateFormatter.date(from: sDate) {
                 
                 let components = date.get(.day,.month,.year)
@@ -87,8 +86,6 @@ struct CalendarCellView: View
                 currentComponents.month = month.get(.month)
                 currentComponents.day = monthStruct().dayInt
                  
-//                print("Components",components)
-//                print("Current Components", currentComponents)
                 if components.day == currentComponents.day && components.month == currentComponents.month
                     && components.year == currentComponents.year{
                     return true

@@ -171,14 +171,14 @@ struct ContentView: View {
                         if viewModel.isAnyTrainingSelectedDay(){
                             
                             VStack {
-                                if viewModel.trainInSelectedDay.programTitle != "blank" && viewModel.trainInSelectedDay.programDescription != "blank" {
+                                if viewModel.trainInSelectedDay.programTitle != "blank" && viewModel.trainInSelectedDay.programDescription != "blank" && viewModel.trainInSelectedDay.programTitle != viewModel.toStringDate(date: viewModel.selectedDate){
                                     ProgramItemListView(programm:$viewModel.trainInSelectedDay)
                                 }
                                 ForEachIndex(viewModel.trainInSelectedDay.exercises){ index,
                                     exercise in
                                     
                                     ContentViewExerciseFromTheListView(exercise: exercise).environmentObject(viewModel)
-                                    
+                                        .background(.white)
                                         .onTapGesture {
                                             
                                             viewModel.addSetsToExerciseSender(exercise:exercise)
@@ -200,7 +200,7 @@ struct ContentView: View {
                                 }
                                 .onChange(of: viewModel.trainInSelectedDay.exercises.count) { newValue in
                                     if newValue == 0 {
-                                        viewModel.trainInSelectedDay = GymModel.Program(numberOfProgram: 0,programTitle: "blank", programDescription: "blank", colorDesign: "red", exercises: [])
+                                        viewModel.trainInSelectedDay = GymModel.Program(numberOfProgram: -1,programTitle: "", programDescription: "", colorDesign: "red", exercises: [])
                                         viewModel.editMode = false
                                         viewModel.removeTrainingFromSelectedDay()
                                     }
