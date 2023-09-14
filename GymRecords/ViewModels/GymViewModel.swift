@@ -15,7 +15,8 @@ class GymViewModel: ObservableObject {
     @ObservedResults(GymModelObject.self) var GymModelObjects
     
     
-    
+    let standartScreenWidth:CGFloat = 393.0
+    let standartScreenHeight:CGFloat = 852.0
     @Published var isSelectedSomeExercise:Bool = false
     @Published var changeExercisesDB:Bool = false
     @Published var isDarkMode:Bool = false
@@ -39,7 +40,7 @@ class GymViewModel: ObservableObject {
     //Finder any Exercises
     @Published var searchWord:String = ""
     @Published var arrayOfFoundExercise:[Exercise] = []
-    @Published var isSearching: Bool = false
+    @Published var isSearching: Bool = true
     
     
     //Date holder
@@ -216,7 +217,13 @@ class GymViewModel: ObservableObject {
             }
         }
     }
-    
+    //MARK: Constraining
+    func constH(h:CGFloat) -> CGFloat {
+        return h * (screenHeight / standartScreenHeight)
+    }
+    func constW(w:CGFloat) -> CGFloat {
+        return w * (screenWidth / standartScreenWidth)
+    }
     //MARK: Find a number of exercise same type.
     func findNumberOfExerciseOneType(type:GymModel.TypeOfExercise,array:Array<Exercise>) -> Int {
         return gymModel.findNumberOfExerciseOneType(type: type, array: array)
@@ -737,6 +744,7 @@ class GymViewModel: ObservableObject {
         
         DataLoader().saveCreatedExerciseByRealm()
     }
+    
 }
 //MARK: Extensions
 

@@ -43,7 +43,7 @@ struct ViewProgramsList: View {
             }
             // List of created custom Programms
             
-            VStack {
+            ScrollView {
                 ForEach(viewModel.programList.indices,id:\.self) { elem in
                     ProgramItemListView(programm: $viewModel.programList[elem])
                         .onTapGesture {

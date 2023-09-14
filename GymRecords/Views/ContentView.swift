@@ -37,7 +37,6 @@ struct ContentView: View {
                                 MonthLabelView(month:viewModel.arrayOfMonths[1])
                                 //                                    .environmentObject(viewModel)
                                     .animation(.spring(), value: viewModel.arrayOfMonths[1])
-                                
                                 Spacer()
                                 Button{
                                     viewModel.addExerciseFlag = false
@@ -217,7 +216,10 @@ struct ContentView: View {
                                 .padding()
                                 .padding(.top,30)
                                 .offset(y:collapsingViewFlag ? -140 : 0)
-                            
+                                .onAppear() {
+                                    print(viewModel.screenWidth)
+                                    print(viewModel.screenHeight)
+                                }
                         }
                     }
                     
@@ -302,7 +304,9 @@ struct ContentView: View {
                     
                 }
             }
+                
         }
+        
         .environmentObject(viewModel)
         
         

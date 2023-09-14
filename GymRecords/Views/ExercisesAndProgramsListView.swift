@@ -29,6 +29,7 @@ struct ExercisesAndProgramsListView: View {
                         withAnimation(.spring()){
                             didTap.toggle()
                             viewModel.clearSelectedExArray()
+                            viewModel.isSearching = true
                         }
                         
                         
@@ -55,6 +56,7 @@ struct ExercisesAndProgramsListView: View {
                         withAnimation(.spring()){
                             didTap.toggle()
                             viewModel.clearSelectedExArray()
+                            viewModel.isSearching = false
                         }
                     }
                     

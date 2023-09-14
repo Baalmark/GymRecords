@@ -14,35 +14,36 @@ struct AddProgramView: View {
     var body: some View {
         ZStack {
             VStack {
-                //Search View
-                HStack{
-                    Image(systemName: "magnifyingglass")
-                        .fixedSize()
-                    
-                        .padding([.leading,.top,.bottom],10)
-                    
-                    TextField("", text: $viewModel.searchWord)
-                        .placeholder(when: viewModel.searchWord.isEmpty) {
-                            Text("Find:").foregroundColor(Color("MidGrayColor"))
-                        }
-                        .onChange(of: viewModel.searchWord) {newValue in
-                            
-                            viewModel.arrayOfFoundExercise = viewModel.findAnyExerciseByLetters(letters: viewModel.searchWord, array: viewModel.arrayExercises)
-                        }
-                        .tint(.black)
-                        .foregroundColor(.black)
-                        .font(.custom("Helvetica", size: 18))
+                if viewModel.isSearching {
+                    //Search View
+                    HStack{
+                        Image(systemName: "magnifyingglass")
+                            .fixedSize()
+                        
+                            .padding([.leading,.top,.bottom],10)
+                        
+                        TextField("", text: $viewModel.searchWord)
+                            .placeholder(when: viewModel.searchWord.isEmpty) {
+                                Text("Find:").foregroundColor(Color("MidGrayColor"))
+                            }
+                            .onChange(of: viewModel.searchWord) {newValue in
+                                
+                                viewModel.arrayOfFoundExercise = viewModel.findAnyExerciseByLetters(letters: viewModel.searchWord, array: viewModel.arrayExercises)
+                            }
+                            .tint(.black)
+                            .foregroundColor(.black)
+                            .font(.custom("Helvetica", size: 18))
+                    }
+                    .foregroundColor(Color("MidGrayColor"))
+                    .background(Rectangle()
+                        .cornerRadius(viewModel.viewCornerRadiusSimple)
+                        .foregroundColor(Color("LightGrayColor")))
+                    .padding([.top,.bottom], 2)
+                    .padding([.leading,.trailing], 10)
                 }
-                .foregroundColor(Color("MidGrayColor"))
-                .background(Rectangle()
-                    .cornerRadius(viewModel.viewCornerRadiusSimple)
-                    .foregroundColor(Color("LightGrayColor")))
-                .padding([.top,.bottom], 2)
-                .padding([.leading,.trailing], 10)
-                
                 //View of Programms and Exercise with selection
                 ExercisesAndProgramsListView()
-//                    .environmentObject(viewModel)
+                //                    .environmentObject(viewModel)
                 
                 
             }.opacity(viewModel.isShowedEditOrRemoveView ? 0 : 1)
@@ -52,6 +53,7 @@ struct AddProgramView: View {
                 .onTapGesture {
                     self.hideKeyboard()
                 }
+                .padding(.top,30)
                 .ignoresSafeArea(.keyboard)
             if viewModel.isShowedEditOrRemoveView {
                 let program = viewModel.showedEdirOrRemoveProgram
@@ -64,7 +66,7 @@ struct AddProgramView: View {
                 let type = viewModel.showedViewListSpecificExercise
                 ViewListSpecificExercises(
                     typeOfExercise: type,isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: false)
-//                .environmentObject(viewModel)
+                //                .environmentObject(viewModel)
                 
             }
             
@@ -86,7 +88,7 @@ struct AddProgramView: View {
 struct AddProgrammView_Previews: PreviewProvider {
     static var previews: some View {
         let migrator = Migrator()
-
+        
         AddProgramView().environmentObject(GymViewModel())
     }
 }
