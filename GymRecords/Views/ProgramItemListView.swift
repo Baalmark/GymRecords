@@ -73,7 +73,7 @@ struct ProgramItemListView: View {
                     }
                 }
             
-            .padding(10)
+//            .padding(10)
             if viewModel.editMode {
                 withAnimation {
                     ZStack {

@@ -10,7 +10,7 @@ import SwiftUI
 struct AddOrChangeSetView: View {
     @EnvironmentObject var viewModel:GymViewModel
     @State var exercise:Exercise
-    
+    //NEED TO COMMIT 
     var body: some View {
         VStack(alignment: .leading){
             Button {

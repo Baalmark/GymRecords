@@ -461,6 +461,7 @@ class GymViewModel: ObservableObject {
     //MARK:  The function that calculates with what coefficient to shift the calendar view when you use the drag gesture
     
     func getCoefficientOffset(row:Int) -> CGFloat {
+        //
         if let offset = CalendarMinimizingPosition(id: row) {
             print(offset.rawValue," - - - - Offset")
             print(constH(h: offset.rawValue), "- - - - - - Changed")
