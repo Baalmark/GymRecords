@@ -39,7 +39,7 @@ struct AddOrChangeSetView: View {
             Text("\(exercise.name)").foregroundColor(.white)
                 .font(.custom("Helvetica", size: 24).bold())
                 .padding(30)
-            //
+            
             HStack {
                 Text("weight")
                     .padding(.trailing,110)
