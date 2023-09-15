@@ -43,13 +43,14 @@ struct AddProgramView: View {
                 }
                 //View of Programms and Exercise with selection
                 ExercisesAndProgramsListView()
+                    
                 //                    .environmentObject(viewModel)
                 
                 
             }.opacity(viewModel.isShowedEditOrRemoveView ? 0 : 1)
                 .opacity(viewModel.isShowedViewListSpecificExercise ? 0 : 1)
                 .background(.white)
-                .position(x: viewModel.constW(w:viewModel.screenWidth / 2),y:viewModel.constH(h:400))
+//                .position(x: viewModel.screenWidth / 2,y:400)
                 .onTapGesture {
                     self.hideKeyboard()
                 }

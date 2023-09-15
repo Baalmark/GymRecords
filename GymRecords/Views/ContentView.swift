@@ -26,6 +26,7 @@ struct ContentView: View {
     @State var scrollToIndex:Int = 0
     @State var mainButtonName = "Add exercises"
     @State var mainButtonEditName = "Edit program"
+    @State var flagAddSetMainViewAppear = false
     var body: some View {
         VStack {
             ZStack{
@@ -47,13 +48,15 @@ struct ContentView: View {
                                     isDataBaseSheetActive.toggle()
                                 } label: {
                                     Image("weight")
-                                        .fixedSize()
+                                        
+                                        
+                                        
                                 }
                                 .sheet(isPresented: $isDataBaseSheetActive) {
                                     DataBaseView()
                                 }
                             }
-                            
+                            .padding(.top,5)
                             
                             .padding([.leading,.trailing], 10)
                             
@@ -74,6 +77,10 @@ struct ContentView: View {
                     HStack(spacing: 10) {
                         ForEach(viewModel.arrayOfMonths, id: \.self) { value in
                             CalendarView(month:value)
+                            
+//                                .environmentObject(viewModel)
+                            
+                            
                         }
                         .background(.white)
                         .offset(x: offset.width, y:0)
@@ -103,10 +110,11 @@ struct ContentView: View {
                                 }
                             })
                     }
-                    .frame(width: viewModel.constW(w:viewModel.screenWidth * 3 + 30), height: viewModel.constH(h:350))
-                    .offset(x:0,y: minimizingCalendarOffSet / viewModel.getCoefficientOffset(row: viewModel.selectedDayRowHolder))
+                    .frame(width: viewModel.screenWidth * 3 + 30, height: 350)
+                    .offset(x:0,y:  viewModel.constH(h: minimizingCalendarOffSet / viewModel.getCoefficientOffset(row: viewModel.selectedDayRowHolder)))
                     .zIndex(3)
                     .padding(.bottom, -10)
+                    
                     Spacer()
                 }
             }
@@ -210,12 +218,12 @@ struct ContentView: View {
                         } else {
                             Image("backgroundMain")
                                 .resizable()
-                                .frame(width: viewModel.constW(w: viewModel.screenWidth), height: viewModel.constH(h: viewModel.screenHeight / 2.2))
-                                .offset(x:0,y: -minimizingCalendarOffSet / 2)
+                                .offset(x:0,y: viewModel.constH(h: -minimizingCalendarOffSet / 2))
                                 .padding()
                                 .padding(.top,30)
-                                .offset(y:collapsingViewFlag ? viewModel.constH(h:-140) : 0)
-                        
+                                .offset(y:collapsingViewFlag ? -140 : 0)
+                                .scaledToFit()
+                                
                                 .onAppear() {
                                     print(viewModel.screenWidth)
                                     print(viewModel.screenHeight)
@@ -231,59 +239,61 @@ struct ContentView: View {
                     .offset(y:collapsingViewFlag ? viewModel.constH(h:510) : viewModel.constH(h:360))
                 
             }
-            .offset(y:-viewModel.constH(h:-130))
-            HStack {
-                Button(viewModel.isAnyTrainingSelectedDay() ? viewModel.editModeButtonName : mainButtonName) {
-                    
-                    if viewModel.isAnyTrainingSelectedDay() {
-                        withAnimation(.easeInOut) {
-                            viewModel.editMode.toggle()
-                            viewModel.editModeButtonName = viewModel.editMode ? "Save" : "Edit program"
+            .offset(y:viewModel.constH(h: -130))
+            
+        }
+        .frame(height: viewModel.screenHeight - 70)
+        
+        .overlay {
+            if !viewModel.isShowedMainAddSetsView {
+                HStack {
+                    Button(viewModel.isAnyTrainingSelectedDay() ? viewModel.editModeButtonName : mainButtonName) {
+                        
+                        if viewModel.isAnyTrainingSelectedDay() {
+                            withAnimation(.easeInOut) {
+                                viewModel.editMode.toggle()
+                                viewModel.editModeButtonName = viewModel.editMode ? "Save" : "Edit program"
+                            }
+                        } else {
+                            appearSheet.toggle()
+                            viewModel.changeExercisesDB = false
                         }
-                    } else {
-                        appearSheet.toggle()
-                        viewModel.changeExercisesDB = false
                     }
-                }
-                .sheet(isPresented:$appearSheet) {
-                    //viewModel.dataForProgramm
-                    AddProgramView()
-                }
-                
-                .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.editMode ? viewModel.constW(w:335 / 2.2) : viewModel.constW(w:335),height: viewModel.constH(h:45)))
-                .tint(.white)
-                .font(.title2)
-                .fontWeight(.semibold)
-                .padding(.trailing,10)
-                .background(.white)
-                .zIndex(3)
-                .offset(y:collapsingViewFlag ? viewModel.constH(h:290) : viewModel.constH(h:155))
-                .opacity(1)
-                
-                
-                if viewModel.editMode {
-                    Button("Add exercise") {
-                        appearSheet.toggle()
-                        viewModel.addExerciseFlag = true
-                        viewModel.changeExercisesDB = false
-                    }
-                    .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.constW(w: 335 / 2.2), height: viewModel.constH(h:45)))
-                    .tint(.black)
-                    .font(.callout)
-                    .fontWeight(.semibold)
-                    
-                    
-                    .background(.clear)
-                    .zIndex(3)
-                    .offset(y:collapsingViewFlag ? viewModel.constH(h:290) : viewModel.constH(h:155))
-                    .opacity(1)
-                    
                     .sheet(isPresented:$appearSheet) {
                         //viewModel.dataForProgramm
-                        
                         AddProgramView()
                     }
+                    .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.editMode ? 335 / 2.2 : 335,height: 45))
+                    .tint(.white)
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    //                .offset(y:collapsingViewFlag ? viewModel.constH(h: 290) : viewModel.constH(h: 155))
+                    .opacity(1)
+                    if viewModel.editMode {
+                        Button("Add exercise") {
+                            appearSheet.toggle()
+                            viewModel.addExerciseFlag = true
+                            viewModel.changeExercisesDB = false
+                        }
+                        .buttonStyle(GrowingButton(isDarkMode: false,width: 335 / 2.2,height: 45))
+                        .tint(.black)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .background(.clear)
+                        .opacity(1)
+                        .sheet(isPresented:$appearSheet) {
+                            AddProgramView()
+                            
+                        }
+                    }
                 }
+                .zIndex(3)
+                .padding(.bottom,20)
+                .padding(.top,10)
+                .padding([.leading,.trailing],30)
+                .background(.white)
+                .offset(y:viewModel.constH(h:370))
+                
             }
             .padding([.leading,.trailing],30)
             .padding(.top,10)
@@ -301,13 +311,13 @@ struct ContentView: View {
                         .transition(.move(edge: .bottom))
                         .onDisappear {
                             scrollToIndex = 0
+                           
                         }
                     
                 }
             }
                 
         }
-        
         .environmentObject(viewModel)
         
         

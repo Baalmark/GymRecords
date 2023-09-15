@@ -16,82 +16,82 @@ struct AddSetPageView: View {
         TabView(selection:$scrollToIndex) {
             ForEachIndex(viewModel.trainInSelectedDay.exercises){ index,
                 exercise in
-                ZStack(alignment:.top) {
-                    Color.white
-                    VStack(alignment: .leading){
-                        Text("\(exercise.name)").foregroundColor(.black)
-                            .font(.custom("Helvetica", size: viewModel.constW(w:24)).bold())
-                            .padding(-3).padding(.leading,20)
-                        HStack {
-                            Text("weight")
-                                .padding(.trailing,110)
-                            Text("reps")
-                        }
-                        .padding(7.6).padding(.leading,16)
-                        .padding(.top,15).padding(.leading,5)
-                        .font(.callout.bold())
-                        .foregroundColor(Color("MidGrayColor"))
-                        ScrollView {
-                            VStack {
-                                DisplaySetsMainView(exercise: exercise)
-                                    .padding(.leading,-2).padding(.top, -3).padding(.bottom,6)
-                                    .onTapGesture {
-                                        withAnimation(.easeInOut) {
-                                            viewModel.didTapToAddSet.toggle()
-                                            viewModel.crntExrcsFrEditSets = exercise
-                                            viewModel.setsBackUp = viewModel.crntExrcsFrEditSets.sets
-                                        }
-                                    }
-                                
-                                AddSetLittleView(number: viewModel.getNumberAddSetButton(sets: exercise.sets))
-                                    .padding(.leading,-4).padding(.top, -3).padding(.bottom,6)
-                                    .onTapGesture {
-                                        withAnimation(.easeInOut) {
-                                            
-                                            viewModel.didTapToAddSet.toggle()
-                                            viewModel.crntExrcsFrEditSets = exercise
-                                            viewModel.crntExrcsFrEditSets = viewModel.createSet(exercise: viewModel.crntExrcsFrEditSets)
-                                            viewModel.setsBackUp = viewModel.crntExrcsFrEditSets.sets
-                                        }
-                                    }
-                                Spacer()
+                    ZStack(alignment:.top) {
+                        Color.white
+                        VStack(alignment: .leading){
+                            Text("\(exercise.name)").foregroundColor(.black)
+                                .font(.custom("Helvetica", size: 24).bold())
+                                .padding(-3).padding(.leading,20)
+                            HStack {
+                                Text("weight")
+                                    .padding(.trailing,110)
+                                Text("reps")
                             }
-                            .frame(width: viewModel.screenWidth)
-                        }
-                    }
-                    .frame(width: viewModel.constW(w:viewModel.screenWidth),height: viewModel.constH(h:600))
-                    .padding(.top, 80)
-                    Spacer()
-                    HStack {
-                        Button {
-                        }
-                    label: {
-                        HStack {
-                            Image(systemName: "chart.bar.xaxis")
-                            Text("Statistics")
-                        }
-                    }
-                    .background(Capsule(style: .continuous).frame(width: viewModel.constW(w:viewModel.screenWidth / 2 - 20),height: viewModel.constH(h:45)).foregroundColor(.black))
-                    .tint(.white)
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .offset(x:viewModel.constW(w:-65),y:viewModel.constH(h:700))
-                        Button("Done") {
-                            withAnimation {
-                                viewModel.isShowedMainAddSetsView.toggle()
-                                
+                            .padding(7.6).padding(.leading,16)
+                            .padding(.top,15).padding(.leading,5)
+                            .font(.callout.bold())
+                            .foregroundColor(Color("MidGrayColor"))
+                            ScrollView {
+                                VStack {
+                                        DisplaySetsMainView(exercise: exercise)
+                                        .padding(.leading,-2).padding(.top, -3).padding(.bottom,6)
+                                        .onTapGesture {
+                                            withAnimation(.easeInOut) {
+                                                viewModel.didTapToAddSet.toggle()
+                                                viewModel.crntExrcsFrEditSets = exercise
+                                                viewModel.setsBackUp = viewModel.crntExrcsFrEditSets.sets
+                                            }
+                                        }
+
+                                    AddSetLittleView(number: viewModel.getNumberAddSetButton(sets: exercise.sets))
+                                        .padding(.leading,-4).padding(.top, -3).padding(.bottom,6)
+                                        .onTapGesture {
+                                            withAnimation(.easeInOut) {
+                                                
+                                                viewModel.didTapToAddSet.toggle()
+                                                viewModel.crntExrcsFrEditSets = exercise
+                                                viewModel.crntExrcsFrEditSets = viewModel.createSet(exercise: viewModel.crntExrcsFrEditSets)
+                                                viewModel.setsBackUp = viewModel.crntExrcsFrEditSets.sets
+                                            }
+                                        }
+                                    Spacer()
+                                }
+                                .frame(width: viewModel.screenWidth)
                             }
                         }
-                        .background(Capsule(style: .continuous).frame(width: viewModel.constW(w:viewModel.screenWidth / 2 - 20),height: viewModel.constH(h:45)).foregroundColor(.black))
-                        .tint(.white)
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .offset(x: viewModel.constW(w:25),y:viewModel.constH(h:700))
-                    }.padding()
-                }
-                .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
-                .frame(width: viewModel.constW(w: viewModel.screenWidth))
-                .tag(index)
+//                        .frame(width: viewModel.screenWidth,height: 600)
+                        .padding(.top, 80)
+                        Spacer()
+                        HStack {
+                            Button {
+                            }
+                            label: {
+                                HStack {
+                                    Image(systemName: "chart.bar.xaxis")
+                                    Text("Statistics")
+                                }
+                            }
+                            .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.screenWidth / 2 - 20,height: 45))
+                            .tint(.white)
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .offset(x: 0,y:viewModel.constH(h: 700))
+                            Button("Done") {
+                                withAnimation {
+                                    viewModel.isShowedMainAddSetsView.toggle()
+                                    
+                                }
+                            }
+                            .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.screenWidth / 2 - 20,height: 45))
+                            .tint(.white)
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .offset(x: 0,y:viewModel.constH(h: 700))
+                        }
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
+                    .frame(width: viewModel.screenWidth)
+                    .tag(index)
                 
             }
             .overlay{
@@ -115,8 +115,9 @@ struct AddSetPageView: View {
             }
         }
         
-        .frame(width: viewModel.constW(w:viewModel.screenWidth + 20))
+        .frame(width: viewModel.screenWidth + 20,height: viewModel.screenHeight)
         .padding([.leading,.trailing],-10)
+        .ignoresSafeArea(.all)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         
         

@@ -34,21 +34,23 @@ struct AddOrChangeSetView: View {
                     .fixedSize()
                     .font(.title)
             }
-            .offset(x:viewModel.constW(w:viewModel.screenWidth - 45))
+            .offset(x:viewModel.screenWidth - 45)
             
             Text("\(exercise.name)").foregroundColor(.white)
-                .font(.custom("Helvetica", size: viewModel.constW(w:24)).bold())
-                .padding(20)
+                .font(.custom("Helvetica", size: 24).bold())
+                .padding(30)
             
             HStack {
                 Text("weight")
                     .padding(.trailing,110)
                 Text("reps")
             }
-            .padding(.leading,30)
+            .padding(.leading,50)
             .font(.callout.bold())
             .foregroundColor(Color("MidGrayColor"))
+            
             EnterSetAndRepsValueLittleView(exercise: exercise)
+                .padding(.leading,10)
                 .ignoresSafeArea(.keyboard)
             
                 
