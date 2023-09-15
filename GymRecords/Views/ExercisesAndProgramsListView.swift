@@ -21,7 +21,7 @@ struct ExercisesAndProgramsListView: View {
     
     var body: some View {
         VStack{
-            HStack{
+            HStack(spacing:20){
                 Button("Exercises") {
                     //If exercises button hasn't tapped yet
                     if didTap == true {
@@ -35,20 +35,17 @@ struct ExercisesAndProgramsListView: View {
                         
                     }
                 }
-                
-                .frame(width: 125,height: 35)
                 .foregroundColor(didTap ? .gray : .white)
-                .font(.custom("Helvetica", size: 20))
-                .fontWeight(.black)
-                .padding([.top,.bottom],10)
-                .padding([.leading,.trailing],30)
+                .font(.title)
+                .fontWeight(.medium)
                 
+                .padding([.leading,.trailing],25)
+                .padding([.top,.bottom],10)
                 
                 .background(Rectangle()
                     .foregroundColor(didTap ? .white : .black)
                     .cornerRadius(10)
                 )
-                
                 Button("Programs") {
                     
                     //If programms button hasn't tapped yet
@@ -62,12 +59,12 @@ struct ExercisesAndProgramsListView: View {
                     
                     
                 }
-                .frame(width: 125,height: 35)
+                
                 .foregroundColor(didTap ? .white : .gray)
-                .font(.custom("Helvetica", size: 20))
-                .fontWeight(.black)
+                .font(.title)
+                .fontWeight(.medium)
+                .padding([.leading,.trailing],25)
                 .padding([.top,.bottom],10)
-                .padding([.leading,.trailing],30)
                 
                 
                 .background(Rectangle()
@@ -76,11 +73,12 @@ struct ExercisesAndProgramsListView: View {
                 )
             }
             
-            .padding(10)
+            
             // List of types Execises, Tappable, it has behavior like Navitation Link
             if !didTap {
                 ScrollView {
                     ButtonCreateExercise(showCreateExercise: $createExericseWithCategory)
+                        
                     if viewModel.searchWord.isEmpty {
                         ViewExerciseList(withCategory: true, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: false)
 //                            .environmentObject(viewModel)
@@ -92,6 +90,7 @@ struct ExercisesAndProgramsListView: View {
                                 }
                             )
                             .frame(width: viewModel.screenWidth,height: 600)
+                            .padding(.top,-20)
                             .transition(.move(edge: .leading))
                         
                         

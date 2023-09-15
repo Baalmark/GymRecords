@@ -22,7 +22,7 @@ struct ViewExerciseList: View {
     var body: some View {
         ZStack {
             NavigationView{
-                VStack {
+                VStack{
                     
                     if withCategory{
                         //
@@ -30,11 +30,7 @@ struct ViewExerciseList: View {
                         
                         //Close button
                         HStack {
-                            Text("New exercise")
-                                .foregroundColor(.white)
-                                .font(.title2)
-                                .padding(.leading,30)
-                                .fontWeight(.bold)
+                            Text("")
                             Spacer()
                             Button {
                                 if programmingExercise == true {
@@ -42,41 +38,34 @@ struct ViewExerciseList: View {
                                 }
                                 dismiss()
                             } label: {
-                                Image(systemName: "xmark.circle.fill")
-                                
-                                    .symbolRenderingMode(.hierarchical)
-                                    .foregroundColor(.white)
-                                    .tint(.white)
-                                    .fixedSize()
-                                    .font(.title2)
+                                ZStack {
+                                    Image(systemName: "xmark.circle.fill")
+                                    
+                                        .symbolRenderingMode(.hierarchical)
+                                        .foregroundColor(.white)
+                                        .tint(.white)
+                                        .fixedSize()
+                                        .font(.title2)
+                                    Circle()
+                                        .frame(width: 35,height: 35)
+                                        .foregroundColor(.clear)
+                                        .ignoresSafeArea(.all)
+                                }
                             }
-                            
-                            .padding(.trailing,20)
-                            
+                            .padding(.trailing,17)
                             
                         }
-                        .padding(.bottom,50)
-                        if !programmingExercise,!withCategory {
-                            Text("Select a category")
-                                .font(.largeTitle)
-                                .foregroundColor(.white)
-                                .fontWeight(.bold)
-                                .padding(20)
-                                .padding(.bottom,20)
-                            
-                        }
+                        Spacer()
                     }
                     //List of exercises
                     
                     VStack() {
-                        
                         ForEach(Array(viewModel.exerciseList.enumerated()), id:\.offset) {index,elem in
                             HStack{
-                                
                                 Image(withCategory ? elem.rawValue : elem.rawValue + "N")
                                 Text(elem.rawValue.capitalized)
                                     .padding(.leading,10)
-                                    .frame(width: 110,height: 50,alignment: .leading)
+                                    .padding([.top,.bottom])
                                     .foregroundColor(withCategory ? .black : .white)
                                     .font(.custom("Helvetica", size: 20))
                                     .fontWeight(.bold)
@@ -108,7 +97,6 @@ struct ViewExerciseList: View {
                                 
                             }
                             .padding([.leading,.trailing],30)
-                            .padding(.bottom,withCategory ? 0 : 10)
                             .background(RoundedRectangle(cornerRadius: 10)
                                 .foregroundColor(withCategory ? .white : Color("backgroundDarkColor"))
                             )
@@ -140,7 +128,10 @@ struct ViewExerciseList: View {
                                 }
                             }
                             
+                            
                         }
+                        
+                        
                     }
                     
                     Spacer()
@@ -156,6 +147,7 @@ struct ViewExerciseList: View {
                             .opacity(viewModel.selectedExArray.isEmpty ? 0 : 1)
                     }
                 }
+                .padding(.top,30)
                 .background(withCategory ? .white : Color("backgroundDarkColor"))
             }.overlay {
                 if viewModel.isShowedCreateExView {

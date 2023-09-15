@@ -462,9 +462,9 @@ class GymViewModel: ObservableObject {
     
     func getCoefficientOffset(row:Int) -> CGFloat {
         if let offset = CalendarMinimizingPosition(id: row) {
-            return offset.rawValue
+            return constH(h: offset.rawValue)
         }
-        return CalendarMinimizingPosition.zero.rawValue
+        return constH(h: CalendarMinimizingPosition.zero.rawValue)
     }
     
     //MARK: Сheck for training availability on the selected day
@@ -474,6 +474,7 @@ class GymViewModel: ObservableObject {
         return trainings[stringDate] != nil
         
     }
+    
     //MARK: ?? needs to figure it out
     func isAnyTrainingAnyDayDisplayMark(day:Int,month:Int) -> Bool {
         

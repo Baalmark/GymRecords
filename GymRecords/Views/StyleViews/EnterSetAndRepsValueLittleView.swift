@@ -23,41 +23,40 @@ struct EnterSetAndRepsValueLittleView: View {
         ScrollView {
             VStack {
                 ForEach(exercise.sets, id: \.id) { onSet in
-                    if viewModel.sameDateCheck(date1: viewModel.selectedDate, date2: onSet.date) {
-                        EnterOrChangeOneCertainView(weight: onSet.weight, reps: onSet.reps, onSet: onSet, number: onSet.number, exercise: exercise)
-                        
-                        
-                        
-                    }
-                    Button {
-                        withAnimation(.easeInOut(duration:0.1)) {
-                            viewModel.removelastSet(exercise: exercise)
+                   
+                        if viewModel.sameDateCheck(date1: viewModel.selectedDate, date2: onSet.date) {
+                            ZStack(alignment: .topTrailing) {
+                                EnterOrChangeOneCertainView(weight: onSet.weight, reps: onSet.reps, onSet: onSet, number: onSet.number, exercise: exercise)
+                                Button {
+                                    withAnimation(.easeInOut(duration:0.1)) {
+                                        viewModel.removelastSet(exercise: exercise)
+                                    }
+                                } label: {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundColor(Color("GrayColor"))
+                                        .opacity(0.75)
+                                        .tint(.white)
+                                        .font(.system(size: 10))
+                                }
+                                .background(Circle()
+                                    .frame(width: 20,height: 20))
+                                .foregroundColor(.clear)
+                                .offset(x:5,y:-5)
+                            }
                         }
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(Color("GrayColor"))
-                            .opacity(0.75)
-                            .tint(.white)
-                            .font(.system(size: 10))
-                        
-                        
                     }
-                    .background(Circle()
-                        .frame(width: 20,height: 20))
-                    .offset(x:170,y:-79)
-                    .foregroundColor(.clear)
+                    
+                    AddSetLittleView(number: viewModel.getNumberAddSetButton(sets: exercise.sets))
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+                                viewModel.setsBackUp = exercise.sets
+                                
+                                exercise = viewModel.createSet(exercise: exercise)
+                                
+                            }
+                        }
                 }
-                AddSetLittleView(number: viewModel.getNumberAddSetButton(sets: exercise.sets))
-                    .onTapGesture {
-                        withAnimation(.easeInOut) {
-                            viewModel.setsBackUp = exercise.sets
-                            
-                            exercise = viewModel.createSet(exercise: exercise)
-                            
-                        }
-                    }
-                
-            }
+            
             .padding(.top,10)
             .frame(width: viewModel.screenWidth)
         }

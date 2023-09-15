@@ -59,7 +59,7 @@ struct AddSetPageView: View {
                                 .frame(width: viewModel.screenWidth)
                             }
                         }
-                        .frame(width: viewModel.screenWidth,height: 600)
+//                        .frame(width: viewModel.screenWidth,height: 600)
                         .padding(.top, 80)
                         Spacer()
                         HStack {
@@ -71,23 +71,23 @@ struct AddSetPageView: View {
                                     Text("Statistics")
                                 }
                             }
-                            .background(Capsule(style: .continuous).frame(width: viewModel.screenWidth / 2 - 20,height: 45).foregroundColor(.black))
+                            .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.screenWidth / 2 - 20,height: 45))
                             .tint(.white)
                             .font(.title2)
                             .fontWeight(.semibold)
-                            .offset(x:-65,y:700)
+                            .offset(x: 0,y:viewModel.constH(h: 700))
                             Button("Done") {
                                 withAnimation {
                                     viewModel.isShowedMainAddSetsView.toggle()
                                     
                                 }
                             }
-                            .background(Capsule(style: .continuous).frame(width: viewModel.screenWidth / 2 - 20,height: 45).foregroundColor(.black))
+                            .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.screenWidth / 2 - 20,height: 45))
                             .tint(.white)
                             .font(.title2)
                             .fontWeight(.semibold)
-                            .offset(x: 25,y:700)
-                        }.padding()
+                            .offset(x: 0,y:viewModel.constH(h: 700))
+                        }
                     }
                     .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
                     .frame(width: viewModel.screenWidth)
@@ -115,8 +115,9 @@ struct AddSetPageView: View {
             }
         }
         
-        .frame(width: viewModel.screenWidth + 20)
+        .frame(width: viewModel.screenWidth + 20,height: viewModel.screenHeight)
         .padding([.leading,.trailing],-10)
+        .ignoresSafeArea(.all)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         
         
