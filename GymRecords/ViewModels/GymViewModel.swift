@@ -65,13 +65,19 @@ class GymViewModel: ObservableObject {
     @Published var crntExrcsFrEditSets:Exercise
     @Published var blurOrBlackBackground:Bool = true
     @Published var lastChangedExercise:Exercise? = nil
+    
     //Show view with sets
     @Published var isShowedMainAddSetsView = false
-    
     //Edit program on the Main Content View
     @Published var editMode = false
     @Published var editModeButtonName = "Edit program"
     @Published var addExerciseFlag = false
+    
+    
+    //Statistic view and other vars for Graphs
+    @Published var willAppearStatisticView = false
+    @Published var selectedExerciseForStatisticView:Exercise? = nil
+    
     //Design Vars
     var viewCornerRadiusSimple:CGFloat = 10
     var screenWidth = UIScreen.main.bounds.width
@@ -744,6 +750,31 @@ class GymViewModel: ObservableObject {
     func saveExerciseByRealm(exercise:Exercise) {
         
         DataLoader().saveCreatedExerciseByRealm()
+    }
+    
+    //MARK: Graphs Data Functions
+    
+    //MARK: Get data of weight for weight graph
+    
+    func weightGraphDataGetter(exercise:Exercise) -> [WeightGraphData] {
+        var result:[WeightGraphData] = []
+        for nSet in exercise.sets {
+            let newObject = WeightGraphData(nameOfExercise: exercise.name, weight: nSet.weight, date: nSet.date)
+            result.append(newObject)
+        }
+        
+        return result
+    }
+    //MARK: Get data of reps for reps graph
+    
+    func repsGraphDataGetter(exercise:Exercise) -> [RepsGraphData] {
+        var result:[RepsGraphData] = []
+        for nSet in exercise.sets {
+            let newObject = RepsGraphData(nameOfExercise: exercise.name, countReps: nSet.reps, date: nSet.date)
+            result.append(newObject)
+        }
+        
+        return result
     }
     
 }

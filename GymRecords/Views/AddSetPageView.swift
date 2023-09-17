@@ -64,6 +64,10 @@ struct AddSetPageView: View {
                         Spacer()
                         HStack {
                             Button {
+                                withAnimation(.easeIn(duration: 0.5)) {
+                                    viewModel.willAppearStatisticView.toggle()
+                                    viewModel.selectedExerciseForStatisticView = exercise
+                                }
                             }
                             label: {
                                 HStack {
@@ -119,6 +123,18 @@ struct AddSetPageView: View {
         .padding([.leading,.trailing],-10)
         .ignoresSafeArea(.all)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        
+        if viewModel.willAppearStatisticView {
+            if let exercise = viewModel.selectedExerciseForStatisticView{
+                
+                let weight = viewModel.weightGraphDataGetter(exercise: exercise)
+                let reps  = viewModel.repsGraphDataGetter(exercise: exercise)
+                
+                StatistisView(exercise: exercise,reps:reps, weight:weight)
+                    .transition(.move(edge: .bottom))
+            }
+                
+        }
         
         
     }

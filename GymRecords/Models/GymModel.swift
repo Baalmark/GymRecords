@@ -380,3 +380,16 @@ extension GymModel.Program {
     static var exercises = GymModel.arrayOfAllCreatedExercises
     
 }
+extension GymModel {
+    
+    static var repsExample = [RepsGraphData(nameOfExercise: "Test", countReps: 10, date: Date()),
+                              RepsGraphData(nameOfExercise: "Test", countReps: 20, date: Date()),
+                              RepsGraphData(nameOfExercise: "Test", countReps: 30, date: Date()),
+                              RepsGraphData(nameOfExercise: "Test", countReps: 40, date: Date()),
+                              RepsGraphData(nameOfExercise: "Test", countReps: 50, date: Date())]
+    static var weightExample = [WeightGraphData(nameOfExercise: "Test", weight: 20, date: Date()),
+                                WeightGraphData(nameOfExercise: "Test", weight: 40, date: Date()),
+                                WeightGraphData(nameOfExercise: "Test", weight: 60, date: Date()),
+                                WeightGraphData(nameOfExercise: "Test", weight: 80, date: Date()),
+                                WeightGraphData(nameOfExercise: "Test", weight: 100, date: Date())]
+}

@@ -38,6 +38,7 @@
 		3A8896BF29B759B700219446 /* CalendarCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896BE29B759B700219446 /* CalendarCellView.swift */; };
 		3A8896C329B75B5300219446 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896C229B75B5300219446 /* CalendarView.swift */; };
 		3A8896C529B75CDB00219446 /* DateHolderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896C429B75CDB00219446 /* DateHolderModel.swift */; };
+		3A8A544D2AB7145600A4229F /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 3A8A544C2AB7145600A4229F /* SwiftUICharts */; };
 		3A8CE2F72A1393BA00CEE78F /* AddOrChangeSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CE2F62A1393BA00CEE78F /* AddOrChangeSetView.swift */; };
 		3A8CE2F92A1398E300CEE78F /* AddSetLittleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CE2F82A1398E300CEE78F /* AddSetLittleView.swift */; };
 		3A8CE2FB2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CE2FA2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift */; };
@@ -60,6 +61,9 @@
 		3ACB31722A0FD08E003C4FC2 /* ViewOffsetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB31712A0FD08E003C4FC2 /* ViewOffsetExtension.swift */; };
 		3ACB31AF2A0FE719003C4FC2 /* LegacyCod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB31AE2A0FE719003C4FC2 /* LegacyCod.swift */; };
 		3AEA6A422AAF20E90014A43C /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEA6A412AAF20E90014A43C /* DataLoader.swift */; };
+		3AF087782AB6EA6D002BE477 /* GraphsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF087772AB6EA6D002BE477 /* GraphsModel.swift */; };
+		3AF0877B2AB6EC7C002BE477 /* GraphsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0877A2AB6EC7C002BE477 /* GraphsViewModel.swift */; };
+		3AF0877D2AB6EE99002BE477 /* StatistisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0877C2AB6EE99002BE477 /* StatistisView.swift */; };
 		3AF0C3602A51841E006AD7BB /* DisplaySetsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0C35F2A51841E006AD7BB /* DisplaySetsMainView.swift */; };
 /* End PBXBuildFile section */
 
@@ -117,6 +121,9 @@
 		3ACB31712A0FD08E003C4FC2 /* ViewOffsetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewOffsetExtension.swift; sourceTree = "<group>"; };
 		3ACB31AE2A0FE719003C4FC2 /* LegacyCod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyCod.swift; sourceTree = "<group>"; };
 		3AEA6A412AAF20E90014A43C /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
+		3AF087772AB6EA6D002BE477 /* GraphsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphsModel.swift; sourceTree = "<group>"; };
+		3AF0877A2AB6EC7C002BE477 /* GraphsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphsViewModel.swift; sourceTree = "<group>"; };
+		3AF0877C2AB6EE99002BE477 /* StatistisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatistisView.swift; sourceTree = "<group>"; };
 		3AF0C35F2A51841E006AD7BB /* DisplaySetsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplaySetsMainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -125,6 +132,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A8A544D2AB7145600A4229F /* SwiftUICharts in Frameworks */,
 				3A4C03E32A631D30000003EE /* RealmSwift in Frameworks */,
 				3A4C03E12A631D30000003EE /* Realm in Frameworks */,
 			);
@@ -244,6 +252,7 @@
 		3A4C03E42A632BDB000003EE /* DataBaseModels */ = {
 			isa = PBXGroup;
 			children = (
+				3AF087792AB6EC61002BE477 /* Graphs */,
 				3A14FAA62A717334008EFF4A /* Utils */,
 				3A4C03ED2A63323B000003EE /* GymModelObject.swift */,
 				3A4C03EA2A633107000003EE /* ProgramRealmModel */,
@@ -321,6 +330,16 @@
 			path = StyleViews;
 			sourceTree = "<group>";
 		};
+		3AF087792AB6EC61002BE477 /* Graphs */ = {
+			isa = PBXGroup;
+			children = (
+				3AF087772AB6EA6D002BE477 /* GraphsModel.swift */,
+				3AF0877A2AB6EC7C002BE477 /* GraphsViewModel.swift */,
+				3AF0877C2AB6EE99002BE477 /* StatistisView.swift */,
+			);
+			path = Graphs;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -340,6 +359,7 @@
 			packageProductDependencies = (
 				3A4C03E02A631D30000003EE /* Realm */,
 				3A4C03E22A631D30000003EE /* RealmSwift */,
+				3A8A544C2AB7145600A4229F /* SwiftUICharts */,
 			);
 			productName = GymRecords;
 			productReference = 008C51D72972F8F50046EF5B /* GymRecords.app */;
@@ -371,6 +391,7 @@
 			mainGroup = 008C51CE2972F8F40046EF5B;
 			packageReferences = (
 				3A4C03DF2A631D30000003EE /* XCRemoteSwiftPackageReference "realm-swift" */,
+				3A8A544B2AB7145600A4229F /* XCRemoteSwiftPackageReference "ChartView" */,
 			);
 			productRefGroup = 008C51D82972F8F50046EF5B /* Products */;
 			projectDirPath = "";
@@ -419,6 +440,7 @@
 				3A9E9A5829964F3000DAA547 /* ProgramItemListView.swift in Sources */,
 				3AB0A80929B0CAC800E5E7BA /* CalendarExtension.swift in Sources */,
 				3A9E9A5029951BF700DAA547 /* ExercisesAndProgramsListView.swift in Sources */,
+				3AF0877B2AB6EC7C002BE477 /* GraphsViewModel.swift in Sources */,
 				3A1B831F2996EC10006F959E /* CreateNewExercise.swift in Sources */,
 				3A9E9A4E29951AF400DAA547 /* DataBaseView.swift in Sources */,
 				3A8CE2FB2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift in Sources */,
@@ -433,11 +455,13 @@
 				3A4C03EE2A63323B000003EE /* GymModelObject.swift in Sources */,
 				3A4C03E62A632BF7000003EE /* SetsObject.swift in Sources */,
 				008C51DD2972F8F50046EF5B /* ContentView.swift in Sources */,
+				3AF087782AB6EA6D002BE477 /* GraphsModel.swift in Sources */,
 				3A637A102A0E7BFB002B5857 /* AddSetsToExercise.swift in Sources */,
 				3A8896C329B75B5300219446 /* CalendarView.swift in Sources */,
 				008C51EE297304540046EF5B /* GymViewModel.swift in Sources */,
 				3A14FAA52A713C5C008EFF4A /* TestObject.swift in Sources */,
 				3A14FAA82A717340008EFF4A /* Migrator.swift in Sources */,
+				3AF0877D2AB6EE99002BE477 /* StatistisView.swift in Sources */,
 				3A9E9A5629964BD500DAA547 /* EditOrRemoveTheProgram.swift in Sources */,
 				008C51DB2972F8F50046EF5B /* GymRecordsApp.swift in Sources */,
 				3A637A0C2A06A28B002B5857 /* DragGestureLineView.swift in Sources */,
@@ -660,6 +684,14 @@
 				minimumVersion = 10.41.0;
 			};
 		};
+		3A8A544B2AB7145600A4229F /* XCRemoteSwiftPackageReference "ChartView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppPear/ChartView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -672,6 +704,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3A4C03DF2A631D30000003EE /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		3A8A544C2AB7145600A4229F /* SwiftUICharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3A8A544B2AB7145600A4229F /* XCRemoteSwiftPackageReference "ChartView" */;
+			productName = SwiftUICharts;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
