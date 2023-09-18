@@ -10,27 +10,12 @@ import Charts
 struct StatistisView: View {
     @EnvironmentObject var viewModel:GymViewModel
     @Environment(\.dismiss) var dismiss
+    @State private var selectedTheme = "Dark"
+    let themes = ["Dark", "Light", "Automatic"]
+    
     var exercise:Exercise
-    var reps:[RepsGraphData]
-    var weight:[WeightGraphData]
-    
-    
-    
-    
-    let catData = GymModel.repsExample
-    let dogData = GymModel.weightExample
-        let linearGradient = LinearGradient(gradient: Gradient(colors: [Color.accentColor.opacity(0.4),
-                                                                        Color.accentColor.opacity(0)]),
-                                            startPoint: .top,
-                                            endPoint: .bottom)
-    
-    
-    
-    
-    
-    var dataReps: (name: String, repData: [RepsGraphData])  {(name: "Reps", repData:reps)}
-    
-    
+    var reps:[RepsData]
+    var weight:[WeightData]
     var body: some View {
         VStack {
             RoundedRectangle(cornerRadius: 25)
@@ -42,40 +27,32 @@ struct StatistisView: View {
             Text(exercise.name)
                 .font(.title)
                 .fontWeight(.bold)
-                .padding(.bottom,50)
             
-            Chart {
-                        ForEach(catData) { data in
-                            LineMark(x: .value("Date",  data.date),
-                                     y: .value("Population", data.countReps))
-                        }
-                        .interpolationMethod(.cardinal)
-                        .symbol(by: .value("Pet type", "cat"))
-
-                        ForEach(catData) { data in
-                            AreaMark(x: .value("Year", data.date),
-                                     y: .value("Population", data.countReps))
-                        }
-                        .interpolationMethod(.cardinal)
-                        .foregroundStyle(linearGradient)
-                    }
-            .padding()
-            .frame(width:viewModel.screenWidth,height:400)
+            Picker("Appearance", selection: $selectedTheme) {
+                ForEach(themes, id: \.self) {
+                    Text($0)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding([.bottom,.leading,.trailing])
             
-            Spacer()
+            
+            ScrollView {
+                SingleLineLollipop(isOverview: true,reps:reps,weight:weight)
+                
+                
+                Text("History")
+                    .font(.largeTitle)
+            }
             
         }
         .frame(width: viewModel.screenWidth,height: viewModel.screenHeight)
-        .safeAreaInset(edge: .top, alignment: .center, spacing: 0) {
-            Color.clear
-                .frame(height: 80)
-                .background(Material.bar)
-        }
+        
         .background(Color.white.edgesIgnoringSafeArea(.top))
-        .onTapGesture {
-            viewModel.willAppearStatisticView.toggle()
-            viewModel.selectedExerciseForStatisticView = nil
-        }
+        //        .onTapGesture {
+        //            viewModel.willAppearStatisticView.toggle()
+        //            viewModel.selectedExerciseForStatisticView = nil
+        //        }
     }
     
 }
@@ -93,8 +70,8 @@ struct StatistisView_Previews: PreviewProvider {
             Sets(number: 5, date: Date(), weight: 10, reps: 5, doubleWeight: true, selfWeight: false),
             Sets(number: 6, date: Date(), weight: 10, reps: 5, doubleWeight: true, selfWeight: false)], isSelectedToAddSet: false)
         
-        let weightData = [WeightGraphData(nameOfExercise: exercise.name, weight: 10, date: Date())]
-        let repsData = [RepsGraphData(nameOfExercise: exercise.name, countReps: 10, date: Date())]
+        let weightData = [WeightData(day: Date(), weight: 10)]
+        let repsData = [RepsData(day: Date(),reps: 10)]
         StatistisView(exercise: exercise,reps:repsData, weight:weightData).environmentObject(GymViewModel())
     }
 }

@@ -756,23 +756,25 @@ class GymViewModel: ObservableObject {
     
     //MARK: Get data of weight for weight graph
     
-    func weightGraphDataGetter(exercise:Exercise) -> [WeightGraphData] {
-        var result:[WeightGraphData] = []
+    func weightGraphDataGetter(exercise:Exercise) -> [WeightData] {
+        var result:[WeightData] = []
         for nSet in exercise.sets {
-            let newObject = WeightGraphData(nameOfExercise: exercise.name, weight: nSet.weight, date: nSet.date)
+            let newObject = WeightData(day: nSet.date,weight: nSet.weight)
             result.append(newObject)
         }
+        
         
         return result
     }
     //MARK: Get data of reps for reps graph
     
-    func repsGraphDataGetter(exercise:Exercise) -> [RepsGraphData] {
-        var result:[RepsGraphData] = []
+    func repsGraphDataGetter(exercise:Exercise) -> [RepsData] {
+        var result:[RepsData] = []
         for nSet in exercise.sets {
-            let newObject = RepsGraphData(nameOfExercise: exercise.name, countReps: nSet.reps, date: nSet.date)
+            let newObject = RepsData(day: nSet.date,reps: nSet.reps)
             result.append(newObject)
         }
+        
         
         return result
     }
