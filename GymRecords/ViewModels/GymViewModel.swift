@@ -65,13 +65,19 @@ class GymViewModel: ObservableObject {
     @Published var crntExrcsFrEditSets:Exercise
     @Published var blurOrBlackBackground:Bool = true
     @Published var lastChangedExercise:Exercise? = nil
+    
     //Show view with sets
     @Published var isShowedMainAddSetsView = false
-    
     //Edit program on the Main Content View
     @Published var editMode = false
     @Published var editModeButtonName = "Edit program"
     @Published var addExerciseFlag = false
+    
+    
+    //Statistic view and other vars for Graphs
+    @Published var willAppearStatisticView = false
+    @Published var selectedExerciseForStatisticView:Exercise? = nil
+    
     //Design Vars
     var viewCornerRadiusSimple:CGFloat = 10
     var screenWidth = UIScreen.main.bounds.width
@@ -463,8 +469,11 @@ class GymViewModel: ObservableObject {
     func getCoefficientOffset(row:Int) -> CGFloat {
         //
         if let offset = CalendarMinimizingPosition(id: row) {
+<<<<<<< HEAD
             print(offset.rawValue," - - - - Offset")
             print(constH(h: offset.rawValue), "- - - - - - Changed")
+=======
+>>>>>>> Charts
             return constH(h: offset.rawValue)
         }
         return constH(h: CalendarMinimizingPosition.zero.rawValue)
@@ -747,6 +756,33 @@ class GymViewModel: ObservableObject {
     func saveExerciseByRealm(exercise:Exercise) {
         
         DataLoader().saveCreatedExerciseByRealm()
+    }
+    
+    //MARK: Graphs Data Functions
+    
+    //MARK: Get data of weight for weight graph
+    
+    func weightGraphDataGetter(exercise:Exercise) -> [WeightData] {
+        var result:[WeightData] = []
+        for nSet in exercise.sets {
+            let newObject = WeightData(day: nSet.date,weight: nSet.weight)
+            result.append(newObject)
+        }
+        
+        
+        return result
+    }
+    //MARK: Get data of reps for reps graph
+    
+    func repsGraphDataGetter(exercise:Exercise) -> [RepsData] {
+        var result:[RepsData] = []
+        for nSet in exercise.sets {
+            let newObject = RepsData(day: nSet.date,reps: nSet.reps)
+            result.append(newObject)
+        }
+        
+        
+        return result
     }
     
 }

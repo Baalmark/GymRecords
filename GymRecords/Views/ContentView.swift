@@ -240,6 +240,7 @@ struct ContentView: View {
                 
             }
             .offset(y:viewModel.constH(h: -130))
+<<<<<<< HEAD
             
         }
         .frame(height: viewModel.screenHeight - 70)
@@ -297,12 +298,64 @@ struct ContentView: View {
             }
             .padding([.leading,.trailing],30)
             .padding(.top,10)
+=======
+>>>>>>> Charts
             
         }
         .frame(height: viewModel.constH(h: viewModel.screenHeight - 70),alignment:.top)
 //        .frame(height: viewModel.constH(h: viewModel.screenHeight - 70))
         .border(.red)
         .overlay {
+            if !viewModel.isShowedMainAddSetsView {
+                HStack {
+                    Button(viewModel.isAnyTrainingSelectedDay() ? viewModel.editModeButtonName : mainButtonName) {
+                        
+                        if viewModel.isAnyTrainingSelectedDay() {
+                            withAnimation(.easeInOut) {
+                                viewModel.editMode.toggle()
+                                viewModel.editModeButtonName = viewModel.editMode ? "Save" : "Edit program"
+                            }
+                        } else {
+                            appearSheet.toggle()
+                            viewModel.changeExercisesDB = false
+                        }
+                    }
+                    .sheet(isPresented:$appearSheet) {
+                        //viewModel.dataForProgramm
+                        AddProgramView()
+                    }
+                    .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.editMode ? 335 / 2.2 : 335,height: 45))
+                    .tint(.white)
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    //                .offset(y:collapsingViewFlag ? viewModel.constH(h: 290) : viewModel.constH(h: 155))
+                    .opacity(1)
+                    if viewModel.editMode {
+                        Button("Add exercise") {
+                            appearSheet.toggle()
+                            viewModel.addExerciseFlag = true
+                            viewModel.changeExercisesDB = false
+                        }
+                        .buttonStyle(GrowingButton(isDarkMode: false,width: 335 / 2.2,height: 45))
+                        .tint(.black)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .background(.clear)
+                        .opacity(1)
+                        .sheet(isPresented:$appearSheet) {
+                            AddProgramView()
+                            
+                        }
+                    }
+                }
+                .zIndex(3)
+                .padding(.bottom,20)
+                .padding(.top,10)
+                .padding([.leading,.trailing],30)
+                .background(.white)
+                .offset(y:viewModel.constH(h:370))
+                
+            }
             if viewModel.isShowedMainAddSetsView {
                 withAnimation(.easeOut) {
                     AddNewSetsMainView(scrollToIndex: scrollToIndex).environmentObject(viewModel)

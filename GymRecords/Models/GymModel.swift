@@ -380,3 +380,4 @@ extension GymModel.Program {
     static var exercises = GymModel.arrayOfAllCreatedExercises
     
 }
+

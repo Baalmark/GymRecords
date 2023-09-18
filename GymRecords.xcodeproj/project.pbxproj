@@ -21,6 +21,11 @@
 		3A1B8321299A4F8B006F959E /* CreateNewProgrammView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B8320299A4F8B006F959E /* CreateNewProgrammView.swift */; };
 		3A1B8323299A8BA4006F959E /* ButtonCreateExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B8322299A8BA4006F959E /* ButtonCreateExercise.swift */; };
 		3A1B8325299AAD38006F959E /* CreateExerciseAndSelectCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1B8324299AAD38006F959E /* CreateExerciseAndSelectCategory.swift */; };
+		3A31EC5D2AB8501000E54B14 /* ChartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31EC5C2AB8501000E54B14 /* ChartsView.swift */; };
+		3A31EC5F2AB8506800E54B14 /* ChartInterpolationMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31EC5E2AB8506800E54B14 /* ChartInterpolationMethod.swift */; };
+		3A31EC612AB8521100E54B14 /* GraphsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31EC602AB8521100E54B14 /* GraphsData.swift */; };
+		3A31EC632AB8526400E54B14 /* Accessibility Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31EC622AB8526400E54B14 /* Accessibility Helpers.swift */; };
+		3A31EC652AB852A400E54B14 /* ChartType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31EC642AB852A400E54B14 /* ChartType.swift */; };
 		3A4C03DE2A631CCB000003EE /* ExerciseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4C03DD2A631CCB000003EE /* ExerciseObject.swift */; };
 		3A4C03E12A631D30000003EE /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 3A4C03E02A631D30000003EE /* Realm */; };
 		3A4C03E32A631D30000003EE /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3A4C03E22A631D30000003EE /* RealmSwift */; };
@@ -38,6 +43,7 @@
 		3A8896BF29B759B700219446 /* CalendarCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896BE29B759B700219446 /* CalendarCellView.swift */; };
 		3A8896C329B75B5300219446 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896C229B75B5300219446 /* CalendarView.swift */; };
 		3A8896C529B75CDB00219446 /* DateHolderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8896C429B75CDB00219446 /* DateHolderModel.swift */; };
+		3A8A544D2AB7145600A4229F /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 3A8A544C2AB7145600A4229F /* SwiftUICharts */; };
 		3A8CE2F72A1393BA00CEE78F /* AddOrChangeSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CE2F62A1393BA00CEE78F /* AddOrChangeSetView.swift */; };
 		3A8CE2F92A1398E300CEE78F /* AddSetLittleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CE2F82A1398E300CEE78F /* AddSetLittleView.swift */; };
 		3A8CE2FB2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8CE2FA2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift */; };
@@ -60,6 +66,7 @@
 		3ACB31722A0FD08E003C4FC2 /* ViewOffsetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB31712A0FD08E003C4FC2 /* ViewOffsetExtension.swift */; };
 		3ACB31AF2A0FE719003C4FC2 /* LegacyCod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB31AE2A0FE719003C4FC2 /* LegacyCod.swift */; };
 		3AEA6A422AAF20E90014A43C /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AEA6A412AAF20E90014A43C /* DataLoader.swift */; };
+		3AF0877D2AB6EE99002BE477 /* StatistisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0877C2AB6EE99002BE477 /* StatistisView.swift */; };
 		3AF0C3602A51841E006AD7BB /* DisplaySetsMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF0C35F2A51841E006AD7BB /* DisplaySetsMainView.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +86,11 @@
 		3A1B8320299A4F8B006F959E /* CreateNewProgrammView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewProgrammView.swift; sourceTree = "<group>"; };
 		3A1B8322299A8BA4006F959E /* ButtonCreateExercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCreateExercise.swift; sourceTree = "<group>"; };
 		3A1B8324299AAD38006F959E /* CreateExerciseAndSelectCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseAndSelectCategory.swift; sourceTree = "<group>"; };
+		3A31EC5C2AB8501000E54B14 /* ChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsView.swift; sourceTree = "<group>"; };
+		3A31EC5E2AB8506800E54B14 /* ChartInterpolationMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartInterpolationMethod.swift; sourceTree = "<group>"; };
+		3A31EC602AB8521100E54B14 /* GraphsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphsData.swift; sourceTree = "<group>"; };
+		3A31EC622AB8526400E54B14 /* Accessibility Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Accessibility Helpers.swift"; sourceTree = "<group>"; };
+		3A31EC642AB852A400E54B14 /* ChartType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartType.swift; sourceTree = "<group>"; };
 		3A4C03DD2A631CCB000003EE /* ExerciseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseObject.swift; sourceTree = "<group>"; };
 		3A4C03E52A632BF7000003EE /* SetsObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetsObject.swift; sourceTree = "<group>"; };
 		3A4C03E72A632F6A000003EE /* TypeOfExerciseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeOfExerciseObject.swift; sourceTree = "<group>"; };
@@ -117,6 +129,7 @@
 		3ACB31712A0FD08E003C4FC2 /* ViewOffsetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewOffsetExtension.swift; sourceTree = "<group>"; };
 		3ACB31AE2A0FE719003C4FC2 /* LegacyCod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyCod.swift; sourceTree = "<group>"; };
 		3AEA6A412AAF20E90014A43C /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
+		3AF0877C2AB6EE99002BE477 /* StatistisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatistisView.swift; sourceTree = "<group>"; };
 		3AF0C35F2A51841E006AD7BB /* DisplaySetsMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplaySetsMainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -125,6 +138,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3A8A544D2AB7145600A4229F /* SwiftUICharts in Frameworks */,
 				3A4C03E32A631D30000003EE /* RealmSwift in Frameworks */,
 				3A4C03E12A631D30000003EE /* Realm in Frameworks */,
 			);
@@ -244,6 +258,7 @@
 		3A4C03E42A632BDB000003EE /* DataBaseModels */ = {
 			isa = PBXGroup;
 			children = (
+				3AF087792AB6EC61002BE477 /* Graphs */,
 				3A14FAA62A717334008EFF4A /* Utils */,
 				3A4C03ED2A63323B000003EE /* GymModelObject.swift */,
 				3A4C03EA2A633107000003EE /* ProgramRealmModel */,
@@ -321,6 +336,19 @@
 			path = StyleViews;
 			sourceTree = "<group>";
 		};
+		3AF087792AB6EC61002BE477 /* Graphs */ = {
+			isa = PBXGroup;
+			children = (
+				3A31EC5E2AB8506800E54B14 /* ChartInterpolationMethod.swift */,
+				3A31EC5C2AB8501000E54B14 /* ChartsView.swift */,
+				3A31EC602AB8521100E54B14 /* GraphsData.swift */,
+				3AF0877C2AB6EE99002BE477 /* StatistisView.swift */,
+				3A31EC622AB8526400E54B14 /* Accessibility Helpers.swift */,
+				3A31EC642AB852A400E54B14 /* ChartType.swift */,
+			);
+			path = Graphs;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -340,6 +368,7 @@
 			packageProductDependencies = (
 				3A4C03E02A631D30000003EE /* Realm */,
 				3A4C03E22A631D30000003EE /* RealmSwift */,
+				3A8A544C2AB7145600A4229F /* SwiftUICharts */,
 			);
 			productName = GymRecords;
 			productReference = 008C51D72972F8F50046EF5B /* GymRecords.app */;
@@ -371,6 +400,7 @@
 			mainGroup = 008C51CE2972F8F40046EF5B;
 			packageReferences = (
 				3A4C03DF2A631D30000003EE /* XCRemoteSwiftPackageReference "realm-swift" */,
+				3A8A544B2AB7145600A4229F /* XCRemoteSwiftPackageReference "ChartView" */,
 			);
 			productRefGroup = 008C51D82972F8F50046EF5B /* Products */;
 			projectDirPath = "";
@@ -400,6 +430,7 @@
 			files = (
 				3A8896BC29B7595E00219446 /* MonthLabelView.swift in Sources */,
 				3A9E9A4629897E0100DAA547 /* ViewProgramsList.swift in Sources */,
+				3A31EC652AB852A400E54B14 /* ChartType.swift in Sources */,
 				3AF0C3602A51841E006AD7BB /* DisplaySetsMainView.swift in Sources */,
 				3A4C03EC2A633123000003EE /* ProgramObject.swift in Sources */,
 				3A8896B429B7579D00219446 /* CalendarModel.swift in Sources */,
@@ -416,16 +447,19 @@
 				3A9E9A5229952C9C00DAA547 /* DataBaseInfoTitle.swift in Sources */,
 				008C51F0297305660046EF5B /* GymDynamic.swift in Sources */,
 				3AEA6A422AAF20E90014A43C /* DataLoader.swift in Sources */,
+				3A31EC5F2AB8506800E54B14 /* ChartInterpolationMethod.swift in Sources */,
 				3A9E9A5829964F3000DAA547 /* ProgramItemListView.swift in Sources */,
 				3AB0A80929B0CAC800E5E7BA /* CalendarExtension.swift in Sources */,
 				3A9E9A5029951BF700DAA547 /* ExercisesAndProgramsListView.swift in Sources */,
 				3A1B831F2996EC10006F959E /* CreateNewExercise.swift in Sources */,
 				3A9E9A4E29951AF400DAA547 /* DataBaseView.swift in Sources */,
 				3A8CE2FB2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift in Sources */,
+				3A31EC612AB8521100E54B14 /* GraphsData.swift in Sources */,
 				3ACB31AF2A0FE719003C4FC2 /* LegacyCod.swift in Sources */,
 				3AC5F6F72A14F02A007339D7 /* EnterOrChangeOneCertainView.swift in Sources */,
 				3AB0A7F729ACC51E00E5E7BA /* SearchExerciseView.swift in Sources */,
 				3A05B9912A0FECF40063D055 /* AddSetPageView.swift in Sources */,
+				3A31EC5D2AB8501000E54B14 /* ChartsView.swift in Sources */,
 				3A8CE2F92A1398E300CEE78F /* AddSetLittleView.swift in Sources */,
 				3A637A0E2A0E6F6D002B5857 /* ContentViewExerciseFromTheListView.swift in Sources */,
 				3A9E9A4229852F8200DAA547 /* AddProgramView.swift in Sources */,
@@ -438,11 +472,13 @@
 				008C51EE297304540046EF5B /* GymViewModel.swift in Sources */,
 				3A14FAA52A713C5C008EFF4A /* TestObject.swift in Sources */,
 				3A14FAA82A717340008EFF4A /* Migrator.swift in Sources */,
+				3AF0877D2AB6EE99002BE477 /* StatistisView.swift in Sources */,
 				3A9E9A5629964BD500DAA547 /* EditOrRemoveTheProgram.swift in Sources */,
 				008C51DB2972F8F50046EF5B /* GymRecordsApp.swift in Sources */,
 				3A637A0C2A06A28B002B5857 /* DragGestureLineView.swift in Sources */,
 				3A1B8321299A4F8B006F959E /* CreateNewProgrammView.swift in Sources */,
 				3A9E9A542995340300DAA547 /* ChangeExerciseNameOrDeleteView.swift in Sources */,
+				3A31EC632AB8526400E54B14 /* Accessibility Helpers.swift in Sources */,
 				3A4C03E82A632F6A000003EE /* TypeOfExerciseObject.swift in Sources */,
 				3A1B8325299AAD38006F959E /* CreateExerciseAndSelectCategory.swift in Sources */,
 				3A9E9A48298A770600DAA547 /* ViewListSpecificExercises.swift in Sources */,
@@ -660,6 +696,14 @@
 				minimumVersion = 10.41.0;
 			};
 		};
+		3A8A544B2AB7145600A4229F /* XCRemoteSwiftPackageReference "ChartView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppPear/ChartView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -672,6 +716,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3A4C03DF2A631D30000003EE /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		3A8A544C2AB7145600A4229F /* SwiftUICharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3A8A544B2AB7145600A4229F /* XCRemoteSwiftPackageReference "ChartView" */;
+			productName = SwiftUICharts;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

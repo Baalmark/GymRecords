@@ -35,8 +35,11 @@ struct ExercisesAndProgramsListView: View {
                         
                     }
                 }
+<<<<<<< HEAD
                 
                 .frame(width: viewModel.constW(w:125),height: viewModel.constH(h:35))
+=======
+>>>>>>> Charts
                 .foregroundColor(didTap ? .gray : .white)
                 .font(.title)
                 .fontWeight(.medium)
