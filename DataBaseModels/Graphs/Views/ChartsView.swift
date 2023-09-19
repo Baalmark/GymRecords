@@ -8,13 +8,15 @@
 import SwiftUI
 import Charts
 
-struct SingleLineLollipop: View {
+struct ChartsView: View {
+    @EnvironmentObject var viewModel:GymViewModel
     var isOverview: Bool
     var reps:[RepsData]
     var weight:[WeightData]
     @State private var lineWidth = 2.0
-    @State private var interpolationMethod: ChartInterpolationMethod = .cardinal
+    @State private var interpolationMethod: ChartInterpolationMethod = .monotone
     @State private var chartColor: Color = .black
+    var statisticViewModel:StatisticViewModel = StatisticViewModel()
     @State private var showSymbols = true
     @State private var selectedElementReps: RepsData? = nil
     @State private var selectedElementWeight: WeightData? = nil
@@ -23,34 +25,59 @@ struct SingleLineLollipop: View {
     
     let previewChartHeight: CGFloat = UIScreen.main.bounds.height / 3
     
-    let linearGradient = LinearGradient(gradient: Gradient(colors: [Color.accentColor.opacity(0.4),         Color.accentColor.opacity(0)]),
+    let linearGradient = LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.4),         Color.black.opacity(0)]),
                                         startPoint: .top,
                                         endPoint: .bottom)
     
-    var data = allData.overViewExample7
+    @State var data:([RepsData],[WeightData]) = allData.overViewExample7
     
+   
     var body: some View {
-        if isOverview {
-            VStack(alignment:.leading) {
+        if !isOverview {
+            mainBody
+            .navigationBarTitle(ChartType.singleLineLollipop.title, displayMode: .inline)
+        }
+    }
+    
+    var mainBody: some View {
+        VStack(alignment:.leading) {
+            Section {
                 HStack {
                     Text("Reps")
                         .fontWeight(.semibold)
                         .font(.title)
                         .padding(.leading,20)
-                    Text("max \(getMaxRep(reps:reps))")
+                    Text("max \(getMaxRep(reps:reps).removeZerosFromEnd())")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color("GrayColor"))
                 }
                 repChart
                     .allowsHitTesting(true)
                     .padding()
                 
-                Text("Weight lifted")
-                    .fontWeight(.semibold)
-                    .font(.title)
-                    .padding(.leading,20)
+                    .onAppear {
+                        if let exercise = viewModel.selectedExerciseForStatisticView {
+                            data = statisticViewModel.getlastPeriod(exercise: exercise , period: 7)
+                        }
+                    }
+            }
+            Section {
+                HStack {
+                    Text("Weight lifted")
+                        .fontWeight(.semibold)
+                        .font(.title)
+                        .padding(.leading,20)
+                    Text("max \(getMaxWeight(weights:weight).removeZerosFromEnd())")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color("GrayColor"))
+                }
                 weightChart
                     .allowsTightening(true)
                     .padding()
             }
+
         }
     }
     
@@ -59,26 +86,26 @@ struct SingleLineLollipop: View {
     }
     
     private func getBaselineMarkerReps(marker: RepsData) -> some ChartContent {
-        return LineMark(
+        return AreaMark(
             x: .value("Date", marker.day),
             y: .value("Reps", marker.reps)
         )
         .accessibilityLabel(marker.day.formatted(date: .complete, time: .omitted))
         .accessibilityValue("\(marker.reps) done")
         .lineStyle(StrokeStyle(lineWidth: lineWidth))
-        .foregroundStyle(chartColor)
+        .foregroundStyle(linearGradient)
         .interpolationMethod(interpolationMethod.mode)
         .symbolSize(showSymbols ? 20 : 0)
     }
     private func getBaselineMarkerWeight(marker: WeightData) -> some ChartContent {
-        return LineMark(
+        return AreaMark(
             x: .value("Date", marker.day),
             y: .value("Weight", marker.weight)
         )
         .accessibilityLabel(marker.day.formatted(date: .complete, time: .omitted))
         .accessibilityValue("\(marker.weight) done")
         .lineStyle(StrokeStyle(lineWidth: lineWidth))
-        .foregroundStyle(chartColor)
+        .foregroundStyle(linearGradient)
         .interpolationMethod(interpolationMethod.mode)
         .symbolSize(showSymbols ? 20 : 0)
     }
@@ -135,7 +162,7 @@ struct SingleLineLollipop: View {
                         
                         let lineX = startPositionX1 + geo[proxy.plotAreaFrame].origin.x
                         let lineHeight = geo[proxy.plotAreaFrame].maxY
-                        let boxWidth: CGFloat = 140
+                        let boxWidth: CGFloat = 90
                         
                         let boxOffset = max(0, min(geo.size.width - boxWidth, lineX - boxWidth / 2))
                         
@@ -231,7 +258,7 @@ struct SingleLineLollipop: View {
                         
                         let lineX = startPositionX1 + geo[proxy.plotAreaFrame].origin.x
                         let lineHeight = geo[proxy.plotAreaFrame].maxY
-                        let boxWidth: CGFloat = 140
+                        let boxWidth: CGFloat = 90
                         
                         let boxOffset = max(0, min(geo.size.width - boxWidth, lineX - boxWidth / 2))
                         
@@ -329,7 +356,7 @@ struct SingleLineLollipop: View {
         return temp.rounded(.awayFromZero)
     }
     //MARK: Max weight getter
-    private func getMaxRep(weights:[WeightData]) -> Double {
+    private func getMaxWeight(weights:[WeightData]) -> Double {
         var temp:Double = 0
         for weight in weights {
             if temp < weight.weight {
@@ -343,7 +370,7 @@ struct SingleLineLollipop: View {
 
 // MARK: - Accessibility
 
-extension SingleLineLollipop: AXChartDescriptorRepresentable {
+extension ChartsView: AXChartDescriptorRepresentable {
     
     
     func makeChartDescriptor() -> AXChartDescriptor {
@@ -353,21 +380,17 @@ extension SingleLineLollipop: AXChartDescriptorRepresentable {
 
 // MARK: - Preview
 
-struct SingleLineLollipop_Previews: PreviewProvider {
-    
-    
-    
-    
+struct ChartsView_Previews: PreviewProvider {
+
     static var previews: some View {
         
         let weightData = [WeightData(day: Date(), weight: 10)]
         let repsData = [RepsData(day: Date(),reps: 10)]
         
-        SingleLineLollipop(isOverview: true,reps:repsData,weight:weightData)
-        SingleLineLollipop(isOverview: false,reps:repsData,weight:weightData)
+        ChartsView(isOverview: true,reps:repsData,weight:weightData)
+        ChartsView(isOverview: false,reps:repsData,weight:weightData)
     }
 }
-
 
 
 //MARK: unnecessary Overview

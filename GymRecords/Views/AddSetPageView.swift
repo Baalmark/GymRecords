@@ -59,7 +59,7 @@ struct AddSetPageView: View {
                                 .frame(width: viewModel.screenWidth)
                             }
                         }
-//                        .frame(width: viewModel.screenWidth,height: 600)
+                        .frame(width: viewModel.screenWidth,height: 600)
                         .padding(.top, 80)
                         Spacer()
                         HStack {
