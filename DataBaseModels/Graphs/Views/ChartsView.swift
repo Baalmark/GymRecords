@@ -13,6 +13,7 @@ struct ChartsView: View {
     var isOverview: Bool
     var reps:[RepsData]
     var weight:[WeightData]
+    
     @State private var lineWidth = 2.0
     @State private var interpolationMethod: ChartInterpolationMethod = .monotone
     @State private var chartColor: Color = .black
@@ -22,7 +23,8 @@ struct ChartsView: View {
     @State private var selectedElementWeight: WeightData? = nil
     @State private var showLollipop = true
     @State private var lollipopColor: Color = .black
-    
+    @State private var axisValueForWeight:Double = 0
+    @State private var axisValueForReps:Double = 0
     let previewChartHeight: CGFloat = UIScreen.main.bounds.height / 3
     
     let linearGradient = LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.4),         Color.black.opacity(0)]),
@@ -35,7 +37,7 @@ struct ChartsView: View {
     var body: some View {
         if !isOverview {
             mainBody
-            .navigationBarTitle(ChartType.singleLineLollipop.title, displayMode: .inline)
+                .navigationBarTitle(ChartType.singleLineLollipop.title, displayMode: .inline)
         }
     }
     
@@ -55,12 +57,8 @@ struct ChartsView: View {
                 repChart
                     .allowsHitTesting(true)
                     .padding()
+                    
                 
-                    .onAppear {
-                        if let exercise = viewModel.selectedExerciseForStatisticView {
-                            data = statisticViewModel.getlastPeriod(exercise: exercise , period: 7)
-                        }
-                    }
             }
             Section {
                 HStack {
@@ -77,15 +75,64 @@ struct ChartsView: View {
                     .allowsTightening(true)
                     .padding()
             }
+            Section {
+                Text("History")
+                    .font(.title)
+                    .fontWeight(.semibold)
+                    .padding()
+            }
 
         }
+        .onAppear {
+            if let exercise = viewModel.selectedExerciseForStatisticView {
+                data = statisticViewModel.getlastPeriod(exercise: exercise , period: viewModel.selectedPeriod)
+                
+                viewModel.maxSummaryReps = data.0.max { $0.reps < $1.reps}?.reps
+                viewModel.maxSummaryWeight = data.1.max { $0.weight < $1.weight}?.weight
+            }
+        }
+        .onChange(of:viewModel.selectedPeriod) { newValue in
+            if let exercise = viewModel.selectedExerciseForStatisticView {
+                data = statisticViewModel.getlastPeriod(exercise: exercise , period: viewModel.selectedPeriod)
+                
+                viewModel.maxSummaryReps = data.0.max { $0.reps < $1.reps}?.reps
+                viewModel.maxSummaryWeight = data.1.max { $0.weight < $1.weight}?.weight
+            }
+        }
+        
     }
     
     private func CompareSelectedMarkerToChartMarker<T: Equatable>(selectedMarker: T, chartMarker: T) -> Bool {
         return selectedMarker == chartMarker
     }
     
+    
+    
     private func getBaselineMarkerReps(marker: RepsData) -> some ChartContent {
+        return LineMark(
+            x: .value("Date", marker.day),
+            y: .value("Reps", marker.reps)
+        )
+        .accessibilityLabel(marker.day.formatted(date: .complete, time: .omitted))
+        .accessibilityValue("\(marker.reps) done")
+        .lineStyle(StrokeStyle(lineWidth: lineWidth))
+        .foregroundStyle(chartColor)
+        .interpolationMethod(interpolationMethod.mode)
+        .symbolSize(5)
+    }
+    private func getBaselineMarkerWeight(marker: WeightData) -> some ChartContent {
+        return LineMark(
+            x: .value("Date", marker.day),
+            y: .value("Weight", marker.weight)
+        )
+        .accessibilityLabel(marker.day.formatted(date: .complete, time: .omitted))
+        .accessibilityValue("\(marker.weight) done")
+        .lineStyle(StrokeStyle(lineWidth: lineWidth))
+        .foregroundStyle(chartColor)
+        .interpolationMethod(interpolationMethod.mode)
+        .symbolSize(5)
+    }
+    private func getBaselineMarkerRepsBack(marker: RepsData) -> some ChartContent {
         return AreaMark(
             x: .value("Date", marker.day),
             y: .value("Reps", marker.reps)
@@ -95,9 +142,8 @@ struct ChartsView: View {
         .lineStyle(StrokeStyle(lineWidth: lineWidth))
         .foregroundStyle(linearGradient)
         .interpolationMethod(interpolationMethod.mode)
-        .symbolSize(showSymbols ? 20 : 0)
     }
-    private func getBaselineMarkerWeight(marker: WeightData) -> some ChartContent {
+    private func getBaselineMarkerWeightBack(marker: WeightData) -> some ChartContent {
         return AreaMark(
             x: .value("Date", marker.day),
             y: .value("Weight", marker.weight)
@@ -107,13 +153,12 @@ struct ChartsView: View {
         .lineStyle(StrokeStyle(lineWidth: lineWidth))
         .foregroundStyle(linearGradient)
         .interpolationMethod(interpolationMethod.mode)
-        .symbolSize(showSymbols ? 20 : 0)
     }
     
     private var repChart: some View {
         Chart(data.0, id: \.day) { chartMarker in
             let baselineMarker = getBaselineMarkerReps(marker: chartMarker)
-            
+            let baselineMarkerBack = getBaselineMarkerRepsBack(marker:chartMarker)
             if CompareSelectedMarkerToChartMarker(selectedMarker: selectedElementReps, chartMarker: chartMarker) && showLollipop {
                 baselineMarker.symbol() {
                     Circle().strokeBorder(chartColor, lineWidth: 2).background(Circle().foregroundColor(lollipopColor)).frame(width: 11)
@@ -121,6 +166,9 @@ struct ChartsView: View {
             } else {
                 baselineMarker.symbol(Circle().strokeBorder(lineWidth: lineWidth))
                     .foregroundStyle(linearGradient)
+            }
+            baselineMarkerBack.symbol() {
+                Circle().strokeBorder(chartColor, lineWidth: 2).background(Circle().foregroundColor(lollipopColor)).frame(width: 11)
             }
         }
         
@@ -162,7 +210,7 @@ struct ChartsView: View {
                         
                         let lineX = startPositionX1 + geo[proxy.plotAreaFrame].origin.x
                         let lineHeight = geo[proxy.plotAreaFrame].maxY
-                        let boxWidth: CGFloat = 90
+                        let boxWidth: CGFloat = 100
                         
                         let boxOffset = max(0, min(geo.size.width - boxWidth, lineX - boxWidth / 2))
                         
@@ -173,11 +221,11 @@ struct ChartsView: View {
                         
                         HStack {
                             Text("\(selectedElementReps.reps, format: .number) ")
-                                .font(.custom("Helvetica", size: 15).bold())
+                                .font(.custom("Helvetica", size: 13).bold())
                                 .foregroundColor(.white)
                             Spacer()
                             Text("\(selectedElementReps.day, format: .dateTime.year().month().day())")
-                                .font(.custom("Helvetica", size: 13).bold())
+                                .font(.custom("Helvetica", size: 11).bold())
                                 .foregroundStyle(Color("GrayColor"))
                             
                         }
@@ -199,17 +247,25 @@ struct ChartsView: View {
                 }
             }
         }
+        .chartXAxis {
+            AxisMarks(values: .stride(by: .day, count: 1)) { _ in
+                AxisValueLabel(format: .dateTime.month().day())
+            }
+        }
         .chartXAxis(isOverview ? .hidden : .automatic)
         .chartYAxis(isOverview ? .hidden : .automatic)
-        .accessibilityChartDescriptor(self)
-        
+        .chartYScale(domain: [0, viewModel.maxSummaryReps ?? 0 * 1.5 ])
         .frame(height: isOverview ? previewChartHeight : previewChartHeight)
     }
     
+    
+    func testFunc(repsTrueWeightFalse:Bool)  {
+        
+    }
     private var weightChart: some View {
         Chart(data.1, id: \.day) { chartMarker in
             let baselineMarker = getBaselineMarkerWeight(marker: chartMarker)
-            
+            let baselineMarkerBack = getBaselineMarkerWeightBack(marker: chartMarker)
             if CompareSelectedMarkerToChartMarker(selectedMarker: selectedElementWeight, chartMarker: chartMarker) && showLollipop {
                 baselineMarker.symbol() {
                     Circle().strokeBorder(chartColor, lineWidth: 2).background(Circle().foregroundColor(lollipopColor)).frame(width: 11)
@@ -217,6 +273,9 @@ struct ChartsView: View {
             } else {
                 baselineMarker.symbol(Circle().strokeBorder(lineWidth: lineWidth))
                     .foregroundStyle(linearGradient)
+            }
+            baselineMarkerBack.symbol() {
+                Circle().strokeBorder(chartColor, lineWidth: 2).background(Circle().foregroundColor(lollipopColor)).frame(width: 11)
             }
         }
         
@@ -258,7 +317,7 @@ struct ChartsView: View {
                         
                         let lineX = startPositionX1 + geo[proxy.plotAreaFrame].origin.x
                         let lineHeight = geo[proxy.plotAreaFrame].maxY
-                        let boxWidth: CGFloat = 90
+                        let boxWidth: CGFloat = 100
                         
                         let boxOffset = max(0, min(geo.size.width - boxWidth, lineX - boxWidth / 2))
                         
@@ -269,11 +328,11 @@ struct ChartsView: View {
                         
                         HStack {
                             Text("\(selectedElementWeight.weight, format: .number) ")
-                                .font(.custom("Helvetica", size: 15).bold())
+                                .font(.custom("Helvetica", size: 13).bold())
                                 .foregroundColor(.white)
                             Spacer()
                             Text("\(selectedElementWeight.day, format: .dateTime.year().month().day())")
-                                .font(.custom("Helvetica", size: 13).bold())
+                                .font(.custom("Helvetica", size: 11).bold())
                                 .foregroundStyle(Color("GrayColor"))
                             
                         }
@@ -295,8 +354,14 @@ struct ChartsView: View {
                 }
             }
         }
-        .chartXAxis(isOverview ? .hidden : .automatic)
-        .chartYAxis(isOverview ? .hidden : .automatic)
+        .chartXAxis {
+            AxisMarks(values: .stride(by: .day, count: 1)) { _ in
+                AxisValueLabel(format: .dateTime.month().day())
+            }
+        }
+        .chartXAxis(isOverview ? .hidden : .visible)
+        .chartYAxis(isOverview ? .hidden : .visible)
+        .chartYScale(domain: [0, viewModel.maxSummaryWeight ?? 0 * 1.5])
         .accessibilityChartDescriptor(self)
         
         .frame(height: isOverview ? previewChartHeight : previewChartHeight)
@@ -378,40 +443,5 @@ extension ChartsView: AXChartDescriptorRepresentable {
     }
 }
 
-// MARK: - Preview
-
-struct ChartsView_Previews: PreviewProvider {
-
-    static var previews: some View {
-        
-        let weightData = [WeightData(day: Date(), weight: 10)]
-        let repsData = [RepsData(day: Date(),reps: 10)]
-        
-        ChartsView(isOverview: true,reps:repsData,weight:weightData)
-        ChartsView(isOverview: false,reps:repsData,weight:weightData)
-    }
-}
 
 
-//MARK: unnecessary Overview
-//} else {
-//    List {
-//        Section {
-//            repChart
-//        }
-//
-//        Section {
-//            Text("**Hold and drag** over the chart to view and move the lollipop")
-//                .font(.callout)
-//            Toggle("Lollipop", isOn: $showLollipop)
-//            if showLollipop {
-//                ColorPicker("Lollipop Color Picker", selection: $lollipopColor)
-//
-//            }
-//
-//        }
-//
-//    }
-//
-//    .navigationBarTitle(ChartType.singleLineLollipop.title, displayMode: .inline)
-//}
