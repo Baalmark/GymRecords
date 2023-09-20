@@ -13,7 +13,6 @@ struct DisplaySetsMainView: View {
     var exercise:Exercise
     var width:CGFloat = 33.5
     var body: some View {
-        
         ForEach(exercise.sets, id: \.id) { newSet in
             if viewModel.sameDateCheck(date1: viewModel.selectedDate, date2: newSet.date) {
                 HStack {

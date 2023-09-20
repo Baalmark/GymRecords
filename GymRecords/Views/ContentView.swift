@@ -224,10 +224,6 @@ struct ContentView: View {
                                 .offset(y:collapsingViewFlag ? -140 : 0)
                                 .scaledToFit()
                                 
-                                .onAppear() {
-                                    print(viewModel.screenWidth)
-                                    print(viewModel.screenHeight)
-                                }
                         }
                     }
                     

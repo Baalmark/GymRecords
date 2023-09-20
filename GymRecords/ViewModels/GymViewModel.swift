@@ -77,6 +77,9 @@ class GymViewModel: ObservableObject {
     //Statistic view and other vars for Graphs
     @Published var willAppearStatisticView = false
     @Published var selectedExerciseForStatisticView:Exercise? = nil
+    @Published var selectedPeriod:Int = 7
+    @Published var maxSummaryReps:Double? = 0
+    @Published var maxSummaryWeight:Double? = 0
     
     //Design Vars
     var viewCornerRadiusSimple:CGFloat = 10
@@ -773,6 +776,40 @@ class GymViewModel: ObservableObject {
             result.append(newObject)
         }
         return result
+    }
+    func selectPeriodForCharts(period:String) {
+        
+        selectedPeriod = returnInDays(period: period)
+        
+    }
+    
+    func returnInDays(period:String) -> Int {
+        switch period {
+        case "Week": return 7
+        case "Month": return 30
+        case "Year": return 365
+        default: return 7
+        }
+    }
+    
+    func returnStartAndEndOfPeriodForChart(startPoint:Date,endPoint:Date) -> (String,String){
+        let dateFormatter = DateFormatter()
+        if selectedPeriod == 7 {
+            dateFormatter.dateFormat = "MMM d"
+            let start = dateFormatter.string(from: startPoint)
+            let end = dateFormatter.string(from: endPoint)
+            return (start,end)
+        } else if selectedPeriod == 30 {
+            dateFormatter.dateFormat = "MMM"
+            let start = dateFormatter.string(from: startPoint)
+            let end = dateFormatter.string(from: endPoint)
+            return (start,end)
+        } else {
+            dateFormatter.dateFormat = "yyyy"
+            let start = dateFormatter.string(from: startPoint)
+            let end = dateFormatter.string(from: endPoint)
+            return (start,end)
+        }
     }
     
 }

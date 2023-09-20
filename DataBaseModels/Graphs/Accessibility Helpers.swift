@@ -68,7 +68,7 @@ enum AccessibilityHelpers {
         // A closure that takes a date and converts it to a label for axes
         let dateTupleStringConverter: ((RepsData) -> (String)) = { dataPoint in
 
-            let dateDescription = dataPoint.day.formatted(date: .complete, time: .omitted)
+            let dateDescription = dataPoint.day.formatted(date: .abbreviated, time: .omitted)
 
             if let threshold = repsThreshold {
                 let isAbove = dataPoint.isAbove(threshold: threshold)
@@ -125,7 +125,7 @@ enum AccessibilityHelpers {
         // A closure that takes a date and converts it to a label for axes
         let dateTupleStringConverter: ((WeightData) -> (String)) = { dataPoint in
 
-            let dateDescription = dataPoint.day.formatted(date: .complete, time: .omitted)
+            let dateDescription = dataPoint.day.formatted(date: .abbreviated, time: .omitted)
 
             if let threshold = weightThreshold {
                 let isAbove = dataPoint.isAbove(threshold: threshold)

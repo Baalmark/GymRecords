@@ -65,7 +65,7 @@ enum ChartType: String, Identifiable, CaseIterable {
         let example = allData.overViewExample7
         switch self {
         case .singleLineLollipop:
-            return ChartsView(isOverview: true,reps: example.0,weight: example.1).makeChartDescriptor()
+            return ChartsView(reps: example.0,weight: example.1).makeChartDescriptor()
         default:
             return nil
 
@@ -79,6 +79,6 @@ enum ChartType: String, Identifiable, CaseIterable {
 
     @ViewBuilder
     private func overviewOrDetailView(isOverview: Bool,reps:[RepsData],weight:[WeightData]) -> some View {
-        ChartsView(isOverview: isOverview,reps:reps,weight:weight,data:allData.overViewExample7)
+        ChartsView(reps:reps,weight:weight,data:allData.overViewExample7)
         }
 }

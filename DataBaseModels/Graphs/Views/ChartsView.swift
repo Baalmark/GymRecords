@@ -10,22 +10,21 @@ import Charts
 
 struct ChartsView: View {
     @EnvironmentObject var viewModel:GymViewModel
-    var isOverview: Bool
     var reps:[RepsData]
     var weight:[WeightData]
+    @State private var periodXAxis = ("","")
     @State private var lineWidth = 2.0
-    @State private var interpolationMethod: ChartInterpolationMethod = .monotone
     @State private var chartColor: Color = .black
-    var statisticViewModel:StatisticViewModel = StatisticViewModel()
-    @State private var showSymbols = true
-    @State private var selectedElementReps: RepsData? = nil
-    @State private var selectedElementWeight: WeightData? = nil
+    @StateObject var statisticViewModel:StatisticViewModel = StatisticViewModel()
+    @State private var selectedElementRep: RepsData? = nil
+    @State private var selectedElementWeights: WeightData? = nil
     @State private var showLollipop = true
     @State private var lollipopColor: Color = .black
+    @State private var axisValueForWeight:Double = 0
+    @State private var axisValueForReps:Double = 0
     
     let previewChartHeight: CGFloat = UIScreen.main.bounds.height / 3
-    
-    let linearGradient = LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.4),         Color.black.opacity(0)]),
+    let linearGradient = LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.4),         Color.black.opacity(0)]),
                                         startPoint: .top,
                                         endPoint: .bottom)
     
@@ -33,10 +32,8 @@ struct ChartsView: View {
     
    
     var body: some View {
-        if !isOverview {
             mainBody
-            .navigationBarTitle(ChartType.singleLineLollipop.title, displayMode: .inline)
-        }
+                .navigationBarTitle(ChartType.singleLineLollipop.title, displayMode: .inline)
     }
     
     var mainBody: some View {
@@ -47,80 +44,102 @@ struct ChartsView: View {
                         .fontWeight(.semibold)
                         .font(.title)
                         .padding(.leading,20)
-                    Text("max \(getMaxRep(reps:reps).removeZerosFromEnd())")
+                    Text("max \(statisticViewModel.getMaxRep(reps:reps).removeZerosFromEnd())")
                         .font(.title2)
                         .fontWeight(.semibold)
                         .foregroundColor(Color("GrayColor"))
                 }
                 repChart
                     .allowsHitTesting(true)
-                    .padding()
+                    .padding([.leading,.top,.trailing])
                 
-                    .onAppear {
-                        if let exercise = viewModel.selectedExerciseForStatisticView {
-                            data = statisticViewModel.getlastPeriod(exercise: exercise , period: 7)
-                        }
-                    }
+                HStack {
+                    Text("\(periodXAxis.0)")
+                    Spacer()
+                    Text("\(periodXAxis.1)")
+                }
+                .font(.callout)
+                .fontWeight(.semibold)
+                .foregroundStyle(Color("MidGrayColor"))
+                .padding([.leading,.trailing])
+                .onAppear {
+                    periodXAxis = viewModel.returnStartAndEndOfPeriodForChart(startPoint: data.0.first?.day ?? Date(), endPoint: data.0.last?.day ?? Date())
+                }
+                .onChange(of: viewModel.selectedPeriod) { _ in
+                    periodXAxis = viewModel.returnStartAndEndOfPeriodForChart(startPoint: data.0.first?.day ?? Date(), endPoint: data.0.last?.day ?? Date())
+
+                }
+                    
+                
             }
+            .padding(.bottom,20)
             Section {
                 HStack {
                     Text("Weight lifted")
                         .fontWeight(.semibold)
                         .font(.title)
                         .padding(.leading,20)
-                    Text("max \(getMaxWeight(weights:weight).removeZerosFromEnd())")
+                    Text("max \(statisticViewModel.getMaxWeight(weights:weight).removeZerosFromEnd())")
                         .font(.title2)
                         .fontWeight(.semibold)
                         .foregroundColor(Color("GrayColor"))
                 }
                 weightChart
                     .allowsTightening(true)
+                    .padding([.leading,.top,.trailing])
+                
+                HStack {
+                    Text("\(periodXAxis.0)")
+                    Spacer()
+                    Text("\(periodXAxis.1)")
+                }
+                .font(.callout)
+                .fontWeight(.semibold)
+                .foregroundStyle(Color("MidGrayColor"))
+                .padding([.leading,.trailing])
+            }
+            .padding(.bottom,20)
+            Section {
+                Text("History")
+                    .font(.title)
+                    .fontWeight(.semibold)
                     .padding()
             }
 
         }
-    }
-    
-    private func CompareSelectedMarkerToChartMarker<T: Equatable>(selectedMarker: T, chartMarker: T) -> Bool {
-        return selectedMarker == chartMarker
-    }
-    
-    private func getBaselineMarkerReps(marker: RepsData) -> some ChartContent {
-        return AreaMark(
-            x: .value("Date", marker.day),
-            y: .value("Reps", marker.reps)
-        )
-        .accessibilityLabel(marker.day.formatted(date: .complete, time: .omitted))
-        .accessibilityValue("\(marker.reps) done")
-        .lineStyle(StrokeStyle(lineWidth: lineWidth))
-        .foregroundStyle(linearGradient)
-        .interpolationMethod(interpolationMethod.mode)
-        .symbolSize(showSymbols ? 20 : 0)
-    }
-    private func getBaselineMarkerWeight(marker: WeightData) -> some ChartContent {
-        return AreaMark(
-            x: .value("Date", marker.day),
-            y: .value("Weight", marker.weight)
-        )
-        .accessibilityLabel(marker.day.formatted(date: .complete, time: .omitted))
-        .accessibilityValue("\(marker.weight) done")
-        .lineStyle(StrokeStyle(lineWidth: lineWidth))
-        .foregroundStyle(linearGradient)
-        .interpolationMethod(interpolationMethod.mode)
-        .symbolSize(showSymbols ? 20 : 0)
+        .onAppear {
+            if let exercise = viewModel.selectedExerciseForStatisticView {
+                data = statisticViewModel.getlastPeriod(exercise: exercise , period: viewModel.selectedPeriod)
+                
+                viewModel.maxSummaryReps = data.0.max { $0.reps < $1.reps}?.reps
+                viewModel.maxSummaryWeight = data.1.max { $0.weight < $1.weight}?.weight
+            }
+        }
+        .onChange(of:viewModel.selectedPeriod) { newValue in
+            if let exercise = viewModel.selectedExerciseForStatisticView {
+                data = statisticViewModel.getlastPeriod(exercise: exercise , period: viewModel.selectedPeriod)
+                
+                viewModel.maxSummaryReps = data.0.max { $0.reps < $1.reps}?.reps
+                viewModel.maxSummaryWeight = data.1.max { $0.weight < $1.weight}?.weight
+            }
+        }
+        
     }
     
     private var repChart: some View {
         Chart(data.0, id: \.day) { chartMarker in
-            let baselineMarker = getBaselineMarkerReps(marker: chartMarker)
-            
-            if CompareSelectedMarkerToChartMarker(selectedMarker: selectedElementReps, chartMarker: chartMarker) && showLollipop {
+            let baselineMarker = statisticViewModel.getBaselineMarkerReps(marker: chartMarker)
+            let baselineMarkerBack = statisticViewModel.getBaselineMarkerRepsBack(marker:chartMarker)
+            if statisticViewModel.compareSelectedMarkerToChartMarker(selectedMarker: selectedElementRep, chartMarker: chartMarker) && showLollipop {
                 baselineMarker.symbol() {
-                    Circle().strokeBorder(chartColor, lineWidth: 2).background(Circle().foregroundColor(lollipopColor)).frame(width: 11)
+                    Circle().strokeBorder(chartColor, lineWidth: 2).background(Circle().foregroundColor(lollipopColor)).frame(width: 7)
                 }
             } else {
                 baselineMarker.symbol(Circle().strokeBorder(lineWidth: lineWidth))
                     .foregroundStyle(linearGradient)
+            }
+            baselineMarkerBack.symbol() {
+                Circle().strokeBorder(chartColor, lineWidth: 2).background(Circle().foregroundColor(lollipopColor)).frame(width: 7)
             }
         }
         
@@ -131,19 +150,19 @@ struct ChartsView: View {
                     .gesture(
                         SpatialTapGesture()
                             .onEnded { value in
-                                let element = findElementReps(location: value.location, proxy: proxy, geometry: geo)
-                                if selectedElementReps?.day == element?.day {
+                                let element = statisticViewModel.findElementReps(location: value.location, proxy: proxy, geometry: geo)
+                                if selectedElementRep?.day == element?.day {
                                     // If tapping the same element, clear the selection.
-                                    selectedElementReps = nil
+                                    selectedElementRep = nil
                                 } else {
-                                    selectedElementReps = element
+                                    selectedElementRep = element
                                 }
                             }
                         
                             .exclusively(
                                 before: DragGesture()
                                     .onChanged { value in
-                                        selectedElementReps = findElementReps(location: value.location, proxy: proxy, geometry: geo)
+                                        selectedElementRep = statisticViewModel.findElementReps(location: value.location, proxy: proxy, geometry: geo)
                                     }
                             )
                         
@@ -156,33 +175,28 @@ struct ChartsView: View {
             ZStack(alignment: .topLeading) {
                 GeometryReader { geo in
                     if showLollipop,
-                       let selectedElementReps {
-                        let dateInterval = Calendar.current.dateInterval(of: .day, for: selectedElementReps.day)!
+                       let selectedElementRep {
+                        let dateInterval = Calendar.current.dateInterval(of: .day, for: selectedElementRep.day)!
                         let startPositionX1 = proxy.position(forX: dateInterval.start) ?? 0
                         
                         let lineX = startPositionX1 + geo[proxy.plotAreaFrame].origin.x
                         let lineHeight = geo[proxy.plotAreaFrame].maxY
-                        let boxWidth: CGFloat = 90
+                        let boxWidth: CGFloat = 100
                         
                         let boxOffset = max(0, min(geo.size.width - boxWidth, lineX - boxWidth / 2))
                         
-                        Rectangle()
-                            .fill(lollipopColor)
-                            .frame(width: 2, height: 0)
-                            .position(x: lineX, y: lineHeight / 2)
-                        
                         HStack {
-                            Text("\(selectedElementReps.reps, format: .number) ")
-                                .font(.custom("Helvetica", size: 15).bold())
+                            Text("\(selectedElementRep.reps, format: .number) ")
+                                .font(.custom("Helvetica", size: 13).bold())
                                 .foregroundColor(.white)
                             Spacer()
-                            Text("\(selectedElementReps.day, format: .dateTime.year().month().day())")
-                                .font(.custom("Helvetica", size: 13).bold())
+                            Text("\(selectedElementRep.day, format: .dateTime.year().month().day())")
+                                .font(.custom("Helvetica", size: 11).bold())
                                 .foregroundStyle(Color("GrayColor"))
                             
                         }
                         .accessibilityElement(children: .combine)
-                        .accessibilityHidden(isOverview)
+                        .accessibilityHidden(false)
                         .frame(width: boxWidth, alignment: .leading)
                         .background {
                             ZStack {
@@ -199,24 +213,26 @@ struct ChartsView: View {
                 }
             }
         }
-        .chartXAxis(isOverview ? .hidden : .automatic)
-        .chartYAxis(isOverview ? .hidden : .automatic)
-        .accessibilityChartDescriptor(self)
-        
-        .frame(height: isOverview ? previewChartHeight : previewChartHeight)
+        .chartXAxis(.hidden)
+        .chartYAxis(.hidden)
+        .chartYScale(domain: [0, viewModel.maxSummaryReps ?? 0 * 1.5 ])
+        .frame(height: previewChartHeight)
     }
     
     private var weightChart: some View {
         Chart(data.1, id: \.day) { chartMarker in
-            let baselineMarker = getBaselineMarkerWeight(marker: chartMarker)
-            
-            if CompareSelectedMarkerToChartMarker(selectedMarker: selectedElementWeight, chartMarker: chartMarker) && showLollipop {
+            let baselineMarker = statisticViewModel.getBaselineMarkerWeight(marker: chartMarker)
+            let baselineMarkerBack = statisticViewModel.getBaselineMarkerWeightBack(marker: chartMarker)
+            if statisticViewModel.compareSelectedMarkerToChartMarker(selectedMarker: selectedElementWeights, chartMarker: chartMarker) && showLollipop {
                 baselineMarker.symbol() {
-                    Circle().strokeBorder(chartColor, lineWidth: 2).background(Circle().foregroundColor(lollipopColor)).frame(width: 11)
+                    Circle().strokeBorder(chartColor, lineWidth: 2).background(Circle().foregroundColor(lollipopColor)).frame(width: 7)
                 }
             } else {
                 baselineMarker.symbol(Circle().strokeBorder(lineWidth: lineWidth))
                     .foregroundStyle(linearGradient)
+            }
+            baselineMarkerBack.symbol() {
+                Circle().strokeBorder(chartColor, lineWidth: 2).background(Circle().foregroundColor(lollipopColor)).frame(width: 7)
             }
         }
         
@@ -227,19 +243,19 @@ struct ChartsView: View {
                     .gesture(
                         SpatialTapGesture()
                             .onEnded { value in
-                                let element = findElementWeight(location: value.location, proxy: proxy, geometry: geo)
-                                if selectedElementWeight?.day == element?.day {
+                                let element = statisticViewModel.findElementWeight(location: value.location, proxy: proxy, geometry: geo)
+                                if selectedElementWeights?.day == element?.day {
                                     // If tapping the same element, clear the selection.
-                                    selectedElementWeight = nil
+                                    selectedElementWeights = nil
                                 } else {
-                                    selectedElementWeight = element
+                                    selectedElementWeights = element
                                 }
                             }
                         
                             .exclusively(
                                 before: DragGesture()
                                     .onChanged { value in
-                                        selectedElementWeight = findElementWeight(location: value.location, proxy: proxy, geometry: geo)
+                                        selectedElementWeights = statisticViewModel.findElementWeight(location: value.location, proxy: proxy, geometry: geo)
                                     }
                             )
                         
@@ -252,33 +268,28 @@ struct ChartsView: View {
             ZStack(alignment: .topLeading) {
                 GeometryReader { geo in
                     if showLollipop,
-                       let selectedElementWeight {
-                        let dateInterval = Calendar.current.dateInterval(of: .day, for: selectedElementWeight.day)!
+                       let selectedElementWeights {
+                        let dateInterval = Calendar.current.dateInterval(of: .day, for: selectedElementWeights.day)!
                         let startPositionX1 = proxy.position(forX: dateInterval.start) ?? 0
                         
                         let lineX = startPositionX1 + geo[proxy.plotAreaFrame].origin.x
                         let lineHeight = geo[proxy.plotAreaFrame].maxY
-                        let boxWidth: CGFloat = 90
+                        let boxWidth: CGFloat = 100
                         
                         let boxOffset = max(0, min(geo.size.width - boxWidth, lineX - boxWidth / 2))
                         
-                        Rectangle()
-                            .fill(lollipopColor)
-                            .frame(width: 2, height: 0)
-                            .position(x: lineX, y: lineHeight / 2)
-                        
                         HStack {
-                            Text("\(selectedElementWeight.weight, format: .number) ")
-                                .font(.custom("Helvetica", size: 15).bold())
+                            Text("\(selectedElementWeights.weight, format: .number) ")
+                                .font(.custom("Helvetica", size: 13).bold())
                                 .foregroundColor(.white)
                             Spacer()
-                            Text("\(selectedElementWeight.day, format: .dateTime.year().month().day())")
-                                .font(.custom("Helvetica", size: 13).bold())
+                            Text("\(selectedElementWeights.day, format: .dateTime.year().month().day())")
+                                .font(.custom("Helvetica", size: 11).bold())
                                 .foregroundStyle(Color("GrayColor"))
                             
                         }
                         .accessibilityElement(children: .combine)
-                        .accessibilityHidden(isOverview)
+                        .accessibilityHidden(false)
                         .frame(width: boxWidth, alignment: .leading)
                         .background {
                             ZStack {
@@ -295,77 +306,14 @@ struct ChartsView: View {
                 }
             }
         }
-        .chartXAxis(isOverview ? .hidden : .automatic)
-        .chartYAxis(isOverview ? .hidden : .automatic)
+        .chartXAxis(.hidden)
+        .chartYAxis(.hidden)
+        .chartYScale(domain: [0, viewModel.maxSummaryWeight ?? 0 * 1.5])
         .accessibilityChartDescriptor(self)
         
-        .frame(height: isOverview ? previewChartHeight : previewChartHeight)
+        .frame(height: previewChartHeight)
     }
     
-    private func findElementReps(location: CGPoint, proxy: ChartProxy, geometry: GeometryProxy) -> RepsData? {
-        let relativeXPosition = location.x - geometry[proxy.plotAreaFrame].origin.x
-        if let date = proxy.value(atX: relativeXPosition) as Date? {
-            // Find the closest date element.
-            var minDistance: TimeInterval = .infinity
-            var index: Int? = nil
-            for countDataIndex in data.0.indices {
-                let nthSalesDataDistance = data.0[countDataIndex].day.distance(to: date)
-                if abs(nthSalesDataDistance) < minDistance {
-                    minDistance = abs(nthSalesDataDistance)
-                    index = countDataIndex
-                }
-            }
-            if let index {
-                return data.0[index]
-            }
-            
-            
-        }
-        return nil
-    }
-    
-    private func findElementWeight(location: CGPoint, proxy: ChartProxy, geometry: GeometryProxy) -> WeightData? {
-        let relativeXPosition = location.x - geometry[proxy.plotAreaFrame].origin.x
-        if let date = proxy.value(atX: relativeXPosition) as Date? {
-            // Find the closest date element.
-            var minDistance: TimeInterval = .infinity
-            var index: Int? = nil
-            for countDataIndex in data.1.indices {
-                let nthSalesDataDistance = data.1[countDataIndex].day.distance(to: date)
-                if abs(nthSalesDataDistance) < minDistance {
-                    minDistance = abs(nthSalesDataDistance)
-                    index = countDataIndex
-                }
-            }
-            if let index {
-                return data.1[index]
-            }
-        }
-        return nil
-    }
-    
-    //MARK: Max rep getter
-    private func getMaxRep(reps:[RepsData]) -> Double {
-        var temp:Double = 0
-        for rep in reps {
-            if temp < rep.reps {
-                temp = rep.reps
-            }
-        }
-        
-        return temp.rounded(.awayFromZero)
-    }
-    //MARK: Max weight getter
-    private func getMaxWeight(weights:[WeightData]) -> Double {
-        var temp:Double = 0
-        for weight in weights {
-            if temp < weight.weight {
-                temp = weight.weight
-            }
-        }
-        
-        return temp.rounded(.awayFromZero)
-    }
 }
 
 // MARK: - Accessibility
@@ -378,40 +326,12 @@ extension ChartsView: AXChartDescriptorRepresentable {
     }
 }
 
-// MARK: - Preview
-
-struct ChartsView_Previews: PreviewProvider {
-
-    static var previews: some View {
-        
-        let weightData = [WeightData(day: Date(), weight: 10)]
-        let repsData = [RepsData(day: Date(),reps: 10)]
-        
-        ChartsView(isOverview: true,reps:repsData,weight:weightData)
-        ChartsView(isOverview: false,reps:repsData,weight:weightData)
-    }
-}
 
 
-//MARK: unnecessary Overview
-//} else {
-//    List {
-//        Section {
-//            repChart
-//        }
-//
-//        Section {
-//            Text("**Hold and drag** over the chart to view and move the lollipop")
-//                .font(.callout)
-//            Toggle("Lollipop", isOn: $showLollipop)
-//            if showLollipop {
-//                ColorPicker("Lollipop Color Picker", selection: $lollipopColor)
-//
+// Legacy
+
+//        .chartXAxis {
+//            AxisMarks(values: .stride(by: .day, count: 1)) { _ in
+//                AxisValueLabel(format: .dateTime.month().day())
 //            }
-//
 //        }
-//
-//    }
-//
-//    .navigationBarTitle(ChartType.singleLineLollipop.title, displayMode: .inline)
-//}
