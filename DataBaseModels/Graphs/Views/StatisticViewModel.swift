@@ -8,10 +8,8 @@
 import SwiftUI
 
 class StatisticViewModel {
-    
-    
     //MARK: Get last period of days statistic
-    // -> [(Date,Sets)] 
+    // -> [(Date,Sets)]
     func getlastPeriod(exercise:Exercise,period:Int) -> ([RepsData],[WeightData]) {
         var result:([RepsData],[WeightData]) = ([],[])
         let now:Date = Date()
@@ -30,17 +28,20 @@ class StatisticViewModel {
             let newObjectReps = RepsData(day: nDate, reps: dataOfSets.0)
             let newObjectWeights = WeightData(day: nDate, weight: dataOfSets.1)
             
-            result.0.append(newObjectReps)
-            result.1.append(newObjectWeights)
+            if newObjectReps.reps != 0 || newObjectWeights.weight != 0{
+                result.0.append(newObjectReps)
+                result.1.append(newObjectWeights)
+            }
+            
+            
         }
         return result
     }
     
-    
     func summaryOfSetsInOneDay(date:Date,allSets:[Sets]) -> (Double,Double) {
         
         let filteredSets = allSets.filter {
-            $0.date.hasSame(.day, as: date)
+            $0.date.hasSame(.day, as: date) && $0.date.hasSame(.month, as: date)
         }
         var reps:Double = 0
         var weights:Double = 0
@@ -50,6 +51,7 @@ class StatisticViewModel {
         }
         return (reps,weights)
     }
+    
     
     
 }
