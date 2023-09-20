@@ -20,7 +20,7 @@ enum allData {
     static var OverViewExampleTotalWeight: Double {
         overViewExample7.1.map { $0.weight }.reduce(0, +)
     }
-
+    
     /// Sales by month for the last 12 months.
     static let overViewExample7: ([RepsData],[WeightData]) = (
         [RepsData(day: date(year:2023,month:5,day:1), reps: 50),
@@ -29,7 +29,7 @@ enum allData {
          RepsData(day: date(year:2023,month:5,day:15), reps: 80),
          RepsData(day: date(year:2023,month:5,day:20), reps: 70),
          RepsData(day: date(year:2023,month:5,day:25), reps: 90)
-        ,RepsData(day: date(year:2023,month:5,day:30), reps: 100)],
+         ,RepsData(day: date(year:2023,month:5,day:30), reps: 100)],
         [WeightData(day: date(year: 2023, month: 5, day: 1), weight: 150),
          WeightData(day: date(year: 2023, month: 5, day: 5), weight: 160),
          WeightData(day: date(year: 2023, month: 5, day: 10), weight: 170),
@@ -67,6 +67,35 @@ extension Date {
         components.nanosecond = -nanosecond
         return Calendar.current.date(byAdding: components, to: self)
     }
+    
+    public func distance(to other: Date) -> TimeInterval {
+        return other.timeIntervalSinceReferenceDate - self.timeIntervalSinceReferenceDate
+    }
+    
+    public func advanced(by n: TimeInterval) -> Date {
+        return self + n
+    }
+    
+    func toString(date:Date) -> String {
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "y/M/d"
+        return dateFormater.string(from: date)
+    }
+    
+    func fullDistance(from date: Date, resultIn component: Calendar.Component, calendar: Calendar = .current) -> Int? {
+        calendar.dateComponents([component], from: self, to: date).value(for: component)
+    }
+    
+    func distance(from date: Date, only component: Calendar.Component, calendar: Calendar = .current) -> Int {
+        let days1 = calendar.component(component, from: self)
+        let days2 = calendar.component(component, from: date)
+        return days1 - days2
+    }
+    
+    func hasSame(_ component: Calendar.Component, as date: Date) -> Bool {
+        distance(from: date, only: component) == 0
+    }
+    
 }
 
 extension Array {

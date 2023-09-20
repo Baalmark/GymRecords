@@ -77,6 +77,9 @@ class GymViewModel: ObservableObject {
     //Statistic view and other vars for Graphs
     @Published var willAppearStatisticView = false
     @Published var selectedExerciseForStatisticView:Exercise? = nil
+    @Published var selectedPeriod:Int = 7
+    @Published var maxSummaryReps:Double? = 0
+    @Published var maxSummaryWeight:Double? = 0
     
     //Design Vars
     var viewCornerRadiusSimple:CGFloat = 10
@@ -768,8 +771,6 @@ class GymViewModel: ObservableObject {
             let newObject = WeightData(day: nSet.date,weight: nSet.weight)
             result.append(newObject)
         }
-        
-        
         return result
     }
     //MARK: Get data of reps for reps graph
@@ -780,9 +781,19 @@ class GymViewModel: ObservableObject {
             let newObject = RepsData(day: nSet.date,reps: nSet.reps)
             result.append(newObject)
         }
-        
-        
         return result
+    }
+    func selectPeriodForCharts(period:String) {
+        
+        selectedPeriod = returnInDays(period: period)
+        func returnInDays(period:String) -> Int {
+            switch period {
+            case "Week": return 7
+            case "Month": return 30
+            case "Year": return 365
+            default: return 7
+            }
+        }
     }
     
 }
