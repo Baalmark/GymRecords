@@ -67,9 +67,9 @@ struct ContentView: View {
                         .padding(.bottom,-10)
                         
                         Rectangle()
-                            .frame(height: 80)
+                            .frame(height: viewModel.constH(h:80))
                             .zIndex(0)
-                            .offset(y:-70)
+                            .offset(y:-viewModel.constH(h: -70))
                             .foregroundColor(.white)
                         
                     }
@@ -90,16 +90,16 @@ struct ContentView: View {
                             }
                             .onEnded { value in
                                 let direction = viewModel.detectDirection(value: value)
-                                if direction == .right, value.translation.width < -200 {
+                                if direction == .right, value.translation.width < viewModel.constW(w:-200) {
                                     viewModel.updateArrayMonthsNext()
                                     withAnimation() {
-                                        offset.width = -405
+                                        offset.width = viewModel.constW(w:-405)
                                     }
                                     offset.width = 0
-                                } else if direction == .left, value.translation.width > 200{
+                                } else if direction == .left, value.translation.width > viewModel.constW(w:200){
                                     viewModel.updateArrayMonthsBack()
                                     withAnimation() {
-                                        offset.width = 405
+                                        offset.width = viewModel.constW(w:200)
                                     }
                                     offset.width = 0
                                     
@@ -120,7 +120,7 @@ struct ContentView: View {
             }
             .background(.white)
             .zIndex(2)
-            .frame(height: collapsingViewFlag ? 140 : 415)
+            .frame(height: collapsingViewFlag ? viewModel.constH(h:140) : viewModel.constH(h:415))
             .overlay(alignment:.center) {
                 ZStack(alignment: .top){
                     //Drag gesture line view
@@ -130,12 +130,12 @@ struct ContentView: View {
                         .gesture(DragGesture()
                             .onChanged { value in
                                 if value.translation.height <= 0{
-                                    if minimizingCalendarOffSet > -295 {
+                                    if minimizingCalendarOffSet > viewModel.constH(h:-295) {
                                         minimizingCalendarOffSet = value.translation.height
                                     }
                                 } else {
                                     if minimizingCalendarOffSet < 0 {
-                                        minimizingCalendarOffSet = -295 + value.translation.height
+                                        minimizingCalendarOffSet = viewModel.constH(h:-295) + value.translation.height
                                     }
                                 }
                                 
@@ -153,8 +153,8 @@ struct ContentView: View {
                                         }
                                     } else {
                                         withAnimation(.easeInOut) {
-                                            minimizingCalendarOffSet = -295
-                                            coeffOfTrainView = 295
+                                            minimizingCalendarOffSet = viewModel.constH(h:-295)
+                                            coeffOfTrainView = viewModel.constH(h:295)
                                             collapsingViewFlag = true
                                             
                                         }
@@ -162,8 +162,8 @@ struct ContentView: View {
                                 } else {
                                     if value.translation.height <= -125 {
                                         withAnimation(.easeInOut) {
-                                            minimizingCalendarOffSet = -295
-                                            coeffOfTrainView = 295
+                                            minimizingCalendarOffSet = viewModel.constH(h:-295)
+                                            coeffOfTrainView = viewModel.constH(h:295)
                                             collapsingViewFlag = true
                                             
                                         }
@@ -232,18 +232,79 @@ struct ContentView: View {
                     }
                     
                     .frame(maxWidth: viewModel.screenWidth)
-                    .frame(height: collapsingViewFlag ? 580 : 290)
+                    .frame(height: collapsingViewFlag ? viewModel.constH(h:580) : viewModel.constH(h:290))
                     .background(.white)
                     .offset(x:0,y:minimizingCalendarOffSet)
                 }.zIndex(10)
-                    .offset(y:collapsingViewFlag ? 510 : 360)
+                    .offset(y:collapsingViewFlag ? viewModel.constH(h:510) : viewModel.constH(h:360))
                 
             }
             .offset(y:viewModel.constH(h: -130))
+<<<<<<< HEAD
             
         }
         .frame(height: viewModel.screenHeight - 70)
         
+        .overlay {
+            if !viewModel.isShowedMainAddSetsView {
+                HStack {
+                    Button(viewModel.isAnyTrainingSelectedDay() ? viewModel.editModeButtonName : mainButtonName) {
+                        
+                        if viewModel.isAnyTrainingSelectedDay() {
+                            withAnimation(.easeInOut) {
+                                viewModel.editMode.toggle()
+                                viewModel.editModeButtonName = viewModel.editMode ? "Save" : "Edit program"
+                            }
+                        } else {
+                            appearSheet.toggle()
+                            viewModel.changeExercisesDB = false
+                        }
+                    }
+                    .sheet(isPresented:$appearSheet) {
+                        //viewModel.dataForProgramm
+                        AddProgramView()
+                    }
+                    .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.editMode ? 335 / 2.2 : 335,height: 45))
+                    .tint(.white)
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    //                .offset(y:collapsingViewFlag ? viewModel.constH(h: 290) : viewModel.constH(h: 155))
+                    .opacity(1)
+                    if viewModel.editMode {
+                        Button("Add exercise") {
+                            appearSheet.toggle()
+                            viewModel.addExerciseFlag = true
+                            viewModel.changeExercisesDB = false
+                        }
+                        .buttonStyle(GrowingButton(isDarkMode: false,width: 335 / 2.2,height: 45))
+                        .tint(.black)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .background(.clear)
+                        .opacity(1)
+                        .sheet(isPresented:$appearSheet) {
+                            AddProgramView()
+                            
+                        }
+                    }
+                }
+                .zIndex(3)
+                .padding(.bottom,20)
+                .padding(.top,10)
+                .padding([.leading,.trailing],30)
+                .background(.white)
+                .offset(y:viewModel.constH(h:370))
+                
+            }
+            .padding([.leading,.trailing],30)
+            .padding(.top,10)
+=======
+>>>>>>> Charts
+            
+        }
+        .frame(height: viewModel.constH(h: viewModel.screenHeight - 70),alignment:.top)
+//        .frame(height: viewModel.constH(h: viewModel.screenHeight - 70))
+        .border(.red)
         .overlay {
             if !viewModel.isShowedMainAddSetsView {
                 HStack {

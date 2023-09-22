@@ -26,6 +26,7 @@ class StatisticViewModel {
                 result.0.append(newObjectReps)
                 result.1.append(newObjectWeights)
             }
+
         }
         return result
     }

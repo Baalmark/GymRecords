@@ -70,7 +70,7 @@ struct CreateNewExercise: View {
                         Image(systemName: "info.circle.fill")
                             .symbolRenderingMode(.hierarchical)
                             .foregroundColor(.white)
-                    }.offset(x:20,y:0)
+                    }.offset(x:viewModel.constW(w:20),y:0)
                         .alert(isPresented: $isShowAlertDoubleWeight) {
                             Alert(title:Text("Double Weight"),message:Text(GymModel.doubleWeightAlertText),dismissButton: .cancel(Text("OK")))
                         }
@@ -87,7 +87,7 @@ struct CreateNewExercise: View {
                         Image(systemName: "info.circle.fill")
                             .symbolRenderingMode(.hierarchical)
                             .foregroundColor(.white)
-                    }.offset(x:20,y:0)
+                    }.offset(x:viewModel.constW(w:20),y:0)
                         .alert(isPresented: $isShowAlertBodyWeight) {
                             Alert(title:Text("Body Weight"),message:Text(GymModel.bodyWeightAlertText),dismissButton: .cancel(Text("OK")))
                         }
@@ -105,7 +105,7 @@ struct CreateNewExercise: View {
                             .symbolRenderingMode(.hierarchical)
                             .foregroundColor(isNoCategoryCreating ? Color("GrayColor") : Color("LightGrayColor"))
                             .tint(isNoCategoryCreating ? .white : .black)
-                            .font(.custom("Helvetica", size: 14))
+                            .font(.custom("Helvetica", size: viewModel.constW(w:14)))
                             .fontWeight(.bold)
                             .padding(10)
                             .background(Circle())
@@ -122,7 +122,7 @@ struct CreateNewExercise: View {
                             viewModel.isShowedCreateNewExerciseList.toggle()
                             viewModel.isShowedCreateExView.toggle()
                         }
-                        .buttonStyle(GrowingButton(isDarkMode: viewModel.isDarkMode,width: 335 - 50,height: 45))
+                        .buttonStyle(GrowingButton(isDarkMode: viewModel.isDarkMode,width: viewModel.constW(w:335 - 50),height: viewModel.constH(h:45)))
                         .foregroundColor(Color("DarkGrayColor"))
                     }
                 }

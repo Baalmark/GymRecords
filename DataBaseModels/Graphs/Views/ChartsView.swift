@@ -255,6 +255,7 @@ struct ChartsView: View {
         .chartXAxis(isOverview ? .hidden : .automatic)
         .chartYAxis(isOverview ? .hidden : .automatic)
         .chartYScale(domain: [0, viewModel.maxSummaryReps ?? 0 * 1.5 ])
+
         .frame(height: isOverview ? previewChartHeight : previewChartHeight)
     }
     
@@ -362,6 +363,7 @@ struct ChartsView: View {
         .chartXAxis(isOverview ? .hidden : .visible)
         .chartYAxis(isOverview ? .hidden : .visible)
         .chartYScale(domain: [0, viewModel.maxSummaryWeight ?? 0 * 1.5])
+
         .accessibilityChartDescriptor(self)
         
         .frame(height: isOverview ? previewChartHeight : previewChartHeight)
@@ -442,6 +444,8 @@ extension ChartsView: AXChartDescriptorRepresentable {
         AccessibilityHelpers.chartDescriptorReps(forCountSeries: data.0)
     }
 }
+
+
 
 
 

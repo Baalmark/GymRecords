@@ -1,6 +1,8 @@
 {
   "pins" : [
     {
+<<<<<<< HEAD
+=======
       "identity" : "chartview",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/AppPear/ChartView",
@@ -10,6 +12,7 @@
       }
     },
     {
+>>>>>>> Charts
       "identity" : "realm-core",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core.git",

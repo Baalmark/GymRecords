@@ -97,7 +97,7 @@ struct AddSetPageView: View {
                     .frame(width: viewModel.screenWidth)
                     .tag(index)
                 
-                }
+            }
             .overlay{
                 if viewModel.didTapToAddSet {
                     
@@ -114,7 +114,7 @@ struct AddSetPageView: View {
                         .onDisappear {
                             viewModel.blurOrBlackBackground = true
                         }
-                        
+                    
                 }
             }
         }
@@ -144,7 +144,7 @@ struct AddSetPageView: View {
 struct AddSetPageView_Previews: PreviewProvider {
     static var previews: some View {
         let migrator = Migrator()
-
+        
         AddSetPageView(scrollToIndex: 0).environmentObject(GymViewModel())
     }
 }

@@ -37,9 +37,9 @@ struct EditOrRemoveTheProgram: View {
                             .padding(.leading,20)
                         Text(elem.name.capitalized)
                             .padding(.leading,10)
-                            .frame(width: 300,height: 50,alignment: .leading)
+                            .frame(width: viewModel.constW(w:300),height: viewModel.constH(h:50),alignment: .leading)
                             .foregroundColor(.black)
-                            .font(.custom("Helvetica", size: 16))
+                            .font(.custom("Helvetica", size: viewModel.constW(w:16)))
                             .fontWeight(.bold)
                     }
                     .padding(.leading,20)
@@ -59,9 +59,9 @@ struct EditOrRemoveTheProgram: View {
                         .foregroundColor(.white)
                         .padding(10)
                 }
-                .font(.custom("Helvetica", size: 20))
+                .font(.custom("Helvetica", size: viewModel.constW(w:20)))
                 .background(Circle()
-                    .frame(width: 40,height: 40)
+                    .frame(width: viewModel.constW(w:40),height: viewModel.constW(w:40))
                     .foregroundColor(Color("MidGrayColor")))
                 .padding(.leading,15)
                 //Edit or Remove
@@ -72,9 +72,9 @@ struct EditOrRemoveTheProgram: View {
                         .foregroundColor(.white)
                         .padding(10)
                 }
-                .font(.custom("Helvetica", size: 20))
+                .font(.custom("Helvetica", size: viewModel.constW(w:20)))
                 .background(Circle()
-                    .frame(width: 40,height: 40)
+                    .frame(width: viewModel.constW(w:40),height: viewModel.constW(w:40))
                     .foregroundColor(Color("MidGrayColor")))
                 .blurredSheet(.init(.ultraThinMaterial), show: $showSheet) {
                     
@@ -115,7 +115,7 @@ struct EditOrRemoveTheProgram: View {
                             
                         }
                     }
-                    .font(.custom("Helvetica", size: 25))
+                    .font(.custom("Helvetica", size: viewModel.constW(w:25)))
                     .fontWeight(.bold)
                     .presentationDetents([.fraction(0.25)])
                     .frame(maxWidth: .infinity,maxHeight: .infinity)
@@ -138,7 +138,7 @@ struct EditOrRemoveTheProgram: View {
                     Text("Ready")
                         .font(.title3)
                         .fontWeight(.bold)
-                }.buttonStyle(GrowingButton(isDarkMode: false, width: 220, height: 40))
+                }.buttonStyle(GrowingButton(isDarkMode: false, width: viewModel.constW(w:220), height: viewModel.constH(h:40)))
                     .padding(20)
             }
             

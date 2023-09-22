@@ -10,7 +10,7 @@ import SwiftUI
 struct AddOrChangeSetView: View {
     @EnvironmentObject var viewModel:GymViewModel
     @State var exercise:Exercise
-    
+    //NEED TO COMMIT 
     var body: some View {
         VStack(alignment: .leading){
             Button {
@@ -39,7 +39,11 @@ struct AddOrChangeSetView: View {
             Text("\(exercise.name)").foregroundColor(.white)
                 .font(.custom("Helvetica", size: 24).bold())
                 .padding(30)
+<<<<<<< HEAD
+            
+=======
             //
+>>>>>>> Charts
             HStack {
                 Text("weight")
                     .padding(.trailing,110)
@@ -71,13 +75,13 @@ struct AddOrChangeSetView: View {
                 }
                 
             }
-            .buttonStyle(GrowingButton(isDarkMode: false,width: 335,height: 45))
+            .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.constW(w:335),height: viewModel.constH(h:45)))
             .tint(.white)
             .font(.title2)
             .fontWeight(.semibold)
             .padding([.leading,.trailing],30)
             
-            .offset(y:-5)
+            .offset(y:viewModel.constH(h:-5))
             
         }
         .frame(maxWidth: .infinity,maxHeight: .infinity)
@@ -87,6 +91,7 @@ struct AddOrChangeSetView: View {
         .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
         .padding(.top, 30)
         .padding([.leading,.trailing],5)
+//MARK: TO CHECK
         .frame(width: viewModel.screenWidth)
         .background(Color("backgroundDarkColor"))
         

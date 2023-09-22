@@ -28,7 +28,7 @@ struct ChangeExerciseNameOrDeleteView: View {
                     .fixedSize()
                     .font(.title2)
             }
-            .offset(x:viewModel.screenWidth / 2,y:0)
+            .offset(x:viewModel.constW(w:viewModel.screenWidth / 2),y:0)
             .padding(.trailing,70)
             
             //TextField of exercise title
@@ -56,7 +56,7 @@ struct ChangeExerciseNameOrDeleteView: View {
                         Image(systemName: "info.circle.fill")
                             .symbolRenderingMode(.hierarchical)
                             .foregroundColor(.white)
-                    }.offset(x:20,y:0)
+                    }.offset(x:viewModel.constW(w:20),y:0)
                         .alert(isPresented: $isShowAlertDoubleWeight) {
                             Alert(title:Text("Double Weight"),message:Text(GymModel.doubleWeightAlertText),dismissButton: .cancel(Text("OK")))
                         }
@@ -73,7 +73,7 @@ struct ChangeExerciseNameOrDeleteView: View {
                         Image(systemName: "info.circle.fill")
                             .symbolRenderingMode(.hierarchical)
                             .foregroundColor(.white)
-                    }.offset(x:20,y:0)
+                    }.offset(x:viewModel.constW(w:20),y:0)
                         .alert(isPresented: $isShowAlertBodyWeight) {
                             Alert(title:Text("Body Weight"),message:Text(GymModel.bodyWeightAlertText),dismissButton: .cancel(Text("OK")))
                         }
@@ -89,14 +89,14 @@ struct ChangeExerciseNameOrDeleteView: View {
                     Text("Remove exercise")
                         .foregroundColor(Color("RedColorScarlet"))
                 }
-                .offset(x:-90,y:10)
+                .offset(x:viewModel.constW(w:-90),y:viewModel.constH(h:10))
                 .padding()
                 Spacer()
                 Button("Save") {
                     viewModel.toggleBodyAndDoubleWeight(exercise: exercise, bodyWeight: exercise.selfWeight, doubleWeight: exercise.doubleWeight)
                     dismiss()
                 }
-                .buttonStyle(GrowingButton(isDarkMode: viewModel.isDarkMode ,width: 335,height: 45))
+                .buttonStyle(GrowingButton(isDarkMode: viewModel.isDarkMode ,width: viewModel.constW(w:335),height: viewModel.constH(h:45)))
                 
             }
             .font(.title2)

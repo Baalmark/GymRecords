@@ -25,7 +25,7 @@ struct ViewListSpecificExercises: View {
                     //Title and Button Create Exercise
                     Text("\(typeOfExercise.rawValue.capitalized)")
                         .padding([.leading,.top],30)
-                        .font(.custom("Helvetica", size: 24))
+                        .font(.custom("Helvetica", size: viewModel.constW(w:24)))
                         .fontWeight(.bold)
                         .foregroundColor(exerciseProgramming ? .white : .black)
                         .opacity(!viewModel.searchWord.isEmpty ? 0 : 1)
@@ -50,7 +50,7 @@ struct ViewListSpecificExercises: View {
                             } else {
                                 HStack {
                                     Text(viewModel.arrayOfFoundExercise[id].name)
-                                        .font(.custom("Helvetica", size: 22))
+                                        .font(.custom("Helvetica", size: viewModel.constW(w:22)))
                                         .fontWeight(.bold)
                                     Spacer()
                                 }
@@ -83,7 +83,7 @@ struct ViewListSpecificExercises: View {
                                     } else {
                                         HStack {
                                             Text(viewModel.arrayExercises[id].name)
-                                                .font(.custom("Helvetica", size: 22))
+                                                .font(.custom("Helvetica", size: viewModel.constW(w:22)))
                                                 .fontWeight(.bold)
                                             Spacer()
                                         }
@@ -121,13 +121,13 @@ struct ViewListSpecificExercises: View {
                         Image(systemName: "arrow.left")
                         Text(viewModel.backButtonLabel)
                             .foregroundColor(.white)
-                            .font(.custom("Helvetica", size: 20))
+                            .font(.custom("Helvetica", size: viewModel.constW(w:20)))
                             .fontWeight(.bold)
                     }
                     .foregroundColor(.white)
                     .padding(10)
                 }
-                .font(.custom("Helvetica", size: 26))
+                .font(.custom("Helvetica", size: viewModel.constW(w:26)))
                 .foregroundColor(.white)
                 
                 .background(Capsule(style: .continuous))

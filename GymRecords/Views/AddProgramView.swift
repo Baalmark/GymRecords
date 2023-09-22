@@ -32,7 +32,7 @@ struct AddProgramView: View {
                             }
                             .tint(.black)
                             .foregroundColor(.black)
-                            .font(.custom("Helvetica", size: 18))
+                            .font(.custom("Helvetica", size: viewModel.constW(w:18)))
                     }
                     .foregroundColor(Color("MidGrayColor"))
                     .background(Rectangle()
