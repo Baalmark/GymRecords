@@ -37,7 +37,7 @@ struct ChartsView: View {
     var body: some View {
         if !isOverview {
             mainBody
-            .navigationBarTitle(ChartType.singleLineLollipop.title, displayMode: .inline)
+                .navigationBarTitle(ChartType.singleLineLollipop.title, displayMode: .inline)
         }
     }
     
@@ -105,6 +105,8 @@ struct ChartsView: View {
     private func CompareSelectedMarkerToChartMarker<T: Equatable>(selectedMarker: T, chartMarker: T) -> Bool {
         return selectedMarker == chartMarker
     }
+    
+    
     
     private func getBaselineMarkerReps(marker: RepsData) -> some ChartContent {
         return LineMark(
@@ -245,14 +247,22 @@ struct ChartsView: View {
                 }
             }
         }
-        .chartXAxis(isOverview ? .hidden : .visible)
-        .chartYAxis(isOverview ? .hidden : .visible)
-        .chartYScale(domain: [0, viewModel.maxSummaryReps! * 1.5])
-        .accessibilityChartDescriptor(self)
-        
+        .chartXAxis {
+            AxisMarks(values: .stride(by: .day, count: 1)) { _ in
+                AxisValueLabel(format: .dateTime.month().day())
+            }
+        }
+        .chartXAxis(isOverview ? .hidden : .automatic)
+        .chartYAxis(isOverview ? .hidden : .automatic)
+        .chartYScale(domain: [0, viewModel.maxSummaryReps ?? 0 * 1.5 ])
+
         .frame(height: isOverview ? previewChartHeight : previewChartHeight)
     }
     
+    
+    func testFunc(repsTrueWeightFalse:Bool)  {
+        
+    }
     private var weightChart: some View {
         Chart(data.1, id: \.day) { chartMarker in
             let baselineMarker = getBaselineMarkerWeight(marker: chartMarker)
@@ -345,10 +355,15 @@ struct ChartsView: View {
                 }
             }
         }
-
+        .chartXAxis {
+            AxisMarks(values: .stride(by: .day, count: 1)) { _ in
+                AxisValueLabel(format: .dateTime.month().day())
+            }
+        }
         .chartXAxis(isOverview ? .hidden : .visible)
         .chartYAxis(isOverview ? .hidden : .visible)
-        .chartYScale(domain: [0, viewModel.maxSummaryWeight! * 1.5])
+        .chartYScale(domain: [0, viewModel.maxSummaryWeight ?? 0 * 1.5])
+
         .accessibilityChartDescriptor(self)
         
         .frame(height: isOverview ? previewChartHeight : previewChartHeight)
@@ -429,3 +444,8 @@ extension ChartsView: AXChartDescriptorRepresentable {
         AccessibilityHelpers.chartDescriptorReps(forCountSeries: data.0)
     }
 }
+
+
+
+
+

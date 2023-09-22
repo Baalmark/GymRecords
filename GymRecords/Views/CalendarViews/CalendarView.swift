@@ -64,6 +64,7 @@ struct CalendarView: View
                             .zIndex(1)
                             .onTapGesture {
                                 withAnimation(.spring(response: 0.2,dampingFraction: 0.4,blendDuration: 0.2)) {
+                                    
                                     viewModel.editMode = false
                                     viewModel.editModeButtonName = "Edit program"
                                     viewModel.addExerciseFlag = false
@@ -77,6 +78,7 @@ struct CalendarView: View
                                         viewModel.selectingTheDayWithTraining()
                                         
                                     }
+                                    
                                 }
                             }
                             
