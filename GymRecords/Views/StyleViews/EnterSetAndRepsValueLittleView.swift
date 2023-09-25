@@ -45,7 +45,7 @@ struct EnterSetAndRepsValueLittleView: View {
                             }
                         }
                     }
-                    
+                .padding(.bottom,5)
                     AddSetLittleView(number: viewModel.getNumberAddSetButton(sets: exercise.sets))
                         .onTapGesture {
                             withAnimation(.easeInOut) {

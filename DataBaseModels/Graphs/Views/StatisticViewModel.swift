@@ -16,6 +16,7 @@ class StatisticViewModel:ObservableObject {
                                         endPoint: .bottom)
     @Published var data:([RepsData],[WeightData]) = allData.overViewExample7
     
+
     //MARK: Get last period of days statistic
     // -> [(Date,Sets)]
     func getlastPeriod(exercise:Exercise,period:Int) -> ([RepsData],[WeightData]) {
@@ -34,6 +35,7 @@ class StatisticViewModel:ObservableObject {
                 result.0.append(newObjectReps)
                 result.1.append(newObjectWeights)
             }
+
         }
         refreshData(data: result)
         return result
@@ -173,6 +175,7 @@ class StatisticViewModel:ObservableObject {
         
         return temp.rounded(.awayFromZero)
     }
+    
     
     
     

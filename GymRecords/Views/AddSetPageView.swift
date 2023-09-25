@@ -31,37 +31,37 @@ struct AddSetPageView: View {
                             .padding(.top,15).padding(.leading,5)
                             .font(.callout.bold())
                             .foregroundColor(Color("MidGrayColor"))
-                            ScrollView {
-                                VStack {
+                            if !exercise.sets.isEmpty {
+                                ScrollView {
+                                    VStack {
                                         DisplaySetsMainView(exercise: exercise)
-                                        .padding(.leading,-2).padding(.top, -3).padding(.bottom,6)
-                                        .onTapGesture {
-                                            withAnimation(.easeInOut) {
-                                                viewModel.didTapToAddSet.toggle()
-                                                viewModel.crntExrcsFrEditSets = exercise
-                                                viewModel.setsBackUp = viewModel.crntExrcsFrEditSets.sets
+                                            .padding([.leading,.trailing])
+                                            .onTapGesture {
+                                                withAnimation(.easeInOut) {
+                                                    viewModel.didTapToAddSet.toggle()
+                                                    viewModel.crntExrcsFrEditSets = exercise
+                                                    viewModel.setsBackUp = viewModel.crntExrcsFrEditSets.sets
+                                                }
                                             }
-                                        }
-
-                                    AddSetLittleView(number: viewModel.getNumberAddSetButton(sets: exercise.sets))
-                                        .padding(.leading,-4).padding(.top, -3).padding(.bottom,6)
-                                        .onTapGesture {
-                                            withAnimation(.easeInOut) {
-                                                
-                                                viewModel.didTapToAddSet.toggle()
-                                                viewModel.crntExrcsFrEditSets = exercise
-                                                viewModel.crntExrcsFrEditSets = viewModel.createSet(exercise: viewModel.crntExrcsFrEditSets)
-                                                viewModel.setsBackUp = viewModel.crntExrcsFrEditSets.sets
-                                            }
-                                        }
-                                    Spacer()
+                                    }
+                                    .frame(width: viewModel.screenWidth)
                                 }
-                                .frame(width: viewModel.screenWidth)
                             }
+                            AddSetLittleView(number: viewModel.getNumberAddSetButton(sets: exercise.sets))
+                                
+                                .onTapGesture {
+                                    withAnimation(.easeInOut) {
+                                        
+                                        viewModel.didTapToAddSet.toggle()
+                                        viewModel.crntExrcsFrEditSets = exercise
+                                        viewModel.crntExrcsFrEditSets = viewModel.createSet(exercise: viewModel.crntExrcsFrEditSets)
+                                        viewModel.setsBackUp = viewModel.crntExrcsFrEditSets.sets
+                                    }
+                                }
+                            Spacer()
                         }
-                        .frame(width: viewModel.screenWidth,height: 600)
+                        .frame(width: viewModel.screenWidth,height: viewModel.constH(h: 600))
                         .padding(.top, 80)
-                        Spacer()
                         HStack {
                             Button {
                                 withAnimation(.easeIn(duration: 0.5)) {
@@ -93,30 +93,31 @@ struct AddSetPageView: View {
                             .offset(x: 0,y:viewModel.constH(h: 700))
                         }
                     }
+                    .overlay{
+                        if viewModel.didTapToAddSet {
+                            
+                            AddOrChangeSetView(exercise: viewModel.crntExrcsFrEditSets)
+                                .gesture(DragGesture()
+                                    .onChanged { value in
+                                    }
+                                    .onEnded { value in
+                                    })
+                                .ignoresSafeArea(.all)
+                                .onAppear {
+                                    viewModel.blurOrBlackBackground = false
+                                }
+                                .onDisappear {
+                                    viewModel.blurOrBlackBackground = true
+                                }
+                            
+                        }
+                    }
                     .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
                     .frame(width: viewModel.screenWidth)
                     .tag(index)
                 
-                }
-            .overlay{
-                if viewModel.didTapToAddSet {
-                    
-                    AddOrChangeSetView(exercise: viewModel.crntExrcsFrEditSets)
-                        .gesture(DragGesture()
-                            .onChanged { value in
-                            }
-                            .onEnded { value in
-                            })
-                        .ignoresSafeArea(.all)
-                        .onAppear {
-                            viewModel.blurOrBlackBackground = false
-                        }
-                        .onDisappear {
-                            viewModel.blurOrBlackBackground = true
-                        }
-                        
-                }
             }
+            
         }
         
         .frame(width: viewModel.screenWidth + 20,height: viewModel.screenHeight)
@@ -144,7 +145,7 @@ struct AddSetPageView: View {
 struct AddSetPageView_Previews: PreviewProvider {
     static var previews: some View {
         let migrator = Migrator()
-
+        
         AddSetPageView(scrollToIndex: 0).environmentObject(GymViewModel())
     }
 }

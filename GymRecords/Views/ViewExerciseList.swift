@@ -67,7 +67,7 @@ struct ViewExerciseList: View {
                                     .padding(.leading,10)
                                     .padding([.top,.bottom])
                                     .foregroundColor(withCategory ? .black : .white)
-                                    .font(.custom("Helvetica", size: 20))
+                                    .font(.custom("Helvetica", size: viewModel.constW(w:20)))
                                     .fontWeight(.bold)
                                 
                                 
@@ -76,14 +76,14 @@ struct ViewExerciseList: View {
                                 HStack {
                                     if viewModel.selectedCounterLabel.isEmpty { // If selected exercise dont exist
                                         Text("\(viewModel.findNumberOfExerciseOneType(type: elem, array: viewModel.arrayExercises))")
-                                            .font(.custom("Helvetica", size: 18))
+                                            .font(.custom("Helvetica", size: viewModel.constW(w:18)))
                                     } else {
                                         if viewModel.selectedCounterLabel[index] == 0 { // If selected exercises dont exist in some category
                                             Text("\(viewModel.findNumberOfExerciseOneType(type: elem, array: viewModel.arrayExercises))")
-                                                .font(.custom("Helvetica", size: 18))
+                                                .font(.custom("Helvetica", size: viewModel.constW(w:18)))
                                         } else { // Display selected exercises
                                             Text("Selected: \(viewModel.selectedCounterLabel[index])")
-                                                .font(.custom("Helvetica", size: 18))
+                                                .font(.custom("Helvetica", size: viewModel.constW(w:18)))
                                         }
                                     }
                                     Image(systemName: "chevron.forward")
@@ -139,11 +139,11 @@ struct ViewExerciseList: View {
                         
                         Button("Add \(viewModel.selectedExArray.count)") {
                             dismiss()
-                        }.buttonStyle(GrowingButton(isDarkMode: true,width: 335,height: 45))
+                        }.buttonStyle(GrowingButton(isDarkMode: true,width: viewModel.constW(w:335),height: viewModel.constH(h:45)))
                             .tint(.white)
                             .font(.title3)
                             .fontWeight(.semibold)
-                            .offset(x:0,y:-20)
+                            .offset(x:0,y:viewModel.constH(h:-20))
                             .opacity(viewModel.selectedExArray.isEmpty ? 0 : 1)
                     }
                 }
@@ -159,12 +159,7 @@ struct ViewExerciseList: View {
                 }
                 if viewModel.isShowedViewListSpecificExercise {
                     let type = viewModel.showedViewListSpecificExercise
-                    
-//MARK: ???
                     ViewListSpecificExercises(typeOfExercise: type, isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: programmingExercise)
-                        .onAppear() {
-                            
-                        }
                 }
             }
         }

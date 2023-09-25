@@ -14,22 +14,9 @@ struct AddNewSetsMainView: View {
 
     
     var body: some View {
-            
                 AddSetPageView(scrollToIndex: scrollToIndex)
             .frame(width: viewModel.screenWidth)
-        
     }
-
-
-    var widthOfFrame: CGFloat
-    {
-        let count =  CGFloat(viewModel.trainInSelectedDay.exercises.count)
-        let width = viewModel.screenWidth
-        let padding = CGFloat(viewModel.trainInSelectedDay.exercises.count * 10)
-
-        return width * count + padding
-    }
-
 }
 
 

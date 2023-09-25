@@ -10,47 +10,50 @@ import SwiftUI
 struct AddOrChangeSetView: View {
     @EnvironmentObject var viewModel:GymViewModel
     @State var exercise:Exercise
-    
+    //NEED TO COMMIT 
     var body: some View {
         VStack(alignment: .leading){
-            Button {
-                withAnimation(.easeInOut) {
-                    viewModel.didTapToAddSet = false
-                    exercise.sets = viewModel.setsBackUp
-                    
-                    if !exercise.sets.isEmpty {
-                        let filteredSets = exercise.sets.filter { Set in
-                            Set.reps != 0 || Set.weight != 0
+        
+            HStack {
+                Text("\(exercise.name)").foregroundColor(.white)
+                    .font(.custom("Helvetica", size: 24).bold())
+                    .padding(30)
+                Spacer()
+                Button {
+                    withAnimation(.easeInOut) {
+                        viewModel.didTapToAddSet = false
+                        exercise.sets = viewModel.setsBackUp
+                        
+                        if !exercise.sets.isEmpty {
+                            let filteredSets = exercise.sets.filter { Set in
+                                Set.reps != 0 || Set.weight != 0
+                            }
+                            exercise.sets = filteredSets
                         }
-                        exercise.sets = filteredSets
                     }
+                    
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .symbolRenderingMode(.hierarchical)
+                        .foregroundColor(Color("GrayColor"))
+                        .tint(.black)
+                        .fixedSize()
+                        .font(.title)
                 }
-                
-            } label: {
-                Image(systemName: "xmark.circle.fill")
-                    .symbolRenderingMode(.hierarchical)
-                    .foregroundColor(Color("GrayColor"))
-                    .tint(.black)
-                    .fixedSize()
-                    .font(.title)
+                .padding(.trailing,20)
             }
-            .offset(x:viewModel.screenWidth - 45)
-            
-            Text("\(exercise.name)").foregroundColor(.white)
-                .font(.custom("Helvetica", size: 24).bold())
-                .padding(30)
-            //
+            .padding(.top,20)
             HStack {
                 Text("weight")
                     .padding(.trailing,110)
                 Text("reps")
             }
-            .padding(.leading,50)
+            .padding(.leading,30)
             .font(.callout.bold())
             .foregroundColor(Color("MidGrayColor"))
             
             EnterSetAndRepsValueLittleView(exercise: exercise)
-                .padding(.leading,10)
+                
                 .ignoresSafeArea(.keyboard)
             
                 
@@ -71,13 +74,13 @@ struct AddOrChangeSetView: View {
                 }
                 
             }
-            .buttonStyle(GrowingButton(isDarkMode: false,width: 335,height: 45))
+            .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.constW(w:335),height: viewModel.constH(h:45)))
             .tint(.white)
             .font(.title2)
             .fontWeight(.semibold)
-            .padding([.leading,.trailing],30)
+            .padding(30)
             
-            .offset(y:-5)
+            .offset(y:viewModel.constH(h:-5))
             
         }
         .frame(maxWidth: .infinity,maxHeight: .infinity)
@@ -87,6 +90,7 @@ struct AddOrChangeSetView: View {
         .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
         .padding(.top, 30)
         .padding([.leading,.trailing],5)
+//MARK: TO CHECK
         .frame(width: viewModel.screenWidth)
         .background(Color("backgroundDarkColor"))
         

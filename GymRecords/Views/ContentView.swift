@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  GymRecords
-//
-//  Created by Pavel Goldman on 14.01.2023.
-//
-
 import SwiftUI
 import RealmSwift
 struct ContentView: View {
@@ -27,6 +20,10 @@ struct ContentView: View {
     @State var mainButtonName = "Add exercises"
     @State var mainButtonEditName = "Edit program"
     @State var flagAddSetMainViewAppear = false
+    
+    
+    
+    
     var body: some View {
         VStack {
             ZStack{
@@ -63,16 +60,19 @@ struct ContentView: View {
                             dayOfWeekStack
                             
                         }
+                        .frame(height:110,alignment:.bottom)
                         .background(.white)
                         .padding(.bottom,-10)
                         
+                        
                         Rectangle()
-                            .frame(height: 80)
+                            .frame(height: 100)
                             .zIndex(0)
-                            .offset(y:-70)
+                            .offset(y:-100)
                             .foregroundColor(.white)
                         
                     }
+                    
                     .zIndex(4)
                     HStack(spacing: 10) {
                         ForEach(viewModel.arrayOfMonths, id: \.self) { value in
@@ -113,10 +113,11 @@ struct ContentView: View {
                     .frame(width: viewModel.screenWidth * 3 + 30, height: 350)
                     .offset(x:0,y:  viewModel.constH(h: minimizingCalendarOffSet / viewModel.getCoefficientOffset(row: viewModel.selectedDayRowHolder)))
                     .zIndex(3)
-                    .padding(.bottom, -10)
+                    .padding(.bottom, 15)
                     
                     Spacer()
                 }
+                
             }
             .background(.white)
             .zIndex(2)
@@ -191,6 +192,18 @@ struct ContentView: View {
                                         }
                                         
                                     if exercise.isSelectedToAddSet {
+                                        HStack {
+                                                Text("weight")
+                                                    .frame(width: 160)
+                                                    .padding(.trailing,5)
+                                                Text("reps")
+                                                    .frame(width: 160)
+                                                    .padding(.leading,5)
+                                        }
+                                        .font(.custom("Helvetica", size: 14))
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(Color("MidGrayColor"))
+                                        .frame(width: viewModel.screenWidth)
                                         AddSetsToExercise(exercise: exercise).environmentObject(viewModel)
                                             .onTapGesture {
                                                 withAnimation(.easeInOut) {
@@ -224,6 +237,10 @@ struct ContentView: View {
                                 .offset(y:collapsingViewFlag ? -140 : 0)
                                 .scaledToFit()
                                 
+                                .onAppear() {
+                                    print(viewModel.screenWidth)
+                                    print(viewModel.screenHeight)
+                                }
                         }
                     }
                     
@@ -354,5 +371,3 @@ struct ContentView_Previews: PreviewProvider {
         
     }
 }
-
-

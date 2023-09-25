@@ -38,7 +38,9 @@ struct StatistisView: View {
             .pickerStyle(.segmented)
             .padding([.bottom,.leading,.trailing])
             ScrollView {
+
                 ChartsView(reps:reps,weight:weight)
+
             }
             .onAppear {
                 viewModel.selectPeriodForCharts(period: selectedPeriod)

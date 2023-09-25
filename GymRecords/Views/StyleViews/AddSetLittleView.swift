@@ -12,15 +12,10 @@ struct AddSetLittleView: View {
     var screenWidth = UIScreen.main.bounds.width
     var body: some View {
             HStack {
-                Text("\(number)")
-                    .padding(.leading,-15)
-                    .font(.callout.bold())
-                    .foregroundColor(Color("MidGrayColor"))
-                
                 Text("Add Set")
                     .font(.custom("Helvetica", size: 24).bold())
                     .foregroundColor(.black)
-                    .frame(width: screenWidth - 60,height: 70)
+                    .frame(width: screenWidth - 20,height: 70)
                     .background(RoundedRectangle(cornerRadius: 15)
                         .foregroundColor(Color("LightGrayColor")))
             }

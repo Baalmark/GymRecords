@@ -16,31 +16,25 @@ struct DisplaySetsMainView: View {
         ForEach(exercise.sets, id: \.id) { newSet in
             if viewModel.sameDateCheck(date1: viewModel.selectedDate, date2: newSet.date) {
                 HStack {
-                    Text("\(newSet.number)")
-                        .padding(.leading,-15)
-                        .font(.callout.bold())
-                        .foregroundColor(Color("MidGrayColor"))
-                    HStack {
                         Text("\(newSet.weight.formatted())")
-                            .font(.custom("Helvetica", size: 24).bold())
+                            .font(.custom("Helvetica", size: viewModel.constW(w:24)).bold())
                             .foregroundColor(.black)
                         
                             .multilineTextAlignment(.center)
-                            .frame(width: viewModel.screenWidth / 2 - width,height: 70)
+                            .frame(width: viewModel.constW(w:viewModel.screenWidth / 2 - width),height: viewModel.constH(h:70))
                             .background(RoundedRectangle(cornerRadius: 15)
                                 .foregroundColor(Color("LightGrayColor")))
                         Text("\(newSet.reps.formatted())")
-                            .font(.custom("Helvetica", size: 24).bold())
+                            .font(.custom("Helvetica", size: viewModel.constW(w:24)).bold())
                             .foregroundColor(.black)
-                            .frame(width: viewModel.screenWidth / 2 - width,height: 70)
+                            .frame(width: viewModel.constW(w:viewModel.screenWidth / 2 - width),height: viewModel.constH(h:70))
                             .multilineTextAlignment(.center)
                             .background(RoundedRectangle(cornerRadius: 15)
                                 .foregroundColor(Color("LightGrayColor")))
-                    }
                 }
                 
                 
-                .frame(width: viewModel.screenWidth - 60,height: 70)
+                .frame(width: viewModel.constW(w:viewModel.screenWidth - 60),height: viewModel.constH(h:70))
             }
         }
         }

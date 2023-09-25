@@ -24,12 +24,12 @@ struct ContentViewExerciseFromTheListView: View {
                         .padding([.leading,.trailing], 10)
                     Text(exercise.name.capitalized)
                         .fontWeight(.bold)
-                        .font(.custom("Helvetica", size: 18))
+                        .font(.custom("Helvetica", size: viewModel.constW(w:18)))
                     Spacer()
                     Image(systemName: exercise.isSelectedToAddSet ? "chevron.up" : "chevron.down")
                         .padding([.leading,.trailing], 10)
                         .fontWeight(.medium)
-                        .font(.custom("Helvetica", size: 16))
+                        .font(.custom("Helvetica", size: viewModel.constW(w:16)))
                     
                 }
                 .padding(10)
@@ -43,11 +43,11 @@ struct ContentViewExerciseFromTheListView: View {
                             .padding([.leading,.trailing], 10)
                         Text(exercise.name.capitalized)
                             .fontWeight(.bold)
-                            .font(.custom("Helvetica", size: 18))
+                            .font(.custom("Helvetica", size: viewModel.constW(w:18)))
                         Spacer()
                         Image("red-bin-circle")
                             .resizable()
-                            .frame(width: 30,height: 30)
+                            .frame(width: viewModel.constW(w:30),height: viewModel.constW(w:30))
                             .padding([.leading,.trailing], 10)
                             .onTapGesture {
                                 withAnimation(.easeInOut) {
@@ -87,7 +87,7 @@ struct ContentViewExerciseFromTheListView: View {
                             })
                     
                     Rectangle().foregroundColor(backgroundColor)
-                        .frame(width: viewModel.screenWidth - 20,height: 38)
+                        .frame(width: viewModel.constW(w:viewModel.screenWidth - 20),height: viewModel.constH(h:38))
                         .zIndex(1)
                 }
             }

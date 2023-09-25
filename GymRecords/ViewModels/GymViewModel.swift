@@ -470,6 +470,7 @@ class GymViewModel: ObservableObject {
     //MARK:  The function that calculates with what coefficient to shift the calendar view when you use the drag gesture
     
     func getCoefficientOffset(row:Int) -> CGFloat {
+        //
         if let offset = CalendarMinimizingPosition(id: row) {
             return constH(h: offset.rawValue)
         }
@@ -780,6 +781,7 @@ class GymViewModel: ObservableObject {
     func selectPeriodForCharts(period:String) {
         
         selectedPeriod = returnInDays(period: period)
+
         
     }
     
@@ -809,6 +811,7 @@ class GymViewModel: ObservableObject {
             let start = dateFormatter.string(from: startPoint)
             let end = dateFormatter.string(from: endPoint)
             return (start,end)
+
         }
     }
     

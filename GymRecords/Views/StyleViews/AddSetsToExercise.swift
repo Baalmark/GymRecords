@@ -17,22 +17,16 @@ struct AddSetsToExercise: View {
             viewModel.toStringDate(date: $0.date) == viewModel.toStringDate(date: viewModel.selectedDate)
         }){
             HStack {
-                Text("1")
-                    .font(.callout)
-                
-                    .foregroundColor(Color("LightGrayColor"))
-                    .padding(.trailing,25)
-                    .padding(.leading,15)
-                HStack {
                     Text("0")
-                        .frame(width: 145,height: 40)
+                        .frame(width: 160,height: 40)
                         .background(RoundedRectangle(cornerRadius: 12)
                             .foregroundColor(Color("LightGrayColor")))
+                        .padding(.trailing,5)
                     Text("0")
-                        .frame(width: 145,height: 40)
+                        .frame(width: 160,height: 40)
                         .background(RoundedRectangle(cornerRadius: 12)
                             .foregroundColor(Color("LightGrayColor")))
-                }
+                        .padding(.leading,5)
             }
             .fontWeight(.bold)
             .frame(width: viewModel.screenWidth,height: 40)
@@ -41,23 +35,17 @@ struct AddSetsToExercise: View {
             ForEach(exercise.sets, id: \.id) { newSet in
                 if viewModel.sameDateCheck(date1: viewModel.selectedDate, date2: newSet.date) {
                     HStack {
-                    Text("\(newSet.number)")
-                        .font(.callout)
-                    
-                        .foregroundColor(Color("LightGrayColor"))
-                        .padding(.trailing,25)
-                        .padding(.leading,15)
-                    HStack {
                         Text("\(newSet.weight.formatted())")
-                            .frame(width: 145,height: 40)
+                            .frame(width: 160,height: 40)
                             .background(RoundedRectangle(cornerRadius: 12)
                                 .foregroundColor(Color("LightGrayColor")))
+                            .padding(.trailing,5)
                         Text("\(newSet.reps.formatted())")
-                            .frame(width: 145,height: 40)
+                            .frame(width: 160,height: 40)
                             .background(RoundedRectangle(cornerRadius: 12)
                                 .foregroundColor(Color("LightGrayColor")))
+                            .padding(.leading,5)
                     }
-                }
                     .fontWeight(.bold)
                     .frame(width: viewModel.screenWidth,height: 40)
             }

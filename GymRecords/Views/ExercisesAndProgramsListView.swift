@@ -35,6 +35,10 @@ struct ExercisesAndProgramsListView: View {
                         
                     }
                 }
+
+                
+                .frame(width: viewModel.constW(w:125),height: viewModel.constH(h:35))
+
                 .foregroundColor(didTap ? .gray : .white)
                 .font(.title)
                 .fontWeight(.medium)
@@ -111,11 +115,11 @@ struct ExercisesAndProgramsListView: View {
                     
                     dismiss()
                     
-                }.buttonStyle(GrowingButton(isDarkMode: false,width: 335,height: 45))
+                }.buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.constW(w:335),height: viewModel.constH(h:45)))
                     .tint(.white)
                     .font(.title2)
                     .fontWeight(.semibold)
-                    .offset(x:0,y:-20)
+                    .offset(x:0,y:viewModel.constH(h:-20))
                     .opacity(viewModel.selectedExArray.isEmpty ? 0 : 1)
                 
             } else {
