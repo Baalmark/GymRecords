@@ -227,7 +227,7 @@ struct CreateNewProgrammView: View {
 
 struct CreateNewProgrammView_Previews: PreviewProvider {
     static var previews: some View {
-        let migrator = Migrator()
+        let _ = Migrator()
 
         CreateNewProgrammView(name: .constant(""), description: .constant(""), exercises: .constant([]), colorDesignStringValue: .constant("green"), toChangeProgram: true).environmentObject(GymViewModel())
     }

@@ -69,7 +69,7 @@ struct EnterSetAndRepsValueLittleView: View {
 
 struct EnterSetAndRepsValueLittleView_Previews: PreviewProvider {
     static var previews: some View {
-        let migrator = Migrator()
+        let _ = Migrator()
         EnterSetAndRepsValueLittleView(exercise: GymModel.arrayOfAllCreatedExercises[0]).environmentObject(GymViewModel())
     }
 }

@@ -14,7 +14,7 @@ struct ChartsView: View {
     var weight:[WeightData]
 
     @State private var periodXAxis = ("","")
-
+    @State private var months:[String] = []
     @State private var lineWidth = 2.0
     @State private var chartColor: Color = .black
     @StateObject var statisticViewModel:StatisticViewModel = StatisticViewModel()
@@ -106,17 +106,24 @@ struct ChartsView: View {
                 .padding([.leading,.trailing])
             }
             .padding(.bottom,20)
-            Section {
+            VStack {
                 Text("History")
                     .font(.title)
                     .fontWeight(.semibold)
                     .padding()
-            }
-            Section {
-                Text("History")
-                    .font(.title)
-                    .fontWeight(.semibold)
-                    .padding()
+                    
+                ForEach(Array(viewModel.monthsForSectionsInHistory), id: \.key) { key in
+                    
+                    Text("\(key.key)")
+                        
+                    ForEach(key.value) { nSet in
+                        HStack {
+                            Text("\(nSet.weight)")
+                            Text("\(nSet.reps)")
+                        }
+                    }
+                    
+                }
             }
 
         }

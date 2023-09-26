@@ -216,7 +216,7 @@ struct CheckboxStyle: ToggleStyle {
 
 struct ViewListSpecificExercises_Previews: PreviewProvider {
     static var previews: some View {
-        let migrator = Migrator()
+        let _ = Migrator()
         Group {
             ViewListSpecificExercises(
                 typeOfExercise: .arms, isPresented: .constant(true),

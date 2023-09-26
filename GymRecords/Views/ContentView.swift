@@ -261,7 +261,7 @@ struct ContentView: View {
             if !viewModel.isShowedMainAddSetsView {
                 HStack {
                     Button(viewModel.isAnyTrainingSelectedDay() ? viewModel.editModeButtonName : mainButtonName) {
-                        
+//                        viewModel.returnSome()
                         if viewModel.isAnyTrainingSelectedDay() {
                             withAnimation(.easeInOut) {
                                 viewModel.editMode.toggle()
@@ -366,7 +366,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
        
-        let migrator = Migrator()
+        let _ = Migrator()
         ContentView().environmentObject(GymViewModel())
         
     }

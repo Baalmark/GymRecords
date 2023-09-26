@@ -93,7 +93,7 @@ struct CalendarView: View
 
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        let migrator = Migrator()
+        let _ = Migrator()
 
         CalendarView(month: GymViewModel().date).environmentObject(GymViewModel())
     }

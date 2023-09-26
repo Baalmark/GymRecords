@@ -13,7 +13,7 @@ struct GymRecordsApp: App {
     @Environment(\.realm) private var realm
     var body: some Scene {
         
-        let migrator = Migrator()
+        let _ = Migrator()
         
         WindowGroup {
             let _ = UserDefaults.standard.set(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")

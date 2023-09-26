@@ -111,7 +111,7 @@ struct CalendarCellView: View
 
 struct CalendarCell_Previews: PreviewProvider {
     static var previews: some View {
-        let migrator = Migrator()
+        let _ = Migrator()
 
         CalendarCellView(rowIndex: 1, count: 1, startingSpaces: 1, daysInMonth: 1, daysInPrevMonth: 1,correctDay: .constant(7), isSelected: .constant(Date()), month: Date()).environmentObject(GymViewModel())
     }

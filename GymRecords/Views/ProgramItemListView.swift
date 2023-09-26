@@ -81,7 +81,7 @@ struct ProgramItemListView: View {
 
 struct ProgrammItemListView_Previews: PreviewProvider {
     static var previews: some View {
-        let migrator = Migrator()
+        let _ = Migrator()
         ProgramItemListView(programm: .constant(GymModel().programs[0])).environmentObject(GymViewModel())
     }
 }

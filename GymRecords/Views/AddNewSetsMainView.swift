@@ -22,7 +22,7 @@ struct AddNewSetsMainView: View {
 
     struct AddNewSetsMainView_Previews: PreviewProvider {
         static var previews: some View {
-            let migrator = Migrator()
+            let _ = Migrator()
 
             AddNewSetsMainView(scrollToIndex: 0).environmentObject(GymViewModel())
         }

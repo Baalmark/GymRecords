@@ -37,7 +37,7 @@ struct CreateExerciseAndSelectCategory: View {
 
 struct CreateExerciseAndSelectCategory_Previews: PreviewProvider {
     static var previews: some View {
-        let migrator = Migrator()
+        let _ = Migrator()
 
         CreateExerciseAndSelectCategory().environmentObject(GymViewModel())
     }

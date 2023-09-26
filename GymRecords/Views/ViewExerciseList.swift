@@ -180,7 +180,7 @@ struct ViewExerciseList: View {
 
 struct ViewExerciseList_Previews: PreviewProvider {
     static var previews: some View {
-        let migrator = Migrator()
+        let _ = Migrator()
         Group {
             ViewExerciseList(withCategory: true, shouldHideButton: .constant(true), programmingExercise: false).environmentObject(GymViewModel())
             

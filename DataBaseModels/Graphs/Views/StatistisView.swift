@@ -45,6 +45,7 @@ struct StatistisView: View {
             .onAppear {
                 viewModel.selectPeriodForCharts(period: selectedPeriod)
                 viewModel.selectedExerciseForStatisticView = exercise
+                viewModel.returnSome(exer: viewModel.selectedExerciseForStatisticView!)
             }
             .onChange(of: selectedPeriod) { newValue in
                 viewModel.selectPeriodForCharts(period: newValue)
@@ -66,7 +67,7 @@ struct StatistisView: View {
 struct StatistisView_Previews: PreviewProvider {
     
     static var previews: some View {
-        let migrator = Migrator()
+        let _ = Migrator()
         
         let viewModel = GymViewModel()
         

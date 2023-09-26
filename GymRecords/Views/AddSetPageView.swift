@@ -48,7 +48,7 @@ struct AddSetPageView: View {
                                 }
                             }
                             AddSetLittleView(number: viewModel.getNumberAddSetButton(sets: exercise.sets))
-                                
+                                .padding(.leading)
                                 .onTapGesture {
                                     withAnimation(.easeInOut) {
                                         
@@ -144,7 +144,7 @@ struct AddSetPageView: View {
 
 struct AddSetPageView_Previews: PreviewProvider {
     static var previews: some View {
-        let migrator = Migrator()
+        let _ = Migrator()
         
         AddSetPageView(scrollToIndex: 0).environmentObject(GymViewModel())
     }

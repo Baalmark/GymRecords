@@ -37,7 +37,7 @@ struct MonthLabelView: View
 
 struct MonthLabelView_Previews: PreviewProvider {
     static var previews: some View {
-        let migrator = Migrator()
+        let _ = Migrator()
 
         MonthLabelView(month:GymViewModel().date).environmentObject(GymViewModel())
     }

@@ -309,17 +309,13 @@ struct Sets: Identifiable,Equatable {
 
 
 enum CalendarMinimizingPosition:CGFloat {
-    
-    
+
     case zero = 100000
     case first = 5
     case second = 2.5
     case third = 1.675
     case fourth = 1.26
     case fifth = 1
-    
-    
-    
     
     init?(id : Int) {
         switch id {
@@ -336,11 +332,6 @@ enum CalendarMinimizingPosition:CGFloat {
     }
     
 }
-
-
-
-
-
 
 //MARK: Extensions
 

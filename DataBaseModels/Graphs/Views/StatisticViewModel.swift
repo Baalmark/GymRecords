@@ -16,7 +16,7 @@ class StatisticViewModel:ObservableObject {
                                         endPoint: .bottom)
     @Published var data:([RepsData],[WeightData]) = allData.overViewExample7
     
-
+    
     //MARK: Get last period of days statistic
     // -> [(Date,Sets)]
     func getlastPeriod(exercise:Exercise,period:Int) -> ([RepsData],[WeightData]) {
@@ -35,7 +35,7 @@ class StatisticViewModel:ObservableObject {
                 result.0.append(newObjectReps)
                 result.1.append(newObjectWeights)
             }
-
+            
         }
         refreshData(data: result)
         return result
@@ -55,7 +55,7 @@ class StatisticViewModel:ObservableObject {
         return (reps,weights)
     }
     
-     func compareSelectedMarkerToChartMarker<T: Equatable>(selectedMarker: T, chartMarker: T) -> Bool {
+    func compareSelectedMarkerToChartMarker<T: Equatable>(selectedMarker: T, chartMarker: T) -> Bool {
         return selectedMarker == chartMarker
     }
     
@@ -64,7 +64,7 @@ class StatisticViewModel:ObservableObject {
         self.data = data
     }
     
-     func getBaselineMarkerReps(marker: RepsData) -> some ChartContent {
+    func getBaselineMarkerReps(marker: RepsData) -> some ChartContent {
         return LineMark(
             x: .value("Date", marker.day),
             y: .value("Reps", marker.reps)
@@ -76,7 +76,7 @@ class StatisticViewModel:ObservableObject {
         .interpolationMethod(interpolationMethod.mode)
         .symbolSize(5)
     }
-     func getBaselineMarkerWeight(marker: WeightData) -> some ChartContent {
+    func getBaselineMarkerWeight(marker: WeightData) -> some ChartContent {
         return LineMark(
             x: .value("Date", marker.day),
             y: .value("Weight", marker.weight)
@@ -88,7 +88,7 @@ class StatisticViewModel:ObservableObject {
         .interpolationMethod(interpolationMethod.mode)
         .symbolSize(5)
     }
-     func getBaselineMarkerRepsBack(marker: RepsData) -> some ChartContent {
+    func getBaselineMarkerRepsBack(marker: RepsData) -> some ChartContent {
         return AreaMark(
             x: .value("Date", marker.day),
             y: .value("Reps", marker.reps)
@@ -99,7 +99,7 @@ class StatisticViewModel:ObservableObject {
         .foregroundStyle(linearGradient)
         .interpolationMethod(interpolationMethod.mode)
     }
-     func getBaselineMarkerWeightBack(marker: WeightData) -> some ChartContent {
+    func getBaselineMarkerWeightBack(marker: WeightData) -> some ChartContent {
         return AreaMark(
             x: .value("Date", marker.day),
             y: .value("Weight", marker.weight)
@@ -176,7 +176,33 @@ class StatisticViewModel:ObservableObject {
         return temp.rounded(.awayFromZero)
     }
     
+    //    func returnHistoryForStatisticView(data:([RepsData],[WeightData])) -> [String:[]]
+    
+    func returnAllMonthFromData(data:([RepsData],[WeightData])){
+        
+       
+    }
     
     
+}
+
+
+enum Month : String{
+    case January = "January"
+    case February = "February"
+    case March = "March"
+    case April = "April"
+    case May = "May"
+    case June = "June"
+    case July = "July"
+    case August = "August"
+    case September = "September"
+    case October = "October"
+    case November = "November"
+    case December = "December"
     
+    
+    func stringMonth() -> String {
+        self.rawValue
+    }
 }
