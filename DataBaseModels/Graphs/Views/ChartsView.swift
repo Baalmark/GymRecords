@@ -12,7 +12,7 @@ struct ChartsView: View {
     @EnvironmentObject var viewModel:GymViewModel
     var reps:[RepsData]
     var weight:[WeightData]
-
+    
     @State private var periodXAxis = ("","")
     @State private var months:[String] = []
     @State private var lineWidth = 2.0
@@ -24,9 +24,7 @@ struct ChartsView: View {
     @State private var lollipopColor: Color = .black
     @State private var axisValueForWeight:Double = 0
     @State private var axisValueForReps:Double = 0
-
     
-
     let previewChartHeight: CGFloat = UIScreen.main.bounds.height / 3
     let linearGradient = LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.4),         Color.black.opacity(0)]),
                                         startPoint: .top,
@@ -34,11 +32,11 @@ struct ChartsView: View {
     
     @State var data:([RepsData],[WeightData]) = allData.overViewExample7
     
-   
+    
     var body: some View {
-            mainBody
-                .navigationBarTitle(ChartType.singleLineLollipop.title, displayMode: .inline)
-
+        mainBody
+            .navigationBarTitle(ChartType.singleLineLollipop.title, displayMode: .inline)
+        
     }
     
     var mainBody: some View {
@@ -56,7 +54,7 @@ struct ChartsView: View {
                 }
                 repChart
                     .allowsHitTesting(true)
-
+                
                     .padding([.leading,.top,.trailing])
                 
                 HStack {
@@ -73,10 +71,10 @@ struct ChartsView: View {
                 }
                 .onChange(of: viewModel.selectedPeriod) { _ in
                     periodXAxis = viewModel.returnStartAndEndOfPeriodForChart(startPoint: data.0.first?.day ?? Date(), endPoint: data.0.last?.day ?? Date())
-
-                }
-
                     
+                }
+                
+                
                 
             }
             .padding(.bottom,20)
@@ -106,26 +104,48 @@ struct ChartsView: View {
                 .padding([.leading,.trailing])
             }
             .padding(.bottom,20)
-            VStack {
+            VStack(alignment: .leading) {
                 Text("History")
                     .font(.title)
                     .fontWeight(.semibold)
-                    .padding()
-                    
-                ForEach(Array(viewModel.monthsForSectionsInHistory), id: \.key) { key in
-                    
-                    Text("\(key.key)")
-                        
-                    ForEach(key.value) { nSet in
-                        HStack {
-                            Text("\(nSet.weight)")
-                            Text("\(nSet.reps)")
+                    .padding(.bottom,20)
+                
+                
+                ForEach(viewModel.displayedMonths, id: \.self) { month in
+                    Text("\(month):")
+                        .font(.custom("Helvetica", size: 14))
+                        .fontWeight(.semibold)
+                        .padding(.bottom,10)
+                    ForEach(viewModel.monthsForSectionsInHistory.filter({$0.month == month})) { historyObject in
+                        ForEach(historyObject.arrayOfSets) { nSet in
+                            if !nSet.approach.isEmpty {
+                                Text(nSet.date)
+                                    .font(.custom("Helvetica", size: 16))
+                                    .fontWeight(.semibold)
+                                    .padding(.bottom,10)
+                                
+                            }
+                            VStack(alignment:.leading) {
+                                ForEach(nSet.approach) { value in
+                                    HStack {
+                                        Text("\(viewModel.forTrailingZero(value.weight))")
+                                        Text("x")
+                                        Text("\(viewModel.forTrailingZero(value.rep))")
+                                    }
+                                    .font(.custom("Helvetica", size: 16))
+                                    .fontWeight(.semibold)
+                                }
+                            }
+                            .padding(.bottom,10)
                         }
+                        
                     }
                     
                 }
+                
             }
-
+            .padding()
+            
         }
         .onAppear {
             if let exercise = viewModel.selectedExerciseForStatisticView {
@@ -144,7 +164,7 @@ struct ChartsView: View {
             }
         }
         
-
+        
     }
     
     private var repChart: some View {
@@ -152,7 +172,7 @@ struct ChartsView: View {
             let baselineMarker = statisticViewModel.getBaselineMarkerReps(marker: chartMarker)
             let baselineMarkerBack = statisticViewModel.getBaselineMarkerRepsBack(marker:chartMarker)
             if statisticViewModel.compareSelectedMarkerToChartMarker(selectedMarker: selectedElementRep, chartMarker: chartMarker) && showLollipop {
-
+                
                 baselineMarker.symbol() {
                     Circle().strokeBorder(chartColor, lineWidth: 2).background(Circle().foregroundColor(lollipopColor)).frame(width: 7)
                 }
@@ -162,7 +182,7 @@ struct ChartsView: View {
             }
             baselineMarkerBack.symbol() {
                 Circle().strokeBorder(chartColor, lineWidth: 2).background(Circle().foregroundColor(lollipopColor)).frame(width: 7)
-
+                
             }
         }
         
@@ -209,13 +229,13 @@ struct ChartsView: View {
                         let boxOffset = max(0, min(geo.size.width - boxWidth, lineX - boxWidth / 2))
                         
                         HStack {
-
+                            
                             Text("\(selectedElementRep.reps, format: .number) ")
                                 .font(.custom("Helvetica", size: 13).bold())
                                 .foregroundColor(.white)
                             Spacer()
                             Text("\(selectedElementRep.day, format: .dateTime.year().month().day())")
-
+                            
                                 .font(.custom("Helvetica", size: 11).bold())
                                 .foregroundStyle(Color("GrayColor"))
                             
@@ -242,7 +262,7 @@ struct ChartsView: View {
         .chartYAxis(.hidden)
         .chartYScale(domain: [0, viewModel.maxSummaryReps ?? 0 * 1.5 ])
         .frame(height: previewChartHeight)
-
+        
     }
     
     
@@ -251,11 +271,11 @@ struct ChartsView: View {
     }
     private var weightChart: some View {
         Chart(data.1, id: \.day) { chartMarker in
-
+            
             let baselineMarker = statisticViewModel.getBaselineMarkerWeight(marker: chartMarker)
             let baselineMarkerBack = statisticViewModel.getBaselineMarkerWeightBack(marker: chartMarker)
             if statisticViewModel.compareSelectedMarkerToChartMarker(selectedMarker: selectedElementWeights, chartMarker: chartMarker) && showLollipop {
-
+                
                 baselineMarker.symbol() {
                     Circle().strokeBorder(chartColor, lineWidth: 2).background(Circle().foregroundColor(lollipopColor)).frame(width: 7)
                 }
@@ -264,9 +284,9 @@ struct ChartsView: View {
                     .foregroundStyle(linearGradient)
             }
             baselineMarkerBack.symbol() {
-
+                
                 Circle().strokeBorder(chartColor, lineWidth: 2).background(Circle().foregroundColor(lollipopColor)).frame(width: 7)
-
+                
             }
         }
         
@@ -318,7 +338,7 @@ struct ChartsView: View {
                                 .foregroundColor(.white)
                             Spacer()
                             Text("\(selectedElementWeights.day, format: .dateTime.year().month().day())")
-
+                            
                                 .font(.custom("Helvetica", size: 11).bold())
                                 .foregroundStyle(Color("GrayColor"))
                             
@@ -344,7 +364,7 @@ struct ChartsView: View {
         .chartXAxis(.hidden)
         .chartYAxis(.hidden)
         .chartYScale(domain: [0, viewModel.maxSummaryWeight ?? 0 * 1.5])
-
+        
         .accessibilityChartDescriptor(self)
         
         .frame(height: previewChartHeight)

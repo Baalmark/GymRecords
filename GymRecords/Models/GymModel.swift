@@ -95,6 +95,7 @@ struct GymModel {
     }
     
     
+    
     //MARK: Data of Profile
     struct ProfileData {
         
@@ -247,6 +248,26 @@ struct GymModel {
 
 }
 
+struct SetInfo:Identifiable {
+    var id = UUID()
+    
+    var month:String
+    //[(Weight,Reps)]
+    var arrayOfSets:[oneSet]
+    
+    
+    struct oneSet:Identifiable {
+        var id = UUID()
+        var date: String
+        var approach: [repsAndWeight]
+        
+        struct repsAndWeight:Identifiable {
+            var id = UUID()
+            var rep: Double
+            var weight: Double
+        }
+    }
+}
 
 class Exercise:Equatable,Identifiable,Hashable {
     

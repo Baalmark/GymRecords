@@ -176,7 +176,7 @@ struct ContentView: View {
                         if viewModel.isAnyTrainingSelectedDay(){
                             
                             VStack {
-                                if viewModel.trainInSelectedDay.programTitle != "blank" && viewModel.trainInSelectedDay.programDescription != "blank" && viewModel.trainInSelectedDay.programTitle != viewModel.toStringDate(date: viewModel.selectedDate){
+                                if viewModel.trainInSelectedDay.programTitle != "blank" && viewModel.trainInSelectedDay.programDescription != "blank" && viewModel.trainInSelectedDay.programTitle != viewModel.toStringDate(date: viewModel.selectedDate, history: false){
                                     ProgramItemListView(programm:$viewModel.trainInSelectedDay)
                                 }
                                 ForEachIndex(viewModel.trainInSelectedDay.exercises){ index,

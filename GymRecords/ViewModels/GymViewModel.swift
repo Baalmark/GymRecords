@@ -54,11 +54,12 @@ class GymViewModel: ObservableObject {
     @Published var trainings:[String:GymModel.Program]
     @Published var selectedExerciseSetsHistory:[Date:[Sets]] = [:]
     @Published var selectedExerciseSetsHistoryArray:[Dictionary<Date, [Sets]>.Element] = []
-    @Published var monthsForSectionsInHistory:[String:[Sets]] = [:]
+    @Published var monthsForSectionsInHistory:[SetInfo] = []
     @Published var selectedProgramForNewTrainingDay:GymModel.Program? = nil
     @Published var trainInSelectedDay:GymModel.Program
     @Published var selectedCounterLabel:[Int] = []
-    
+    @Published var arrayOfSetsHistory:[SetInfo] = []
+    @Published var displayedMonths:[String] = []
     
     //Computed or Store value of Delete / Create / Change a set for the exercise
     @Published var didTapToAddSet:Bool = false
@@ -139,6 +140,10 @@ class GymViewModel: ObservableObject {
         self.crntExrcsFrEditSets = Exercise(type: .arms, name: "blank", doubleWeight: false, selfWeight: false, isSelected: false, sets: [], isSelectedToAddSet: false)
     }
     
+    func forTrailingZero(_ temp: Double) -> String {
+        var tempVar = String(format: "%g", temp)
+        return tempVar
+    }
     
     public func appendImagesToArray(image img:UIImage) {
         imagesArray.append(img)
@@ -162,6 +167,11 @@ class GymViewModel: ObservableObject {
         return array
     }
     
+    //MARK: Add months in array
+    
+    func addMonthIntoArrayOfMonths(month:String) {
+        displayedMonths.append(month)
+    }
     //MARK: Exercise selection
     func selectingExercise(exercise:Exercise,isSelected:Bool) {
         
@@ -382,7 +392,7 @@ class GymViewModel: ObservableObject {
         
         if addExerciseFlag {
             
-            let stringDate = toStringDate(date: date)
+            let stringDate = toStringDate(date: date, history: false)
             let training = realm.objects(TrainingInfoObject.self).where { $0.date == stringDate}.first!
             var namesOfExercises:[String] = []
             
@@ -399,7 +409,7 @@ class GymViewModel: ObservableObject {
             }
             
         } else {
-            let stringDate = toStringDate(date: date)
+            let stringDate = toStringDate(date: date, history: false)
             let newProgram = GymModel.Program(numberOfProgram:trainings.count + 1,programTitle: stringDate, programDescription: "", colorDesign: "green", exercises: exercises)
             trainings[stringDate] = newProgram
             trainInSelectedDay = newProgram
@@ -410,7 +420,7 @@ class GymViewModel: ObservableObject {
     //MARK: Create training function
     func createTraining(date:Date,program:GymModel.Program)  {
         
-        let stringDate = toStringDate(date: date)
+        let stringDate = toStringDate(date: date, history: false)
         if addExerciseFlag {
 
 
@@ -443,10 +453,15 @@ class GymViewModel: ObservableObject {
     }
     
     //MARK: Creating String of Date from Date
-    func toStringDate(date:Date) -> String {
+    func toStringDate(date:Date,history:Bool) -> String {
         let dateFormater = DateFormatter()
-        dateFormater.dateFormat = "y/M/d"
-        return dateFormater.string(from: date)
+        if history {
+            dateFormater.dateFormat = "d MMM"
+            return dateFormater.string(from: date)
+        } else {
+            dateFormater.dateFormat = "y/M/d"
+            return dateFormater.string(from: date)
+        }
     }
     
     //MARK: Creating date from string
@@ -480,7 +495,7 @@ class GymViewModel: ObservableObject {
     
     //MARK: Сheck for training availability on the selected day
     func isAnyTrainingSelectedDay() -> Bool {
-        let stringDate = toStringDate(date: selectedDate)
+        let stringDate = toStringDate(date: selectedDate, history: false)
         
         return trainings[stringDate] != nil
         
@@ -502,14 +517,14 @@ class GymViewModel: ObservableObject {
     }
     
     func removeTrainingFromSelectedDay() {
-        let stringDate = toStringDate(date: selectedDate)
+        let stringDate = toStringDate(date: selectedDate, history: false)
         
         trainings[stringDate] = nil
     }
     
     //MARK: Selecting the day with a training
     func selectingTheDayWithTraining() {
-        let stringDate = toStringDate(date: selectedDate)
+        let stringDate = toStringDate(date: selectedDate, history: false)
         if trainings[stringDate] != nil {
             trainInSelectedDay = trainings[stringDate]!
         }
@@ -598,7 +613,7 @@ class GymViewModel: ObservableObject {
         trainInSelectedDay = newTraining
         
         //Realm Changing data
-        let stringDate = toStringDate(date: selectedDate)
+        let stringDate = toStringDate(date: selectedDate, history: false)
         let trainings = realm.objects(TrainingInfoObject.self)
         
         
@@ -609,7 +624,7 @@ class GymViewModel: ObservableObject {
                     for ex in program.exercises {
                         if ex.name == exercise.name {
                             for exSet in exercise.sets {
-                                if toStringDate(date:exSet.date) == train.date {
+                                if toStringDate(date:exSet.date, history: false) == train.date {
                                     let setObject = SetsObject()
                                     setObject.date = exSet.date
                                     setObject.number = exSet.number
@@ -643,8 +658,8 @@ class GymViewModel: ObservableObject {
     }
     //MARK: Same date check
     func sameDateCheck(date1:Date,date2:Date) -> Bool {
-        let date1String = toStringDate(date: date1)
-        let date2String = toStringDate(date: date2)
+        let date1String = toStringDate(date: date1, history: false)
+        let date2String = toStringDate(date: date2, history: false)
 //        let realmSet2 = realm.objects(SetsObject.self).where { $0.date == date2}
         return date1String == date2String
     }
@@ -669,7 +684,7 @@ class GymViewModel: ObservableObject {
     //MARK: Remove exercise from list of trainins by selecting day
     func removeExerciseFromListOfTrainingInSelectedDay(exercise:Exercise,selectedDate:Date) {
         
-        let stringDate = toStringDate(date: selectedDate)
+        let stringDate = toStringDate(date: selectedDate, history: false)
         if var training = trainings[stringDate] {
             if let indexOfTraining = training.exercises.firstIndex(of: exercise) {
                 training.exercises.remove(at: indexOfTraining)
@@ -697,7 +712,7 @@ class GymViewModel: ObservableObject {
     }
     //MARK: Remove whole training by one click
     func removeTrainingByClick(selectedDate:Date) {
-        let stringDate = toStringDate(date: selectedDate)
+        let stringDate = toStringDate(date: selectedDate, history: false)
         if let training = trainings[stringDate] {
             removeTrainingFromRealmDB(date: stringDate, program: training)
             trainInSelectedDay = GymModel.Program(numberOfProgram:-1,programTitle: "", programDescription: "", colorDesign: "red", exercises: [])
@@ -783,7 +798,6 @@ class GymViewModel: ObservableObject {
         
         selectedPeriod = returnInDays(period: period)
 
-        
     }
     
     func returnInDays(period:String) -> Int {
@@ -816,7 +830,7 @@ class GymViewModel: ObservableObject {
         }
     }
     
-    func returnSome(exer:Exercise) {
+    func returnHistory(exer:Exercise) {
         
         var sets:[Sets] = []
         
@@ -831,7 +845,7 @@ class GymViewModel: ObservableObject {
 //                dateFormatter.dateFormat = "dd-MMMM-yyyy"
                 if let exerciseObject = dat.value.exercises.first(where: {$0.name == exer.name}) {
                     sets = exerciseObject.sets
-                    selectedExerciseSetsHistory[date] = sets.filter( { toStringDate(date:$0.date) == toStringDate(date:date) })
+                    selectedExerciseSetsHistory[date] = sets.filter( { toStringDate(date:$0.date, history: false) == toStringDate(date:date, history: false) })
 
                 }
             }
@@ -844,24 +858,33 @@ class GymViewModel: ObservableObject {
         newDateFormatter.dateFormat = "MMMM"
         var tempMonth = "January"
         for object in selectedExerciseSetsHistoryArray {
-            print(object)
             let newMonth = newDateFormatter.string(from: object.key)
+            
+            if !displayedMonths.contains(newMonth) {
+                addMonthIntoArrayOfMonths(month: newMonth)
+            }
             if tempMonth != newMonth {
                 tempMonth = newMonth
             }
-            if let _ = monthsForSectionsInHistory[tempMonth] {
-                monthsForSectionsInHistory[tempMonth]!.append(contentsOf: object.value )
-            } else {
-                monthsForSectionsInHistory[tempMonth] = object.value
-            }
+            
+            let tupleOfSets = returnTupleOfSet(sets: object.value)
+            let setHistoryObject = SetInfo(month: tempMonth, arrayOfSets: [SetInfo.oneSet(date: toStringDate(date:object.key, history: true), approach: tupleOfSets)])
+            monthsForSectionsInHistory.append(setHistoryObject)
+        }
+
+        
+    }
+    //MARK: [(Weight,Reps)]
+    func returnTupleOfSet(sets:[Sets]) -> [SetInfo.oneSet.repsAndWeight]
+    {
+        var result:[SetInfo.oneSet.repsAndWeight] = []
+        for nSet in sets {
+            
+            let temp = SetInfo.oneSet.repsAndWeight(rep: nSet.reps, weight: nSet.weight)
+            result.append(temp)
         }
         
-        
-        print(monthsForSectionsInHistory)
-        
-        
-        
-        
+        return result
     }
     
 }

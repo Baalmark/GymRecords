@@ -48,7 +48,7 @@ struct AddSetPageView: View {
                                 }
                             }
                             AddSetLittleView(number: viewModel.getNumberAddSetButton(sets: exercise.sets))
-                                .padding(.leading)
+                                .padding(.leading,10)
                                 .onTapGesture {
                                     withAnimation(.easeInOut) {
                                         
@@ -124,18 +124,26 @@ struct AddSetPageView: View {
         .padding([.leading,.trailing],-10)
         .ignoresSafeArea(.all)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-        
-        if viewModel.willAppearStatisticView {
+        .sheet(isPresented: $viewModel.willAppearStatisticView) {
             if let exercise = viewModel.selectedExerciseForStatisticView{
                 
                 let weight = viewModel.weightGraphDataGetter(exercise: exercise)
                 let reps  = viewModel.repsGraphDataGetter(exercise: exercise)
                 
                 StatistisView(exercise: exercise,reps:reps, weight:weight)
-                    .transition(.move(edge: .bottom))
-            }
                 
-        }
+            }}
+//        if viewModel.willAppearStatisticView {
+//            if let exercise = viewModel.selectedExerciseForStatisticView{
+//                
+//                let weight = viewModel.weightGraphDataGetter(exercise: exercise)
+//                let reps  = viewModel.repsGraphDataGetter(exercise: exercise)
+//
+//                StatistisView(exercise: exercise,reps:reps, weight:weight)
+//                    .transition(.move(edge: .bottom))
+//            }
+//                
+//        }
         
         
     }

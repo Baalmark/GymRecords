@@ -45,7 +45,7 @@ struct StatistisView: View {
             .onAppear {
                 viewModel.selectPeriodForCharts(period: selectedPeriod)
                 viewModel.selectedExerciseForStatisticView = exercise
-                viewModel.returnSome(exer: viewModel.selectedExerciseForStatisticView!)
+                viewModel.returnHistory(exer: viewModel.selectedExerciseForStatisticView!)
             }
             .onChange(of: selectedPeriod) { newValue in
                 viewModel.selectPeriodForCharts(period: newValue)
@@ -53,6 +53,7 @@ struct StatistisView: View {
             
         }
         .padding()
+        .padding(.top,30)
         .frame(width: viewModel.screenWidth,height: viewModel.screenHeight)
         
         .background(Color.white.edgesIgnoringSafeArea(.top))
