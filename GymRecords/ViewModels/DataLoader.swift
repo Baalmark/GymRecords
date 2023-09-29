@@ -206,7 +206,7 @@ class DataLoader {
     
     //MARK: Change program in realm DB
     func changeProgramRealm(program:GymModel.Program) {
-        if let programFromRealmDB = realm.objects(ProgramObject.self).where { $0.numberOfProgram == program.numberOfProgram}.first {
+        if let programFromRealmDB = realm.objects(ProgramObject.self).where({ $0.numberOfProgram == program.numberOfProgram}).first {
             try! realm.write {
                 programFromRealmDB.programTitle = program.programTitle
                 programFromRealmDB.colorDesign = program.programDescription
@@ -297,7 +297,7 @@ class DataLoader {
     func reformattingExerciseToRealmFormat(element: Exercise) -> ExerciseObject{
         
         
-        if let exerciseRealm = realm.objects(ExerciseObject.self).where { $0.name == element.name }.first {
+        if let exerciseRealm = realm.objects(ExerciseObject.self).where({ $0.name == element.name }).first {
             setCreatorForRealm(element, exerciseRealm)
             return exerciseRealm
         }
@@ -328,11 +328,16 @@ class DataLoader {
 //            newProgram.colorDesign = program.colorDesign
 //
 //        }
-        if let programRealm = realm.objects(ProgramObject.self).where { $0.programTitle == program.programTitle}.first {
+        if let programRealm = realm.objects(ProgramObject.self).where({ $0.programTitle == program.programTitle}).first {
             newTraining.program = programRealm
-            $trainingInfoObjects.append(newTraining)
-            composeGymModelObject()
+            
+        } else {
+            let newProgramObject = ProgramObject()
+            createRealmFormatOfProgramObject(newProgramObject,program)
+            newTraining.program = newProgramObject
         }
+        $trainingInfoObjects.append(newTraining)
+        composeGymModelObject()
     }
     //MARK: Remove trainings into Realm DataBase
     func removeTrainingFromRealmDB(date:String,program:GymModel.Program) {

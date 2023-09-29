@@ -61,7 +61,7 @@ struct EnterOrChangeOneCertainView: View {
             }
             
             
-            .frame(width: viewModel.constW(w:viewModel.screenWidth - 60) ,height: viewModel.constH(h:70))
+            .frame(width: viewModel.screenWidth - 60 ,height: viewModel.constH(h:70))
         }
     }
 }

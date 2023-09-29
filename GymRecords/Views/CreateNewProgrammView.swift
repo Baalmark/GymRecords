@@ -33,7 +33,7 @@ struct CreateNewProgrammView: View {
                     .fixedSize()
                     .font(.title2)
             }
-            .offset(x:viewModel.constW(w:viewModel.screenWidth / 2),y:0)
+            .offset(x:viewModel.screenWidth / 2,y:0)
             .padding(.trailing,70)
             
             VStack {
@@ -57,7 +57,7 @@ struct CreateNewProgrammView: View {
                         }.opacity(0.7)
                     
                 }
-                .frame(width: viewModel.constW(w:viewModel.screenWidth - 50),height: viewModel.constH(h:62))
+                .frame(width: viewModel.screenWidth - 50,height: viewModel.constH(h:62))
                 .padding([.top,.bottom],5)
                 .padding([.leading,.trailing],15)
                 .background(RoundedRectangle(cornerRadius: 15)
@@ -90,7 +90,7 @@ struct CreateNewProgrammView: View {
                     }
                 }
                 
-                .frame(width: viewModel.constW(w:viewModel.screenWidth - 20),height: viewModel.constH(h:72))
+                .frame(width: viewModel.screenWidth - 20,height: viewModel.constH(h:72))
                 .background(RoundedRectangle(cornerRadius: 15)
                     .foregroundColor(Color("DarkbackgroundViewColor")))
                 
@@ -108,7 +108,7 @@ struct CreateNewProgrammView: View {
                 .foregroundColor(.white)
                 .padding(.leading,15)
                 .padding(.trailing,25)
-                .frame(width: viewModel.constW(w:viewModel.screenWidth - 20),height: viewModel.constH(h:72))
+                .frame(width: viewModel.screenWidth - 20,height: viewModel.constH(h:72))
                 .background(RoundedRectangle(cornerRadius: 15)
                     .foregroundColor(Color("DarkbackgroundViewColor")))
                 
@@ -171,7 +171,7 @@ struct CreateNewProgrammView: View {
                     } label: {
                         Text("Remove")
                             .font(.custom("Helvetica", size: viewModel.constW(w:16)))
-                            .foregroundColor(Color("RedColorScarlet"))
+                            .foregroundColor(Color("BrightRedColor"))
                     }
                     Spacer()
                     Button {
@@ -212,7 +212,10 @@ struct CreateNewProgrammView: View {
             .padding(10)
             
             
-        }.background(Color("backgroundDarkColor"))
+        }
+        
+        .background(Color("backgroundDarkColor"))
+            
             .onTapGesture {
                 self.hideKeyboard()
             }

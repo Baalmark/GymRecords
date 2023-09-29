@@ -49,6 +49,7 @@ class GymViewModel: ObservableObject {
     @Published var selectedDate:Date = Date() // Selected Date for new training day
     @Published var selectedDayForChecking:Int = 0
     @Published var selectedDayRowHolder = 0
+    private var today:Date = Date.now
     
     //All property to creating a training day
     @Published var trainings:[String:GymModel.Program]
@@ -60,7 +61,7 @@ class GymViewModel: ObservableObject {
     @Published var selectedCounterLabel:[Int] = []
     @Published var arrayOfSetsHistory:[SetInfo] = []
     @Published var displayedMonths:[String] = []
-    
+    @Published var copyTraining = false
     //Computed or Store value of Delete / Create / Change a set for the exercise
     @Published var didTapToAddSet:Bool = false
     @Published var didTapToAddAnotherOneSet = false
@@ -74,7 +75,7 @@ class GymViewModel: ObservableObject {
     @Published var isShowedMainAddSetsView = false
     //Edit program on the Main Content View
     @Published var editMode = false
-    @Published var editModeButtonName = "Edit program"
+    @Published var editModeButtonName = "Edit"
     @Published var addExerciseFlag = false
     
     
@@ -141,7 +142,7 @@ class GymViewModel: ObservableObject {
     }
     
     func forTrailingZero(_ temp: Double) -> String {
-        var tempVar = String(format: "%g", temp)
+        let tempVar = String(format: "%g", temp)
         return tempVar
     }
     
@@ -408,14 +409,31 @@ class GymViewModel: ObservableObject {
                 }
             }
             
+        } else if copyTraining {
+            
+            for exercise in exercises {
+                exercise.sets.removeAll()
+            }
+            
+            let stringDate = toStringDate(date: date, history: false)
+            let dayForCopying = toStringDate(date: today, history: false)
+            
+            
+            let newProgram = GymModel.Program(numberOfProgram:trainings.count + 1,programTitle: dayForCopying, programDescription: "", colorDesign: "green", exercises: exercises)
+            trainings[dayForCopying] = newProgram
+            saveTrainingIntoRealmDB(date: dayForCopying, program: newProgram)
+            copyTraining = false
         } else {
             let stringDate = toStringDate(date: date, history: false)
             let newProgram = GymModel.Program(numberOfProgram:trainings.count + 1,programTitle: stringDate, programDescription: "", colorDesign: "green", exercises: exercises)
             trainings[stringDate] = newProgram
             trainInSelectedDay = newProgram
             saveTrainingIntoRealmDB(date: stringDate, program: newProgram)
-            databaseInfoTitle =  gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
+            
+            
+            
         }
+        databaseInfoTitle =  gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
     }
     //MARK: Create training function
     func createTraining(date:Date,program:GymModel.Program)  {
@@ -439,6 +457,24 @@ class GymViewModel: ObservableObject {
                 }
             }
             
+        } else if copyTraining {
+            
+            for exercise in program.exercises {
+                exercise.sets.removeAll()
+            }
+            
+            let stringDate = toStringDate(date: date, history: false)
+            let dayForCopying = toStringDate(date: today, history: false)
+            
+            
+            let newProgram = GymModel.Program(numberOfProgram: program.numberOfProgram,programTitle: program.programTitle,
+                                              programDescription: program.programDescription, colorDesign: program.colorDesign,
+                                              exercises: program.exercises)
+            
+            trainings[dayForCopying] = newProgram
+            saveTrainingIntoRealmDB(date: dayForCopying, program: newProgram)
+            copyTraining = false
+            
         } else {
             let newProgram = GymModel.Program(numberOfProgram: program.numberOfProgram,programTitle: program.programTitle,
                                               programDescription: program.programDescription, colorDesign: program.colorDesign,
@@ -446,10 +482,9 @@ class GymViewModel: ObservableObject {
             trainings[stringDate] = newProgram
             trainInSelectedDay = newProgram
             saveTrainingIntoRealmDB(date: stringDate, program: program)
-            
-            databaseInfoTitle =  gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
+
         }
-        
+        databaseInfoTitle =  gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
     }
     
     //MARK: Creating String of Date from Date
@@ -794,12 +829,13 @@ class GymViewModel: ObservableObject {
         }
         return result
     }
+    //MARK: Select period for Charts
     func selectPeriodForCharts(period:String) {
         
         selectedPeriod = returnInDays(period: period)
 
     }
-    
+    //MARK: Return Int values for the String segment controller
     func returnInDays(period:String) -> Int {
         switch period {
         case "Week": return 7
@@ -808,7 +844,7 @@ class GymViewModel: ObservableObject {
         default: return 7
         }
     }
-    
+    //MARK: Return start-end point of the period for the Charts View
     func returnStartAndEndOfPeriodForChart(startPoint:Date,endPoint:Date) -> (String,String){
         let dateFormatter = DateFormatter()
         if selectedPeriod == 7 {
@@ -829,7 +865,7 @@ class GymViewModel: ObservableObject {
 
         }
     }
-    
+    //MARK: Return all history for certain exercise to the StatisticView
     func returnHistory(exer:Exercise) {
         
         var sets:[Sets] = []
@@ -859,7 +895,6 @@ class GymViewModel: ObservableObject {
         var tempMonth = "January"
         for object in selectedExerciseSetsHistoryArray {
             let newMonth = newDateFormatter.string(from: object.key)
-            
             if !displayedMonths.contains(newMonth) {
                 addMonthIntoArrayOfMonths(month: newMonth)
             }
@@ -885,6 +920,20 @@ class GymViewModel: ObservableObject {
         }
         
         return result
+    }
+    
+    
+    //MARK: Mini checker of two dates ( Today and some selected day ) or some training already exists
+    func isSelectedDayToday() -> Bool {
+        
+        let stringDateToday = toStringDate(date: today, history: false)
+        return today.hasSame(.day, as: selectedDate) || trainings[stringDateToday] != nil
+    }
+    
+    //MARK: Copy selected training and paste for today
+    
+    func copyAndPasteTraining() {
+        
     }
     
 }

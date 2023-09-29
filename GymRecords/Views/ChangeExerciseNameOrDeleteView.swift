@@ -28,7 +28,7 @@ struct ChangeExerciseNameOrDeleteView: View {
                     .fixedSize()
                     .font(.title2)
             }
-            .offset(x:viewModel.constW(w:viewModel.screenWidth / 2),y:0)
+            .offset(x:viewModel.screenWidth / 2,y:0)
             .padding(.trailing,70)
             
             //TextField of exercise title
@@ -87,7 +87,7 @@ struct ChangeExerciseNameOrDeleteView: View {
                     dismiss()
                 } label: {
                     Text("Remove exercise")
-                        .foregroundColor(Color("RedColorScarlet"))
+                        .foregroundColor(Color("BrightRedColor"))
                 }
                 .offset(x:viewModel.constW(w:-90),y:viewModel.constH(h:10))
                 .padding()

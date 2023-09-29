@@ -223,7 +223,7 @@ struct ChartsView: View {
                         let startPositionX1 = proxy.position(forX: dateInterval.start) ?? 0
                         
                         let lineX = startPositionX1 + geo[proxy.plotAreaFrame].origin.x
-                        let lineHeight = geo[proxy.plotAreaFrame].maxY
+//                        _ = geo[proxy.plotAreaFrame].maxY
                         let boxWidth: CGFloat = 100
                         
                         let boxOffset = max(0, min(geo.size.width - boxWidth, lineX - boxWidth / 2))
@@ -327,7 +327,7 @@ struct ChartsView: View {
                         let startPositionX1 = proxy.position(forX: dateInterval.start) ?? 0
                         
                         let lineX = startPositionX1 + geo[proxy.plotAreaFrame].origin.x
-                        let lineHeight = geo[proxy.plotAreaFrame].maxY
+//                        _ = geo[proxy.plotAreaFrame].maxY
                         let boxWidth: CGFloat = 100
                         
                         let boxOffset = max(0, min(geo.size.width - boxWidth, lineX - boxWidth / 2))

@@ -86,7 +86,7 @@ struct EditOrRemoveTheProgram: View {
                             
                         } label: {
                             Text("Delete program")
-                                .foregroundStyle(Color("RedColorScarlet").gradient)
+                                .foregroundStyle(Color("BrightRedColor").gradient)
                         }
                         .padding(.bottom,10)
                         .alert(isPresented:$showAlert, content:  {

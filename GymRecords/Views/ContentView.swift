@@ -17,13 +17,13 @@ struct ContentView: View {
     private var nextMonth = false
     @State var collapsingViewFlag = true
     @State var scrollToIndex:Int = 0
-    @State var mainButtonName = "Add exercises"
-    @State var mainButtonEditName = "Edit program"
+    @State var mainButtonName = "Add more"
+    @State var mainButtonEditName = "Edit"
     @State var flagAddSetMainViewAppear = false
-    
-    
-    
-    
+    @State var showSheet = false
+    @State var showAlert = false
+    @State var saveAsProgrammSheet = false
+    @State var newProgram = GymModel.Program(numberOfProgram: 1,programTitle: "", programDescription: "", colorDesign: "green", exercises: [])
     var body: some View {
         VStack {
             ZStack{
@@ -39,8 +39,8 @@ struct ContentView: View {
                                 Button{
                                     viewModel.addExerciseFlag = false
                                     viewModel.editMode = false
-                                    mainButtonEditName = "Edit program"
-                                    mainButtonName = "Add exercises"
+                                    mainButtonEditName = "Edit"
+                                    mainButtonName = "Add more"
                                     viewModel.changeExercisesDB = true
                                     isDataBaseSheetActive.toggle()
                                 } label: {
@@ -260,45 +260,148 @@ struct ContentView: View {
         .overlay {
             if !viewModel.isShowedMainAddSetsView {
                 HStack {
-                    Button(viewModel.isAnyTrainingSelectedDay() ? viewModel.editModeButtonName : mainButtonName) {
-//                        viewModel.returnSome()
-                        if viewModel.isAnyTrainingSelectedDay() {
-                            withAnimation(.easeInOut) {
-                                viewModel.editMode.toggle()
-                                viewModel.editModeButtonName = viewModel.editMode ? "Save" : "Edit program"
+                    Button {
+                        showSheet.toggle()
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .foregroundColor(.white)
+                            .padding(10)
+                    }
+                    .font(.custom("Helvetica", size: viewModel.constW(w:20)))
+                    .background(Circle()
+                        .frame(width: viewModel.constW(w:40),height: viewModel.constW(w:40))
+                        .foregroundColor(Color("MidGrayColor")))
+                    .blurredSheet(.init(.ultraThinMaterial), show: $showSheet) {
+                        
+                    } content: {
+                        VStack {
+                            Button {
+                                withAnimation{
+                                    showAlert.toggle()
+                                }
+                            } label: {
+                                Text("Delete all day")
+                                    .foregroundStyle(Color("BrightRedColor"))
                             }
-                        } else {
-                            appearSheet.toggle()
-                            viewModel.changeExercisesDB = false
+                            .padding(.bottom,10)
+                            .alert(isPresented:$showAlert, content:  {
+                                Alert(title: Text("Are you sure?"),message:Text("All exercises and data will be deleted"), primaryButton: .default(Text("Yes"),action: {
+                                    withAnimation(.easeInOut) {
+                                        viewModel.removeTrainingByClick(selectedDate: viewModel.selectedDate)
+                                        showSheet.toggle()
+                                    }
+                                }), secondaryButton: .cancel(Text("Cancel")))
+                                
+                            })
+                            
+                            
+                            Button {
+                                withAnimation {
+                                    saveAsProgrammSheet.toggle()
+                                    
+                                    let stringDate = viewModel.toStringDate(date: viewModel.selectedDate, history: false)
+                                    if let training = viewModel.trainings[stringDate] {
+                                        
+                                        var exercises = training.exercises
+                                        for exercise in exercises {
+                                            exercise.sets = []
+                                        }
+                                        newProgram.exercises = exercises
+                                        viewModel.selectedExArray = exercises
+                                        newProgram.numberOfProgram = viewModel.trainings.count + 1
+                                        showSheet.toggle()
+                                    }
+                                }
+                            } label : {
+                                Text("Save as program")
+                                    .foregroundStyle(.white)
+                            }
+                            .padding(.bottom,10)
+                            if !viewModel.isSelectedDayToday() {
+                                Button {
+                                    withAnimation {
+                                        viewModel.copyTraining = true
+                                        let stringDate = viewModel.toStringDate(date: viewModel.selectedDate, history: false)
+                                        
+                                        if let training = viewModel.trainings[stringDate] {
+                                            if training.programDescription == "" {
+                                                viewModel.createTraining(date: viewModel.selectedDate, exercises: training.exercises)
+                                            } else {
+                                                viewModel.createTraining(date: viewModel.selectedDate, program: training)
+                                            }
+                                        }
+                                        showSheet.toggle()
+                                    }
+                                } label: {
+                                    Text("Copy for today")
+                                        .foregroundStyle(.white)
+                                }
+                                .padding(.bottom,10)
+                            }
+                            Button {
+                                if viewModel.isAnyTrainingSelectedDay() {
+                                    withAnimation(.easeInOut) {
+                                        viewModel.editMode.toggle()
+                                        viewModel.editModeButtonName = viewModel.editMode ? "Finish editing" : "Edit"
+                                        showSheet.toggle()
+                                    }
+                                } else {
+                                    appearSheet.toggle()
+                                    viewModel.changeExercisesDB = false
+                                }
+                                
+                            } label : {
+                                Text(viewModel.isAnyTrainingSelectedDay() ? viewModel.editModeButtonName : mainButtonName)
+                                    .foregroundStyle(.white)
+                                
+                            }
                         }
+                        .fullScreenCover(isPresented: $saveAsProgrammSheet) {
+                            CreateNewProgrammView(name: $newProgram.programTitle, description: $newProgram.programDescription, exercises: $newProgram.exercises, colorDesignStringValue: $newProgram.colorDesign,toChangeProgram: false)
+                        }
+                        .font(.custom("Helvetica", size: viewModel.constW(w:22)))
+                        .fontWeight(.bold)
+                        .presentationDetents([.fraction(0.33)])
+                        .frame(maxWidth: .infinity,maxHeight: .infinity)
+                        .presentationDragIndicator(.visible)
+                        .background(Color("DarkbackgroundViewColor"))
+                        
+                        
+                        
                     }
-                    .sheet(isPresented:$appearSheet) {
-                        //viewModel.dataForProgramm
-                        AddProgramView()
-                    }
-                    .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.editMode ? 335 / 2.2 : 335,height: 45))
-                    .tint(.white)
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    //                .offset(y:collapsingViewFlag ? viewModel.constH(h: 290) : viewModel.constH(h: 155))
-                    .opacity(1)
-                    if viewModel.editMode {
-                        Button("Add exercise") {
+                    if viewModel.isAnyTrainingSelectedDay() {
+                        Button("Add more") {
                             appearSheet.toggle()
                             viewModel.addExerciseFlag = true
                             viewModel.changeExercisesDB = false
                         }
-                        .buttonStyle(GrowingButton(isDarkMode: false,width: 335 / 2.2,height: 45))
-                        .tint(.black)
+                        .sheet(isPresented:$appearSheet) {
+                            //viewModel.dataForProgramm
+                            AddProgramView()
+                        }
+                        .buttonStyle(GrowingButton(isDarkMode: false,width: 315,height: 45))
+                        .tint(.white)
                         .font(.title2)
                         .fontWeight(.semibold)
-                        .background(.clear)
                         .opacity(1)
-                        .sheet(isPresented:$appearSheet) {
-                            AddProgramView()
-                            
-                        }
                     }
+                    else {
+                        Button("Create training") {
+                            appearSheet.toggle()
+                            viewModel.addExerciseFlag = false
+                            viewModel.changeExercisesDB = false
+                        }
+                        .sheet(isPresented:$appearSheet) {
+                            //viewModel.dataForProgramm
+                            AddProgramView()
+                        }
+                        .buttonStyle(GrowingButton(isDarkMode: false,width: 315,height: 45))
+                        .tint(.white)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .opacity(1)
+                    }
+                    
                 }
                 .zIndex(3)
                 .padding(.bottom,20)
@@ -308,6 +411,7 @@ struct ContentView: View {
                 .offset(y:viewModel.constH(h:370))
                 
             }
+            
             if viewModel.isShowedMainAddSetsView {
                 withAnimation(.easeOut) {
                     AddNewSetsMainView(scrollToIndex: scrollToIndex).environmentObject(viewModel)
@@ -371,3 +475,6 @@ struct ContentView_Previews: PreviewProvider {
         
     }
 }
+
+
+

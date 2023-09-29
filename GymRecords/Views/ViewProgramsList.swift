@@ -34,7 +34,7 @@ struct ViewProgramsList: View {
                 .padding(20)
                 .background(Rectangle()
                     .foregroundColor(Color("LightGrayColor"))
-                    .frame(width: viewModel.constW(w:viewModel.screenWidth - 20), height: viewModel.constH(h:60))
+                    .frame(width: viewModel.screenWidth - 20, height: viewModel.constH(h:60))
                     .cornerRadius(10))
                 .padding(10)
             }

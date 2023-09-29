@@ -87,7 +87,7 @@ struct ContentViewExerciseFromTheListView: View {
                             })
                     
                     Rectangle().foregroundColor(backgroundColor)
-                        .frame(width: viewModel.constW(w:viewModel.screenWidth - 20),height: viewModel.constH(h:38))
+                        .frame(width: viewModel.screenWidth - 20,height: viewModel.constH(h:38))
                         .zIndex(1)
                 }
             }

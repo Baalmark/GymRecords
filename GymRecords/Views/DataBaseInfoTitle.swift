@@ -21,7 +21,7 @@ struct DataBaseInfoTitle: View {
                     
                 }
                 .fontWeight(.bold)
-                    .frame(width: viewModel.constW(w:viewModel.screenWidth / 3 - 15),height: viewModel.constH(h:50))
+                    .frame(width: viewModel.screenWidth / 3 - 15,height: viewModel.constH(h:50))
                 .background(RoundedRectangle(cornerRadius: 10)
                     .foregroundColor(Color("LightGrayColor")))
                 
