@@ -936,6 +936,14 @@ class GymViewModel: ObservableObject {
         
     }
     
+    static func returnCoefH(_ height:CGFloat) -> CGFloat{
+        
+        var screenHeight = UIScreen.main.bounds.height
+        let standartScreenHeight:CGFloat = 852.0
+        
+        return height * (screenHeight / standartScreenHeight)
+    }
+    
 }
 //MARK: Extensions
 

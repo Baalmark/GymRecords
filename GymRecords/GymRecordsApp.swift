@@ -23,3 +23,4 @@ struct GymRecordsApp: App {
         }
     }
 }
+

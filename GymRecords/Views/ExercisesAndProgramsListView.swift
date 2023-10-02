@@ -22,7 +22,7 @@ struct ExercisesAndProgramsListView: View {
     var body: some View {
         VStack{
             HStack(spacing:20){
-                Button("Exercises") {
+                Button{
                     //If exercises button hasn't tapped yet
                     if didTap == true {
                         
@@ -34,23 +34,21 @@ struct ExercisesAndProgramsListView: View {
                         
                         
                     }
+                } label: {
+                    Text("Exercises")
+                        .foregroundColor(didTap ? .gray : .white)
+                        .font(.title2)
+                        .fontWeight(.semibold)
                 }
-
-                
                 .frame(width: viewModel.constW(w:125),height: viewModel.constH(h:35))
-
-                .foregroundColor(didTap ? .gray : .white)
-                .font(.title)
-                .fontWeight(.medium)
-                
                 .padding([.leading,.trailing],25)
                 .padding([.top,.bottom],10)
                 
                 .background(Rectangle()
-                    .foregroundColor(didTap ? .white : .black)
+                    .foregroundColor(didTap ? .white : Color("backgroundDarkColor"))
                     .cornerRadius(10)
                 )
-                Button("Programs") {
+                Button{
                     
                     //If programms button hasn't tapped yet
                     if didTap == false {
@@ -62,17 +60,19 @@ struct ExercisesAndProgramsListView: View {
                     }
                     
                     
+                } label: {
+                    Text("Programs")
+                        .foregroundColor(didTap ? .white : .gray)
+                        .font(.title2)
+                        .fontWeight(.semibold)
                 }
-                
-                .foregroundColor(didTap ? .white : .gray)
-                .font(.title)
-                .fontWeight(.medium)
+                .frame(width: viewModel.constW(w:125),height: viewModel.constH(h:35))
                 .padding([.leading,.trailing],25)
                 .padding([.top,.bottom],10)
                 
                 
                 .background(Rectangle()
-                    .foregroundColor(didTap ? .black : .white)
+                    .foregroundColor(didTap ? Color("backgroundDarkColor") : .white)
                     .cornerRadius(10)
                 )
             }

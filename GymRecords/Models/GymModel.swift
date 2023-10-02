@@ -19,7 +19,7 @@ struct GymModel {
     
     init(programs:[Program] = [],exercises:[Exercise] = GymModel.arrayOfAllCreatedExercises, trainingDictionary:Dictionary<String,Program> = [:]) {
         self.programs = []
-        self.programs = [Program(numberOfProgram:1,programTitle: "Test", programDescription: "Testing", colorDesign: "green", exercises: GymModel.arrayOfAllCreatedExercises)]
+        self.programs = GymModel.basicPrograms
         self.trainingDictionary = [:]
             
 
@@ -55,7 +55,7 @@ struct GymModel {
         case legs = "legs"
         case back = "back"
         case chest = "chest"
-        case body = "body"
+        case abs = "ABS"
         case shoulders = "shoulders"
         case cardio = "cardio"
         case find = ""
@@ -67,7 +67,7 @@ struct GymModel {
             case "legs": self = .legs
             case "back": self = .back
             case "chest": self = .chest
-            case "body": self = .body
+            case "ABS": self = .abs
             case "shoulders": self = .shoulders
             case "cardio": self = .cardio
             case "find": self = .find
@@ -367,20 +367,60 @@ extension GymModel {
 extension GymModel.TypeOfExercise{
     
     
-    static var allExercises:[GymModel.TypeOfExercise] = [.arms,.stretching,.legs,.back,.chest,.body,.shoulders,.cardio]
+    static var allExercises:[GymModel.TypeOfExercise] = [.arms,.stretching,.legs,.back,.chest,.abs,.shoulders,.cardio]
 }
 
 extension GymModel {
-    static var arrayOfAllCreatedExercises = [Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
-                                             Exercise(type: .cardio, name: "Cycling", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
-                                             Exercise(type: .cardio, name: "Elips", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
-                                             Exercise(type: .cardio, name: "Berpi", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
-                                             Exercise(type: .cardio, name: "WorkOut", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
-                                             Exercise(type: .arms, name: "Dumbbell Concentration Curl", doubleWeight: false, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
-                                             Exercise(type: .arms, name: "Dumbbell Hammers Curl", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
-                                             Exercise(type: .arms, name: "Biceps Curl", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
-                                             Exercise(type: .chest, name: "Dumbbell bench press", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
-                                             Exercise(type: .chest, name: "Push ups", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false)]
+    //Basic exercises
+    static var arrayOfAllCreatedExercises = [
+        //Cardio
+        Exercise(type: .cardio, name: "Running", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .cardio, name: "Cycling", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .cardio, name: "Elips", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
+        //Arms (Biceps)
+        Exercise(type: .arms, name: "Dumbbell Concentration Curl", doubleWeight: false, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .arms, name: "Dumbbell Hammers Curl", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .arms, name: "Biceps Curl", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        //Arms (Triceps)
+        Exercise(type: .arms, name: "Dumbbell Standing Triceps Extension", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .arms, name: "Close grip push ups", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .arms, name: "Tricep Pushdown With Bar", doubleWeight: false, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        //Chest
+        Exercise(type: .chest, name: "Dumbbell bench press", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .chest, name: "Push ups", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .chest, name: "Decline bench press", doubleWeight: false, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        //Shoulders
+        Exercise(type: .shoulders, name: "Dumbbell front raise", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .shoulders, name: "Dumbbell shoulder press", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .shoulders, name: "Dumbbell Lateral Raise", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        //Legs
+        Exercise(type: .legs, name: "Squat", doubleWeight: false, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .legs, name: "Leg press", doubleWeight: false, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .legs, name: "Barbell lunge", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        //Back
+        Exercise(type: .back, name: "Pull ups with additional weight", doubleWeight: false, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .back, name: "Dumbbell row", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .back, name: "Pull ups", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
+        //Abs
+        Exercise(type: .abs, name: "Hanging Leg Raise", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .abs, name: "Crunch with weight", doubleWeight: false, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .abs, name: "Lying leg press", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
+        //Stretching
+        Exercise(type: .stretching, name: "Child’s Pose", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .stretching, name: "Knee-to-chest stretch", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .stretching, name: "Behind-head tricep stretch", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false)
+    ]
+    
+    static var basicPrograms =  [
+        GymModel.Program(numberOfProgram: 1,programTitle: "Arms", programDescription: "Arms training basic program", colorDesign: "blue", exercises: GymModel.arrayOfAllCreatedExercises.filter({$0.type == .arms})),
+        GymModel.Program(numberOfProgram: 2,programTitle: "Legs", programDescription: "Legs training basic program", colorDesign: "green", exercises: GymModel.arrayOfAllCreatedExercises.filter({$0.type == .legs})),
+        GymModel.Program(numberOfProgram: 3,programTitle: "Shoulders", programDescription: "Shoulders training basic program", colorDesign: "red", exercises: GymModel.arrayOfAllCreatedExercises.filter({$0.type == .shoulders})),
+        GymModel.Program(numberOfProgram: 4,programTitle: "Chest", programDescription: "Chest training basic program", colorDesign: "cyan", exercises: GymModel.arrayOfAllCreatedExercises.filter({$0.type == .chest})),
+        GymModel.Program(numberOfProgram: 5,programTitle: "Back", programDescription: "Back training basic program", colorDesign: "orange", exercises: GymModel.arrayOfAllCreatedExercises.filter({$0.type == .back})),
+        GymModel.Program(numberOfProgram: 6,programTitle: "ABS", programDescription: "ABS training basic program", colorDesign: "gray", exercises: GymModel.arrayOfAllCreatedExercises.filter({$0.type == .abs})),
+        GymModel.Program(numberOfProgram: 7,programTitle: "Cardio", programDescription: "Cardio training basic program", colorDesign: "indigo", exercises: GymModel.arrayOfAllCreatedExercises.filter({$0.type == .cardio})),
+        GymModel.Program(numberOfProgram: 8,programTitle: "Stretching", programDescription: "Stretching training basic program", colorDesign: "pink", exercises: GymModel.arrayOfAllCreatedExercises.filter({$0.type == .stretching}))
+    ]
     
     static var doubleWeightAlertText = "For exercises with two projectiles (for example, with two dumbbells) specify the weight of only one projectile, then the tonnage statistics will be doubled and calculated correctly"
     
@@ -403,3 +443,7 @@ extension Double {
         return String(formatter.string(from: number) ?? "")
     }
 }
+
+
+
+

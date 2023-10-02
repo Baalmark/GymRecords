@@ -27,7 +27,7 @@ struct ViewProgramsList: View {
                     Text("+")
                         .fontWeight(.regular)
                 }
-                .foregroundColor(.black)
+                .foregroundColor(Color("backgroundDarkColor"))
                 .font(.custom("Helvetica", size: viewModel.constW(w:26)))
                 .fontWeight(.bold)
                 .padding(.trailing,10)
@@ -48,16 +48,13 @@ struct ViewProgramsList: View {
                     ProgramItemListView(programm: $viewModel.programList[elem])
                         .onTapGesture {
                             withAnimation(.easeInOut) {
-                                //                                self.selectedProgram = viewModel.programList[elem]
-                                //                                isSheetActivated.toggle()
                                 viewModel.showedEdirOrRemoveProgram = viewModel.programList[elem]
                                 viewModel.isShowedEditOrRemoveView.toggle()
                             }
+                            
                         }
-                    //                        .fullScreenCover(item: self.$selectedProgram) { prog in
-                    //                            EditOrRemoveTheProgram(program: prog, isShowedView: $isSheetActivated)
-                    //                        }
                 }
+                .padding(.top)
                 
             }
             Spacer()

@@ -39,7 +39,7 @@ struct StatistisView: View {
             .padding([.bottom,.leading,.trailing])
             ScrollView {
 
-                ChartsView(reps:reps,weight:weight)
+                ChartsView(reps:reps,weight:weight, typeOfExercise: exercise.type)
 
             }
             .onAppear {

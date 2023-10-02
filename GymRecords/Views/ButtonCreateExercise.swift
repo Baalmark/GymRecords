@@ -18,14 +18,14 @@ struct ButtonCreateExercise: View {
                 showCreateExercise.toggle()
             } label: {
                 Text("Create exercise")
-                    .font(.custom("Helvetica", size: viewModel.constW(w:22)))
+                    .font(.custom("Helvetica", size: viewModel.constW(w:18)))
                     .fontWeight(.bold)
                 Spacer()
                 Text("+")
                     .fontWeight(.regular)
             }
             .foregroundColor(.black)
-            .font(.custom("Helvetica", size: viewModel.constW(w:26)))
+            .font(.custom("Helvetica", size: viewModel.constW(w:20)))
             .fontWeight(.bold)
             .padding(.trailing,10)
             .background(RoundedRectangle(cornerRadius: 10)

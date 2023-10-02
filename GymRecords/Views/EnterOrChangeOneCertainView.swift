@@ -33,7 +33,7 @@ struct EnterOrChangeOneCertainView: View {
                         
                     }
                     .font(.custom("Helvetica", size: viewModel.constW(w:24)).bold())
-                    .foregroundColor(.black)
+                    .foregroundColor(Color("backgroundDarkColor"))
                     
                     .multilineTextAlignment(.center)
                     .frame(height: viewModel.constH(h:70))
@@ -52,7 +52,7 @@ struct EnterOrChangeOneCertainView: View {
                     }
                     
                     .font(.custom("Helvetica", size: viewModel.constW(w:24)).bold())
-                    .foregroundColor(.black)
+                    .foregroundColor(Color("backgroundDarkColor"))
                     .frame(height: viewModel.constH(h:70))
                     .multilineTextAlignment(.center)
                     .background(RoundedRectangle(cornerRadius: 15)

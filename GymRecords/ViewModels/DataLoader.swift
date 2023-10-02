@@ -34,9 +34,10 @@ class DataLoader {
                 result.append(newProgram)
             }
         } else {
-            result =  [GymModel.Program(numberOfProgram: 1,programTitle: "Test", programDescription: "Testing", colorDesign: "green", exercises: GymModel.arrayOfAllCreatedExercises)]
-            
-            saveProgramIntoRealmDB(newProgram: result.first!)
+            result = GymModel.basicPrograms
+            for element in result {
+                saveProgramIntoRealmDB(newProgram: element)
+            }
             
             
         }

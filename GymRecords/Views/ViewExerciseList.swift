@@ -66,7 +66,7 @@ struct ViewExerciseList: View {
                                 Text(elem.rawValue.capitalized)
                                     .padding(.leading,10)
                                     .padding([.top,.bottom])
-                                    .foregroundColor(withCategory ? .black : .white)
+                                    .foregroundColor(withCategory ? Color("backgroundDarkColor") : .white)
                                     .font(.custom("Helvetica", size: viewModel.constW(w:20)))
                                     .fontWeight(.bold)
                                 

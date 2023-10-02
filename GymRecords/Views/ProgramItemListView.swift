@@ -18,8 +18,8 @@ struct ProgramItemListView: View {
                     VStack(alignment:.leading) {
                         Text("\(programm.programTitle)")
                         Text("\(programm.programDescription)")
-                            .font(.custom("Helvetica", size: 18))
-                            .fontWeight(.bold)
+                            .font(.custom("Helvetica", size: 15))
+                            .fontWeight(.semibold)
                     }
                     .padding(.leading,20)
                     .font(.custom("Helvetica", size: 20))
@@ -51,7 +51,7 @@ struct ProgramItemListView: View {
                     withAnimation {
                         ZStack {
                             Image(systemName: "xmark.circle.fill")
-                                .tint(.black)
+                                .tint(Color("backgroundDarkColor"))
                                 
                                 .foregroundStyle(LinearGradient(gradient: Gradient(colors: [.white, .gray]), startPoint: .top, endPoint: .bottom))
                                 .font(.callout)

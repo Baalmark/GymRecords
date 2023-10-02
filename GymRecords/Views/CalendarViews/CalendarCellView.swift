@@ -25,7 +25,7 @@ struct CalendarCellView: View
     {
         ZStack {
             Text(monthStruct().day())
-                .foregroundColor(!isSelectedCheking() ? .black : .white)
+                .foregroundColor(!isSelectedCheking() ? Color("backgroundDarkColor") : .white)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .fontWeight(.bold)
                 .opacity(monthStruct().monthType == .Current ? 1 : 0)
@@ -33,12 +33,12 @@ struct CalendarCellView: View
             
             Circle()
                 .frame(width: isSelectedCheking() ? viewModel.constW(w:40) : 0,height: isSelectedCheking() ? viewModel.constH(h:40) : 0)
-                .foregroundColor(.black)
+                .foregroundColor(Color("backgroundDarkColor"))
                 .zIndex(0)
             
             Circle()
                 .frame(width: isSelectedCheking() ? 3 : 7,height: hasProgram() ? 3 : 7)
-                .foregroundColor(.black)
+                .foregroundColor(Color("backgroundDarkColor"))
                 .offset(y: isSelectedCheking() ?  viewModel.constH(h:25) : viewModel.constH(h:15))
                 .opacity(hasProgram() ? 1 : 0)
                 .zIndex(0)
@@ -100,7 +100,7 @@ struct CalendarCellView: View
     
     func textColor(type: MonthType) -> Color
     {
-        return type == MonthType.Current ? Color.black : Color("MidGrayColor")
+        return type == MonthType.Current ? Color("backgroundDarkColor") : Color("MidGrayColor")
     }
     
     func monthStruct() -> MonthViewModel

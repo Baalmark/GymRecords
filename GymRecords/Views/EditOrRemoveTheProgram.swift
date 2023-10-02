@@ -38,7 +38,7 @@ struct EditOrRemoveTheProgram: View {
                         Text(elem.name.capitalized)
                             .padding(.leading,10)
                             .frame(width: viewModel.constW(w:300),height: viewModel.constH(h:50),alignment: .leading)
-                            .foregroundColor(.black)
+                            .foregroundColor(Color("backgroundDarkColor"))
                             .font(.custom("Helvetica", size: viewModel.constW(w:16)))
                             .fontWeight(.bold)
                     }

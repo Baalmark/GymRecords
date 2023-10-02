@@ -24,10 +24,10 @@ struct ViewListSpecificExercises: View {
                 if viewModel.searchWord.isEmpty {
                     //Title and Button Create Exercise
                     Text("\(typeOfExercise.rawValue.capitalized)")
-                        .padding([.leading,.top],30)
+                        .padding([.leading,.top],40)
                         .font(.custom("Helvetica", size: viewModel.constW(w:24)))
                         .fontWeight(.bold)
-                        .foregroundColor(exerciseProgramming ? .white : .black)
+                        .foregroundColor(exerciseProgramming ? .white : Color("backgroundDarkColor"))
                         .opacity(!viewModel.searchWord.isEmpty ? 0 : 1)
                     // Exercise Button
                     ButtonCreateExercise(showCreateExercise: $viewModel.isShowedCreateExView)
@@ -44,7 +44,7 @@ struct ViewListSpecificExercises: View {
                                                    toggle: viewModel.arrayOfFoundExercise[id].isSelected,
                                                    darkMode: exerciseProgramming)
                                 }
-                                .foregroundColor(exerciseProgramming ? .white : .black)
+                                .foregroundColor(exerciseProgramming ? .white : Color("backgroundDarkColor"))
                                 .padding([.leading,.trailing],30)
                                 .padding(.top,30)
                             } else {
@@ -75,7 +75,7 @@ struct ViewListSpecificExercises: View {
                                                            toggle: viewModel.arrayExercises[id].isSelected,
                                                            darkMode: exerciseProgramming)
                                         }
-                                        .foregroundColor(exerciseProgramming ? .white : !viewModel.comprasionNameExerciseWithListAllExercises(name: viewModel.arrayExercises[id].name, exercises: viewModel.trainInSelectedDay.exercises) ? .black : .red )
+                                        .foregroundColor(exerciseProgramming ? .white : !viewModel.comprasionNameExerciseWithListAllExercises(name: viewModel.arrayExercises[id].name, exercises: viewModel.trainInSelectedDay.exercises) ? Color("backgroundDarkColor") : .red )
                                         .padding([.leading,.trailing],30)
                                         .padding(.top,30)
                                         .disabled( viewModel.comprasionNameExerciseWithListAllExercises(name: viewModel.arrayExercises[id].name, exercises: viewModel.trainInSelectedDay.exercises))

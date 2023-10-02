@@ -17,8 +17,8 @@ struct GrowingButton: ButtonStyle {
         configuration.label
             .padding()
             .frame(width: width,height: height)
-            .background(!isDarkMode ? .black : .white)
-            .foregroundColor(!isDarkMode ? .white : .black)
+            .background(!isDarkMode ? Color("backgroundDarkColor") : .white)
+            .foregroundColor(!isDarkMode ? .white : Color("backgroundDarkColor"))
             .clipShape(Rectangle())
             .cornerRadius(15)
             .shadow(color: .gray, radius: 3)

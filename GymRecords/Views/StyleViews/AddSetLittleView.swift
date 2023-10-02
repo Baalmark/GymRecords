@@ -14,7 +14,7 @@ struct AddSetLittleView: View {
             HStack {
                 Text("Add Set")
                     .font(.custom("Helvetica", size: 24).bold())
-                    .foregroundColor(.black)
+                    .foregroundColor(Color("backgroundDarkColor"))
                     .frame(width: screenWidth - 20,height: 70)
                     .background(RoundedRectangle(cornerRadius: 15)
                         .foregroundColor(Color("LightGrayColor")))

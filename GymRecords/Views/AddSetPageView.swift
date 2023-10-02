@@ -19,13 +19,13 @@ struct AddSetPageView: View {
                     ZStack(alignment:.top) {
                         Color.white
                         VStack(alignment: .leading){
-                            Text("\(exercise.name)").foregroundColor(.black)
+                            Text("\(exercise.name)").foregroundColor(Color("backgroundDarkColor"))
                                 .font(.custom("Helvetica", size: 24).bold())
                                 .padding(-3).padding(.leading,20)
                             HStack {
-                                Text("weight")
+                                Text(exercise.type == .cardio ? "km/h" : "weight")
                                     .padding(.trailing,110)
-                                Text("reps")
+                                Text(exercise.type == .stretching || exercise.type == .cardio ? "mins" : "reps")
                             }
                             .padding(7.6).padding(.leading,16)
                             .padding(.top,15).padding(.leading,5)

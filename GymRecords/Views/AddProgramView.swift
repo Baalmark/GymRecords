@@ -30,8 +30,8 @@ struct AddProgramView: View {
                                 
                                 viewModel.arrayOfFoundExercise = viewModel.findAnyExerciseByLetters(letters: viewModel.searchWord, array: viewModel.arrayExercises)
                             }
-                            .tint(.black)
-                            .foregroundColor(.black)
+                            .tint(Color("backgroundDarkColor"))
+                            .foregroundColor(Color("backgroundDarkColor"))
                             .font(.custom("Helvetica", size: viewModel.constW(w:18)))
                     }
                     .foregroundColor(Color("MidGrayColor"))

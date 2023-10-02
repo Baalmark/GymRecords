@@ -16,14 +16,14 @@ struct CreateExerciseAndSelectCategory: View {
             
         } label: {
             Text("Create Exercise")
-                .font(.custom("Helvetica", size: viewModel.constW(w:22)))
+                .font(.custom("Helvetica", size: viewModel.constW(w:18)))
                 .fontWeight(.bold)
             Spacer()
             Text("+")
                 .fontWeight(.regular)
         }
-        .foregroundColor(.black)
-        .font(.custom("Helvetica", size: viewModel.constW(w:26)))
+        .foregroundColor(Color("backgroundDarkColor"))
+        .font(.custom("Helvetica", size: viewModel.constW(w:18)))
         .fontWeight(.bold)
         .padding(.trailing,10)
         .padding(20)

@@ -35,6 +35,7 @@ struct ContentView: View {
                                 MonthLabelView(month:viewModel.arrayOfMonths[1])
                                 //                                    .environmentObject(viewModel)
                                     .animation(.spring(), value: viewModel.arrayOfMonths[1])
+                                    
                                 Spacer()
                                 Button{
                                     viewModel.addExerciseFlag = false
@@ -54,22 +55,16 @@ struct ContentView: View {
                                 }
                             }
                             .padding(.top,5)
+                           
                             
                             .padding([.leading,.trailing], 10)
                             
                             dayOfWeekStack
                             
                         }
-                        .frame(height:110,alignment:.bottom)
+                        .frame(height:viewModel.constH(h:110),alignment:.bottom)
                         .background(.white)
                         .padding(.bottom,-10)
-                        
-                        
-                        Rectangle()
-                            .frame(height: 100)
-                            .zIndex(0)
-                            .offset(y:-100)
-                            .foregroundColor(.white)
                         
                     }
                     
@@ -110,7 +105,7 @@ struct ContentView: View {
                                 }
                             })
                     }
-                    .frame(width: viewModel.screenWidth * 3 + 30, height: 350)
+                    .frame(width: viewModel.screenWidth * 3 + 30, height: viewModel.constH(h:350))
                     .offset(x:0,y:  viewModel.constH(h: minimizingCalendarOffSet / viewModel.getCoefficientOffset(row: viewModel.selectedDayRowHolder)))
                     .zIndex(3)
                     .padding(.bottom, 15)
@@ -118,10 +113,11 @@ struct ContentView: View {
                     Spacer()
                 }
                 
+                
             }
             .background(.white)
             .zIndex(2)
-            .frame(height: collapsingViewFlag ? 140 : 415)
+            .frame(height: collapsingViewFlag ? viewModel.constH(h:140) : viewModel.constH(h:415))
             .overlay(alignment:.center) {
                 ZStack(alignment: .top){
                     //Drag gesture line view
@@ -131,12 +127,12 @@ struct ContentView: View {
                         .gesture(DragGesture()
                             .onChanged { value in
                                 if value.translation.height <= 0{
-                                    if minimizingCalendarOffSet > -295 {
+                                    if minimizingCalendarOffSet > viewModel.constH(h: -295) {
                                         minimizingCalendarOffSet = value.translation.height
                                     }
                                 } else {
                                     if minimizingCalendarOffSet < 0 {
-                                        minimizingCalendarOffSet = -295 + value.translation.height
+                                        minimizingCalendarOffSet = viewModel.constH(h: -295) + value.translation.height
                                     }
                                 }
                                 
@@ -154,8 +150,8 @@ struct ContentView: View {
                                         }
                                     } else {
                                         withAnimation(.easeInOut) {
-                                            minimizingCalendarOffSet = -295
-                                            coeffOfTrainView = 295
+                                            minimizingCalendarOffSet = viewModel.constH(h: -295)
+                                            coeffOfTrainView = viewModel.constH(h: 295)
                                             collapsingViewFlag = true
                                             
                                         }
@@ -163,8 +159,8 @@ struct ContentView: View {
                                 } else {
                                     if value.translation.height <= -125 {
                                         withAnimation(.easeInOut) {
-                                            minimizingCalendarOffSet = -295
-                                            coeffOfTrainView = 295
+                                            minimizingCalendarOffSet = viewModel.constH(h: -295)
+                                            coeffOfTrainView = viewModel.constH(h: 295)
                                             collapsingViewFlag = true
                                             
                                         }
@@ -193,10 +189,10 @@ struct ContentView: View {
                                         
                                     if exercise.isSelectedToAddSet {
                                         HStack {
-                                                Text("weight")
+                                            Text(exercise.type == .cardio ? "km/h" : "weight")
                                                     .frame(width: 160)
                                                     .padding(.trailing,5)
-                                                Text("reps")
+                                            Text(exercise.type == .stretching || exercise.type == .cardio ? "mins" : "reps")
                                                     .frame(width: 160)
                                                     .padding(.leading,5)
                                         }
@@ -234,7 +230,7 @@ struct ContentView: View {
                                 .offset(x:0,y: viewModel.constH(h: -minimizingCalendarOffSet / 2))
                                 .padding()
                                 .padding(.top,30)
-                                .offset(y:collapsingViewFlag ? -140 : 0)
+                                .offset(y:collapsingViewFlag ? viewModel.constH(h:-140) : 0)
                                 .scaledToFit()
                                 
                                 .onAppear() {
@@ -245,21 +241,26 @@ struct ContentView: View {
                     }
                     
                     .frame(maxWidth: viewModel.screenWidth)
-                    .frame(height: collapsingViewFlag ? 580 : 290)
+                    .frame(height: collapsingViewFlag ? viewModel.constH(h:580) : viewModel.constH(h:290))
                     .background(.white)
                     .offset(x:0,y:minimizingCalendarOffSet)
                 }.zIndex(10)
-                    .offset(y:collapsingViewFlag ? 510 : 360)
+                    .offset(y:collapsingViewFlag ? viewModel.constH(h:510) : viewModel.constH(h:360))
                 
             }
-            .offset(y:viewModel.constH(h: -130))
+            .padding(.top,-40)
+            .offset(y:viewModel.constH(h: -150))
+            .onAppear {
+                minimizingCalendarOffSet = viewModel.constH(h: -295)
+            }
             
         }
-        .frame(height: viewModel.screenHeight - 70)
         
+        .frame(height: viewModel.screenHeight - viewModel.constH(h: -70))
         .overlay {
             if !viewModel.isShowedMainAddSetsView {
                 HStack {
+                    if viewModel.isAnyTrainingSelectedDay(){
                     Button {
                         showSheet.toggle()
                     } label: {
@@ -275,48 +276,49 @@ struct ContentView: View {
                         
                     } content: {
                         VStack {
-                            Button {
-                                withAnimation{
-                                    showAlert.toggle()
-                                }
-                            } label: {
-                                Text("Delete all day")
-                                    .foregroundStyle(Color("BrightRedColor"))
-                            }
-                            .padding(.bottom,10)
-                            .alert(isPresented:$showAlert, content:  {
-                                Alert(title: Text("Are you sure?"),message:Text("All exercises and data will be deleted"), primaryButton: .default(Text("Yes"),action: {
-                                    withAnimation(.easeInOut) {
-                                        viewModel.removeTrainingByClick(selectedDate: viewModel.selectedDate)
-                                        showSheet.toggle()
+                            
+                            if viewModel.isAnyTrainingSelectedDay() {
+                                Button {
+                                    withAnimation{
+                                        showAlert.toggle()
                                     }
-                                }), secondaryButton: .cancel(Text("Cancel")))
-                                
-                            })
-                            
-                            
-                            Button {
-                                withAnimation {
-                                    saveAsProgrammSheet.toggle()
-                                    
-                                    let stringDate = viewModel.toStringDate(date: viewModel.selectedDate, history: false)
-                                    if let training = viewModel.trainings[stringDate] {
-                                        
-                                        var exercises = training.exercises
-                                        for exercise in exercises {
-                                            exercise.sets = []
+                                } label: {
+                                    Text("Delete all day")
+                                        .foregroundStyle(Color("BrightRedColor"))
+                                }
+                                .padding(.bottom,10)
+                                .alert(isPresented:$showAlert, content:  {
+                                    Alert(title: Text("Are you sure?"),message:Text("All exercises and data will be deleted"), primaryButton: .default(Text("Yes"),action: {
+                                        withAnimation(.easeInOut) {
+                                            viewModel.removeTrainingByClick(selectedDate: viewModel.selectedDate)
+                                            showSheet.toggle()
                                         }
-                                        newProgram.exercises = exercises
-                                        viewModel.selectedExArray = exercises
-                                        newProgram.numberOfProgram = viewModel.trainings.count + 1
-                                        showSheet.toggle()
+                                    }), secondaryButton: .cancel(Text("Cancel")))
+                                    
+                                })
+                                
+                                
+                                Button {
+                                    withAnimation {
+                                        let stringDate = viewModel.toStringDate(date: viewModel.selectedDate, history: false)
+                                        if let training = viewModel.trainings[stringDate] {
+                                            
+                                            var exercises = training.exercises
+                                            for exercise in exercises {
+                                                exercise.sets = []
+                                            }
+                                            newProgram.exercises = exercises
+                                            viewModel.selectedExArray = exercises
+                                            newProgram.numberOfProgram = viewModel.trainings.count + 1
+                                            saveAsProgrammSheet.toggle()
+                                        }
                                     }
+                                } label : {
+                                    Text("Save as program")
+                                        .foregroundStyle(.white)
                                 }
-                            } label : {
-                                Text("Save as program")
-                                    .foregroundStyle(.white)
+                                .padding(.bottom,10)
                             }
-                            .padding(.bottom,10)
                             if !viewModel.isSelectedDayToday() {
                                 Button {
                                     withAnimation {
@@ -358,6 +360,11 @@ struct ContentView: View {
                         }
                         .fullScreenCover(isPresented: $saveAsProgrammSheet) {
                             CreateNewProgrammView(name: $newProgram.programTitle, description: $newProgram.programDescription, exercises: $newProgram.exercises, colorDesignStringValue: $newProgram.colorDesign,toChangeProgram: false)
+                                .onDisappear {
+                                    withAnimation {
+                                        showSheet.toggle()
+                                    }
+                                }
                         }
                         .font(.custom("Helvetica", size: viewModel.constW(w:22)))
                         .fontWeight(.bold)
@@ -365,7 +372,7 @@ struct ContentView: View {
                         .frame(maxWidth: .infinity,maxHeight: .infinity)
                         .presentationDragIndicator(.visible)
                         .background(Color("DarkbackgroundViewColor"))
-                        
+                    }
                         
                         
                     }

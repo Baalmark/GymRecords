@@ -10,8 +10,8 @@ import Charts
 class StatisticViewModel:ObservableObject {
     private var lineWidth = 1.0
     private var interpolationMethod: ChartInterpolationMethod = .monotone
-    private var chartColor: Color = .black
-    let linearGradient = LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.4),         Color.black.opacity(0)]),
+    private var chartColor: Color = Color("backgroundDarkColor")
+    let linearGradient = LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.4),         Color("backgroundDarkColor").opacity(0)]),
                                         startPoint: .top,
                                         endPoint: .bottom)
     @Published var data:([RepsData],[WeightData]) = allData.overViewExample7
@@ -28,7 +28,7 @@ class StatisticViewModel:ObservableObject {
         
         
         for date in stride(from: startPoint, to: now, by: dayDurationInSeconds) {
-            let dataOfSets = summaryOfSetsInOneDay(date: date, allSets: exercise.sets)
+            let dataOfSets = summaryOfSetsInOneDay(date: date, allSets: exercise.sets,type: exercise.type)
             if dataOfSets.0 != 0 && dataOfSets.1 != 0 {
                 let newObjectReps = RepsData(day: date, reps: dataOfSets.0)
                 let newObjectWeights = WeightData(day: date, weight: dataOfSets.1)
@@ -41,16 +41,29 @@ class StatisticViewModel:ObservableObject {
         return result
     }
     
-    func summaryOfSetsInOneDay(date:Date,allSets:[Sets]) -> (Double,Double) {
-        
+    func summaryOfSetsInOneDay(date:Date,allSets:[Sets],type:GymModel.TypeOfExercise) -> (Double,Double) {
         let filteredSets = allSets.filter {
             $0.date.hasSame(.day, as: date) && $0.date.hasSame(.month, as: date) && $0.date.hasSame(.year, as: date)
         }
         var reps:Double = 0
         var weights:Double = 0
-        for nSet in filteredSets {
-            reps += nSet.reps
-            weights += nSet.weight
+        
+        if type != .cardio {
+            for nSet in filteredSets {
+                reps += nSet.reps
+                weights += nSet.weight
+            }
+        } else {
+            let count = filteredSets.count
+            var array:[Double] = []
+            
+            for nSet in filteredSets {
+                reps += nSet.reps
+                array.append(nSet.weight)
+                
+            }
+            let sum = array.reduce(0,+)
+            weights = sum / Double(count)
         }
         return (reps,weights)
     }
@@ -174,6 +187,18 @@ class StatisticViewModel:ObservableObject {
         }
         
         return temp.rounded(.awayFromZero)
+    }
+    
+    func getAverageSpeed(speed:[WeightData]) -> Double {
+        var temp:Double = 0
+        var count:Double = 0
+        for n in speed {
+            count += 1
+            temp += n.weight
+            
+        }
+        
+        return (temp / count).rounded(.awayFromZero)
     }
     
     //    func returnHistoryForStatisticView(data:([RepsData],[WeightData])) -> [String:[]]

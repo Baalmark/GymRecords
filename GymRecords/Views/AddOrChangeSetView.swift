@@ -36,7 +36,7 @@ struct AddOrChangeSetView: View {
                     Image(systemName: "xmark.circle.fill")
                         .symbolRenderingMode(.hierarchical)
                         .foregroundColor(Color("GrayColor"))
-                        .tint(.black)
+                        .tint(Color("backgroundDarkColor"))
                         .fixedSize()
                         .font(.title)
                 }
@@ -44,9 +44,9 @@ struct AddOrChangeSetView: View {
             }
             .padding(.top,20)
             HStack {
-                Text("weight")
+                Text(exercise.type == .cardio ? "km/h" : "weight")
                     .padding(.trailing,110)
-                Text("reps")
+                Text(exercise.type == .stretching || exercise.type == .cardio ? "mins" : "reps")
             }
             .padding(.leading,30)
             .font(.callout.bold())
@@ -106,6 +106,6 @@ struct AddOrChangeSetView_Previews: PreviewProvider {
     static var previews: some View {
         let _ = Migrator()
         
-        AddOrChangeSetView(exercise: .init(type: .body, name: "Test", doubleWeight: true, selfWeight: true, isSelected: false, sets: [], isSelectedToAddSet: true)).environmentObject(GymViewModel())
+        AddOrChangeSetView(exercise: .init(type: .abs, name: "", doubleWeight: true, selfWeight: true, isSelected: false, sets: [], isSelectedToAddSet: true)).environmentObject(GymViewModel())
     }
 }

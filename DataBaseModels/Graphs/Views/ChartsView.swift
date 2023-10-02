@@ -12,21 +12,21 @@ struct ChartsView: View {
     @EnvironmentObject var viewModel:GymViewModel
     var reps:[RepsData]
     var weight:[WeightData]
-    
+    var typeOfExercise:GymModel.TypeOfExercise
     @State private var periodXAxis = ("","")
     @State private var months:[String] = []
     @State private var lineWidth = 2.0
-    @State private var chartColor: Color = .black
+    @State private var chartColor: Color = Color("backgroundDarkColor")
     @StateObject var statisticViewModel:StatisticViewModel = StatisticViewModel()
     @State private var selectedElementRep: RepsData? = nil
     @State private var selectedElementWeights: WeightData? = nil
     @State private var showLollipop = true
-    @State private var lollipopColor: Color = .black
+    @State private var lollipopColor: Color = Color("backgroundDarkColor")
     @State private var axisValueForWeight:Double = 0
     @State private var axisValueForReps:Double = 0
     
     let previewChartHeight: CGFloat = UIScreen.main.bounds.height / 3
-    let linearGradient = LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.4),         Color.black.opacity(0)]),
+    let linearGradient = LinearGradient(gradient: Gradient(colors: [Color.gray.opacity(0.4),         Color("backgroundDarkColor").opacity(0)]),
                                         startPoint: .top,
                                         endPoint: .bottom)
     
@@ -43,7 +43,7 @@ struct ChartsView: View {
         VStack(alignment:.leading) {
             Section {
                 HStack {
-                    Text("Reps")
+                    Text(typeOfExercise == .stretching || typeOfExercise == .cardio ? "mins" : "Reps")
                         .fontWeight(.semibold)
                         .font(.title)
                         .padding(.leading,20)
@@ -80,11 +80,11 @@ struct ChartsView: View {
             .padding(.bottom,20)
             Section {
                 HStack {
-                    Text("Weight lifted")
+                    Text(typeOfExercise == .cardio ? "km/h runned" : "Weight lifted")
                         .fontWeight(.semibold)
                         .font(.title)
                         .padding(.leading,20)
-                    Text("max \(statisticViewModel.getMaxWeight(weights:weight).removeZerosFromEnd())")
+                    Text("max \(typeOfExercise == .cardio ? statisticViewModel.getAverageSpeed(speed: weight).removeZerosFromEnd() : statisticViewModel.getMaxWeight(weights:weight).removeZerosFromEnd())")
                         .font(.title2)
                         .fontWeight(.semibold)
                         .foregroundColor(Color("GrayColor"))
@@ -152,7 +152,19 @@ struct ChartsView: View {
                 data = statisticViewModel.getlastPeriod(exercise: exercise , period: viewModel.selectedPeriod)
                 
                 viewModel.maxSummaryReps = data.0.max { $0.reps < $1.reps}?.reps
-                viewModel.maxSummaryWeight = data.1.max { $0.weight < $1.weight}?.weight
+//                
+//                if exercise.type == .cardio {
+//                    var array:[Double] = []
+//                    for n in data.1 {
+//                        array.append(n.weight)
+//                    }
+//                    
+//                    let sum = array.reduce(0,+)
+//                    let count = Double(data.1.count)
+//                    viewModel.maxSummaryWeight = sum / count
+//                } else {
+                    viewModel.maxSummaryWeight = data.1.max { $0.weight < $1.weight}?.weight
+//                }
             }
         }
         .onChange(of:viewModel.selectedPeriod) { newValue in
@@ -266,9 +278,7 @@ struct ChartsView: View {
     }
     
     
-    func testFunc(repsTrueWeightFalse:Bool)  {
-        
-    }
+
     private var weightChart: some View {
         Chart(data.1, id: \.day) { chartMarker in
             

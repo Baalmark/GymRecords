@@ -18,7 +18,7 @@ struct DisplaySetsMainView: View {
                 HStack {
                         Text("\(newSet.weight.formatted())")
                             .font(.custom("Helvetica", size: viewModel.constW(w:24)).bold())
-                            .foregroundColor(.black)
+                            .foregroundColor(Color("backgroundDarkColor"))
                         
                             .multilineTextAlignment(.center)
                             .frame(width: viewModel.screenWidth / 2 - width,height: viewModel.constH(h:70))
@@ -26,7 +26,7 @@ struct DisplaySetsMainView: View {
                                 .foregroundColor(Color("LightGrayColor")))
                         Text("\(newSet.reps.formatted())")
                             .font(.custom("Helvetica", size: viewModel.constW(w:24)).bold())
-                            .foregroundColor(.black)
+                            .foregroundColor(Color("backgroundDarkColor"))
                             .frame(width: viewModel.screenWidth / 2 - width,height: viewModel.constH(h:70))
                             .multilineTextAlignment(.center)
                             .background(RoundedRectangle(cornerRadius: 15)
