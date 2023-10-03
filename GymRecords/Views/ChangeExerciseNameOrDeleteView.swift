@@ -11,7 +11,7 @@ struct ChangeExerciseNameOrDeleteView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel:GymViewModel
     @Binding var exercise:Exercise
-    
+    @State var oldExerciseName:String = ""
     
     @State var isShowAlertDoubleWeight = false
     @State var isShowAlertBodyWeight = false
@@ -20,6 +20,7 @@ struct ChangeExerciseNameOrDeleteView: View {
         VStack {
             //Close button
             Button {
+                HapticManager.instance.impact(style: .medium)
                 dismiss()
             } label: {
                 Image(systemName: "xmark.circle.fill")
@@ -36,6 +37,9 @@ struct ChangeExerciseNameOrDeleteView: View {
                 Divider().overlay(viewModel.isDarkMode ?.white : Color("GrayColor"))
                 
                 TextField("Title for exercise:", text: $exercise.name)
+                    .onAppear {
+                        oldExerciseName = exercise.name
+                    }
                 
                     .padding(10)
                     .foregroundColor(viewModel.isDarkMode ?.white : Color("GrayColor"))
@@ -83,7 +87,7 @@ struct ChangeExerciseNameOrDeleteView: View {
                 Divider().overlay(Color("GrayColor"))
                 
                 Button{
-                    viewModel.removeSomeExercise(exercise: exercise)
+                    viewModel.removeExercise(exercise: exercise)
                     dismiss()
                 } label: {
                     Text("Remove exercise")
@@ -93,7 +97,8 @@ struct ChangeExerciseNameOrDeleteView: View {
                 .padding()
                 Spacer()
                 Button("Save") {
-                    viewModel.toggleBodyAndDoubleWeight(exercise: exercise, bodyWeight: exercise.selfWeight, doubleWeight: exercise.doubleWeight)
+                    HapticManager.instance.impact(style: .medium)
+                    viewModel.editExercise(exercise: exercise, oldExerciseName: oldExerciseName)
                     dismiss()
                 }
                 .buttonStyle(GrowingButton(isDarkMode: viewModel.isDarkMode ,width: viewModel.constW(w:335),height: viewModel.constH(h:45)))

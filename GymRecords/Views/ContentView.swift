@@ -25,6 +25,9 @@ struct ContentView: View {
     @State var saveAsProgrammSheet = false
     @State var newProgram = GymModel.Program(numberOfProgram: 1,programTitle: "", programDescription: "", colorDesign: "green", exercises: [])
     var body: some View {
+        mainView
+    }
+    var mainView: some View {
         VStack {
             ZStack{
                 VStack{
@@ -38,6 +41,7 @@ struct ContentView: View {
                                     
                                 Spacer()
                                 Button{
+                                    HapticManager.instance.impact(style: .medium)
                                     viewModel.addExerciseFlag = false
                                     viewModel.editMode = false
                                     mainButtonEditName = "Edit"
@@ -46,21 +50,14 @@ struct ContentView: View {
                                     isDataBaseSheetActive.toggle()
                                 } label: {
                                     Image("weight")
-                                        
-                                        
-                                        
                                 }
                                 .sheet(isPresented: $isDataBaseSheetActive) {
                                     DataBaseView()
                                 }
                             }
                             .padding(.top,5)
-                           
-                            
                             .padding([.leading,.trailing], 10)
-                            
                             dayOfWeekStack
-                            
                         }
                         .frame(height:viewModel.constH(h:110),alignment:.bottom)
                         .background(.white)
@@ -72,10 +69,6 @@ struct ContentView: View {
                     HStack(spacing: 10) {
                         ForEach(viewModel.arrayOfMonths, id: \.self) { value in
                             CalendarView(month:value)
-                            
-//                                .environmentObject(viewModel)
-                            
-                            
                         }
                         .background(.white)
                         .offset(x: offset.width, y:0)
@@ -85,13 +78,13 @@ struct ContentView: View {
                             }
                             .onEnded { value in
                                 let direction = viewModel.detectDirection(value: value)
-                                if direction == .right, value.translation.width < -200 {
+                                if direction == .right, value.translation.width < -120 {
                                     viewModel.updateArrayMonthsNext()
                                     withAnimation() {
                                         offset.width = -405
                                     }
                                     offset.width = 0
-                                } else if direction == .left, value.translation.width > 200{
+                                } else if direction == .left, value.translation.width > 120{
                                     viewModel.updateArrayMonthsBack()
                                     withAnimation() {
                                         offset.width = 405
@@ -181,7 +174,7 @@ struct ContentView: View {
                                     ContentViewExerciseFromTheListView(exercise: exercise).environmentObject(viewModel)
                                         .background(.white)
                                         .onTapGesture {
-                                            
+                                            HapticManager.instance.impact(style: .soft)
                                             viewModel.addSetsToExerciseSender(exercise:exercise)
                                             
                                             
@@ -202,6 +195,7 @@ struct ContentView: View {
                                         .frame(width: viewModel.screenWidth)
                                         AddSetsToExercise(exercise: exercise).environmentObject(viewModel)
                                             .onTapGesture {
+                                                HapticManager.instance.impact(style: .soft)
                                                 withAnimation(.easeInOut) {
                                                     scrollToIndex = index
                                                     viewModel.isShowedMainAddSetsView.toggle()
@@ -232,11 +226,6 @@ struct ContentView: View {
                                 .padding(.top,30)
                                 .offset(y:collapsingViewFlag ? viewModel.constH(h:-140) : 0)
                                 .scaledToFit()
-                                
-                                .onAppear() {
-                                    print(viewModel.screenWidth)
-                                    print(viewModel.screenHeight)
-                                }
                         }
                     }
                     
@@ -262,6 +251,7 @@ struct ContentView: View {
                 HStack {
                     if viewModel.isAnyTrainingSelectedDay(){
                     Button {
+                        HapticManager.instance.impact(style: .medium)
                         showSheet.toggle()
                     } label: {
                         Image(systemName: "ellipsis")
@@ -279,6 +269,7 @@ struct ContentView: View {
                             
                             if viewModel.isAnyTrainingSelectedDay() {
                                 Button {
+                                    HapticManager.instance.impact(style: .medium)
                                     withAnimation{
                                         showAlert.toggle()
                                     }
@@ -299,6 +290,7 @@ struct ContentView: View {
                                 
                                 
                                 Button {
+                                    HapticManager.instance.impact(style: .medium)
                                     withAnimation {
                                         let stringDate = viewModel.toStringDate(date: viewModel.selectedDate, history: false)
                                         if let training = viewModel.trainings[stringDate] {
@@ -321,6 +313,7 @@ struct ContentView: View {
                             }
                             if !viewModel.isSelectedDayToday() {
                                 Button {
+                                    HapticManager.instance.impact(style: .medium)
                                     withAnimation {
                                         viewModel.copyTraining = true
                                         let stringDate = viewModel.toStringDate(date: viewModel.selectedDate, history: false)
@@ -341,6 +334,7 @@ struct ContentView: View {
                                 .padding(.bottom,10)
                             }
                             Button {
+                                HapticManager.instance.impact(style: .medium)
                                 if viewModel.isAnyTrainingSelectedDay() {
                                     withAnimation(.easeInOut) {
                                         viewModel.editMode.toggle()
@@ -378,10 +372,12 @@ struct ContentView: View {
                     }
                     if viewModel.isAnyTrainingSelectedDay() {
                         Button("Add more") {
+                            HapticManager.instance.impact(style: .medium)
                             appearSheet.toggle()
                             viewModel.addExerciseFlag = true
                             viewModel.changeExercisesDB = false
                         }
+                        
                         .sheet(isPresented:$appearSheet) {
                             //viewModel.dataForProgramm
                             AddProgramView()
@@ -394,9 +390,11 @@ struct ContentView: View {
                     }
                     else {
                         Button("Create training") {
+                            HapticManager.instance.impact(style: .medium)
                             appearSheet.toggle()
                             viewModel.addExerciseFlag = false
                             viewModel.changeExercisesDB = false
+                            
                         }
                         .sheet(isPresented:$appearSheet) {
                             //viewModel.dataForProgramm
@@ -455,6 +453,41 @@ struct ContentView: View {
         .foregroundColor(Color("MidGrayColor"))
     }
     
+//    
+//    //MARK: Vibrations
+//    func prepareHaptics() {
+//        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+//
+//        do {
+//            engine = try CHHapticEngine()
+//            try engine?.start()
+//        } catch {
+//            print("There was an error creating the engine: \(error.localizedDescription)")
+//        }
+//    }
+//    
+//    func complexSuccess() {
+//        // make sure that the device supports haptics
+//        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+//        var events = [CHHapticEvent]()
+//
+//        // create one intense, sharp tap
+//        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 1)
+//        let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
+//        let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0)
+//        events.append(event)
+//
+//        // convert those events into a pattern and play it immediately
+//        do {
+//            let pattern = try CHHapticPattern(events: events, parameters: [])
+//            let player = try engine?.makePlayer(with: pattern)
+//            try player?.start(atTime: 0)
+//        } catch {
+//            print("Failed to play pattern: \(error.localizedDescription).")
+//        }
+//    }
+//    
+//    
     var dragGestureView: some View
     {
         ZStack {

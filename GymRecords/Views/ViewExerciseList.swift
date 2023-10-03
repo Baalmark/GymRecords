@@ -33,6 +33,7 @@ struct ViewExerciseList: View {
                             Text("")
                             Spacer()
                             Button {
+                                HapticManager.instance.impact(style: .medium)
                                 if programmingExercise == true {
                                     viewModel.changeExercisesDB = true
                                 }
@@ -138,6 +139,7 @@ struct ViewExerciseList: View {
                     if !withCategory, programmingExercise {
                         
                         Button("Add \(viewModel.selectedExArray.count)") {
+                            HapticManager.instance.impact(style: .soft)
                             dismiss()
                         }.buttonStyle(GrowingButton(isDarkMode: true,width: viewModel.constW(w:335),height: viewModel.constH(h:45)))
                             .tint(.white)

@@ -31,6 +31,7 @@ struct CreateNewExercise: View {
                     .padding(20)
                 Spacer()
                 Button {
+                    HapticManager.instance.impact(style: .medium)
                     viewModel.isShowedCreateExView.toggle()
                 } label: {
                     Image(systemName: "xmark.circle.fill")
@@ -115,6 +116,7 @@ struct CreateNewExercise: View {
                     Spacer()
                     if name != "" {
                         Button("Create exercise") {
+                            HapticManager.instance.impact(style: .medium)
                             if name != "" {
                                 let newElement = Exercise(type: typeOfExercise, name: name, doubleWeight: doubleWeight, selfWeight: bodyWeight, isSelected: false, sets: [], isSelectedToAddSet: false)
                                 viewModel.createNewExercise(exercise: newElement)

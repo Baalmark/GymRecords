@@ -28,6 +28,7 @@ struct EnterSetAndRepsValueLittleView: View {
                             ZStack(alignment: .topTrailing) {
                                 EnterOrChangeOneCertainView(weight: onSet.weight, reps: onSet.reps, onSet: onSet, number: onSet.number, exercise: exercise)
                                 Button {
+                                    HapticManager.instance.impact(style: .medium)
                                     withAnimation(.easeInOut(duration:0.1)) {
                                         viewModel.removelastSet(exercise: exercise)
                                     }
@@ -48,6 +49,7 @@ struct EnterSetAndRepsValueLittleView: View {
                 .padding(.bottom,5)
                     AddSetLittleView(number: viewModel.getNumberAddSetButton(sets: exercise.sets))
                         .onTapGesture {
+                            HapticManager.instance.impact(style: .soft)
                             withAnimation(.easeInOut) {
                                 viewModel.setsBackUp = exercise.sets
                                 

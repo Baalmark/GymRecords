@@ -58,6 +58,7 @@ struct ViewListSpecificExercises: View {
                                 .padding([.leading,.trailing],30)
                                 .padding(.top,20)
                                 .onTapGesture{
+                                    HapticManager.instance.impact(style: .soft)
                                     exercise = viewModel.arrayOfFoundExercise[id]
                                     UIView.setAnimationsEnabled(true)    // << here !!
                                     isChangeSheet.toggle()
@@ -91,6 +92,7 @@ struct ViewListSpecificExercises: View {
                                         .padding([.leading,.trailing],30)
                                         .padding(.top,20)
                                         .onTapGesture{
+                                            HapticManager.instance.impact(style: .soft)
                                             exercise = viewModel.arrayExercises[id]
                                             UIView.setAnimationsEnabled(true)    // << here !!
                                             isChangeSheet.toggle()

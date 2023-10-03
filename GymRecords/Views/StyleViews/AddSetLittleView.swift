@@ -15,7 +15,7 @@ struct AddSetLittleView: View {
                 Text("Add Set")
                     .font(.custom("Helvetica", size: 24).bold())
                     .foregroundColor(Color("backgroundDarkColor"))
-                    .frame(width: screenWidth - 20,height: 70)
+                    .frame(width: screenWidth - 60,height: 70)
                     .background(RoundedRectangle(cornerRadius: 15)
                         .foregroundColor(Color("LightGrayColor")))
             }

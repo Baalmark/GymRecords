@@ -63,6 +63,7 @@ struct CalendarView: View
 //                            .environmentObject(viewModel)
                             .zIndex(1)
                             .onTapGesture {
+                                HapticManager.instance.impact(style: .soft)
                                 withAnimation(.spring(response: 0.2,dampingFraction: 0.4,blendDuration: 0.2)) {
                                     
                                     viewModel.editMode = false

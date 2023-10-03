@@ -18,6 +18,7 @@ struct ViewProgramsList: View {
             // Add Programm Button
             VStack{
                 Button {
+                    HapticManager.instance.impact(style: .medium)
                     createNewProgrammSheet.toggle()
                 } label: {
                     Text("Create program")

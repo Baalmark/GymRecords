@@ -10,22 +10,18 @@ import RealmSwift
 //MARK: GymModel Struct
 struct GymModel {
     
-
     var programs:[Program]
     var typesExercises:[TypeOfExercise] = TypeOfExercise.allExercises
-    var arrayOfExercises:[Exercise] = []
-//    var arrayOfPlannedTrainings:[TrainingInfo]
+    var arrayOfExercises:[Exercise]
     var trainingDictionary:Dictionary<String,Program> = [:]
     
     init(programs:[Program] = [],exercises:[Exercise] = GymModel.arrayOfAllCreatedExercises, trainingDictionary:Dictionary<String,Program> = [:]) {
         self.programs = []
         self.programs = GymModel.basicPrograms
         self.trainingDictionary = [:]
-            
+        self.arrayOfExercises = GymModel.arrayOfAllCreatedExercises
 
     }
-    
-    
     
     //MARK: Program Struct
     struct Program:Identifiable {
@@ -36,14 +32,6 @@ struct GymModel {
         var programDescription: String
         var colorDesign: String
         var exercises:[Exercise]
-        
-        //MARK: PROGRAM Functions
-        
-        
-        //Create new Exercise
-        mutating func createNewExercise(type t: GymModel.TypeOfExercise,title name: String,doubleWeight dB:Bool,selfWeight sW:Bool ) {
-            exercises.append(Exercise(type: t, name: name, doubleWeight: dB, selfWeight: sW,isSelected: false, sets: [], isSelectedToAddSet: false))
-        }
     }
     
     //MARK: type of execrice Enumeration
@@ -74,11 +62,9 @@ struct GymModel {
             default: return nil
             }
         }
-        
-        
     }
-    //MARK: Selected Exercises
     
+    //MARK: Selected Exercises
     struct SelectedExercises:Hashable,Identifiable,Equatable {
         var id = UUID()
         var title:String
@@ -86,15 +72,12 @@ struct GymModel {
         
     }
     
-    //MARK: Training
-    
+    //MARK: Training info
     struct TrainingInfo {
         var arrayOfExercises:[Exercise]
         var Date:Date
         
     }
-    
-    
     
     //MARK: Data of Profile
     struct ProfileData {
@@ -107,147 +90,66 @@ struct GymModel {
     }
     
     
-    //MARK: MAIN Functions
-    mutating func createNewProgram(numberOfProgram:Int, title name:String,exercises exs:[Exercise],color cDesign:String,description desc:String) {
-        programs.append(Program(numberOfProgram: numberOfProgram,programTitle: name, programDescription: desc, colorDesign: cDesign, exercises: exs))
-        
-    }
-    mutating func AddNewExercise(type:TypeOfExercise,title:String,doubleW db:Bool,selfW sw:Bool) {
-        arrayOfExercises.append(Exercise(type: type, name: title, doubleWeight: db, selfWeight: sw,isSelected: false, sets: [], isSelectedToAddSet: false))
-        
-    }
-    
-    mutating func selectingExercise(exercise ex:Exercise,toggle:Bool) -> [Exercise] {
-        
-        
-        for (index,elements) in arrayOfExercises.enumerated() {
-            if elements.name == ex.name {
-                
-                arrayOfExercises[index] = ex
-            }
-        }
-        return arrayOfExercises
-    }
+    //MARK: Counters of exercises and selected  exercises
     func findNumberOfSelectedExerciseByType(type:TypeOfExercise,array:Array<Exercise>) -> Int {
-        var result = 0
-        
-        for element in array {
-            if element.type == type, element.isSelected == true {
-                result += 1
-            }
-        }
-        return result
+        return array.filter({$0.type == type && $0.isSelected == true}).count
     }
     func findNumberOfExerciseOneType(type:TypeOfExercise,array:Array<Exercise>) -> Int {
-        var result = 0
+        return array.filter({$0.type == type}).count
+    }
+    
+    
+    //MARK: Edit exercise in data base
+    mutating func editExercise(newExercise:Exercise,oldExerciseName:String) {
+        if let exerciseIndex = arrayOfExercises.firstIndex(where: {$0.name == oldExerciseName}) {
+            arrayOfExercises[exerciseIndex] = newExercise
+            DataLoader().changeExerciseRealm(exercise: newExercise, oldExerciseName: oldExerciseName)
+        }
         
-        for element in array {
-            if element.type == type{
-                result += 1
-            }
-        }
-        return result
     }
-    
-    //Toggle Double Weight marker
-    func modelToggleBodyAndDoubleWeight(exercise:Exercise,bodyWeight:Bool,doubleWeight:Bool) -> Exercise {
-        exercise.doubleWeight = doubleWeight
-        exercise.selfWeight = bodyWeight
-        return exercise
-    }
-    
-    // Replace exercise in array of Exercise
-    func replaceExerciseInArray(exercise:Exercise,array:[Exercise]) -> [Exercise] {
+    //MARK: Remove some exercise from arrayOfExercise
+    func removeExFromArray(exercise:Exercise,array:[Exercise]) -> [Exercise] {
         var newArray = array
-        for (i,elem) in array.enumerated() {
-            if elem.name == exercise.name {
-                newArray[i] = exercise
-            }
-        }
+        if let exIndex = array.firstIndex(where: {$0 == exercise}) { newArray.remove(at: exIndex) }
         return newArray
     }
-    //Remove some exercise from arrayOfExercise
-    func removeSomeExerciseFromArray(exercise:Exercise,array:[Exercise]) -> [Exercise] {
-        var newArray = array
-        for (i,element) in newArray.enumerated() {
-            if element == exercise {
-                newArray.remove(at: i)
-            }
-        }
-        return newArray
-    }
-    //Create new Exercise to arrayOfExercise by User
+    //MARK: Create new Exercise to arrayOfExercise by User
     func createNewExercise(exercise:Exercise,array:[Exercise]) -> [Exercise] {
         var newArray = array
         newArray.append(exercise)
         return newArray
     }
-    //Reload data to DataBase info title
+    //MARK: Reload data to DataBase info title
     func reloadDataBaseInfo(trainDictionary: [String:GymModel.Program],progArray:[Program],arrayExercises:[Exercise]) -> [(String, Int)] {
         return [("WorkOut",DataLoader().returnCountOfTrainings()),("Programs",DataLoader().returnCountOfPrograms()),("Exercises",DataLoader().returnCountOfExercises())]
     }
     
-    //Add program
+    //MARK: Add program
     mutating func addProgram(_ program:Program) {
         programs.append(program)
     }
     
-    //Remove program
+    //MARK: Remove program
     mutating func removeProgram(_ index:Int) {
         programs.remove(at: index)
     }
-    //Find exercises by find textfield
+    //MARK: Find exercises by find textfield
     func finderByTextField(letters:String,array:Array<Exercise>) -> Array<Exercise> {
-        
         var newArray:[Exercise] = []
-        
         for element in array {
             if element.name.lowercased().contains(letters.lowercased()) {
-                
                 newArray.append(element)
             }
         }
         return newArray
     }
-//MARK: Load trainings from Realm Data Base function
-//    func loadTrainingDictionaryFromRealmDB() -> [String:GymModel.Program] {
-//        var result:[String:GymModel.Program] = [:]
-//
-//        if trainingInfoObjects.isEmpty {
-//            return result
-//        } else {
-//            for train in trainingInfoObjects {
-//                if let program = train.program {
-//                    let allExercises = getAllExercises(program: program)
-//                    let newTrainProgram = GymModel.Program(programTitle: program.programTitle, programDescription: program.programDescription, colorDesign: program.colorDesign, exercises: allExercises)
-//                    let dateForProgram = train.date
-//
-//                    result[dateForProgram] = newTrainProgram
-//                }
-//            }
-//        }
-//        return result
-//    }
     
-    func getAllExercises(program:ProgramObject) -> [Exercise] {
-        
-        var allExercises:[Exercise] = []
-        for ex in program.exercises {
-            var allSets:[Sets] = []
-            for nSet in ex.sets {
-                let newSet = Sets(number: nSet.number, date: nSet.date, weight: nSet.weight, reps: nSet.reps, doubleWeight: nSet.doubleWeight, selfWeight: nSet.selfWeight)
-                allSets.append(newSet)
-            }
-            if let type = GymModel.TypeOfExercise(rawValue: ex.type) {
-                let exercise = Exercise(type: type, name: ex.name, doubleWeight: ex.doubleWeight, selfWeight: ex.selfWeight, isSelected: ex.isSelected, sets: allSets, isSelectedToAddSet: ex.isSelectedToAddSet)
-                allExercises.append(exercise)
-            }
-        }
-        return allExercises
-    }
-
+    
 }
 
+
+
+//MARK: Charts object Set info
 struct SetInfo:Identifiable {
     var id = UUID()
     
@@ -269,6 +171,8 @@ struct SetInfo:Identifiable {
     }
 }
 
+
+//MARK: Exercise
 class Exercise:Equatable,Identifiable,Hashable {
     
     
@@ -276,14 +180,12 @@ class Exercise:Equatable,Identifiable,Hashable {
         hasher.combine(ObjectIdentifier(self))
     }
     
-    
     static func == (lhs: Exercise, rhs: Exercise) -> Bool {
         if lhs.name == rhs.name {
             return true
         }
         return false
     }
-    
     
     var type: GymModel.TypeOfExercise
     var name: String
@@ -299,15 +201,11 @@ class Exercise:Equatable,Identifiable,Hashable {
         self.selfWeight = selfWeight
         self.isSelected = isSelected
         self.sets = sets
-        
-        
-        
-        
         self.isSelectedToAddSet = isSelectedToAddSet
     }
-    
 }
 
+//MARK: Set struct
 struct Sets: Identifiable,Equatable {
     var id = UUID()
     var number: Int
@@ -328,7 +226,7 @@ struct Sets: Identifiable,Equatable {
     }
 }
 
-
+//MARK: Calendar collpasing values
 enum CalendarMinimizingPosition:CGFloat {
 
     case zero = 100000
@@ -356,20 +254,19 @@ enum CalendarMinimizingPosition:CGFloat {
 
 //MARK: Extensions
 
+//MARK: Colors
 extension GymModel {
     static var colors = ["green","red","cyan","purple","yellow","gray","blue","orange","pink","indigo","teal"]
-    
-    
     }
     
 
-
+//MARK: All types of exercises
 extension GymModel.TypeOfExercise{
-    
-    
     static var allExercises:[GymModel.TypeOfExercise] = [.arms,.stretching,.legs,.back,.chest,.abs,.shoulders,.cardio]
 }
 
+
+//MARK: Basic exercises,alerts and Programs
 extension GymModel {
     //Basic exercises
     static var arrayOfAllCreatedExercises = [
@@ -378,7 +275,7 @@ extension GymModel {
         Exercise(type: .cardio, name: "Cycling", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
         Exercise(type: .cardio, name: "Elips", doubleWeight: false, selfWeight: true,isSelected: false, sets: [], isSelectedToAddSet: false),
         //Arms (Biceps)
-        Exercise(type: .arms, name: "Dumbbell Concentration Curl", doubleWeight: false, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
+        Exercise(type: .arms, name: "Dumbbell Concentration Curl", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
         Exercise(type: .arms, name: "Dumbbell Hammers Curl", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
         Exercise(type: .arms, name: "Biceps Curl", doubleWeight: true, selfWeight: false,isSelected: false, sets: [], isSelectedToAddSet: false),
         //Arms (Triceps)
@@ -428,12 +325,12 @@ extension GymModel {
 }
 
 
-extension GymModel.Program {
-    static var exercises = GymModel.arrayOfAllCreatedExercises
-    
-}
+//extension GymModel.Program {
+//    static var exercises = GymModel.arrayOfAllCreatedExercises
+//    
+//}
 
-
+//MARK: Remove zeros from End
 extension Double {
     func removeZerosFromEnd() -> String {
         let formatter = NumberFormatter()

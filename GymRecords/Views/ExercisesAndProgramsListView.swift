@@ -107,6 +107,7 @@ struct ExercisesAndProgramsListView: View {
                 .frame(maxWidth: contentSize.width, maxHeight: contentSize.height)
                 .transition(.move(edge: .leading))
                 Button("Ready") {
+                    HapticManager.instance.impact(style: .medium)
                     viewModel.createTraining(date: viewModel.selectedDate, exercises: viewModel.selectedExArray)
                     viewModel.unSelectingEx(array: viewModel.arrayExercises)
                     viewModel.selectedExArray = []

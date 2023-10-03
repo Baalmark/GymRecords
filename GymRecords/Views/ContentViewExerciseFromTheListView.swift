@@ -50,6 +50,7 @@ struct ContentViewExerciseFromTheListView: View {
                             .frame(width: viewModel.constW(w:30),height: viewModel.constW(w:30))
                             .padding([.leading,.trailing], 10)
                             .onTapGesture {
+                                HapticManager.instance.impact(style: .soft)
                                 withAnimation(.easeInOut) {
                                     viewModel.removeExerciseFromListOfTrainingInSelectedDay(exercise: exercise,selectedDate: viewModel.selectedDate)
                                 }

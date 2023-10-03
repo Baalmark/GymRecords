@@ -13,7 +13,7 @@ struct CreateExerciseAndSelectCategory: View {
     var body: some View {
         // Exercise Button
         Button {
-            
+            HapticManager.instance.impact(style: .medium)
         } label: {
             Text("Create Exercise")
                 .font(.custom("Helvetica", size: viewModel.constW(w:18)))

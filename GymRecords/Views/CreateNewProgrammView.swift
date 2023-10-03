@@ -25,7 +25,9 @@ struct CreateNewProgrammView: View {
         VStack {
             //Close button
             Button {
+                HapticManager.instance.impact(style: .medium)
                 dismiss()
+                viewModel.programToEdit = nil
             } label: {
                 Image(systemName: "xmark.circle.fill")
                     .symbolRenderingMode(.hierarchical)
@@ -70,8 +72,7 @@ struct CreateNewProgrammView: View {
                                 Circle()
                                     .foregroundStyle(Color[color].gradient)
                                     .onTapGesture{
-                                        
-                                        
+                                        HapticManager.instance.impact(style: .soft)
                                         colorDesignStringValue = color
                                         colorDesign = Color[colorDesignStringValue]
                                         isColorSelected = Color[colorDesignStringValue]
@@ -96,6 +97,7 @@ struct CreateNewProgrammView: View {
                 
                 
                 Button {
+                    HapticManager.instance.impact(style: .medium)
                     isShowExercises.toggle()
                     viewModel.changeExercisesDB = false
                     viewModel.selectedCounterLabel = viewModel.computeSelectedCounderLabel()
@@ -132,6 +134,7 @@ struct CreateNewProgrammView: View {
                             .background(Color( self.selectedRows.contains(elem.name) ? "DarkbackgroundViewColor" :"backgroundDarkColor").animation(.easeInOut))
                             .listRowBackground(Color( self.selectedRows.contains(elem.name) ? "DarkbackgroundViewColor" :"backgroundDarkColor").animation(.easeInOut))
                             .onTapGesture {
+                                HapticManager.instance.impact(style: .soft)
                                 withAnimation(.easeInOut) {
                                     if selectedRows.contains(elem.name) {
                                         selectedRows = selectedRows.filter({$0 != elem.name})
@@ -167,6 +170,7 @@ struct CreateNewProgrammView: View {
                 Spacer()
                 HStack {
                     Button {
+                        HapticManager.instance.impact(style: .medium)
                         viewModel.unselectingCoupleOfExercise(arrayOfTitles: selectedRows, isSelected: false)
                     } label: {
                         Text("Remove")
@@ -175,6 +179,7 @@ struct CreateNewProgrammView: View {
                     }
                     Spacer()
                     Button {
+                        HapticManager.instance.impact(style: .medium)
                         //
                     } label: {
                         Text("Super set")
@@ -188,13 +193,15 @@ struct CreateNewProgrammView: View {
                 Spacer()
                 if !description.isEmpty, !name.isEmpty, !viewModel.selectedExArray.isEmpty {
                     Button("Save") {
+                        HapticManager.instance.impact(style: .medium)
                         exercises = viewModel.selectedExArray
                         let newProgram = GymModel.Program(numberOfProgram: viewModel.getterNumberOfProgram(),programTitle: name, programDescription: description, colorDesign: colorDesignStringValue, exercises: exercises)
                         if toChangeProgram {
-                            viewModel.changeProgramRealm(program: newProgram)}
+                            viewModel.editProgram(newProgram: newProgram)}
                         else {
                             viewModel.createNewProgram(program: newProgram)}
                         dismiss()
+                        viewModel.programToEdit = nil
                         viewModel.clearSelectedExArray()
                         
                         

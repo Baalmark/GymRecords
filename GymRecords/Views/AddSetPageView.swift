@@ -21,49 +21,67 @@ struct AddSetPageView: View {
                         VStack(alignment: .leading){
                             Text("\(exercise.name)").foregroundColor(Color("backgroundDarkColor"))
                                 .font(.custom("Helvetica", size: 24).bold())
-                                .padding(-3).padding(.leading,20)
-                            HStack {
-                                Text(exercise.type == .cardio ? "km/h" : "weight")
-                                    .padding(.trailing,110)
-                                Text(exercise.type == .stretching || exercise.type == .cardio ? "mins" : "reps")
-                            }
-                            .padding(7.6).padding(.leading,16)
-                            .padding(.top,15).padding(.leading,5)
-                            .font(.callout.bold())
-                            .foregroundColor(Color("MidGrayColor"))
+                                .padding(.leading, !exercise.sets.isEmpty ? 30 : 0)
                             if !exercise.sets.isEmpty {
+                                HStack {
+                                    Text(exercise.type == .cardio ? "km/h" : "weight")
+                                        .padding(.trailing,110)
+                                    Text(exercise.type == .stretching || exercise.type == .cardio ? "mins" : "reps")
+                                }
+                                .padding(10).padding(.leading,20)
+                                .padding(.top,18)
+                                .font(.callout.bold())
+                                .foregroundColor(Color("MidGrayColor"))
+                                
                                 ScrollView {
                                     VStack {
                                         DisplaySetsMainView(exercise: exercise)
                                             .padding([.leading,.trailing])
                                             .onTapGesture {
+                                                HapticManager.instance.impact(style: .soft)
                                                 withAnimation(.easeInOut) {
                                                     viewModel.didTapToAddSet.toggle()
                                                     viewModel.crntExrcsFrEditSets = exercise
                                                     viewModel.setsBackUp = viewModel.crntExrcsFrEditSets.sets
                                                 }
                                             }
+                                        AddSetLittleView(number: viewModel.getNumberAddSetButton(sets: exercise.sets))
+                                            .onTapGesture {
+                                                HapticManager.instance.impact(style: .soft)
+                                                withAnimation(.easeInOut) {
+                                                    
+                                                    viewModel.didTapToAddSet.toggle()
+                                                    viewModel.crntExrcsFrEditSets = exercise
+                                                    viewModel.crntExrcsFrEditSets = viewModel.createSet(exercise: viewModel.crntExrcsFrEditSets)
+                                                    viewModel.setsBackUp = viewModel.crntExrcsFrEditSets.sets
+                                                }
+                                            }
                                     }
                                     .frame(width: viewModel.screenWidth)
                                 }
-                            }
-                            AddSetLittleView(number: viewModel.getNumberAddSetButton(sets: exercise.sets))
-                                .padding(.leading,10)
-                                .onTapGesture {
-                                    withAnimation(.easeInOut) {
-                                        
-                                        viewModel.didTapToAddSet.toggle()
-                                        viewModel.crntExrcsFrEditSets = exercise
-                                        viewModel.crntExrcsFrEditSets = viewModel.createSet(exercise: viewModel.crntExrcsFrEditSets)
-                                        viewModel.setsBackUp = viewModel.crntExrcsFrEditSets.sets
+                            } else {
+                                
+                                AddSetLittleView(number: viewModel.getNumberAddSetButton(sets: exercise.sets))
+                                    .padding(.top,65)
+                                    .onTapGesture {
+                                        HapticManager.instance.impact(style: .soft)
+                                        withAnimation(.easeInOut) {
+                                            
+                                            viewModel.didTapToAddSet.toggle()
+                                            viewModel.crntExrcsFrEditSets = exercise
+                                            viewModel.crntExrcsFrEditSets = viewModel.createSet(exercise: viewModel.crntExrcsFrEditSets)
+                                            viewModel.setsBackUp = viewModel.crntExrcsFrEditSets.sets
+                                        }
                                     }
-                                }
-                            Spacer()
+                                Spacer()
+                            }
                         }
                         .frame(width: viewModel.screenWidth,height: viewModel.constH(h: 600))
-                        .padding(.top, 80)
+                        .padding(.top, 20)
+                            
                         HStack {
                             Button {
+                                HapticManager.instance.impact(style: .medium)
                                 withAnimation(.easeIn(duration: 0.5)) {
                                     viewModel.willAppearStatisticView.toggle()
                                     viewModel.selectedExerciseForStatisticView = exercise
@@ -81,6 +99,7 @@ struct AddSetPageView: View {
                             .fontWeight(.semibold)
                             .offset(x: 0,y:viewModel.constH(h: 700))
                             Button("Done") {
+                                HapticManager.instance.impact(style: .light)
                                 withAnimation {
                                     viewModel.isShowedMainAddSetsView.toggle()
                                     
@@ -115,9 +134,7 @@ struct AddSetPageView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
                     .frame(width: viewModel.screenWidth)
                     .tag(index)
-                
             }
-            
         }
         
         .frame(width: viewModel.screenWidth + 20,height: viewModel.screenHeight)
@@ -133,19 +150,6 @@ struct AddSetPageView: View {
                 StatistisView(exercise: exercise,reps:reps, weight:weight)
                 
             }}
-//        if viewModel.willAppearStatisticView {
-//            if let exercise = viewModel.selectedExerciseForStatisticView{
-//                
-//                let weight = viewModel.weightGraphDataGetter(exercise: exercise)
-//                let reps  = viewModel.repsGraphDataGetter(exercise: exercise)
-//
-//                StatistisView(exercise: exercise,reps:reps, weight:weight)
-//                    .transition(.move(edge: .bottom))
-//            }
-//                
-//        }
-        
-        
     }
     
 }

@@ -206,12 +206,12 @@ class DataLoader {
     }
     
     //MARK: Change program in realm DB
-    func changeProgramRealm(program:GymModel.Program) {
-        if let programFromRealmDB = realm.objects(ProgramObject.self).where({ $0.numberOfProgram == program.numberOfProgram}).first {
+    func changeProgramRealm(program:GymModel.Program,oldProgramTitle:String) {
+        if let programFromRealmDB = realm.objects(ProgramObject.self).where({ $0.programTitle == oldProgramTitle}).first {
             try! realm.write {
                 programFromRealmDB.programTitle = program.programTitle
-                programFromRealmDB.colorDesign = program.programDescription
-                programFromRealmDB.programDescription = program.colorDesign
+                programFromRealmDB.colorDesign = program.colorDesign
+                programFromRealmDB.programDescription = program.programDescription
                 programFromRealmDB.exercises.removeAll()
                 for element in program.exercises {
                     let exerciseRealm = reformattingExerciseToRealmFormat(element:element)
@@ -219,6 +219,36 @@ class DataLoader {
                 }
             }
             
+        }
+    }
+    //MARK: Change exercise in realm DB
+    func changeExerciseRealm(exercise:Exercise,oldExerciseName:String) {
+        
+        if let exerciseObjectRealm = realm.objects(ExerciseObject.self).where({ $0.name == oldExerciseName}).first {
+            try! realm.write {
+                $exerciseObjects.remove(exerciseObjectRealm)
+                
+                let exerciseObject = ExerciseObject()
+                exerciseObject.name = exercise.name
+                exerciseObject.doubleWeight = exercise.doubleWeight
+                exerciseObject.selfWeight = exercise.selfWeight
+                
+                for nSet in exercise.sets {
+                    let newSet = SetsObject()
+                    newSet.date = nSet.date
+                    newSet.doubleWeight = nSet.doubleWeight
+                    newSet.number = nSet.number
+                    newSet.reps = nSet.reps
+                    newSet.weight = nSet.weight
+                    newSet.selfWeight = nSet.selfWeight
+                    exerciseObject.sets.append(newSet)
+                }
+                
+                exerciseObject.isSelectedToAddSet = exercise.isSelectedToAddSet
+                exerciseObject.isSelected = exercise.isSelected
+                exerciseObject.type = exercise.type.rawValue
+                $exerciseObjects.append(exerciseObject)
+            }
         }
     }
     //MARK: Saving all data by Realm
@@ -312,26 +342,13 @@ class DataLoader {
         setCreatorForRealm(element, exerciseRealm)
         return exerciseRealm
     }
+    
     //MARK: Save trainings into Realm DataBase
     func saveTrainingIntoRealmDB(date:String,program:GymModel.Program) {
         let newTraining = TrainingInfoObject()
         newTraining.date = date
-//        let newProgram = ProgramObject()
-//        for element in program.exercises {
-//
-//            let exerciseObject = reformattingExerciseToRealmFormat(element: element)
-//
-//
-//            newProgram.numberOfProgram = program.numberOfProgram
-//            newProgram.exercises.append(exerciseObject)
-//            newProgram.programTitle = program.programTitle
-//            newProgram.programDescription = program.programDescription
-//            newProgram.colorDesign = program.colorDesign
-//
-//        }
         if let programRealm = realm.objects(ProgramObject.self).where({ $0.programTitle == program.programTitle}).first {
             newTraining.program = programRealm
-            
         } else {
             let newProgramObject = ProgramObject()
             createRealmFormatOfProgramObject(newProgramObject,program)
@@ -340,23 +357,18 @@ class DataLoader {
         $trainingInfoObjects.append(newTraining)
         composeGymModelObject()
     }
+    
     //MARK: Remove trainings into Realm DataBase
     func removeTrainingFromRealmDB(date:String,program:GymModel.Program) {
-        
-        let programToDelete = realm.objects(TrainingInfoObject.self).where {
-            $0.date == date
-            
-        }.first!
+        let programToDelete = realm.objects(TrainingInfoObject.self).where {$0.date == date}.first!
         try! realm.write {
             $trainingInfoObjects.remove(programToDelete)
         }
     }
-
+    
     //MARK: Saving created exercise
-
     func saveExerciseByRealm(exercise:Exercise) {
         let newExercise = reformattingExerciseToRealmFormat(element:exercise)
-        
         //Let's create Sets in the Realm Format SetsObjects
         setCreatorForRealm(exercise, newExercise)
         $exerciseObjects.append(newExercise)

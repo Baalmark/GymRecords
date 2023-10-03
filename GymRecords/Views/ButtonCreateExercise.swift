@@ -15,6 +15,7 @@ struct ButtonCreateExercise: View {
         HStack{
             // Exercise Button
             Button {
+                HapticManager.instance.impact(style: .medium)
                 showCreateExercise.toggle()
             } label: {
                 Text("Create exercise")

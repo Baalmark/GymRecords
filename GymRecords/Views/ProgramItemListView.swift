@@ -66,6 +66,7 @@ struct ProgramItemListView: View {
                         .foregroundColor(.clear)
                         .padding(.top,-5)
                         .onTapGesture {
+                            HapticManager.instance.impact(style: .soft)
                             withAnimation(.easeInOut(duration:0.1)) {
                                 viewModel.removeTrainingByClick(selectedDate: viewModel.selectedDate)
                             }

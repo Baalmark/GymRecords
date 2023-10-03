@@ -20,6 +20,7 @@ struct AddOrChangeSetView: View {
                     .padding(30)
                 Spacer()
                 Button {
+                    HapticManager.instance.impact(style: .medium)
                     withAnimation(.easeInOut) {
                         viewModel.didTapToAddSet = false
                         exercise.sets = viewModel.setsBackUp
@@ -59,6 +60,7 @@ struct AddOrChangeSetView: View {
                 
             Spacer()
             Button("Save") {
+                HapticManager.instance.impact(style: .light)
                 withAnimation(.easeInOut) {
                     
                     if !exercise.sets.isEmpty {
@@ -74,11 +76,12 @@ struct AddOrChangeSetView: View {
                 }
                 
             }
-            .buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.constW(w:335),height: viewModel.constH(h:45)))
+            .buttonStyle(GrowingButton(isDarkMode: true,width: viewModel.constW(w:335),height: viewModel.constH(h:45)))
             .tint(.white)
             .font(.title2)
             .fontWeight(.semibold)
             .padding(30)
+            .padding(.bottom,20)
             
             .offset(y:viewModel.constH(h:-5))
             

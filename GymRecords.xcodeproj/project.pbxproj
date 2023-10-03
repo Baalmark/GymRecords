@@ -26,6 +26,7 @@
 		3A31EC612AB8521100E54B14 /* GraphsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31EC602AB8521100E54B14 /* GraphsData.swift */; };
 		3A31EC632AB8526400E54B14 /* Accessibility Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31EC622AB8526400E54B14 /* Accessibility Helpers.swift */; };
 		3A31EC652AB852A400E54B14 /* ChartType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A31EC642AB852A400E54B14 /* ChartType.swift */; };
+		3A41A2CD2ACC3A0E00757BE3 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A41A2CC2ACC3A0E00757BE3 /* HapticManager.swift */; };
 		3A4C03DE2A631CCB000003EE /* ExerciseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4C03DD2A631CCB000003EE /* ExerciseObject.swift */; };
 		3A4C03E12A631D30000003EE /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 3A4C03E02A631D30000003EE /* Realm */; };
 		3A4C03E32A631D30000003EE /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3A4C03E22A631D30000003EE /* RealmSwift */; };
@@ -91,6 +92,7 @@
 		3A31EC602AB8521100E54B14 /* GraphsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphsData.swift; sourceTree = "<group>"; };
 		3A31EC622AB8526400E54B14 /* Accessibility Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Accessibility Helpers.swift"; sourceTree = "<group>"; };
 		3A31EC642AB852A400E54B14 /* ChartType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartType.swift; sourceTree = "<group>"; };
+		3A41A2CC2ACC3A0E00757BE3 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		3A4C03DD2A631CCB000003EE /* ExerciseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseObject.swift; sourceTree = "<group>"; };
 		3A4C03E52A632BF7000003EE /* SetsObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetsObject.swift; sourceTree = "<group>"; };
 		3A4C03E72A632F6A000003EE /* TypeOfExerciseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeOfExerciseObject.swift; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 		3A14FAA62A717334008EFF4A /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				3A41A2CC2ACC3A0E00757BE3 /* HapticManager.swift */,
 				3A14FAA72A717340008EFF4A /* Migrator.swift */,
 			);
 			path = Utils;
@@ -461,6 +464,7 @@
 				3A9E9A5029951BF700DAA547 /* ExercisesAndProgramsListView.swift in Sources */,
 				3A1B831F2996EC10006F959E /* CreateNewExercise.swift in Sources */,
 				3A9E9A4E29951AF400DAA547 /* DataBaseView.swift in Sources */,
+				3A41A2CD2ACC3A0E00757BE3 /* HapticManager.swift in Sources */,
 				3A8CE2FB2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift in Sources */,
 				3A31EC612AB8521100E54B14 /* GraphsData.swift in Sources */,
 				3ACB31AF2A0FE719003C4FC2 /* LegacyCod.swift in Sources */,

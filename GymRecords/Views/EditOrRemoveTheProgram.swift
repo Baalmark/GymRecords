@@ -51,6 +51,7 @@ struct EditOrRemoveTheProgram: View {
             HStack {
                 //Back button
                 Button {
+                    HapticManager.instance.impact(style: .medium)
                     withAnimation(.easeInOut) {
                         viewModel.isShowedEditOrRemoveView.toggle()
                     }
@@ -66,6 +67,7 @@ struct EditOrRemoveTheProgram: View {
                 .padding(.leading,15)
                 //Edit or Remove
                 Button {
+                    HapticManager.instance.impact(style: .medium)
                     showSheet.toggle()
                 } label: {
                     Image(systemName: "ellipsis")
@@ -81,6 +83,7 @@ struct EditOrRemoveTheProgram: View {
                 } content: {
                     VStack {
                         Button {
+                            HapticManager.instance.impact(style: .medium)
                             showAlert.toggle()
                             
                             
@@ -102,7 +105,9 @@ struct EditOrRemoveTheProgram: View {
                         })
                         
                         Button {
+                            HapticManager.instance.impact(style: .medium)
                             isEditProgram.toggle()
+                            viewModel.programToEdit = program
                             viewModel.selectedExArray = program.exercises
                         } label: {
                             Text("Edit program")
@@ -112,6 +117,8 @@ struct EditOrRemoveTheProgram: View {
                         
                         .fullScreenCover(isPresented: $isEditProgram) {
                             CreateNewProgrammView(name: $program.programTitle, description: $program.programDescription, exercises: $program.exercises, colorDesignStringValue: $program.colorDesign,toChangeProgram:true)
+                            
+                                
                             
                         }
                     }
@@ -126,7 +133,7 @@ struct EditOrRemoveTheProgram: View {
                 }
                 
                 Button {
-                    
+                    HapticManager.instance.impact(style: .medium)
                     viewModel.selectingProgrammForNewTrainingDay(program: program)
                     if let newTrainingDay = viewModel.selectedProgramForNewTrainingDay {
                         viewModel.createTraining(date: viewModel.selectedDate, program: newTrainingDay)
