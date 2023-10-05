@@ -22,6 +22,7 @@ struct ContentViewExerciseFromTheListView: View {
                     
                     Image(exercise.type.rawValue)
                         .padding([.leading,.trailing], 10)
+                    Spacer()
                     Text(exercise.name.capitalized)
                         .fontWeight(.bold)
                         .font(.custom("Helvetica", size: viewModel.constW(w:18)))
