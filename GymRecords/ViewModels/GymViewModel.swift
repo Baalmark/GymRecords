@@ -687,6 +687,7 @@ class GymViewModel: ObservableObject {
         let stringDate = toStringDate(date: selectedDate, history: false)
         if let training = trainings[stringDate] {
             removeTrainingFromRealmDB(date: stringDate, program: training)
+            databaseInfoTitle = gymModel.reloadDataBaseInfo(trainDictionary: trainings, progArray: programList, arrayExercises: arrayExercises)
             trainInSelectedDay = GymModel.Program(numberOfProgram:-1,programTitle: "", programDescription: "", colorDesign: "red", exercises: [])
         }
     }
