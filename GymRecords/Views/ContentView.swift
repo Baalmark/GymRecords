@@ -70,6 +70,7 @@ struct ContentView: View {
                         ForEach(viewModel.arrayOfMonths, id: \.self) { value in
                             CalendarView(month:value)
                         }
+                    }
                         .background(.white)
                         .offset(x: offset.width, y:0)
                         .gesture(DragGesture()
@@ -97,7 +98,8 @@ struct ContentView: View {
                                     }
                                 }
                             })
-                    }
+                    
+                    
                     .frame(width: viewModel.screenWidth * 3 + 30, height: viewModel.constH(h:350))
                     .offset(x:0,y:  viewModel.constH(h: minimizingCalendarOffSet / viewModel.getCoefficientOffset(row: viewModel.selectedDayRowHolder)))
                     .zIndex(3)
@@ -132,6 +134,7 @@ struct ContentView: View {
                                 
                             }
                             .onEnded { value in
+                                
                                 if minimizingCalendarOffSet < 0 {
                                     if value.translation.height >= 125 {
                                         withAnimation(.easeInOut) {
@@ -159,11 +162,11 @@ struct ContentView: View {
                                         }
                                     }
                                 }
+                                HapticManager.instance.impact(style: .soft)
                             })
                     
                     ScrollView {
                         if viewModel.isAnyTrainingSelectedDay(){
-                            
                             VStack {
                                 if viewModel.trainInSelectedDay.programTitle != "blank" && viewModel.trainInSelectedDay.programDescription != "blank" && viewModel.trainInSelectedDay.programTitle != viewModel.toStringDate(date: viewModel.selectedDate, history: false){
                                     ProgramItemListView(programm:$viewModel.trainInSelectedDay)
@@ -228,7 +231,6 @@ struct ContentView: View {
                                 .scaledToFit()
                         }
                     }
-                    
                     .frame(maxWidth: viewModel.screenWidth)
                     .frame(height: collapsingViewFlag ? viewModel.constH(h:580) : viewModel.constH(h:290))
                     .background(.white)
@@ -452,47 +454,12 @@ struct ContentView: View {
         .fontWeight(.bold)
         .foregroundColor(Color("MidGrayColor"))
     }
-    
-//    
-//    //MARK: Vibrations
-//    func prepareHaptics() {
-//        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
-//
-//        do {
-//            engine = try CHHapticEngine()
-//            try engine?.start()
-//        } catch {
-//            print("There was an error creating the engine: \(error.localizedDescription)")
-//        }
-//    }
-//    
-//    func complexSuccess() {
-//        // make sure that the device supports haptics
-//        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
-//        var events = [CHHapticEvent]()
-//
-//        // create one intense, sharp tap
-//        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 1)
-//        let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
-//        let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0)
-//        events.append(event)
-//
-//        // convert those events into a pattern and play it immediately
-//        do {
-//            let pattern = try CHHapticPattern(events: events, parameters: [])
-//            let player = try engine?.makePlayer(with: pattern)
-//            try player?.start(atTime: 0)
-//        } catch {
-//            print("Failed to play pattern: \(error.localizedDescription).")
-//        }
-//    }
-//    
-//    
+      
     var dragGestureView: some View
     {
         ZStack {
             RoundedRectangle(cornerRadius: 25)
-                .frame(width: viewModel.screenWidth,height: 15)
+                .frame(width: viewModel.screenWidth,height: 20)
                 .shadow(color: Color("LightGrayColor"), radius: 3,x:0,y:6)
                 .foregroundColor(.white)
                 .zIndex(2)

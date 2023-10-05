@@ -24,25 +24,31 @@ struct CalendarCellView: View
     var body: some View
     {
         ZStack {
-            Text(monthStruct().day())
-                .foregroundColor(!isSelectedCheking() ? Color("backgroundDarkColor") : .white)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .fontWeight(.bold)
-                .opacity(monthStruct().monthType == .Current ? 1 : 0)
-                .zIndex(1)
-            
-            Circle()
-                .frame(width: isSelectedCheking() ? viewModel.constW(w:40) : 0,height: isSelectedCheking() ? viewModel.constH(h:40) : 0)
-                .foregroundColor(Color("backgroundDarkColor"))
-                .zIndex(0)
-            
-            Circle()
-                .frame(width: isSelectedCheking() ? 3 : 7,height: hasProgram() ? 3 : 7)
-                .foregroundColor(Color("backgroundDarkColor"))
-                .offset(y: isSelectedCheking() ?  viewModel.constH(h:25) : viewModel.constH(h:15))
-                .opacity(hasProgram() ? 1 : 0)
-                .zIndex(0)
-            
+            if monthStruct().monthType == .Current {
+                Text(monthStruct().day())
+                    .foregroundColor(!isSelectedCheking() ? Color("backgroundDarkColor") : .white)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .fontWeight(.bold)
+                
+                    .zIndex(1)
+                
+                Circle()
+                    .frame(width: isSelectedCheking() ? viewModel.constW(w:40) : 0,height: isSelectedCheking() ? viewModel.constH(h:40) : 0)
+                    .foregroundColor(Color("backgroundDarkColor"))
+                    .zIndex(0)
+                
+                if hasProgram() {
+                    Circle()
+                        .frame(width: isSelectedCheking() ? 3 : 7,height: hasProgram() ? 3 : 7)
+                        .foregroundColor(Color("backgroundDarkColor"))
+                        .offset(y: isSelectedCheking() ?  viewModel.constH(h:25) : viewModel.constH(h:15))
+                        .zIndex(0)
+                }
+                
+            }
+            else {
+                Color.white
+            }
         }
     }
     
