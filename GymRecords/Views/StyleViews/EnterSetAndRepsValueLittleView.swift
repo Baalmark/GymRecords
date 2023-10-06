@@ -23,7 +23,6 @@ struct EnterSetAndRepsValueLittleView: View {
         ScrollView {
             VStack {
                 ForEach(exercise.sets, id: \.id) { onSet in
-                   
                         if viewModel.sameDateCheck(date1: viewModel.selectedDate, date2: onSet.date) {
                             ZStack(alignment: .topTrailing) {
                                 EnterOrChangeOneCertainView(weight: onSet.weight, reps: onSet.reps, onSet: onSet, number: onSet.number, exercise: exercise)

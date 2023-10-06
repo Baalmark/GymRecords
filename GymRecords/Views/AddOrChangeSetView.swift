@@ -10,10 +10,11 @@ import SwiftUI
 struct AddOrChangeSetView: View {
     @EnvironmentObject var viewModel:GymViewModel
     @State var exercise:Exercise
-    //NEED TO COMMIT 
+    
+    //NEED TO COMMIT
     var body: some View {
-        VStack(alignment: .leading){
         
+        VStack(alignment: .leading){
             HStack {
                 Text("\(exercise.name)").foregroundColor(.white)
                     .font(.custom("Helvetica", size: 24).bold())
@@ -43,6 +44,7 @@ struct AddOrChangeSetView: View {
                 }
                 .padding(.trailing,20)
             }
+            .ignoresSafeArea(.keyboard,edges: .bottom)
             .padding(.top,20)
             HStack {
                 Text(exercise.type == .cardio ? "km/h" : "weight")
@@ -52,10 +54,8 @@ struct AddOrChangeSetView: View {
             .padding(.leading,30)
             .font(.callout.bold())
             .foregroundColor(Color("MidGrayColor"))
-            
             EnterSetAndRepsValueLittleView(exercise: exercise)
-                
-                .ignoresSafeArea(.keyboard)
+                .ignoresSafeArea(.keyboard, edges: .bottom)
             
                 
             Spacer()
@@ -76,6 +76,7 @@ struct AddOrChangeSetView: View {
                 }
                 
             }
+            .ignoresSafeArea(.keyboard,edges: .bottom)
             .buttonStyle(GrowingButton(isDarkMode: true,width: viewModel.constW(w:335),height: viewModel.constH(h:45)))
             .tint(.white)
             .font(.title2)
@@ -86,18 +87,16 @@ struct AddOrChangeSetView: View {
             .offset(y:viewModel.constH(h:-5))
             
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
         .frame(maxWidth: .infinity,maxHeight: .infinity)
-        
-        
-        
         .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
         .padding(.top, 30)
         .padding([.leading,.trailing],5)
 //MARK: TO CHECK
         .frame(width: viewModel.screenWidth)
         .background(Color("backgroundDarkColor"))
-        
-        .ignoresSafeArea(.all)
         .preferredColorScheme(.dark)
     }
     

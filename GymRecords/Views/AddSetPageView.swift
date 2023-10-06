@@ -112,9 +112,8 @@ struct AddSetPageView: View {
                             .offset(x: 0,y:viewModel.constH(h: 700))
                         }
                     }
-                    .overlay{
-                        if viewModel.didTapToAddSet {
-                            
+                    .fullScreenCover(isPresented: $viewModel.didTapToAddSet) {
+                        GeometryReader { geo in
                             AddOrChangeSetView(exercise: viewModel.crntExrcsFrEditSets)
                                 .gesture(DragGesture()
                                     .onChanged { value in
@@ -128,9 +127,9 @@ struct AddSetPageView: View {
                                 .onDisappear {
                                     viewModel.blurOrBlackBackground = true
                                 }
-                            
                         }
-                    }
+                        }
+
                     .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
                     .frame(width: viewModel.screenWidth)
                     .tag(index)

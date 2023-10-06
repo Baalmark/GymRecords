@@ -25,7 +25,7 @@ struct ContentView: View {
     @State var saveAsProgrammSheet = false
     @State var newProgram = GymModel.Program(numberOfProgram: 1,programTitle: "", programDescription: "", colorDesign: "green", exercises: [])
     var body: some View {
-        mainView
+            mainView
     }
     var mainView: some View {
         VStack {
@@ -422,7 +422,6 @@ struct ContentView: View {
             if viewModel.isShowedMainAddSetsView {
                 withAnimation(.easeOut) {
                     AddNewSetsMainView(scrollToIndex: scrollToIndex).environmentObject(viewModel)
-                        .ignoresSafeArea(.keyboard)
                         .background(viewModel.blurOrBlackBackground ? .ultraThinMaterial : .ultraThick)
                         .transition(.move(edge: .bottom))
                         .onDisappear {
