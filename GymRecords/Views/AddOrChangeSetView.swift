@@ -19,6 +19,7 @@ struct AddOrChangeSetView: View {
                 Text("\(exercise.name)").foregroundColor(.white)
                     .font(.custom("Helvetica", size: 24).bold())
                     .padding(30)
+                
                 Spacer()
                 Button {
                     HapticManager.instance.impact(style: .medium)
@@ -44,7 +45,7 @@ struct AddOrChangeSetView: View {
                 }
                 .padding(.trailing,20)
             }
-            .padding(.top,20)
+            .padding(.top,-20)
             HStack {
                 Text(exercise.type == .cardio ? "km/h" : "weight")
                     .padding(.trailing,110)
@@ -77,8 +78,8 @@ struct AddOrChangeSetView: View {
             .tint(.white)
             .font(.title2)
             .fontWeight(.semibold)
-            .padding(30)
-            .padding(.bottom,20)
+            .padding([.leading,.trailing],30)
+            .padding([.bottom,.top],10)
             
             .offset(y:viewModel.constH(h:-5))
             
