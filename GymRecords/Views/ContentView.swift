@@ -24,6 +24,7 @@ struct ContentView: View {
     @State private var showAlert = false
     @State private var saveAsProgrammSheet = false
     @State private var newProgram = GymModel.Program(numberOfProgram: 1,programTitle: "", programDescription: "", colorDesign: "green", exercises: [])
+    
     var body: some View {
             mainView
     }
@@ -100,7 +101,7 @@ struct ContentView: View {
                                         offset.width = 0
                                     }
                                 }
-                            })
+                            }).disabled(viewModel.disabledDragGestureCalendarView)
                     
                     
                     .frame(width: viewModel.screenWidth * 3 + 30, height: viewModel.constH(h:350))
@@ -118,22 +119,25 @@ struct ContentView: View {
             
             .simultaneousGesture(DragGesture()
                 .onChanged { value in
-                    if value.translation.height <= 0{
-                        if minimizingCalendarOffSet > viewModel.constH(h: -295) {
-                            minimizingCalendarOffSet = value.translation.height
+                    let direction = viewModel.detectDirection(value: value)
+                    if direction == .up || direction == .down {
+                        if value.translation.height <= 0{
+                            if minimizingCalendarOffSet > viewModel.constH(h: -295) {
+                                viewModel.disabledDragGestureCalendarView = true
+                                minimizingCalendarOffSet = value.translation.height
+                            }
+                        } else {
+                            if minimizingCalendarOffSet < 0 {
+                                viewModel.disabledDragGestureCalendarView = true
+                                minimizingCalendarOffSet = viewModel.constH(h: -295) + value.translation.height
+                            }
                         }
-                    } else {
-                        if minimizingCalendarOffSet < 0 {
-                            minimizingCalendarOffSet = viewModel.constH(h: -295) + value.translation.height
-                        }
+                        
                     }
-                    
-                    
                 }
                 .onEnded { value in
-                    
                     if minimizingCalendarOffSet < 0 {
-                        if value.translation.height >= 125 {
+                        if value.translation.height >= 85 {
                             withAnimation(.easeInOut) {
                                 minimizingCalendarOffSet = 0
                                 coeffOfTrainView = 0
@@ -159,6 +163,7 @@ struct ContentView: View {
                             }
                         }
                     }
+                    viewModel.disabledDragGestureCalendarView = false
                     HapticManager.instance.impact(style: .soft)
                 })
             .overlay(alignment:.center) {

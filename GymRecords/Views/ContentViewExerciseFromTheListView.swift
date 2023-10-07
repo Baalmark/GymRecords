@@ -25,6 +25,7 @@ struct ContentViewExerciseFromTheListView: View {
                     Spacer()
                     Text(exercise.name.capitalized)
                         .fontWeight(.bold)
+                        .multilineTextAlignment(.center)
                         .font(.custom("Helvetica", size: viewModel.constW(w:18)))
                     Spacer()
                     Image(systemName: exercise.isSelectedToAddSet ? "chevron.up" : "chevron.down")

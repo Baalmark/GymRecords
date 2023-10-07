@@ -39,7 +39,7 @@ struct CalendarCellView: View
                 
                 if hasProgram() {
                     Circle()
-                        .frame(width: isSelectedCheking() ? 3 : 7,height: hasProgram() ? 3 : 7)
+                        .frame(width: isSelectedCheking() ? 3 : 4,height: isSelectedCheking() ? 3 : 4)
                         .foregroundColor(Color("backgroundDarkColor"))
                         .offset(y: isSelectedCheking() ?  viewModel.constH(h:25) : viewModel.constH(h:15))
                         .zIndex(0)
@@ -58,9 +58,6 @@ struct CalendarCellView: View
     {
         
         let components = viewModel.selectedDate.get(.day, .month, .year)
-        
-        
-        
         guard correctDay == Int(monthStruct().day()) else { return false}
         guard Calendar.current.isDate(viewModel.selectedDate, equalTo: month, toGranularity: .month) else { return false}
         guard monthStruct().monthType == .Current else { return false}

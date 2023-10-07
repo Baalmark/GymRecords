@@ -70,6 +70,7 @@ class GymViewModel: ObservableObject {
     
     //Show view with sets
     @Published var isShowedMainAddSetsView = false
+    
     //Edit program on the Main Content View
     @Published var editMode = false
     @Published var editModeButtonName = "Edit"
@@ -82,7 +83,7 @@ class GymViewModel: ObservableObject {
     @Published var selectedPeriod:Int = 7
     @Published var maxSummaryReps:Double? = 0
     @Published var maxSummaryWeight:Double? = 0
-    
+    @Published var disabledDragGestureCalendarView = false
     //Design Vars
     var viewCornerRadiusSimple:CGFloat = 10
     var screenWidth = UIScreen.main.bounds.width

@@ -82,6 +82,7 @@ struct CalendarView: View
                                     
                                 }
                             }
+                            .disabled(viewModel.disabledDragGestureCalendarView)
                             
                     }
                 }
