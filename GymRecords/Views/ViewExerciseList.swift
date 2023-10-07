@@ -50,7 +50,7 @@ struct ViewExerciseList: View {
                                     Circle()
                                         .frame(width: 35,height: 35)
                                         .foregroundColor(.clear)
-                                        .ignoresSafeArea(.all)
+//                                        .ignoresSafeArea(.all)
                                 }
                             }
                             .padding(.trailing,17)

@@ -18,7 +18,7 @@ struct AddSetPageView: View {
                 exercise in
                     ZStack(alignment:.top) {
                         Color.white
-                        VStack(alignment: .leading){
+                        VStack(alignment: .center){
                             Text("\(exercise.name)").foregroundColor(Color("backgroundDarkColor"))
                                 .font(.custom("Helvetica", size: 24).bold())
                                 .padding(.leading, !exercise.sets.isEmpty ? 30 : 0)
@@ -113,21 +113,19 @@ struct AddSetPageView: View {
                         }
                     }
                     .fullScreenCover(isPresented: $viewModel.didTapToAddSet) {
-                        GeometryReader { geo in
                             AddOrChangeSetView(exercise: viewModel.crntExrcsFrEditSets)
                                 .gesture(DragGesture()
                                     .onChanged { value in
                                     }
                                     .onEnded { value in
                                     })
-                                .ignoresSafeArea(.all)
                                 .onAppear {
                                     viewModel.blurOrBlackBackground = false
                                 }
                                 .onDisappear {
                                     viewModel.blurOrBlackBackground = true
                                 }
-                        }
+                        
                         }
 
                     .clipShape(RoundedRectangle(cornerRadius: 10.0, style: .continuous))
@@ -138,7 +136,7 @@ struct AddSetPageView: View {
         
         .frame(width: viewModel.screenWidth + 20,height: viewModel.screenHeight)
         .padding([.leading,.trailing],-10)
-        .ignoresSafeArea(.all)
+//        .ignoresSafeArea(.all)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .sheet(isPresented: $viewModel.willAppearStatisticView) {
             if let exercise = viewModel.selectedExerciseForStatisticView{

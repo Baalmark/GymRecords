@@ -4,30 +4,31 @@ struct ContentView: View {
     
     @Environment(\.dismiss) var dismiss
     @State private var appearSheet = false
-    @State var isDataBaseSheetActive = false
+    @State private var isDataBaseSheetActive = false
     @State private var offset = CGSize.zero
     private var offsetCalendarViewY:CGFloat = 0
     private var systemColor = Color(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1))
     private var systemShadowColor = Color(UIColor(red: 0.65, green: 0.65, blue: 0.65, alpha: 1))
     @StateObject private var viewModel = GymViewModel()
-    @State var minimizingCalendarOffSet:CGFloat = -295
+    @State private var minimizingCalendarOffSet:CGFloat = -295
     //Flags for changing calendar month
     @State private var coeffOfTrainView:CGFloat = 0
     private var previousMonth = false
     private var nextMonth = false
-    @State var collapsingViewFlag = true
-    @State var scrollToIndex:Int = 0
-    @State var mainButtonName = "Add more"
-    @State var mainButtonEditName = "Edit"
-    @State var flagAddSetMainViewAppear = false
-    @State var showSheet = false
-    @State var showAlert = false
-    @State var saveAsProgrammSheet = false
-    @State var newProgram = GymModel.Program(numberOfProgram: 1,programTitle: "", programDescription: "", colorDesign: "green", exercises: [])
+    @State private var collapsingViewFlag = true
+    @State private var scrollToIndex:Int = 0
+    @State private var mainButtonName = "Add more"
+    @State private var mainButtonEditName = "Edit"
+    @State private var flagAddSetMainViewAppear = false
+    @State private var showSheet = false
+    @State private var showAlert = false
+    @State private var saveAsProgrammSheet = false
+    @State private var newProgram = GymModel.Program(numberOfProgram: 1,programTitle: "", programDescription: "", colorDesign: "green", exercises: [])
     var body: some View {
             mainView
     }
     var mainView: some View {
+        
         VStack {
             ZStack{
                 VStack{
@@ -38,7 +39,6 @@ struct ContentView: View {
                                 MonthLabelView(month:viewModel.arrayOfMonths[1])
                                 //                                    .environmentObject(viewModel)
                                     .animation(.spring(), value: viewModel.arrayOfMonths[1])
-                                    
                                 Spacer()
                                 Button{
                                     HapticManager.instance.impact(style: .medium)
@@ -75,7 +75,10 @@ struct ContentView: View {
                         .offset(x: offset.width, y:0)
                         .gesture(DragGesture()
                             .onChanged { value in
-                                offset.width = value.translation.width
+                                let direction = viewModel.detectDirection(value: value)
+                                if direction == .right  || direction == .left {
+                                    offset.width = value.translation.width
+                                }
                             }
                             .onEnded { value in
                                 let direction = viewModel.detectDirection(value: value)
@@ -108,62 +111,63 @@ struct ContentView: View {
                     Spacer()
                 }
                 
-                
             }
             .background(.white)
             .zIndex(2)
             .frame(height: collapsingViewFlag ? viewModel.constH(h:140) : viewModel.constH(h:415))
+            
+            .simultaneousGesture(DragGesture()
+                .onChanged { value in
+                    if value.translation.height <= 0{
+                        if minimizingCalendarOffSet > viewModel.constH(h: -295) {
+                            minimizingCalendarOffSet = value.translation.height
+                        }
+                    } else {
+                        if minimizingCalendarOffSet < 0 {
+                            minimizingCalendarOffSet = viewModel.constH(h: -295) + value.translation.height
+                        }
+                    }
+                    
+                    
+                }
+                .onEnded { value in
+                    
+                    if minimizingCalendarOffSet < 0 {
+                        if value.translation.height >= 125 {
+                            withAnimation(.easeInOut) {
+                                minimizingCalendarOffSet = 0
+                                coeffOfTrainView = 0
+                                collapsingViewFlag = false
+                                
+                                
+                            }
+                        } else {
+                            withAnimation(.easeInOut) {
+                                minimizingCalendarOffSet = viewModel.constH(h: -295)
+                                coeffOfTrainView = viewModel.constH(h: 295)
+                                collapsingViewFlag = true
+                                
+                            }
+                        }
+                    } else {
+                        if value.translation.height <= -125 {
+                            withAnimation(.easeInOut) {
+                                minimizingCalendarOffSet = viewModel.constH(h: -295)
+                                coeffOfTrainView = viewModel.constH(h: 295)
+                                collapsingViewFlag = true
+                                
+                            }
+                        }
+                    }
+                    HapticManager.instance.impact(style: .soft)
+                })
             .overlay(alignment:.center) {
                 ZStack(alignment: .top){
                     //Drag gesture line view
                     dragGestureView
                         .zIndex(10)
                         .offset(x:0,y:minimizingCalendarOffSet)
-                        .gesture(DragGesture()
-                            .onChanged { value in
-                                if value.translation.height <= 0{
-                                    if minimizingCalendarOffSet > viewModel.constH(h: -295) {
-                                        minimizingCalendarOffSet = value.translation.height
-                                    }
-                                } else {
-                                    if minimizingCalendarOffSet < 0 {
-                                        minimizingCalendarOffSet = viewModel.constH(h: -295) + value.translation.height
-                                    }
-                                }
-                                
-                                
-                            }
-                            .onEnded { value in
-                                
-                                if minimizingCalendarOffSet < 0 {
-                                    if value.translation.height >= 125 {
-                                        withAnimation(.easeInOut) {
-                                            minimizingCalendarOffSet = 0
-                                            coeffOfTrainView = 0
-                                            collapsingViewFlag = false
-                                            
-                                            
-                                        }
-                                    } else {
-                                        withAnimation(.easeInOut) {
-                                            minimizingCalendarOffSet = viewModel.constH(h: -295)
-                                            coeffOfTrainView = viewModel.constH(h: 295)
-                                            collapsingViewFlag = true
-                                            
-                                        }
-                                    }
-                                } else {
-                                    if value.translation.height <= -125 {
-                                        withAnimation(.easeInOut) {
-                                            minimizingCalendarOffSet = viewModel.constH(h: -295)
-                                            coeffOfTrainView = viewModel.constH(h: 295)
-                                            collapsingViewFlag = true
-                                            
-                                        }
-                                    }
-                                }
-                                HapticManager.instance.impact(style: .soft)
-                            })
+                        
                     
                     ScrollView {
                         if viewModel.isAnyTrainingSelectedDay(){
@@ -248,6 +252,9 @@ struct ContentView: View {
         }
         
         .frame(height: viewModel.screenHeight - viewModel.constH(h: -70))
+        .onTapGesture {
+            hideKeyboard()
+        }
         .overlay {
             if !viewModel.isShowedMainAddSetsView {
                 HStack {
@@ -418,7 +425,6 @@ struct ContentView: View {
                 .offset(y:viewModel.constH(h:370))
                 
             }
-            
             if viewModel.isShowedMainAddSetsView {
                 withAnimation(.easeOut) {
                     AddNewSetsMainView(scrollToIndex: scrollToIndex).environmentObject(viewModel)

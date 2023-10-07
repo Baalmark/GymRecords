@@ -5,6 +5,7 @@
 //  Created by Pavel Goldman on 13.05.2023.
 //
 
+
 import SwiftUI
 
 extension View {
@@ -31,3 +32,4 @@ struct OffsetKey:PreferenceKey {
         value = nextValue()
     }
 }
+

@@ -44,7 +44,6 @@ struct AddOrChangeSetView: View {
                 }
                 .padding(.trailing,20)
             }
-            .ignoresSafeArea(.keyboard,edges: .bottom)
             .padding(.top,20)
             HStack {
                 Text(exercise.type == .cardio ? "km/h" : "weight")
@@ -55,8 +54,6 @@ struct AddOrChangeSetView: View {
             .font(.callout.bold())
             .foregroundColor(Color("MidGrayColor"))
             EnterSetAndRepsValueLittleView(exercise: exercise)
-                .ignoresSafeArea(.keyboard, edges: .bottom)
-            
                 
             Spacer()
             Button("Save") {
@@ -76,7 +73,6 @@ struct AddOrChangeSetView: View {
                 }
                 
             }
-            .ignoresSafeArea(.keyboard,edges: .bottom)
             .buttonStyle(GrowingButton(isDarkMode: true,width: viewModel.constW(w:335),height: viewModel.constH(h:45)))
             .tint(.white)
             .font(.title2)

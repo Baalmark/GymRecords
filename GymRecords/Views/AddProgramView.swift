@@ -55,7 +55,7 @@ struct AddProgramView: View {
                     self.hideKeyboard()
                 }
                 .padding(.top,30)
-                .ignoresSafeArea(.keyboard)
+//                .ignoresSafeArea(.keyboard)
             if viewModel.isShowedEditOrRemoveView {
                 let program = viewModel.showedEdirOrRemoveProgram
                 EditOrRemoveTheProgram(program: program, isShowedView: $viewModel.isShowedEditOrRemoveView )
