@@ -16,7 +16,6 @@ struct DataBaseView: View {
                 VStack{
                     HStack{
                         Text("Database")
-                        
                         Spacer()
                         Button{
                         } label: {
@@ -29,12 +28,12 @@ struct DataBaseView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .padding(.top,20)
+                    
                     DataBaseInfoTitle()
-//                        .environmentObject(viewModel)
                         .padding(5)
                 }
+                
                 ExercisesAndProgramsListView()
-//                    .environmentObject(viewModel)
             }.opacity(viewModel.isShowedEditOrRemoveView ? 0 : 1)
                 .opacity(viewModel.isShowedViewListSpecificExercise ? 0 : 1)
             if viewModel.isShowedEditOrRemoveView {

@@ -11,6 +11,7 @@ struct ContentView: View {
     private var systemShadowColor = Color(UIColor(red: 0.65, green: 0.65, blue: 0.65, alpha: 1))
     @StateObject private var viewModel = GymViewModel()
     @State private var minimizingCalendarOffSet:CGFloat = -295
+    @State private var flagCollapse:Collapse = .collapsed
     //Flags for changing calendar month
     @State private var coeffOfTrainView:CGFloat = 0
     private var previousMonth = false
@@ -26,7 +27,7 @@ struct ContentView: View {
     @State private var newProgram = GymModel.Program(numberOfProgram: 1,programTitle: "", programDescription: "", colorDesign: "green", exercises: [])
     
     var body: some View {
-            mainView
+        mainView
     }
     var mainView: some View {
         
@@ -72,42 +73,43 @@ struct ContentView: View {
                             CalendarView(month:value)
                         }
                     }
-                        .background(.white)
-                        .offset(x: offset.width, y:0)
-                        .gesture(DragGesture()
-                            .onChanged { value in
-                                let direction = viewModel.detectDirection(value: value)
-                                if direction == .right  || direction == .left {
-                                    offset.width = value.translation.width
+                    .background(.white)
+                    .offset(x: offset.width, y:0)
+                    .gesture(DragGesture()
+                        .onChanged { value in
+                            let direction = viewModel.detectDirection(value: value)
+                            if direction == .left || direction == .right {}
+                            offset.width = value.translation.width
+                        }
+                            
+                        .onEnded { value in
+                            let direction = viewModel.detectDirection(value: value)
+                            if direction == .right, value.translation.width < -120 {
+                                viewModel.updateArrayMonthsNext()
+                                withAnimation() {
+                                    offset.width = -405
+                                }
+                                offset.width = 0
+                            } else if direction == .left, value.translation.width > 120{
+                                viewModel.updateArrayMonthsBack()
+                                withAnimation() {
+                                    offset.width = 405
+                                }
+                                offset.width = 0
+                                
+                            } else {
+                                withAnimation() {
+                                    offset.width = 0
                                 }
                             }
-                            .onEnded { value in
-                                let direction = viewModel.detectDirection(value: value)
-                                if direction == .right, value.translation.width < -120 {
-                                    viewModel.updateArrayMonthsNext()
-                                    withAnimation() {
-                                        offset.width = -405
-                                    }
-                                    offset.width = 0
-                                } else if direction == .left, value.translation.width > 120{
-                                    viewModel.updateArrayMonthsBack()
-                                    withAnimation() {
-                                        offset.width = 405
-                                    }
-                                    offset.width = 0
-                                    
-                                } else {
-                                    withAnimation() {
-                                        offset.width = 0
-                                    }
-                                }
-                            }).disabled(viewModel.disabledDragGestureCalendarView)
+                            
+                        })
                     
                     
-                    .frame(width: viewModel.screenWidth * 3 + 30, height: viewModel.constH(h:350))
-                    .offset(x:0,y:  viewModel.constH(h: minimizingCalendarOffSet / viewModel.getCoefficientOffset(row: viewModel.selectedDayRowHolder)))
-                    .zIndex(3)
-                    .padding(.bottom, 15)
+                        .frame(width: viewModel.screenWidth * 3 + 30, height: viewModel.constH(h:350))
+                        .offset(x:0,y:  viewModel.constH(h: minimizingCalendarOffSet / viewModel.getCoefficientOffset(row: viewModel.selectedDayRowHolder)))
+                        .zIndex(3)
+                        .padding(.bottom, 15)
                     
                     Spacer()
                 }
@@ -119,21 +121,19 @@ struct ContentView: View {
             
             .simultaneousGesture(DragGesture()
                 .onChanged { value in
-                    let direction = viewModel.detectDirection(value: value)
-                    if direction == .up || direction == .down {
-                        if value.translation.height <= 0{
-                            if minimizingCalendarOffSet > viewModel.constH(h: -295) {
-                                viewModel.disabledDragGestureCalendarView = true
-                                minimizingCalendarOffSet = value.translation.height
+                    print("Here1")
+                    let detection = viewModel.detectDirection(value: value)
+                    if detection == .down || detection == .up {
+                    }
+                        if flagCollapse == .collapsed {
+                            if minimizingCalendarOffSet + value.translation.height >= -295{ //Limit border
+                                minimizingCalendarOffSet = -295 + value.translation.height
                             }
-                        } else {
-                            if minimizingCalendarOffSet < 0 {
-                                viewModel.disabledDragGestureCalendarView = true
-                                minimizingCalendarOffSet = viewModel.constH(h: -295) + value.translation.height
+                        } else if flagCollapse == .opened {
+                            if minimizingCalendarOffSet + value.translation.height <= 0 { //Limit border
+                                minimizingCalendarOffSet = 0 + value.translation.height
                             }
                         }
-                        
-                    }
                 }
                 .onEnded { value in
                     if minimizingCalendarOffSet < 0 {
@@ -142,7 +142,7 @@ struct ContentView: View {
                                 minimizingCalendarOffSet = 0
                                 coeffOfTrainView = 0
                                 collapsingViewFlag = false
-                                
+                                flagCollapse = .opened
                                 
                             }
                         } else {
@@ -150,7 +150,7 @@ struct ContentView: View {
                                 minimizingCalendarOffSet = viewModel.constH(h: -295)
                                 coeffOfTrainView = viewModel.constH(h: 295)
                                 collapsingViewFlag = true
-                                
+                                flagCollapse = .collapsed
                             }
                         }
                     } else {
@@ -159,12 +159,10 @@ struct ContentView: View {
                                 minimizingCalendarOffSet = viewModel.constH(h: -295)
                                 coeffOfTrainView = viewModel.constH(h: 295)
                                 collapsingViewFlag = true
-                                
+                                flagCollapse = .collapsed
                             }
                         }
                     }
-                    viewModel.disabledDragGestureCalendarView = false
-                    HapticManager.instance.impact(style: .soft)
                 })
             .overlay(alignment:.center) {
                 ZStack(alignment: .top){
@@ -172,7 +170,7 @@ struct ContentView: View {
                     dragGestureView
                         .zIndex(10)
                         .offset(x:0,y:minimizingCalendarOffSet)
-                        
+                    
                     
                     ScrollView {
                         if viewModel.isAnyTrainingSelectedDay(){
@@ -191,15 +189,15 @@ struct ContentView: View {
                                             
                                             
                                         }
-                                        
+                                    
                                     if exercise.isSelectedToAddSet {
                                         HStack {
                                             Text(exercise.type == .cardio ? "km/h" : "weight")
-                                                    .frame(width: 160)
-                                                    .padding(.trailing,5)
+                                                .frame(width: 160)
+                                                .padding(.trailing,5)
                                             Text(exercise.type == .stretching || exercise.type == .cardio ? "mins" : "reps")
-                                                    .frame(width: 160)
-                                                    .padding(.leading,5)
+                                                .frame(width: 160)
+                                                .padding(.leading,5)
                                         }
                                         .font(.custom("Helvetica", size: 14))
                                         .fontWeight(.bold)
@@ -214,7 +212,7 @@ struct ContentView: View {
                                                     
                                                 }
                                             }
-                                            
+                                        
                                     }
                                 }
                                 .onChange(of: viewModel.trainInSelectedDay.exercises.count) { newValue in
@@ -264,123 +262,123 @@ struct ContentView: View {
             if !viewModel.isShowedMainAddSetsView {
                 HStack {
                     if viewModel.isAnyTrainingSelectedDay(){
-                    Button {
-                        HapticManager.instance.impact(style: .medium)
-                        showSheet.toggle()
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .foregroundColor(.white)
-                            .padding(10)
-                    }
-                    .font(.custom("Helvetica", size: viewModel.constW(w:20)))
-                    .background(Circle()
-                        .frame(width: viewModel.constW(w:40),height: viewModel.constW(w:40))
-                        .foregroundColor(Color("MidGrayColor")))
-                    .blurredSheet(.init(.ultraThinMaterial), show: $showSheet) {
-                        
-                    } content: {
-                        VStack {
+                        Button {
+                            HapticManager.instance.impact(style: .medium)
+                            showSheet.toggle()
+                        } label: {
+                            Image(systemName: "ellipsis")
+                                .foregroundColor(.white)
+                                .padding(10)
+                        }
+                        .font(.custom("Helvetica", size: viewModel.constW(w:20)))
+                        .background(Circle()
+                            .frame(width: viewModel.constW(w:40),height: viewModel.constW(w:40))
+                            .foregroundColor(Color("MidGrayColor")))
+                        .blurredSheet(.init(.ultraThinMaterial), show: $showSheet) {
                             
-                            if viewModel.isAnyTrainingSelectedDay() {
-                                Button {
-                                    HapticManager.instance.impact(style: .medium)
-                                    withAnimation{
-                                        showAlert.toggle()
+                        } content: {
+                            VStack {
+                                
+                                if viewModel.isAnyTrainingSelectedDay() {
+                                    Button {
+                                        HapticManager.instance.impact(style: .medium)
+                                        withAnimation{
+                                            showAlert.toggle()
+                                        }
+                                    } label: {
+                                        Text("Delete all day")
+                                            .foregroundStyle(Color("BrightRedColor"))
                                     }
-                                } label: {
-                                    Text("Delete all day")
-                                        .foregroundStyle(Color("BrightRedColor"))
+                                    .padding(.bottom,10)
+                                    .alert(isPresented:$showAlert, content:  {
+                                        Alert(title: Text("Are you sure?"),message:Text("All exercises and data will be deleted"), primaryButton: .default(Text("Yes"),action: {
+                                            withAnimation(.easeInOut) {
+                                                viewModel.removeTrainingByClick(selectedDate: viewModel.selectedDate)
+                                                showSheet.toggle()
+                                            }
+                                        }), secondaryButton: .cancel(Text("Cancel")))
+                                        
+                                    })
+                                    
+                                    
+                                    Button {
+                                        HapticManager.instance.impact(style: .medium)
+                                        withAnimation {
+                                            let stringDate = viewModel.toStringDate(date: viewModel.selectedDate, history: false)
+                                            if let training = viewModel.trainings[stringDate] {
+                                                
+                                                var exercises = training.exercises
+                                                for exercise in exercises {
+                                                    exercise.sets = []
+                                                }
+                                                newProgram.exercises = exercises
+                                                viewModel.selectedExArray = exercises
+                                                newProgram.numberOfProgram = viewModel.trainings.count + 1
+                                                saveAsProgrammSheet.toggle()
+                                            }
+                                        }
+                                    } label : {
+                                        Text("Save as program")
+                                            .foregroundStyle(.white)
+                                    }
+                                    .padding(.bottom,10)
                                 }
-                                .padding(.bottom,10)
-                                .alert(isPresented:$showAlert, content:  {
-                                    Alert(title: Text("Are you sure?"),message:Text("All exercises and data will be deleted"), primaryButton: .default(Text("Yes"),action: {
-                                        withAnimation(.easeInOut) {
-                                            viewModel.removeTrainingByClick(selectedDate: viewModel.selectedDate)
+                                if !viewModel.isSelectedDayToday() {
+                                    Button {
+                                        HapticManager.instance.impact(style: .medium)
+                                        withAnimation {
+                                            viewModel.copyTraining = true
+                                            let stringDate = viewModel.toStringDate(date: viewModel.selectedDate, history: false)
+                                            
+                                            if let training = viewModel.trainings[stringDate] {
+                                                if training.programDescription == "" {
+                                                    viewModel.createTraining(date: viewModel.selectedDate, exercises: training.exercises)
+                                                } else {
+                                                    viewModel.createTraining(date: viewModel.selectedDate, program: training)
+                                                }
+                                            }
                                             showSheet.toggle()
                                         }
-                                    }), secondaryButton: .cancel(Text("Cancel")))
+                                    } label: {
+                                        Text("Copy for today")
+                                            .foregroundStyle(.white)
+                                    }
+                                    .padding(.bottom,10)
+                                }
+                                Button {
+                                    HapticManager.instance.impact(style: .medium)
+                                    if viewModel.isAnyTrainingSelectedDay() {
+                                        withAnimation(.easeInOut) {
+                                            viewModel.editMode.toggle()
+                                            viewModel.editModeButtonName = viewModel.editMode ? "Finish editing" : "Edit"
+                                            showSheet.toggle()
+                                        }
+                                    } else {
+                                        appearSheet.toggle()
+                                        viewModel.changeExercisesDB = false
+                                    }
                                     
-                                })
-                                
-                                
-                                Button {
-                                    HapticManager.instance.impact(style: .medium)
-                                    withAnimation {
-                                        let stringDate = viewModel.toStringDate(date: viewModel.selectedDate, history: false)
-                                        if let training = viewModel.trainings[stringDate] {
-                                            
-                                            var exercises = training.exercises
-                                            for exercise in exercises {
-                                                exercise.sets = []
-                                            }
-                                            newProgram.exercises = exercises
-                                            viewModel.selectedExArray = exercises
-                                            newProgram.numberOfProgram = viewModel.trainings.count + 1
-                                            saveAsProgrammSheet.toggle()
-                                        }
-                                    }
                                 } label : {
-                                    Text("Save as program")
+                                    Text(viewModel.isAnyTrainingSelectedDay() ? viewModel.editModeButtonName : mainButtonName)
                                         .foregroundStyle(.white)
+                                    
                                 }
-                                .padding(.bottom,10)
                             }
-                            if !viewModel.isSelectedDayToday() {
-                                Button {
-                                    HapticManager.instance.impact(style: .medium)
-                                    withAnimation {
-                                        viewModel.copyTraining = true
-                                        let stringDate = viewModel.toStringDate(date: viewModel.selectedDate, history: false)
-                                        
-                                        if let training = viewModel.trainings[stringDate] {
-                                            if training.programDescription == "" {
-                                                viewModel.createTraining(date: viewModel.selectedDate, exercises: training.exercises)
-                                            } else {
-                                                viewModel.createTraining(date: viewModel.selectedDate, program: training)
-                                            }
+                            .fullScreenCover(isPresented: $saveAsProgrammSheet) {
+                                CreateNewProgrammView(name: $newProgram.programTitle, description: $newProgram.programDescription, exercises: $newProgram.exercises, colorDesignStringValue: $newProgram.colorDesign,toChangeProgram: false)
+                                    .onDisappear {
+                                        withAnimation {
+                                            showSheet.toggle()
                                         }
-                                        showSheet.toggle()
                                     }
-                                } label: {
-                                    Text("Copy for today")
-                                        .foregroundStyle(.white)
-                                }
-                                .padding(.bottom,10)
                             }
-                            Button {
-                                HapticManager.instance.impact(style: .medium)
-                                if viewModel.isAnyTrainingSelectedDay() {
-                                    withAnimation(.easeInOut) {
-                                        viewModel.editMode.toggle()
-                                        viewModel.editModeButtonName = viewModel.editMode ? "Finish editing" : "Edit"
-                                        showSheet.toggle()
-                                    }
-                                } else {
-                                    appearSheet.toggle()
-                                    viewModel.changeExercisesDB = false
-                                }
-                                
-                            } label : {
-                                Text(viewModel.isAnyTrainingSelectedDay() ? viewModel.editModeButtonName : mainButtonName)
-                                    .foregroundStyle(.white)
-                                
-                            }
+                            .font(.custom("Helvetica", size: viewModel.constW(w:22)))
+                            .fontWeight(.bold)
+                            .presentationDetents([.fraction(0.33)])
+                            .frame(maxWidth: .infinity,maxHeight: .infinity)
+                            .presentationDragIndicator(.visible)
+                            .background(Color("DarkbackgroundViewColor"))
                         }
-                        .fullScreenCover(isPresented: $saveAsProgrammSheet) {
-                            CreateNewProgrammView(name: $newProgram.programTitle, description: $newProgram.programDescription, exercises: $newProgram.exercises, colorDesignStringValue: $newProgram.colorDesign,toChangeProgram: false)
-                                .onDisappear {
-                                    withAnimation {
-                                        showSheet.toggle()
-                                    }
-                                }
-                        }
-                        .font(.custom("Helvetica", size: viewModel.constW(w:22)))
-                        .fontWeight(.bold)
-                        .presentationDetents([.fraction(0.33)])
-                        .frame(maxWidth: .infinity,maxHeight: .infinity)
-                        .presentationDragIndicator(.visible)
-                        .background(Color("DarkbackgroundViewColor"))
-                    }
                         
                         
                     }
@@ -437,12 +435,12 @@ struct ContentView: View {
                         .transition(.move(edge: .bottom))
                         .onDisappear {
                             scrollToIndex = 0
-                           
+                            
                         }
                     
                 }
             }
-                
+            
         }
         .environmentObject(viewModel)
         
@@ -464,7 +462,7 @@ struct ContentView: View {
         .fontWeight(.bold)
         .foregroundColor(Color("MidGrayColor"))
     }
-      
+    
     var dragGestureView: some View
     {
         ZStack {
@@ -486,7 +484,7 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-       
+        
         let _ = Migrator()
         ContentView().environmentObject(GymViewModel())
         

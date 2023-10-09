@@ -176,7 +176,7 @@ struct ExerciseToggle: View {
     var body: some View {
         VStack(spacing: 0) {
             Toggle(exercise.name, isOn: $toggle)
-                .font(.custom("Helvetica",size: 22))
+                .font(.custom("Helvetica",size: 18))
                 .fontWeight(.bold)
                 .onChange(of: toggle) { elem in
                     if elem {
@@ -208,6 +208,7 @@ struct CheckboxStyle: ToggleStyle {
                 .frame(width: 18, height: 18)
                 .foregroundColor(darkMode ? (configuration.isOn ? .white : Color("backgroundDarkColor")) : (configuration.isOn ? .black : .white))
                 .font(.custom("Helvetica", size: 22))
+                .fontWeight(.light)
             
         }
         .onTapGesture { configuration.isOn.toggle()}

@@ -251,6 +251,11 @@ enum CalendarMinimizingPosition:CGFloat {
     }
     
 }
+//MARK: Collapsing CalendarView
+enum Collapse:CGFloat {
+    case collapsed = -295
+    case opened = 0
+}
 
 //MARK: Extensions
 

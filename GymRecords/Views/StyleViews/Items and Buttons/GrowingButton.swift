@@ -24,7 +24,6 @@ struct GrowingButton: ButtonStyle {
             .shadow(color: .gray, radius: 3)
             .scaleEffect(configuration.isPressed ? 1.5 : 1)
             .animation(.easeOut(duration: 0.33), value: configuration.isPressed)
-//            .ignoresSafeArea(.keyboard,edges: .bottom)
     }
 }
 

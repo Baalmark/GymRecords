@@ -32,17 +32,20 @@ struct EditOrRemoveTheProgram: View {
             ScrollView {
                 ForEach(program.exercises,id: \.id) { elem in
                     HStack {
-                        
+                        Spacer()
                         Image(elem.type.rawValue)
                             .padding(.leading,20)
+                        Spacer()
                         Text(elem.name.capitalized)
                             .padding(.leading,10)
-                            .frame(width: viewModel.constW(w:300),height: viewModel.constH(h:50),alignment: .leading)
+                            .frame(width: viewModel.constW(w:260),height: viewModel.constH(h:50),alignment: .leading)
                             .foregroundColor(Color("backgroundDarkColor"))
                             .font(.custom("Helvetica", size: viewModel.constW(w:16)))
                             .fontWeight(.bold)
+                        Spacer()
                     }
-                    .padding(.leading,20)
+                    
+                    
                 }
                 
             }
@@ -142,10 +145,10 @@ struct EditOrRemoveTheProgram: View {
                     viewModel.isShowedEditOrRemoveView = false
                     dismiss()
                 } label: {
-                    Text("Ready")
+                    Text("Select program")
                         .font(.title3)
                         .fontWeight(.bold)
-                }.buttonStyle(GrowingButton(isDarkMode: false, width: viewModel.constW(w:220), height: viewModel.constH(h:40)))
+                }.buttonStyle(GrowingButton(isDarkMode: false, width: viewModel.constW(w:250), height: viewModel.constH(h:40)))
                     .padding(20)
             }
             

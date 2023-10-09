@@ -20,6 +20,7 @@ struct CalendarCellView: View
     @Binding var correctDay: Int
     @State var tappedView = false
     @Binding var isSelected:Date
+    @State var stringDate:String = ""
     var month:Date
     var body: some View
     {
@@ -60,7 +61,6 @@ struct CalendarCellView: View
         let components = viewModel.selectedDate.get(.day, .month, .year)
         guard correctDay == Int(monthStruct().day()) else { return false}
         guard Calendar.current.isDate(viewModel.selectedDate, equalTo: month, toGranularity: .month) else { return false}
-        guard monthStruct().monthType == .Current else { return false}
         
         if let day = components.day {
             //let month = components.month, let year = components.year
@@ -74,30 +74,13 @@ struct CalendarCellView: View
     
     func hasProgram() -> Bool
     {
-        guard monthStruct().monthType == .Current else { return false}
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        for sDate in viewModel.trainings.keys {
-
-            if let date = dateFormatter.date(from: sDate) {
-                
-                let components = date.get(.day,.month,.year)
-                
-                
-                var currentComponents = DateComponents()
-                currentComponents.year = month.get(.year)
-                currentComponents.month = month.get(.month)
-                currentComponents.day = monthStruct().dayInt
-                 
-                if components.day == currentComponents.day && components.month == currentComponents.month
-                    && components.year == currentComponents.year{
-                    return true
-                }
-                
-            }
-        }
-        
-       return false
+        var currentComponents = DateComponents()
+        currentComponents.year = month.get(.year)
+        currentComponents.month = month.get(.month)
+        currentComponents.day = monthStruct().dayInt
+        let date = Calendar.current.date(from: currentComponents)!
+        let toStringDate = viewModel.toStringDate(date: date, history: false)
+        return viewModel.trainings[toStringDate] != nil
     }
     
     

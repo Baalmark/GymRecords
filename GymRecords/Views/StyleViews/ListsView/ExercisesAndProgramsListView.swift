@@ -9,15 +9,15 @@ import SwiftUI
 
 struct ExercisesAndProgramsListView: View {
     
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var viewModel:GymViewModel
+    
+    
     @State private var mainNavigationSelector:Bool = false
     @State private var contentSize: CGSize = .zero
-    @EnvironmentObject var viewModel:GymViewModel
     @State private var didTap:Bool = false
-    @State private var exercisePos = 0
-    @State private var programmPos = GymViewModel().screenWidth
-    @State var shouldHideButton:Bool = true
-    @State var createExericseWithCategory = false
+    @State private var shouldHideButton:Bool = true
+    @State private var createExericseWithCategory = false
     
     var body: some View {
         VStack{
@@ -85,7 +85,6 @@ struct ExercisesAndProgramsListView: View {
                         
                     if viewModel.searchWord.isEmpty {
                         ViewExerciseList(withCategory: true, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: false)
-//                            .environmentObject(viewModel)
                             .overlay(
                                 GeometryReader { geo in
                                     Color.clear.onAppear {
@@ -93,36 +92,35 @@ struct ExercisesAndProgramsListView: View {
                                     }
                                 }
                             )
-                            .frame(width: viewModel.screenWidth,height: 600)
+                            .frame(width: viewModel.screenWidth,height: viewModel.constH(h: 600))
                             .padding(.top,-20)
                             .transition(.move(edge: .leading))
                         
                         
                     } else {
                         ViewListSpecificExercises(typeOfExercise: .find, isPresented: $viewModel.isShowedViewListSpecificExercise, exerciseProgramming: false)
-//                            .environmentObject(viewModel)
                             
                     }
                 }
                 .frame(maxWidth: contentSize.width, maxHeight: contentSize.height)
                 .transition(.move(edge: .leading))
-                Button("Ready") {
-                    HapticManager.instance.impact(style: .medium)
-                    viewModel.createTraining(date: viewModel.selectedDate, exercises: viewModel.selectedExArray)
-                    viewModel.unSelectingEx(array: viewModel.arrayExercises)
-                    viewModel.selectedExArray = []
-                    viewModel.selectedCounterLabel = []
-                    viewModel.backButtonLabel = ""
-                    
-                    dismiss()
-                    
-                }.buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.constW(w:335),height: viewModel.constH(h:45)))
-                    .tint(.white)
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .offset(x:0,y:viewModel.constH(h:-20))
-                    .opacity(viewModel.selectedExArray.isEmpty ? 0 : 1)
-                
+                if !viewModel.selectedExArray.isEmpty {
+                    Button("Ready") {
+                        HapticManager.instance.impact(style: .medium)
+                        viewModel.createTraining(date: viewModel.selectedDate, exercises: viewModel.selectedExArray)
+                        viewModel.unSelectingEx(array: viewModel.arrayExercises)
+                        viewModel.selectedExArray = []
+                        viewModel.selectedCounterLabel = []
+                        viewModel.backButtonLabel = ""
+                        
+                        dismiss()
+                        
+                    }.buttonStyle(GrowingButton(isDarkMode: false,width: viewModel.constW(w:335),height: viewModel.constH(h:45)))
+                        .tint(.white)
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .offset(x:0,y:viewModel.constH(h:-20))
+                }
             } else {
                 ViewProgramsList()
                     .transition(.move(edge: .trailing))
@@ -130,7 +128,6 @@ struct ExercisesAndProgramsListView: View {
         }
         .fullScreenCover(isPresented: $createExericseWithCategory) {
             ViewExerciseList(withCategory: false, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: false)
-//          .environmentObject(viewModel)
         }
         
         

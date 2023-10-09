@@ -47,6 +47,7 @@ class GymViewModel: ObservableObject {
     @Published var selectedDayForChecking:Int = 0
     @Published var selectedDayRowHolder = 0
     private var today:Date = Date.now
+    @Published var datesOfTrainingsCalendarCell:[String] = []
     
     //All property to creating a training day
     @Published var trainings:[String:GymModel.Program]
@@ -84,6 +85,9 @@ class GymViewModel: ObservableObject {
     @Published var maxSummaryReps:Double? = 0
     @Published var maxSummaryWeight:Double? = 0
     @Published var disabledDragGestureCalendarView = false
+    @Published var disabledCollpasingDragGesture = false
+    
+    
     //Design Vars
     var viewCornerRadiusSimple:CGFloat = 10
     var screenWidth = UIScreen.main.bounds.width
@@ -859,6 +863,11 @@ class GymViewModel: ObservableObject {
     func isSelectedDayToday() -> Bool {
         let stringDateToday = toStringDate(date: today, history: false)
         return today.hasSame(.day, as: selectedDate) || trainings[stringDateToday] != nil
+    }
+    //MARK: Has program for Calendar Cell View
+    func callendarCellViewHasProgram(date:Date) -> Bool {
+        let toStringDate = toStringDate(date: date, history: false)
+        return trainings[toStringDate] != nil
     }
 }
 

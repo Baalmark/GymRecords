@@ -46,17 +46,19 @@ struct ViewProgramsList: View {
             
             ScrollView {
                 ForEach(viewModel.programList.indices,id:\.self) { elem in
-                    ProgramItemListView(programm: $viewModel.programList[elem])
-                        .onTapGesture {
-                            withAnimation(.easeInOut) {
-                                viewModel.showedEdirOrRemoveProgram = viewModel.programList[elem]
-                                viewModel.isShowedEditOrRemoveView.toggle()
+                    if viewModel.programList[elem].programDescription != "" {
+                        ProgramItemListView(programm: $viewModel.programList[elem])
+                            .onTapGesture {
+                                withAnimation(.easeInOut) {
+                                    viewModel.showedEdirOrRemoveProgram = viewModel.programList[elem]
+                                    viewModel.isShowedEditOrRemoveView.toggle()
+                                }
+                                
                             }
-                            
-                        }
+                            .padding(.top)
+                            .padding(.bottom,-10)
+                    }
                 }
-                .padding(.top)
-                
             }
             Spacer()
         }

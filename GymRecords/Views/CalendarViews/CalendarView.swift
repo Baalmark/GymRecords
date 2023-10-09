@@ -59,8 +59,6 @@ struct CalendarView: View
                                     
                                 }
                             }
-                            
-//                            .environmentObject(viewModel)
                             .zIndex(1)
                             .onTapGesture {
                                 HapticManager.instance.impact(style: .soft)

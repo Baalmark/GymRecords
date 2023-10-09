@@ -84,6 +84,7 @@ struct CreateNewProgrammView: View {
                                     .foregroundColor(.white)
                                     .fixedSize()
                                     .font(.callout)
+                                    .fontWeight(.light)
                                     .opacity(isColorSelected == Color[color] ? 1 : 0)
                             }
                         }
@@ -182,7 +183,7 @@ struct CreateNewProgrammView: View {
                         HapticManager.instance.impact(style: .medium)
                         //
                     } label: {
-                        Text("Super set")
+                        Text("")
                             .font(.custom("Helvetica", size: viewModel.constW(w:16)))
                             .foregroundColor(.white)
                     }.opacity(selectedRows.count > 1 ? 0 : 1)
@@ -226,7 +227,6 @@ struct CreateNewProgrammView: View {
             .onTapGesture {
                 self.hideKeyboard()
             }
-//            .ignoresSafeArea(.keyboard)
             .fullScreenCover(isPresented: $isShowExercises) {
                 ViewExerciseList(withCategory: false, shouldHideButton: $viewModel.isSelectedSomeExercise, programmingExercise: true)
             }

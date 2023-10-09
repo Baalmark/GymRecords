@@ -58,7 +58,6 @@
 		3A9E9A542995340300DAA547 /* ChangeExerciseNameOrDeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A532995340300DAA547 /* ChangeExerciseNameOrDeleteView.swift */; };
 		3A9E9A5629964BD500DAA547 /* EditOrRemoveTheProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A5529964BD500DAA547 /* EditOrRemoveTheProgram.swift */; };
 		3A9E9A5829964F3000DAA547 /* ProgramItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9E9A5729964F3000DAA547 /* ProgramItemListView.swift */; };
-		3AB0A7F729ACC51E00E5E7BA /* SearchExerciseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB0A7F629ACC51E00E5E7BA /* SearchExerciseView.swift */; };
 		3AB0A7FA29B0B5DE00E5E7BA /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB0A7F929B0B5DE00E5E7BA /* DateExtensions.swift */; };
 		3AB0A80729B0C86A00E5E7BA /* GrowingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB0A80629B0C86A00E5E7BA /* GrowingButton.swift */; };
 		3AB0A80929B0CAC800E5E7BA /* CalendarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB0A80829B0CAC800E5E7BA /* CalendarExtension.swift */; };
@@ -122,7 +121,6 @@
 		3A9E9A532995340300DAA547 /* ChangeExerciseNameOrDeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeExerciseNameOrDeleteView.swift; sourceTree = "<group>"; };
 		3A9E9A5529964BD500DAA547 /* EditOrRemoveTheProgram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrRemoveTheProgram.swift; sourceTree = "<group>"; };
 		3A9E9A5729964F3000DAA547 /* ProgramItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramItemListView.swift; sourceTree = "<group>"; };
-		3AB0A7F629ACC51E00E5E7BA /* SearchExerciseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchExerciseView.swift; sourceTree = "<group>"; };
 		3AB0A7F929B0B5DE00E5E7BA /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		3AB0A80629B0C86A00E5E7BA /* GrowingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowingButton.swift; sourceTree = "<group>"; };
 		3AB0A80829B0CAC800E5E7BA /* CalendarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarExtension.swift; sourceTree = "<group>"; };
@@ -204,28 +202,6 @@
 			children = (
 				3A8896BD29B759AA00219446 /* CalendarViews */,
 				3AB0A80529B0C85900E5E7BA /* StyleViews */,
-				008C51DC2972F8F50046EF5B /* ContentView.swift */,
-				3AF0C35F2A51841E006AD7BB /* DisplaySetsMainView.swift */,
-				3A05B9902A0FECF40063D055 /* AddSetPageView.swift */,
-				3AC5F6F62A14F02A007339D7 /* EnterOrChangeOneCertainView.swift */,
-				3A8CE2F62A1393BA00CEE78F /* AddOrChangeSetView.swift */,
-				3ACB316F2A0E8C65003C4FC2 /* AddNewSetsMainView.swift */,
-				3A637A0D2A0E6F6D002B5857 /* ContentViewExerciseFromTheListView.swift */,
-				3A9E9A4129852F8200DAA547 /* AddProgramView.swift */,
-				3A9E9A4D29951AF400DAA547 /* DataBaseView.swift */,
-				3A9E9A4F29951BF700DAA547 /* ExercisesAndProgramsListView.swift */,
-				3AB0A7F629ACC51E00E5E7BA /* SearchExerciseView.swift */,
-				3A9E9A4329897C7B00DAA547 /* ViewExerciseList.swift */,
-				3A1B8324299AAD38006F959E /* CreateExerciseAndSelectCategory.swift */,
-				3A9E9A4529897E0100DAA547 /* ViewProgramsList.swift */,
-				3A1B8320299A4F8B006F959E /* CreateNewProgrammView.swift */,
-				3A9E9A5729964F3000DAA547 /* ProgramItemListView.swift */,
-				3A9E9A5529964BD500DAA547 /* EditOrRemoveTheProgram.swift */,
-				3A9E9A47298A770600DAA547 /* ViewListSpecificExercises.swift */,
-				3A1B8322299A8BA4006F959E /* ButtonCreateExercise.swift */,
-				3A9E9A532995340300DAA547 /* ChangeExerciseNameOrDeleteView.swift */,
-				3A1B831E2996EC10006F959E /* CreateNewExercise.swift */,
-				3A9E9A5129952C9C00DAA547 /* DataBaseInfoTitle.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -233,10 +209,10 @@
 		008C51EC2972FE4C0046EF5B /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				3A7A04502AD41D85001CD601 /* DataLoaderViewModel */,
+				3A7A044F2AD41D66001CD601 /* MainViewModel */,
 				3A8896C029B759D800219446 /* CalendarViewModels */,
 				008C51F12973063A0046EF5B /* Bindings */,
-				008C51ED297304540046EF5B /* GymViewModel.swift */,
-				3AEA6A412AAF20E90014A43C /* DataLoader.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -271,9 +247,9 @@
 		3A4C03E42A632BDB000003EE /* DataBaseModels */ = {
 			isa = PBXGroup;
 			children = (
+				3A4C03ED2A63323B000003EE /* GymModelObject.swift */,
 				3AF087792AB6EC61002BE477 /* Graphs */,
 				3A14FAA62A717334008EFF4A /* Utils */,
-				3A4C03ED2A63323B000003EE /* GymModelObject.swift */,
 				3A4C03EA2A633107000003EE /* ProgramRealmModel */,
 				3A4C03E92A6330E3000003EE /* ExerciseAndSetsRealmModel */,
 			);
@@ -297,6 +273,69 @@
 				3A4C03EF2A633366000003EE /* TrainingInfoObject.swift */,
 			);
 			path = ProgramRealmModel;
+			sourceTree = "<group>";
+		};
+		3A7A044C2AD41BC5001CD601 /* MainViews */ = {
+			isa = PBXGroup;
+			children = (
+				3A9E9A532995340300DAA547 /* ChangeExerciseNameOrDeleteView.swift */,
+				3A9E9A4D29951AF400DAA547 /* DataBaseView.swift */,
+				3A1B831E2996EC10006F959E /* CreateNewExercise.swift */,
+				3A9E9A5529964BD500DAA547 /* EditOrRemoveTheProgram.swift */,
+				3A8CE2F62A1393BA00CEE78F /* AddOrChangeSetView.swift */,
+				3A9E9A4129852F8200DAA547 /* AddProgramView.swift */,
+				3A1B8320299A4F8B006F959E /* CreateNewProgrammView.swift */,
+				3AF0C35F2A51841E006AD7BB /* DisplaySetsMainView.swift */,
+				3ACB316F2A0E8C65003C4FC2 /* AddNewSetsMainView.swift */,
+				008C51DC2972F8F50046EF5B /* ContentView.swift */,
+			);
+			path = MainViews;
+			sourceTree = "<group>";
+		};
+		3A7A044D2AD41C3F001CD601 /* ListsView */ = {
+			isa = PBXGroup;
+			children = (
+				3A05B9902A0FECF40063D055 /* AddSetPageView.swift */,
+				3A9E9A4329897C7B00DAA547 /* ViewExerciseList.swift */,
+				3A9E9A4529897E0100DAA547 /* ViewProgramsList.swift */,
+				3A9E9A4F29951BF700DAA547 /* ExercisesAndProgramsListView.swift */,
+				3A9E9A47298A770600DAA547 /* ViewListSpecificExercises.swift */,
+			);
+			path = ListsView;
+			sourceTree = "<group>";
+		};
+		3A7A044E2AD41C7B001CD601 /* Items and Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				3A8CE2F82A1398E300CEE78F /* AddSetLittleView.swift */,
+				3A637A0B2A06A28B002B5857 /* DragGestureLineView.swift */,
+				3A637A0F2A0E7BFB002B5857 /* AddSetsToExercise.swift */,
+				3AB0A80629B0C86A00E5E7BA /* GrowingButton.swift */,
+				3A1B8324299AAD38006F959E /* CreateExerciseAndSelectCategory.swift */,
+				3A9E9A5729964F3000DAA547 /* ProgramItemListView.swift */,
+				3A1B8322299A8BA4006F959E /* ButtonCreateExercise.swift */,
+				3A637A0D2A0E6F6D002B5857 /* ContentViewExerciseFromTheListView.swift */,
+				3AC5F6F62A14F02A007339D7 /* EnterOrChangeOneCertainView.swift */,
+				3A8CE2FA2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift */,
+				3A9E9A5129952C9C00DAA547 /* DataBaseInfoTitle.swift */,
+			);
+			path = "Items and Buttons";
+			sourceTree = "<group>";
+		};
+		3A7A044F2AD41D66001CD601 /* MainViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				008C51ED297304540046EF5B /* GymViewModel.swift */,
+			);
+			path = MainViewModel;
+			sourceTree = "<group>";
+		};
+		3A7A04502AD41D85001CD601 /* DataLoaderViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3AEA6A412AAF20E90014A43C /* DataLoader.swift */,
+			);
+			path = DataLoaderViewModel;
 			sourceTree = "<group>";
 		};
 		3A8896BD29B759AA00219446 /* CalendarViews */ = {
@@ -339,11 +378,9 @@
 		3AB0A80529B0C85900E5E7BA /* StyleViews */ = {
 			isa = PBXGroup;
 			children = (
-				3AB0A80629B0C86A00E5E7BA /* GrowingButton.swift */,
-				3A8CE2F82A1398E300CEE78F /* AddSetLittleView.swift */,
-				3A8CE2FA2A139A0100CEE78F /* EnterSetAndRepsValueLittleView.swift */,
-				3A637A0B2A06A28B002B5857 /* DragGestureLineView.swift */,
-				3A637A0F2A0E7BFB002B5857 /* AddSetsToExercise.swift */,
+				3A7A044E2AD41C7B001CD601 /* Items and Buttons */,
+				3A7A044D2AD41C3F001CD601 /* ListsView */,
+				3A7A044C2AD41BC5001CD601 /* MainViews */,
 			);
 			path = StyleViews;
 			sourceTree = "<group>";
@@ -469,7 +506,6 @@
 				3A31EC612AB8521100E54B14 /* GraphsData.swift in Sources */,
 				3ACB31AF2A0FE719003C4FC2 /* LegacyCod.swift in Sources */,
 				3AC5F6F72A14F02A007339D7 /* EnterOrChangeOneCertainView.swift in Sources */,
-				3AB0A7F729ACC51E00E5E7BA /* SearchExerciseView.swift in Sources */,
 				3A05B9912A0FECF40063D055 /* AddSetPageView.swift in Sources */,
 				3A31EC5D2AB8501000E54B14 /* ChartsView.swift in Sources */,
 				3A8CE2F92A1398E300CEE78F /* AddSetLittleView.swift in Sources */,

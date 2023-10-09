@@ -295,7 +295,7 @@ class DataLoader {
     //MARK: Return count of existing program
     
     func returnCountOfPrograms() -> Int {
-        return realm.objects(ProgramObject.self).count
+        return realm.objects(ProgramObject.self).where({$0.programDescription != ""}).count
     }
     //MARK: Return count of existing exercises
     
@@ -361,8 +361,14 @@ class DataLoader {
     //MARK: Remove trainings into Realm DataBase
     func removeTrainingFromRealmDB(date:String,program:GymModel.Program) {
         let programToDelete = realm.objects(TrainingInfoObject.self).where {$0.date == date}.first!
+        let programToDeleteFromProgramList = realm.objects(ProgramObject.self).where {$0.programTitle == program.programTitle}
         try! realm.write {
             $trainingInfoObjects.remove(programToDelete)
+            for program in programToDeleteFromProgramList {
+                if program.programDescription == "" {
+                    $programObjects.remove(program)
+                }
+            }
         }
     }
     

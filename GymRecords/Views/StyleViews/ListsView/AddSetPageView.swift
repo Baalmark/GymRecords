@@ -21,7 +21,8 @@ struct AddSetPageView: View {
                         VStack(alignment: .center){
                             Text("\(exercise.name)").foregroundColor(Color("backgroundDarkColor"))
                                 .font(.custom("Helvetica", size: 24).bold())
-                                .padding(.leading, !exercise.sets.isEmpty ? 30 : 0)
+                                .multilineTextAlignment(.center)
+                            
                             if !exercise.sets.isEmpty {
                                 HStack {
                                     Text(exercise.type == .cardio ? "km/h" : "weight")
