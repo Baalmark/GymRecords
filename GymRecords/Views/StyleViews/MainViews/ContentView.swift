@@ -77,13 +77,50 @@ struct ContentView: View {
                     .offset(x: offset.width, y:0)
                     .gesture(DragGesture()
                         .onChanged { value in
-                            let direction = viewModel.detectDirection(value: value)
-                            if direction == .left || direction == .right {}
                             offset.width = value.translation.width
+                                if flagCollapse == .collapsed {
+                                    if minimizingCalendarOffSet + value.translation.height >= -295{ //Limit border
+                                        minimizingCalendarOffSet = -295 + value.translation.height
+                                    }
+                                } else if flagCollapse == .opened {
+                                    if minimizingCalendarOffSet + value.translation.height <= 0 { //Limit border
+                                        minimizingCalendarOffSet = 0 + value.translation.height
+                                    }
+                                }
+                                
                         }
                             
                         .onEnded { value in
                             let direction = viewModel.detectDirection(value: value)
+                            if direction == .up || direction == .down {
+                                if minimizingCalendarOffSet < 0 {
+                                    if value.translation.height >= 85 {
+                                        withAnimation(.easeInOut) {
+                                            minimizingCalendarOffSet = 0
+                                            coeffOfTrainView = 0
+                                            collapsingViewFlag = false
+                                            flagCollapse = .opened
+                                            
+                                        }
+                                    } else {
+                                        withAnimation(.easeInOut) {
+                                            minimizingCalendarOffSet = viewModel.constH(h: -295)
+                                            coeffOfTrainView = viewModel.constH(h: 295)
+                                            collapsingViewFlag = true
+                                            flagCollapse = .collapsed
+                                        }
+                                    }
+                                } else {
+                                    if value.translation.height <= -125 {
+                                        withAnimation(.easeInOut) {
+                                            minimizingCalendarOffSet = viewModel.constH(h: -295)
+                                            coeffOfTrainView = viewModel.constH(h: 295)
+                                            collapsingViewFlag = true
+                                            flagCollapse = .collapsed
+                                        }
+                                    }
+                                }
+                            }
                             if direction == .right, value.translation.width < -120 {
                                 viewModel.updateArrayMonthsNext()
                                 withAnimation() {
@@ -119,51 +156,6 @@ struct ContentView: View {
             .zIndex(2)
             .frame(height: collapsingViewFlag ? viewModel.constH(h:140) : viewModel.constH(h:415))
             
-            .simultaneousGesture(DragGesture()
-                .onChanged { value in
-                    print("Here1")
-                    let detection = viewModel.detectDirection(value: value)
-                    if detection == .down || detection == .up {
-                    }
-                        if flagCollapse == .collapsed {
-                            if minimizingCalendarOffSet + value.translation.height >= -295{ //Limit border
-                                minimizingCalendarOffSet = -295 + value.translation.height
-                            }
-                        } else if flagCollapse == .opened {
-                            if minimizingCalendarOffSet + value.translation.height <= 0 { //Limit border
-                                minimizingCalendarOffSet = 0 + value.translation.height
-                            }
-                        }
-                }
-                .onEnded { value in
-                    if minimizingCalendarOffSet < 0 {
-                        if value.translation.height >= 85 {
-                            withAnimation(.easeInOut) {
-                                minimizingCalendarOffSet = 0
-                                coeffOfTrainView = 0
-                                collapsingViewFlag = false
-                                flagCollapse = .opened
-                                
-                            }
-                        } else {
-                            withAnimation(.easeInOut) {
-                                minimizingCalendarOffSet = viewModel.constH(h: -295)
-                                coeffOfTrainView = viewModel.constH(h: 295)
-                                collapsingViewFlag = true
-                                flagCollapse = .collapsed
-                            }
-                        }
-                    } else {
-                        if value.translation.height <= -125 {
-                            withAnimation(.easeInOut) {
-                                minimizingCalendarOffSet = viewModel.constH(h: -295)
-                                coeffOfTrainView = viewModel.constH(h: 295)
-                                collapsingViewFlag = true
-                                flagCollapse = .collapsed
-                            }
-                        }
-                    }
-                })
             .overlay(alignment:.center) {
                 ZStack(alignment: .top){
                     //Drag gesture line view
