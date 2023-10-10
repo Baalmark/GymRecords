@@ -61,7 +61,9 @@ struct ViewProgramsList: View {
                 }
             }
             Spacer()
+            
         }
+        .ignoresSafeArea(.all, edges: .bottom)
         
     }
     

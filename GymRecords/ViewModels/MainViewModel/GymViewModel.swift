@@ -85,7 +85,7 @@ class GymViewModel: ObservableObject {
     @Published var maxSummaryReps:Double? = 0
     @Published var maxSummaryWeight:Double? = 0
     @Published var disabledDragGestureCalendarView = false
-    @Published var disabledCollpasingDragGesture = false
+    @Published var disabledTapGestureSelectingDay = false
     
     
     //Design Vars
@@ -333,16 +333,16 @@ class GymViewModel: ObservableObject {
     
     //MARK: Detecting drag gesture directions
     func detectDirection(value: DragGesture.Value) -> SwipeHVDirection {
-        if value.startLocation.x < value.location.x - 24 {
+        if value.startLocation.x < value.location.x - 6 {
             return .left
         }
-        if value.startLocation.x > value.location.x + 24 {
+        if value.startLocation.x > value.location.x + 6 {
             return .right
         }
-        if value.startLocation.y < value.location.y - 24 {
+        if value.startLocation.y < value.location.y - 6 {
             return .down
         }
-        if value.startLocation.y > value.location.y + 24 {
+        if value.startLocation.y > value.location.y + 6 {
             return .up
         }
         return .none
