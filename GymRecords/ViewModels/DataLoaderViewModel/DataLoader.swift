@@ -381,6 +381,28 @@ class DataLoader {
         composeGymModelObject()
     }
     
+    //MARK: Remove exercise from training
+    func removeExerciseByRealm(exercise:Exercise,training:GymModel.Program,stringDate:String) {
+        
+        let trainObject = realm.objects(TrainingInfoObject.self).where({$0.date == stringDate}).first
+        try! realm.write {
+            let newProgram = ProgramObject()
+            createRealmFormatOfProgramObject(newProgram, training)
+            if let train = trainObject {
+                train.program = newProgram
+                removeSetsFromEx(sets: exercise.sets)
+                }
+            }
+        }
+    //MARK: Remove Sets from certain exercise
+    func removeSetsFromEx(sets:[Sets]) {
+            for nSet in sets {
+                if let setObject = realm.objects(SetsObject.self).where({$0.date == nSet.date }).first {
+                    $setsObject.remove(setObject)
+                }
+            }
+    }
+    
     //MARK: Composing GymModelObjects
     func composeGymModelObject() {
         

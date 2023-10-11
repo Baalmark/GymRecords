@@ -667,16 +667,7 @@ class GymViewModel: ObservableObject {
                 training.exercises.remove(at: indexOfTraining)
             }
             //Realm Changing data
-            let trainings = realm.objects(TrainingInfoObject.self)
-            try! realm.write {
-                for train in trainings {
-                    if train.date == stringDate {
-                        let newProgram = ProgramObject()
-                        createRealmFormatOfProgramObject(newProgram, trainInSelectedDay)
-                        train.program = newProgram
-                    }
-                }
-            }
+            removeExerciseByRealm(exercise: exercise,training: training, stringDate: stringDate)
             if training.exercises.isEmpty {
                 removeTrainingFromRealmDB(date: stringDate, program: training)
                 trainInSelectedDay = GymModel.Program(numberOfProgram:-1,programTitle: "", programDescription: "", colorDesign: "red", exercises: [])
@@ -753,6 +744,11 @@ class GymViewModel: ObservableObject {
     //MARK: Saving created exercise
     func saveExerciseByRealm(exercise:Exercise) {
         DataLoader().saveCreatedExerciseByRealm()
+    }
+    
+    //MARK: Remove exercise from training
+    func removeExerciseByRealm(exercise:Exercise, training:GymModel.Program, stringDate:String) {
+        DataLoader().removeExerciseByRealm(exercise: exercise,training:training, stringDate:stringDate)
     }
     
 //MARK: Graphs Data Functions
