@@ -76,6 +76,7 @@ struct CreateNewExercise: View {
                             Alert(title:Text("Double Weight"),message:Text(GymModel.doubleWeightAlertText),dismissButton: .cancel(Text("OK")))
                         }
                     Toggle("", isOn: $doubleWeight)
+                        .tint(.green)
                 }
                 .foregroundColor(isNoCategoryCreating ? Color("MidGrayColor") : Color(.black))
                 Divider().overlay(Color("GrayColor"))
@@ -93,6 +94,7 @@ struct CreateNewExercise: View {
                             Alert(title:Text("Body Weight"),message:Text(GymModel.bodyWeightAlertText),dismissButton: .cancel(Text("OK")))
                         }
                     Toggle("", isOn: $bodyWeight)
+                        .tint(.green)
                 }
                 .foregroundColor(isNoCategoryCreating ? Color("MidGrayColor") : Color(.black))
                 Divider().overlay(Color("GrayColor"))
